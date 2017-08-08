@@ -8,6 +8,12 @@ package org.firstinspires.ftc.teamcode;
 public class Bot
 {
     /**
+     * Constructor
+     */
+    public Bot()
+    {}
+
+    /**
      * Motor Declarations
      */
 
@@ -34,4 +40,24 @@ public class Bot
     {
 
     }
+    
+    /**
+     * Movement Functions
+     */
+
+    /**
+     * Action Functions
+     */
+
+    /**
+     * Sensor-Related Functions
+     */
+
+    /**
+     * Getter Functions
+     */
+
+    /**
+     * Helper Functions
+     */
 }

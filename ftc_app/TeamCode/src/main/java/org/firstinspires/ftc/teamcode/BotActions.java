@@ -20,6 +20,12 @@ public class BotActions  {
          */
     }
 
+    static enum Action
+    {
+        /**
+         * TODO: Fill out when we know the game
+         */
+    }
 
 
     /*

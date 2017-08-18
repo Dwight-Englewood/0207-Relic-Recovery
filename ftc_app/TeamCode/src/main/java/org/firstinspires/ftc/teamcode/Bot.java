@@ -40,7 +40,7 @@ public class Bot
     {
 
     }
-    
+
     /**
      * Movement Functions
      */

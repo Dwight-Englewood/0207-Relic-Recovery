@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Enums;
 
 /**
  * Created by aburur on 8/6/17.
  */
 
-public class BotActions  {
+public class BotActions {
     static enum Movement {
         FORWARD, BACKWARD, LEFTSTRAFE, RIGHTSTRAFE, LEFTTURN, RIGHTTURN;
         /*
@@ -25,6 +25,10 @@ public class BotActions  {
         /**
          * TODO: Fill out when we know the game
          */
+    }
+
+    static enum Servo {
+
     }
 
 

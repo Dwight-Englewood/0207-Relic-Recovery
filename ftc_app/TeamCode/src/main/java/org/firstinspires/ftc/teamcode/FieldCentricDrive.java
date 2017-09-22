@@ -54,7 +54,7 @@ public class FieldCentricDrive extends OpMode
 
     @Override
     public void start() {
-        k = .5;
+        k = 0;
     }
 
     @Override
@@ -80,10 +80,10 @@ public class FieldCentricDrive extends OpMode
         rearLeft = forward + clockwise - right;
         rearRight = forward - clockwise + right;
 
-        frontLeft = Range.clip(frontLeft, 0, 1);
-        frontRight = Range.clip(frontRight, 0, 1);
-        rearLeft = Range.clip(rearLeft, 0, 1);
-        rearRight = Range.clip(rearRight, 0, 1);
+        frontLeft = Range.clip(frontLeft, -1, 1);
+        frontRight = Range.clip(frontRight, -1, 1);
+        rearLeft = Range.clip(rearLeft, -1, 1);
+        rearRight = Range.clip(rearRight, -1, 1);
 
         fl.setPower(frontLeft);
         bl.setPower(rearLeft);

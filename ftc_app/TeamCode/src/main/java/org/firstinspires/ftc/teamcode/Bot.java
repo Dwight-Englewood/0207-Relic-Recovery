@@ -5,7 +5,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 /**
  * Created by aburur on 8/6/17.
@@ -80,9 +82,14 @@ public class Bot
     }
 
     /**
-     * Movement Functions
+     * MovementEnum Functions
      */
 
+    public void drive (MovementEnum direction) {
+        if (direction == MovementEnum.ANGLE) {
+
+        }
+    }
     /**
      * Action Functions
      */

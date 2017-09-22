@@ -5,13 +5,7 @@ package org.firstinspires.ftc.teamcode.Enums;
  */
 
 public class BotActions {
-    static enum Movement {
-        FORWARD, BACKWARD, LEFTSTRAFE, RIGHTSTRAFE, LEFTTURN, RIGHTTURN;
-        /*
-         * Should be good for now?
-         * We might want to add ones in for diagonals
-         */
-    }
+
     static enum InitHardware {
         DRIVETRAIN, SENSORS, SERVOS
         /*

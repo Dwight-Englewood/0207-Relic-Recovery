@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TestBot;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -23,8 +23,8 @@ import java.util.Timer;
  * Created by aburur on 9/14/17.
  */
 
-    @Autonomous(name = "TestdsfBotAuton", group = "Auton")
-    //@Disabled
+    @Autonomous(name = "TestBotAuton", group = "Auton")
+    @Disabled
     public class TestBotAuton extends LinearOpMode {
 
         BNO055IMU imu;

@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.TestBot;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -13,14 +13,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-import java.util.Timer;
-
 /**
  * Created by aburur on 9/14/17.
  */
 
-    @Autonomous(name = "TestBotAuton", group = "Auton")
-    public class TestBotAuton extends LinearOpMode {
+    @TeleOp(name = "TestBotTelebop", group = "Teleop")
+    @Disabled
+    public class TestBotTelebop extends LinearOpMode {
 
         DistanceSensor sensorDistance1;
         DistanceSensor sensorDistance2;
@@ -39,11 +38,11 @@ import java.util.Timer;
 
             //Motors
             fl = hardwareMap.get(DcMotor.class, "fl");
+            fl.setDirection(DcMotorSimple.Direction.REVERSE);
             fr = hardwareMap.get(DcMotor.class, "fr");
-            fr.setDirection(DcMotorSimple.Direction.REVERSE);
             bl = hardwareMap.get(DcMotor.class, "bl");
+            bl.setDirection(DcMotorSimple.Direction.REVERSE);
             br = hardwareMap.get(DcMotor.class, "br");
-            br.setDirection(DcMotorSimple.Direction.REVERSE);
 
             left = hardwareMap.get(Servo.class, "left");
             left.setPosition(0);
@@ -54,11 +53,36 @@ import java.util.Timer;
 
             int x = 1;
             boolean back = false;
+            boolean strafing = false;
 
             // wait for the start button to be pressed.
             waitForStart();
 
             while (opModeIsActive()) {
+
+                if (Math.abs(gamepad1.left_stick_y) > .2 && !strafing) {
+                    leftTrain(gamepad1.left_stick_y);
+                }
+
+                if (Math.abs(gamepad1.right_stick_y) > .2 && !strafing) {
+                    rightTrain(gamepad1.right_stick_y);
+                }
+
+                if (gamepad1.right_trigger > .2){
+                    rightStrafe(gamepad1.right_trigger);
+                    strafing = true;
+                }
+                else if (gamepad1.left_trigger > .2){
+                    leftStrafe(gamepad1.left_trigger);
+                    strafing = true;
+                }
+                else
+                    strafing = false;
+
+                if (!strafing && Math.abs(gamepad1.left_stick_y) < .2 && Math.abs(gamepad1.right_stick_y) < .2){
+                    driveForward(0);
+                }
+
                 switch (x)
                 {
                     case 1:
@@ -126,12 +150,45 @@ import java.util.Timer;
                 telemetry.addData("distance2", sensorDistance2.getDistance(DistanceUnit.CM));
                 telemetry.addData("imu orientation", imu.getAngularOrientation());
                 telemetry.addData("imu accel", imu.getAcceleration());
-                telemetry.addData("left pos", left.getPosition());
-                telemetry.addData("right pos", right.getPosition());
                 telemetry.update();
             }
 
                 telemetry.update();
             }
+
+
+    public void driveForward(double pow)
+    {
+        fr.setPower(pow);
+        fl.setPower(pow);
+        br.setPower(pow);
+        bl.setPower(pow);
+    }
+
+    public void leftTrain(double pow)
+    {
+        fl.setPower(pow);
+        bl.setPower(pow);
+    }
+    public void rightTrain(double pow)
+    {
+        fr.setPower(pow);
+        br.setPower(pow);
+    }
+
+    public void leftStrafe(double pow)
+    {
+        fr.setPower(-pow);
+        fl.setPower(pow);
+        br.setPower(pow);
+        bl.setPower(-pow);
+    }
+    public void rightStrafe(double pow)
+    {
+        fr.setPower(pow);
+        fl.setPower(-pow);
+        br.setPower(-pow);
+        bl.setPower(pow);
+    }
 
 }

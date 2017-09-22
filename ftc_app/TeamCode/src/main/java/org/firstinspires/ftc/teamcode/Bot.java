@@ -65,20 +65,11 @@ public class Bot
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        //Default
-        //
-        FL.setDirection(DcMotorSimple.Direction.FORWARD);
-        FR.setDirection(DcMotorSimple.Direction.FORWARD);
-        BL.setDirection(DcMotorSimple.Direction.FORWARD);
-        BR.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        //Mecanum
-        /*
+        //Drive
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
-        */
 
         FL.setPower(0);
         FR.setPower(0);

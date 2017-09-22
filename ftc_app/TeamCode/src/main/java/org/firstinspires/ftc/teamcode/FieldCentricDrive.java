@@ -54,7 +54,7 @@ public class FieldCentricDrive extends OpMode
     @Override
     public void init_loop() {
 
-        if (!imu.isGyroCalibrated() && cal)
+        if (imu.isGyroCalibrated() && cal)
         {
             telemetry.addLine("READY");
             cal = false;
@@ -97,11 +97,11 @@ public class FieldCentricDrive extends OpMode
         rearLeft = forward + clockwise - right;
         rearRight = forward - clockwise + right;
 
-        //Clip power values to within acceptable ranges for the motors
-        frontLeft = Range.clip(frontLeft, -1, 1);
-        frontRight = Range.clip(frontRight, -1, 1);
-        rearLeft = Range.clip(rearLeft, -1, 1);
-        rearRight = Range.clip(rearRight, -1, 1);
+        // Clip power values to within acceptable ranges for the motors
+        frontLeft = Range.clip(frontLeft, -1.0, 1.0);
+        frontRight = Range.clip(frontRight, -1.0, 1.0);
+        rearLeft = Range.clip(rearLeft, -1.0, 1.0);
+        rearRight = Range.clip(rearRight, -1.0, 1.0);
 
         // Send power values to motors
         fl.setPower(frontLeft);
@@ -110,7 +110,7 @@ public class FieldCentricDrive extends OpMode
         br.setPower(rearRight);
 
 
-        //Send telemetry data for debugging
+        // Send telemetry data for debugging
         telemetry.addData("frontLeft", frontLeft);
         telemetry.addData("frontRight", frontRight);
         telemetry.addData("rearLeft", rearLeft);

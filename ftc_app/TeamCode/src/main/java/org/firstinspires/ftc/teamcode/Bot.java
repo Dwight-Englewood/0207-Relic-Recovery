@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * Created by aburur on 8/6/17.
@@ -16,12 +18,14 @@ public class Bot
      * Constructor
      */
     public Bot()
-    {}
+    {
+
+    }
 
     /**
      * Motor Declarations
      */
-    DcMotor fr,fl,br,bl;
+    DcMotor FR, FL, BR, BL;
 
     /**
      * Servo Declarations
@@ -43,8 +47,44 @@ public class Bot
     /**
      * Initialization Function
      */
-    public void initialize()
-    {
+    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+        this.initialize(hardwareMap, telemetry);
+    }
+
+    private void initialize(HardwareMap hardwareMap, Telemetry telemetry) {
+        /*Motor Related Stuff
+        Currently set all to forward, if we use mecanum it'll need to be changed
+        */
+        FL = hardwareMap.dcMotor.get("FL");
+        FR = hardwareMap.dcMotor.get("FR");
+        BL = hardwareMap.dcMotor.get("BL");
+        BR = hardwareMap.dcMotor.get("BR");
+
+        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //Default
+        //
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        BR.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        //Mecanum
+        /*
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        */
+
+        FL.setPower(0);
+        FR.setPower(0);
+        BL.setPower(0);
+        BR.setPower(0);
+
 
     }
 

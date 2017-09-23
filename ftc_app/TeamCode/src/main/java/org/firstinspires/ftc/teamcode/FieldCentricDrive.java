@@ -20,11 +20,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //@Disabled
 public class FieldCentricDrive extends OpMode
 {
-    double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight;
-    BNO055IMU imu;
-    DcMotor fl, fr, bl, br;
-    Orientation angles;
-    boolean cal;
+    private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight;
+    private BNO055IMU imu;
+    private DcMotor FL, FR, BL, BR;
+    private Orientation angles;
+    private boolean cal;
 
     @Override
     public void init() {
@@ -37,12 +37,12 @@ public class FieldCentricDrive extends OpMode
         imu.initialize(parameters);
 
         // Initialize the drivetrain motors
-        fl = hardwareMap.get(DcMotor.class, "fl");
-        fl.setDirection(DcMotorSimple.Direction.REVERSE);
-        fr = hardwareMap.get(DcMotor.class, "fr");
-        bl = hardwareMap.get(DcMotor.class, "bl");
-        bl.setDirection(DcMotorSimple.Direction.REVERSE);
-        br = hardwareMap.get(DcMotor.class, "br");
+        FL = hardwareMap.get(DcMotor.class, "fl");
+        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FR = hardwareMap.get(DcMotor.class, "fr");
+        BL = hardwareMap.get(DcMotor.class, "bl");
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR = hardwareMap.get(DcMotor.class, "br");
 
         //Initialize the turn modifier
         k = 0;
@@ -97,17 +97,17 @@ public class FieldCentricDrive extends OpMode
         rearLeft = forward + clockwise - right;
         rearRight = forward - clockwise + right;
 
-        // Clip power values to within acceptable ranges for the motors
+        // Clip power values to within acceptaBLe ranges for the motors
         frontLeft = Range.clip(frontLeft, -1.0, 1.0);
         frontRight = Range.clip(frontRight, -1.0, 1.0);
         rearLeft = Range.clip(rearLeft, -1.0, 1.0);
         rearRight = Range.clip(rearRight, -1.0, 1.0);
 
         // Send power values to motors
-        fl.setPower(frontLeft);
-        bl.setPower(rearLeft);
-        fr.setPower(frontRight);
-        br.setPower(rearRight);
+        FL.setPower(frontLeft);
+        BL.setPower(rearLeft);
+        FR.setPower(frontRight);
+        BR.setPower(rearRight);
 
 
         // Send telemetry data for debugging

@@ -73,6 +73,8 @@ public class Bot
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        // TODO: Test different zeropower behaviors (BRAKE, FLOAT, etc)
+
         FL.setPower(0);
         FR.setPower(0);
         BL.setPower(0);

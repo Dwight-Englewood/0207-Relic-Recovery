@@ -7,7 +7,7 @@ package org.firstinspires.ftc.teamcode.Enums;
 //Reference: https://softwareengineering.stackexchange.com/questions/159804/how-do-you-encode-algebraic-data-types-in-a-c-or-java-like-language
 
 
-public abstract class Movement {
+public class Movement {
 
 public static final class MovementAngle extends Movement {
         private int test;

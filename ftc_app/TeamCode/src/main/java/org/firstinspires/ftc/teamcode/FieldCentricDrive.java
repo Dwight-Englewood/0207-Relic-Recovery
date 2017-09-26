@@ -59,11 +59,12 @@ public class FieldCentricDrive extends OpMode
     @Override
     public void init_loop() {
 
-        if (imu.isGyroCalibrated() && cal)
+        //Commented out to test the Gyro calibration OpMode
+        /*if (imu.isGyroCalibrated() && cal)
         {
             telemetry.addLine("READY");
             cal = false;
-        }
+        }*/
     }
 
     @Override

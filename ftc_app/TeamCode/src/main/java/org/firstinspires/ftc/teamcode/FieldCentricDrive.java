@@ -38,14 +38,19 @@ public class FieldCentricDrive extends OpMode
 
         // Initialize the drivetrain motors
         FL = hardwareMap.get(DcMotor.class, "fl");
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR = hardwareMap.get(DcMotor.class, "fr");
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL = hardwareMap.get(DcMotor.class, "bl");
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
         BR = hardwareMap.get(DcMotor.class, "br");
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Initialize the turn modifier
-        k = 0;
+        k = .75;
 
         //other
         cal = true;
@@ -54,11 +59,12 @@ public class FieldCentricDrive extends OpMode
     @Override
     public void init_loop() {
 
-        if (imu.isGyroCalibrated() && cal)
+        //Commented out to test the Gyro calibration OpMode
+        /*if (imu.isGyroCalibrated() && cal)
         {
             telemetry.addLine("READY");
             cal = false;
-        }
+        }*/
     }
 
     @Override
@@ -97,7 +103,7 @@ public class FieldCentricDrive extends OpMode
         rearLeft = forward + clockwise - right;
         rearRight = forward - clockwise + right;
 
-        // Clip power values to within acceptaBLe ranges for the motors
+        // Clip power values to within acceptable ranges for the motors
         frontLeft = Range.clip(frontLeft, -1.0, 1.0);
         frontRight = Range.clip(frontRight, -1.0, 1.0);
         rearLeft = Range.clip(rearLeft, -1.0, 1.0);

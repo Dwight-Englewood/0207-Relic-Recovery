@@ -11,6 +11,14 @@ public class TeleopAutobalance extends OpMode {
 
     private Bot robot = new Bot();
 
+    /*
+    https://github.com/adafruit/Adafruit_BNO055
+
+    Possible place to get code
+    need to figure out how to use quaterinions to determine getting back to 0 from some offset,
+    define motor movements as addition of quaternions
+     */
+
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -29,7 +37,7 @@ public class TeleopAutobalance extends OpMode {
 
     @Override
     public void loop() {
-        
+
     }
 
     @Override

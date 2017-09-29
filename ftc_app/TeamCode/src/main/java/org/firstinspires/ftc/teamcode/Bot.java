@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 /**
@@ -18,6 +19,8 @@ public class Bot
 {
     /**
      * Constructor
+     * Empty, since initializing the instance fields doesn't occur on object instantiation.
+     * That occurs during init phase, with the .init(HardwareMap hwm, Telemetry telem)
      */
     public Bot()
     {
@@ -26,6 +29,7 @@ public class Bot
 
     /**
      * Motor Declarations
+     * FR, FL, BR, BL are drive train motors
      */
     DcMotor FR, FL, BR, BL;
 
@@ -35,6 +39,7 @@ public class Bot
 
     /**
      * Sensor Declarations
+     * BNO055IMU is the builtin gyro on the REV Module
      */
     BNO055IMU imu;
 
@@ -44,7 +49,10 @@ public class Bot
 
     /**
      * Other Declarations
+     * Orientation angles is used for the REv Module's gyro, to store the headings
      */
+    private Orientation angles;
+
 
     /**
      * Initialization Function
@@ -57,17 +65,28 @@ public class Bot
         /*Motor Related Stuff
         Currently set all to forward, if we use mecanum it'll need to be changed
         */
-        FL = hardwareMap.dcMotor.get("FL");
-        FR = hardwareMap.dcMotor.get("FR");
-        BL = hardwareMap.dcMotor.get("BL");
-        BR = hardwareMap.dcMotor.get("BR");
 
+        //BNO055IMU related initialization code
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+
+        //getting the motors from the hardware map
+        FL = hardwareMap.get(DcMotor.class, "FL");
+        FR = hardwareMap.get(DcMotor.class, "FR");
+        BL = hardwareMap.get(DcMotor.class, "BL");
+        BR = hardwareMap.get(DcMotor.class, "BR");
+
+        //setting renmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        //Drive
+        //setting directions for drive
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -87,11 +106,13 @@ public class Bot
      * MovementEnum Functions
      */
 
-    public void drive (MovementEnum direction) {
-        if (direction == MovementEnum.ANGLE) {
-
-        }
+    public void drive (int power) {
+        FL.setPower(power);
+        FR.setPower(power);
+        BL.setPower(power);
+        BR.setPower(power);
     }
+
     /**
      * Action Functions
      */

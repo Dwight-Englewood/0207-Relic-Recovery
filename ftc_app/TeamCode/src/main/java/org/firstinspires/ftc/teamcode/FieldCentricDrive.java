@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  */
 //TODO: Test different braking modes & modify the k parameter for turning
 @TeleOp(name="FieldCentricDrive", group="Example")
-//@Disabled
+@Disabled
 public class FieldCentricDrive extends OpMode
 {
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight;

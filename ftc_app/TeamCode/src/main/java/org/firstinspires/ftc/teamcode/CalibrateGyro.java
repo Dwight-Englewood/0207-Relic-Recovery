@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
 @Autonomous(name="CalibrateGyro", group="Gyro")
+//@Disabled
 public class CalibrateGyro extends OpMode {
 
     BNO055IMU imu;

@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 /**
  * Created by aburur on 9/20/17.
  */
-
+//TODO: Test different braking modes & modify the k parameter for turning
 @TeleOp(name="FieldCentricDrive", group="Example")
 //@Disabled
 public class FieldCentricDrive extends OpMode

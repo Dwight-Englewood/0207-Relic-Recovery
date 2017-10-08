@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,6 +14,7 @@ import com.sun.tools.javac.util.Name;
  * Created by plotnw on 10/8/17.
  */
 @TeleOp(name="Tank Drive Teleop", group="Teleop")
+@Disabled
 public class TankDriveTeleop extends OpMode {
     Bot robot = new Bot();
     private DcMotor left, right;

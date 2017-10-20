@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.teamcode.Enums.BotActions;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -109,8 +110,6 @@ public class Bot
         FR.setPower(0);
         BL.setPower(0);
         BR.setPower(0);
-
-
     }
 
     /**

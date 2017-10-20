@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -36,12 +38,16 @@ public class Bot
     /**
      * Servo Declarations
      */
+    Servo leftServo;
+    Servo rightServo;
 
     /**
      * Sensor Declarations
      * BNO055IMU is the builtin gyro on the REV Module
      */
     BNO055IMU imu;
+    ModernRoboticsI2cColorSensor leftColorSensor;
+    ModernRoboticsI2cColorSensor rightColorSensor;
 
     /**
      * Variable Declarations
@@ -62,9 +68,6 @@ public class Bot
     }
 
     private void initialize(HardwareMap hardwareMap, Telemetry telemetry) {
-        /*Motor Related Stuff
-        Currently set all to forward, if we use mecanum it'll need to be changed
-        */
 
         //BNO055IMU related initialization code
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -72,15 +75,23 @@ public class Bot
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
+        //imu.initialize(parameters);
+
+        //Colorsensor init code
+        leftColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "leftcs");
+        rightColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "rightcs");
+
+        //servo init code
+        leftServo = hardwareMap.get(Servo.class, "leftservo");
+        rightServo = hardwareMap.get(Servo.class, "rightservo");
 
         //getting the motors from the hardware map
-        FL = hardwareMap.get(DcMotor.class, "FL");
-        FR = hardwareMap.get(DcMotor.class, "FR");
-        BL = hardwareMap.get(DcMotor.class, "BL");
-        BR = hardwareMap.get(DcMotor.class, "BR");
+        FL = hardwareMap.get(DcMotor.class, "fl");
+        FR = hardwareMap.get(DcMotor.class, "fr");
+        BL = hardwareMap.get(DcMotor.class, "bl");
+        BR = hardwareMap.get(DcMotor.class, "br");
 
-        //setting renmode
+        //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

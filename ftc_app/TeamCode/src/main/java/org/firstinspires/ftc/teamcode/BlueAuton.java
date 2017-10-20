@@ -1,6 +1,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -17,7 +18,7 @@ import com.qualcomm.robotcore.util.Range;
 public class BlueAuton extends OpMode
 {
 
-    ColorSensor colorSensor;
+    ModernRoboticsI2cColorSensor colorSensor;
     Servo servo;
     Bot robot = new Bot();
     ElapsedTime timer;
@@ -26,8 +27,7 @@ public class BlueAuton extends OpMode
     @Override
     public void init() {
         robot.init(hardwareMap, telemetry);
-        colorSensor = hardwareMap.get(ColorSensor.class, "c");
-        colorSensor.setI2cAddress(I2cAddr.create7bit(0x1e));
+        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "c");
         colorSensor.enableLed(true);
 
         servo = hardwareMap.get(Servo.class, "s");

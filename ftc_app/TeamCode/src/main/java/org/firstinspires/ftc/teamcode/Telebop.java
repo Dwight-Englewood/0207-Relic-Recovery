@@ -53,6 +53,8 @@ public class Telebop extends OpMode
             k = .75;
 
             //other
+            //TODO: DO NOT CALIBRATE - ABURURURURURURURURUUUUUR
+            //TODO: ADD DPAD AS ABSOLUTE MOVEMENT THING
             cal = true;
         }
 

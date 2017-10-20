@@ -43,7 +43,6 @@ public class CalibrateGyro extends OpMode {
         {
             telemetry.addLine("Calibrated");
             calib = false;
-
         }
     }
 

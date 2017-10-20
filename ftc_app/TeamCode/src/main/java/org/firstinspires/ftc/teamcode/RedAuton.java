@@ -26,11 +26,10 @@ public class RedAuton extends OpMode
     public void init() {
         robot.init(hardwareMap, telemetry);
         colorSensor = hardwareMap.get(ColorSensor.class, "c");
-        colorSensor.setI2cAddress(I2cAddr.create7bit(0x1e));
         colorSensor.enableLed(true);
 
         servo = hardwareMap.get(Servo.class, "s");
-        servo.setPosition(.8);
+        servo.setPosition(.9);
         timer = new ElapsedTime();
     }
 
@@ -47,7 +46,7 @@ public class RedAuton extends OpMode
      */
     @Override
     public void start() {
-    servo.setPosition(.4);
+        servo.setPosition(.4);
     }
 
     /*

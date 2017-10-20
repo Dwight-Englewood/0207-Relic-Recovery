@@ -22,39 +22,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class FieldCentricDrive extends OpMode
 {
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight;
-    private BNO055IMU imu;
-    private DcMotor FL, FR, BL, BR;
     private Orientation angles;
-    private boolean cal;
+    private Bot robot = new Bot();
+
 
     @Override
     public void init() {
-        // Initialize the IMU with the correct units and parameters
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-
-        // Initialize the drivetrain motors
-        FL = hardwareMap.get(DcMotor.class, "fl");
-        FR = hardwareMap.get(DcMotor.class, "fr");
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BL = hardwareMap.get(DcMotor.class, "bl");
-        BR = hardwareMap.get(DcMotor.class, "br");
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        robot.init(hardwareMap, telemetry);
         //Initialize the turn modifier
         k = .75;
-
-        //other
-        cal = true;
     }
 
     @Override
@@ -85,7 +61,7 @@ public class FieldCentricDrive extends OpMode
         clockwise *= k;
 
         // Turn the output heading value to be based on counterclockwise turns
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         if (angles.firstAngle < 0) {
             angles.firstAngle += 360;
         }
@@ -111,10 +87,10 @@ public class FieldCentricDrive extends OpMode
         rearRight = Range.clip(rearRight, -1.0, 1.0);
 
         // Send power values to motors
-        FL.setPower(frontLeft);
-        BL.setPower(rearLeft);
-        FR.setPower(frontRight);
-        BR.setPower(rearRight);
+        robot.FL.setPower(frontLeft);
+        robot.BL.setPower(rearLeft);
+        robot.FR.setPower(frontRight);
+        robot.BR.setPower(rearRight);
 
 
         // Send telemetry data for debugging

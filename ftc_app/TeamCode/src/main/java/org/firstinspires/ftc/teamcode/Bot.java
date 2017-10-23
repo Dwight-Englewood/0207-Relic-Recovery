@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -62,16 +63,17 @@ public class Bot
      * Orientation angles is used for the REv Module's gyro, to store the headings
      */
     private Orientation angles;
+    private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight;
 
 
     /**
      * Initialization Function
      */
-    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.initialize(hardwareMap, telemetry);
+    public void init(HardwareMap hardwareMap, Telemetry telemetry, boolean isAuton) {
+        this.initialize(hardwareMap, telemetry, isAuton);
     }
 
-    private void initialize(HardwareMap hardwareMap, Telemetry telemetry) {
+    private void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean isAuton) {
 
         //BNO055IMU related initialization code
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -82,12 +84,14 @@ public class Bot
         //imu.initialize(parameters);
 
         //Colorsensor init code
-        leftColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "leftcs");
-        rightColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "rightcs");
+        if (isAuton) {
+            leftColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "leftcs");
+            rightColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "rightcs");
 
-        //servo init code
-        leftServo = hardwareMap.get(Servo.class, "leftservo");
-        rightServo = hardwareMap.get(Servo.class, "rightservo");
+            //servo init code
+            leftServo = hardwareMap.get(Servo.class, "leftservo");
+            rightServo = hardwareMap.get(Servo.class, "rightservo");
+        }
 
         //getting the motors from the hardware map
         FL = hardwareMap.get(DcMotor.class, "fl");
@@ -116,17 +120,10 @@ public class Bot
     }
 
     /**
-     * MovementEnum Functions
+     * Movement Functions
      */
 
-    public void drive (int power) {
-        FL.setPower(power);
-        FR.setPower(power);
-        BL.setPower(power);
-        BR.setPower(power);
-    }
-
-    /*public void fieldCentricDrive(double lStickX, double lStickY, double rStickX)
+    public void fieldCentricDrive(double lStickX, double lStickY, double rStickX)
     {
         // Get the controller values
         forward = (-1)*lStickY;
@@ -168,11 +165,30 @@ public class Bot
         FR.setPower(frontRight);
         BR.setPower(rearRight);
 
-    }*/
+    }
 
     /**
      * Action Functions
      */
+    public void leftServoDown()
+    {
+
+    }
+
+    public void leftServoUp()
+    {
+
+    }
+
+    public void rightServoDown()
+    {
+
+    }
+
+    public void rightServoUp()
+    {
+
+    }
 
     /**
      * Sensor-Related Functions

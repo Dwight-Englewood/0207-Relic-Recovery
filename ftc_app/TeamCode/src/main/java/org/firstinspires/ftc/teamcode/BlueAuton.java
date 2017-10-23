@@ -26,7 +26,7 @@ public class BlueAuton extends OpMode
 
     @Override
     public void init() {
-        robot.init(hardwareMap, telemetry);
+        robot.init(hardwareMap, telemetry, true);
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "c");
         colorSensor.enableLed(true);
 
@@ -57,18 +57,18 @@ public class BlueAuton extends OpMode
     @Override
     public void loop() {
         if (colorSensor.blue() > 2 && !done) {
-            robot.drive(-1);
+            //robot.drive(-1);
             done = true;
             timer.reset();
         }
         else if (colorSensor.red() > 2 && !done)
         {
-            robot.drive(1);
+            //robot.drive(1);
             done = true;
             timer.reset();
         }
         if (timer.milliseconds() > 1000 && done); {
-            robot.drive(0);
+            //robot.drive(0);
         }
         telemetry.addData("blue", colorSensor.blue());
         telemetry.update();

@@ -24,15 +24,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public abstract class Bot
 {
-    /**
-     * Constructor
-     * Empty, since initializing the instance fields doesn't occur on object instantiation.
-     * That occurs during init phase, with the .init(HardwareMap hwm, Telemetry telem)
-     */
-    public Bot()
-    {
-
-    }
 
     /**
      * Motor Declarations

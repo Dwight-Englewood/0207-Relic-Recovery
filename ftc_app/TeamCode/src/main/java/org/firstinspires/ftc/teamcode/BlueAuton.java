@@ -20,7 +20,7 @@ public class BlueAuton extends OpMode
 
     ModernRoboticsI2cColorSensor colorSensor;
     Servo servo;
-    Bot robot = new Bot();
+    Bot robot = new AutonBot();
     ElapsedTime timer;
     boolean done = false;
 

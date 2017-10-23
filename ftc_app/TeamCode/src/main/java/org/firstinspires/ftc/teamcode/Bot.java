@@ -11,13 +11,11 @@ import org.firstinspires.ftc.teamcode.Enums.BotActions;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 /**
  * Created by aburur on 8/6/17.
  */
 
-//TODO: Create bot class
 public class Bot
 {
     /**

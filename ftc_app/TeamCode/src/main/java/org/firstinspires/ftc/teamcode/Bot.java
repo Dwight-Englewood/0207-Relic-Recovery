@@ -22,8 +22,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Created by aburur on 8/6/17.
  */
 
-public abstract class Bot
+public class Bot
 {
+    public Bot(){}
 
     /**
      * Motor Declarations

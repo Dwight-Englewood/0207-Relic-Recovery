@@ -22,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Created by aburur on 8/6/17.
  */
 
-public class Bot
+public abstract class Bot
 {
     /**
      * Constructor
@@ -123,6 +123,7 @@ public class Bot
      * Movement Functions
      */
 
+    //TODO: Test different k values.
     public void fieldCentricDrive(double lStickX, double lStickY, double rStickX)
     {
         // Get the controller values

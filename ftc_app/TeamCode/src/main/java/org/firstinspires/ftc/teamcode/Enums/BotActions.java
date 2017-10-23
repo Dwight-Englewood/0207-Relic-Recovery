@@ -25,7 +25,6 @@ public class BotActions {
 
     }
 
-
     /*
      * TODO: Create enum for actions of the bot (eg. movement control, etc)
      */

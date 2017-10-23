@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
  */
 
 
-@Autonomous(name="CalibrateGyro", group="Gyro")
+@Autonomous(name="CalibrateGyro", group="Testing")
 //@Disabled
 public class CalibrateGyro extends OpMode {
 

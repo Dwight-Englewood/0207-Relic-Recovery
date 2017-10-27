@@ -24,7 +24,7 @@ public class RedAuton extends OpMode
     boolean done = false;
     @Override
     public void init() {
-        robot.init(hardwareMap, telemetry, true);
+        robot.init(hardwareMap, telemetry);
         colorSensor = hardwareMap.get(ColorSensor.class, "c");
         colorSensor.enableLed(true);
 
@@ -55,18 +55,18 @@ public class RedAuton extends OpMode
     @Override
     public void loop() {
         if (colorSensor.red() > 2 && !done) {
-            //robot.drive(-1);
+            robot.drive(-1);
             timer.reset();
             done = true;
         }
         else if (colorSensor.blue() > 2 && !done)
         {
-            //robot.drive(1);
+            robot.drive(1);
             timer.reset();
             done = true;
         }
         if (timer.milliseconds() > 1000 && done); {
-            //robot.drive(0);
+            robot.drive(0);
         }
 
         telemetry.addData("red", colorSensor.red());

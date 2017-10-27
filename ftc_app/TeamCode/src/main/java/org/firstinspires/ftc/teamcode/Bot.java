@@ -61,11 +61,11 @@ public class Bot
     /**
      * Initialization Function
      */
-    public void init(HardwareMap hardwareMap, Telemetry telemetry, boolean isAuton) {
-        this.initialize(hardwareMap, telemetry, isAuton);
+    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+        this.initialize(hardwareMap, telemetry);
     }
 
-    private void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean isAuton) {
+    private void initialize(HardwareMap hardwareMap, Telemetry telemetry) {
 
         //BNO055IMU related initialization code
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -76,14 +76,14 @@ public class Bot
         //imu.initialize(parameters);
 
         //Colorsensor init code
-        if (isAuton) {
-            leftColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "leftcs");
-            rightColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "rightcs");
 
-            //servo init code
-            leftServo = hardwareMap.get(Servo.class, "leftservo");
-            rightServo = hardwareMap.get(Servo.class, "rightservo");
-        }
+        leftColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "leftcs");
+        rightColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "rightcs");
+
+        //servo init code
+        leftServo = hardwareMap.get(Servo.class, "leftservo");
+        rightServo = hardwareMap.get(Servo.class, "rightservo");
+
 
         //getting the motors from the hardware map
         FL = hardwareMap.get(DcMotor.class, "fl");
@@ -114,6 +114,12 @@ public class Bot
     /**
      * Movement Functions
      */
+    public void drive(double power){
+        FL.setPower(power);
+        FR.setPower(power);
+        BL.setPower(power);
+        BR.setPower(power);
+    }
 
     //TODO: Test different k values.
     public void fieldCentricDrive(double lStickX, double lStickY, double rStickX)

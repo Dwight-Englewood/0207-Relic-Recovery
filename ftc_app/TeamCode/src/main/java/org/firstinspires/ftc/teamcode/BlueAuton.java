@@ -13,6 +13,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
+
 @Autonomous(name="BlueAuton", group="Auton")
 //@Disabled
 public class BlueAuton extends OpMode
@@ -57,18 +59,18 @@ public class BlueAuton extends OpMode
     @Override
     public void loop() {
         if (colorSensor.blue() > 2 && !done) {
-            robot.drive(-1);
+            robot.drive(MovementEnum.BACKWARD, 1);
             done = true;
             timer.reset();
         }
         else if (colorSensor.red() > 2 && !done)
         {
-            robot.drive(1);
+            robot.drive(MovementEnum.FORWARD, 1);
             done = true;
             timer.reset();
         }
         if (timer.milliseconds() > 1000 && done); {
-            robot.drive(0);
+            robot.drive(MovementEnum.STOP, 0);
         }
         telemetry.addData("blue", colorSensor.blue());
         telemetry.update();

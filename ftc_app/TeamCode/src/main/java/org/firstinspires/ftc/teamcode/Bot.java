@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.Enums.BotActions;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 /**
  * Created by aburur on 8/6/17.
@@ -114,11 +115,58 @@ public class Bot
     /**
      * Movement Functions
      */
-    public void drive(double power){
-        FL.setPower(power);
-        FR.setPower(power);
-        BL.setPower(power);
-        BR.setPower(power);
+    //TODO: DIAGONALS
+    public void drive(MovementEnum movement, double power){
+       switch (movement){
+           case FORWARD:
+               FL.setPower(power);
+               FR.setPower(power);
+               BL.setPower(power);
+               BR.setPower(power);
+               break;
+
+           case BACKWARD:
+               FL.setPower(-power);
+               FR.setPower(-power);
+               BL.setPower(-power);
+               BR.setPower(-power);
+               break;
+
+           case LEFTSTRAFE:
+               FL.setPower(-power);
+               FR.setPower(power);
+               BL.setPower(power);
+               BR.setPower(-power);
+               break;
+
+           case RIGHTSTRAFE:
+               FL.setPower(power);
+               FR.setPower(-power);
+               BL.setPower(-power);
+               BR.setPower(power);
+               break;
+
+           case LEFTTURN:
+               FL.setPower(-power);
+               FR.setPower(power);
+               BL.setPower(-power);
+               BR.setPower(power);
+               break;
+
+           case RIGHTTURN:
+               FL.setPower(power);
+               FR.setPower(-power);
+               BL.setPower(power);
+               BR.setPower(-power);
+               break;
+
+           case STOP:
+               FL.setPower(0);
+               FR.setPower(0);
+               BL.setPower(0);
+               BR.setPower(0);
+               break;
+       }
     }
 
     //TODO: Test different k values.
@@ -163,7 +211,6 @@ public class Bot
         BL.setPower(rearLeft);
         FR.setPower(frontRight);
         BR.setPower(rearRight);
-
     }
 
     /**

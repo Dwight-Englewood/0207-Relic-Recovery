@@ -23,7 +23,6 @@ public class FieldCentricDrive extends OpMode
 {
     private Bot robot = new Bot();
 
-
     @Override
     public void init() {
         robot.init(hardwareMap, telemetry);

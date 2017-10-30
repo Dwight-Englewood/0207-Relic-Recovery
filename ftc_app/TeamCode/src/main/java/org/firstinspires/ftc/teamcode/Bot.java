@@ -56,7 +56,8 @@ public class Bot
      * Orientation angles is used for the REv Module's gyro, to store the headings
      */
     private Orientation angles;
-    private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight;
+    private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
+            leftPower, rightPower;
 
 
     /**
@@ -110,13 +111,16 @@ public class Bot
         FR.setPower(0);
         BL.setPower(0);
         BR.setPower(0);
+        
+        //TODO: IS THIS A THING LOL
+        powerModifier = 0.005;
     }
 
     /**
      * Movement Functions
      */
     //TODO: DIAGONALS
-    public void drive(MovementEnum movement, double power){
+    public void drive(MovementEnum movement, double power) {
        switch (movement){
            case FORWARD:
                FL.setPower(power);
@@ -170,8 +174,7 @@ public class Bot
     }
 
     //TODO: Test different k values.
-    public void fieldCentricDrive(double lStickX, double lStickY, double rStickX)
-    {
+    public void fieldCentricDrive(double lStickX, double lStickY, double rStickX) {
         // Get the controller values
         forward = (-1)*lStickY;
         right =  lStickX;
@@ -213,38 +216,38 @@ public class Bot
         BR.setPower(rearRight);
     }
 
+    public void adjustHeading(int targetHeading) {
+        headingError = targetHeading - imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;;
+        driveScale = headingError * powerModifier;
+
+        leftPower = 0 + driveScale;
+        rightPower = 0 - driveScale;
+
+        Range.clip(leftPower, -1, 1);
+        Range.clip(rightPower, -1, 1);
+
+        FL.setPower(leftPower);
+        BL.setPower(leftPower);
+        FR.setPower(rightPower);
+        BR.setPower(rightPower);
+    }
+
     /**
      * Action Functions
-     */
-    public void leftServoDown()
-    {
-
-    }
-
-    public void leftServoUp()
-    {
-
-    }
-
-    public void rightServoDown()
-    {
-
-    }
-
-    public void rightServoUp()
-    {
-
-    }
+     * */
 
     /**
      * Sensor-Related Functions
      */
 
     /**
-     * Getter Functions
-     */
-
-    /**
      * Helper Functions
      */
+        public int distanceToRevs(double distance){
+            final double wheelCirc = 31.9185813;
+
+            final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120,
+
+            return (int)(gearMotorTickThing * (distance / wheelCirc));
+        }
 }

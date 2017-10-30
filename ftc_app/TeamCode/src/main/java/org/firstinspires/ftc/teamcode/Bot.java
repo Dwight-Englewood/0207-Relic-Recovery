@@ -111,7 +111,7 @@ public class Bot
         FR.setPower(0);
         BL.setPower(0);
         BR.setPower(0);
-        
+
         //TODO: IS THIS A THING LOL
         powerModifier = 0.005;
     }

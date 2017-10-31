@@ -31,21 +31,19 @@ public class Bot
      * Motor Declarations
      * FR, FL, BR, BL are drive train motors
      */
-    DcMotor FR, FL, BR, BL;
+    DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake;
 
     /**
      * Servo Declarations
      */
-    Servo leftServo;
-    Servo rightServo;
+    private Servo servo;
 
     /**
      * Sensor Declarations
      * BNO055IMU is the builtin gyro on the REV Module
      */
     BNO055IMU imu;
-    ModernRoboticsI2cColorSensor leftColorSensor;
-    ModernRoboticsI2cColorSensor rightColorSensor;
+    ModernRoboticsI2cColorSensor colorSensor;
 
     /**
      * Variable Declarations
@@ -79,41 +77,52 @@ public class Bot
 
         //Colorsensor init code
 
-        leftColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "leftcs");
-        rightColorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "rightcs");
+        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
 
         //servo init code
-        leftServo = hardwareMap.get(Servo.class, "leftservo");
-        rightServo = hardwareMap.get(Servo.class, "rightservo");
-
+        servo = hardwareMap.get(Servo.class, "servo");
 
         //getting the motors from the hardware map
         FL = hardwareMap.get(DcMotor.class, "fl");
         FR = hardwareMap.get(DcMotor.class, "fr");
         BL = hardwareMap.get(DcMotor.class, "bl");
         BR = hardwareMap.get(DcMotor.class, "br");
+        intakeBrake = hardwareMap.get(DcMotor.class, "brake");
+        intakeOne = hardwareMap.get(DcMotor.class, "int1");
+        intakeTwo = hardwareMap.get(DcMotor.class, "int2");
 
         //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeBrake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //setting directions for drive
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        intakeBrake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeOne.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeTwo.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // TODO: Test different zeropower behaviors (BRAKE, FLOAT, etc)
+        intakeBrake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FL.setPower(0);
         FR.setPower(0);
         BL.setPower(0);
         BR.setPower(0);
+        intakeBrake.setPower(0);
+        intakeOne.setPower(0);
+        intakeTwo.setPower(0);
 
-        //TODO: IS THIS A THING LOL
-        powerModifier = 0.005;
+        powerModifier = 0.0055; // 180 * .0055 ~= 1
     }
 
     /**
@@ -235,6 +244,18 @@ public class Bot
     /**
      * Action Functions
      * */
+    public void servoDown() {
+        servo.setPosition(0.4);
+    }
+
+    public void servoUp() {
+        servo.setPosition(0.8);
+    }
+
+    public void intake(double power){
+        intakeOne.setPower(power);
+        intakeTwo.setPower(power);
+    }
 
     /**
      * Sensor-Related Functions

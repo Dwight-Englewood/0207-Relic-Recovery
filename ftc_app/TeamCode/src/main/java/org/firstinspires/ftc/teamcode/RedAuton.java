@@ -19,20 +19,14 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 //@Disabled
 public class RedAuton extends OpMode
 {
-    ColorSensor colorSensor;
-    Servo servo;
     Bot robot = new Bot();
     ElapsedTime timer;
     boolean done = false;
     @Override
     public void init() {
         robot.init(hardwareMap, telemetry);
-        colorSensor = hardwareMap.get(ColorSensor.class, "c");
-        colorSensor.enableLed(true);
-
-        servo = hardwareMap.get(Servo.class, "s");
-        servo.setPosition(.9);
         timer = new ElapsedTime();
+        robot.servoUp();
     }
 
     /*
@@ -48,7 +42,7 @@ public class RedAuton extends OpMode
      */
     @Override
     public void start() {
-        servo.setPosition(.4);
+        robot.servoDown();
     }
 
     /*
@@ -56,12 +50,12 @@ public class RedAuton extends OpMode
      */
     @Override
     public void loop() {
-        if (colorSensor.red() > 2 && !done) {
+        if (robot.colorSensor.red() > 2 && !done) {
             robot.drive(MovementEnum.BACKWARD, 1);
             timer.reset();
             done = true;
         }
-        else if (colorSensor.blue() > 2 && !done)
+        else if (robot.colorSensor.blue() > 2 && !done)
         {
             robot.drive(MovementEnum.FORWARD, 1);
             timer.reset();
@@ -71,7 +65,7 @@ public class RedAuton extends OpMode
             robot.drive(MovementEnum.STOP, 0);
         }
 
-        telemetry.addData("red", colorSensor.red());
+        telemetry.addData("red", robot.colorSensor.red());
         telemetry.update();
 
 

@@ -30,6 +30,20 @@ public class Telebop extends OpMode
         public void loop() {
             robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
+            if (gamepad1.right_trigger > .5) {
+                robot.intake(1);
+            }
+            else {
+                robot.intake(0);
+            }
+
+            if (gamepad1.a){
+                robot.intakeBrake.setPower(.3);
+            }
+            else {
+                robot.intakeBrake.setPower(0);
+            }
+
         }
 
         @Override

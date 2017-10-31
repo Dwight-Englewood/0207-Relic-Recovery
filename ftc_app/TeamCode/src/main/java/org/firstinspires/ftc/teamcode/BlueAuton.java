@@ -19,9 +19,6 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 //@Disabled
 public class BlueAuton extends OpMode
 {
-
-    ModernRoboticsI2cColorSensor colorSensor;
-    Servo servo;
     Bot robot = new Bot();
     ElapsedTime timer;
     boolean done = false;
@@ -29,12 +26,8 @@ public class BlueAuton extends OpMode
     @Override
     public void init() {
         robot.init(hardwareMap, telemetry);
-        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "c");
-        colorSensor.enableLed(true);
-
-        servo = hardwareMap.get(Servo.class, "s");
-        servo.setPosition(0.8);
         timer = new ElapsedTime();
+        robot.servoUp();
     }
 
     /*
@@ -50,7 +43,7 @@ public class BlueAuton extends OpMode
      */
     @Override
     public void start() {
-        servo.setPosition(.4);
+        robot.servoDown();
     }
 
     /*
@@ -58,12 +51,12 @@ public class BlueAuton extends OpMode
      */
     @Override
     public void loop() {
-        if (colorSensor.blue() > 2 && !done) {
+        if (robot.colorSensor.blue() > 2 && !done) {
             robot.drive(MovementEnum.BACKWARD, 1);
             done = true;
             timer.reset();
         }
-        else if (colorSensor.red() > 2 && !done)
+        else if (robot.colorSensor.red() > 2 && !done)
         {
             robot.drive(MovementEnum.FORWARD, 1);
             done = true;
@@ -72,7 +65,7 @@ public class BlueAuton extends OpMode
         if (timer.milliseconds() > 1000 && done); {
             robot.drive(MovementEnum.STOP, 0);
         }
-        telemetry.addData("blue", colorSensor.blue());
+        telemetry.addData("blue", robot.colorSensor.blue());
         telemetry.update();
     }
 

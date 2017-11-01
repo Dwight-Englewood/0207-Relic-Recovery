@@ -12,6 +12,8 @@ public class Telebop extends OpMode
 {
         Bot robot = new Bot();
 
+        double topServo = 0;
+        double botServo = 0;
         @Override
         public void init() {
             robot.init(hardwareMap, telemetry);
@@ -44,6 +46,41 @@ public class Telebop extends OpMode
                 robot.intakeBrake.setPower(0);
             }
 
+            if (gamepad1.a) {
+                robot.releaseTheKraken();
+                //if it goes the wrong way use the other one
+            } else if (gamepad1.b) {
+                robot.backupCuzDontWantRecompile();
+                //if it goes the wrong way use the other one
+            }
+
+            if (gamepad1.dpad_down) {
+                botServo = botServo + .01;
+            } else if (gamepad1.dpad_up) {
+                topServo = topServo - .01;
+            }
+
+            if (gamepad1.dpad_left) {
+                topServo = topServo - .01;
+            } else if (gamepad1.dpad_right) {
+                topServo = topServo + .01;
+            }
+
+            //cleaner way? prolly
+            if (botServo < 0) {
+                botServo = 0;
+            } else if (botServo > 1) {
+                botServo = 1;
+            }
+
+            if (topServo < 0) {
+                topServo = 0;
+            } else if (topServo > 1) {
+                topServo = 1;
+            }
+
+            robot.armBotServoPos(botServo);
+            robot.armTopServoPos(topServo);
         }
 
         @Override

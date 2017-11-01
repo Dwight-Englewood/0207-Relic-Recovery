@@ -259,11 +259,11 @@ public class Bot
         //one of those should work, just figure out which one
     }
 
-    public void armTopServoPos(int position) {
+    public void armTopServoPos(double position) {
         armTopExtendyServo.setPosition(position);
     }
 
-    public void armBotServoPos(int position) {
+    public void armBotServoPos(double position) {
         armBottomExtendyServo.setPosition(position);
     }
 

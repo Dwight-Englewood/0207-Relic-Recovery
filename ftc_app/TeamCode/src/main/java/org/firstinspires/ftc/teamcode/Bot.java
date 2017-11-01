@@ -37,7 +37,9 @@ public class Bot
      * Servo Declarations
      */
     private Servo servo;
-
+    private Servo armNoSpringyServo;
+    private Servo armTopExtendyServo;
+    private Servo armBottomExtendyServo;
     /**
      * Sensor Declarations
      * BNO055IMU is the builtin gyro on the REV Module
@@ -81,6 +83,9 @@ public class Bot
 
         //servo init code
         servo = hardwareMap.get(Servo.class, "servo");
+        armNoSpringyServo       = hardwareMap.get(Servo.class, "anss");
+        armBottomExtendyServo   = hardwareMap.get(Servo.class, "abes");
+        armTopExtendyServo      = hardwareMap.get(Servo.class, "ates");
 
         //getting the motors from the hardware map
         FL = hardwareMap.get(DcMotor.class, "fl");
@@ -239,6 +244,31 @@ public class Bot
         BL.setPower(leftPower);
         FR.setPower(rightPower);
         BR.setPower(rightPower);
+    }
+
+    /**
+     * Functions for controlling servos on the relic arm
+     */
+    public void releaseTheKraken() {
+        armNoSpringyServo.setPosition(.3);
+        //hopefully this is in right direcrion
+    }
+
+    public void backupCuzDontWantRecompile() {
+        armNoSpringyServo.setPosition(.7);
+        //one of those should work, just figure out which one
+    }
+
+    public void armTopServoPos(int position) {
+        armTopExtendyServo.setPosition(position);
+    }
+
+    public void armBotServoPos(int position) {
+        armBottomExtendyServo.setPosition(position);
+    }
+
+    public void ripTHICCBoi() {
+        //TODO: make it so this lets go of the relic
     }
 
     /**

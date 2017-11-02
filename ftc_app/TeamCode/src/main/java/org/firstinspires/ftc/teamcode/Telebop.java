@@ -34,8 +34,9 @@ public class Telebop extends OpMode
 
             if (gamepad1.right_trigger > .5) {
                 robot.intake(1);
-            }
-            else {
+            } else if (gamepad1.left_trigger > .5) {
+                robot.intake(-1);
+            } else {
                 robot.intake(0);
             }
 

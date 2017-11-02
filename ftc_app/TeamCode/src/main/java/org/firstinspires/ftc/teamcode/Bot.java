@@ -83,15 +83,16 @@ public class Bot
 
         //servo init code
         servo = hardwareMap.get(Servo.class, "servo");
-        armNoSpringyServo       = hardwareMap.get(Servo.class, "anss");
-        armBottomExtendyServo   = hardwareMap.get(Servo.class, "abes");
-        armTopExtendyServo      = hardwareMap.get(Servo.class, "ates");
+        armNoSpringyServo       = hardwareMap.get(Servo.class, "anss"); //Servo which prevents arm from springing out aka move this to extend arm
+        armBottomExtendyServo   = hardwareMap.get(Servo.class, "abes"); //Servo which controls the clamp on the arm
+        armTopExtendyServo      = hardwareMap.get(Servo.class, "ates"); //Servo which controls the angle of the hand
 
         //getting the motors from the hardware map
         FL = hardwareMap.get(DcMotor.class, "fl");
         FR = hardwareMap.get(DcMotor.class, "fr");
         BL = hardwareMap.get(DcMotor.class, "bl");
         BR = hardwareMap.get(DcMotor.class, "br");
+
         intakeBrake = hardwareMap.get(DcMotor.class, "brake");
         intakeOne = hardwareMap.get(DcMotor.class, "int1");
         intakeTwo = hardwareMap.get(DcMotor.class, "int2");
@@ -249,24 +250,42 @@ public class Bot
     /**
      * Functions for controlling servos on the relic arm
      */
+    /**
+     * Releases the arm
+     */
     public void releaseTheKraken() {
         armNoSpringyServo.setPosition(.3);
         //hopefully this is in right direcrion
     }
 
+    /**
+     * Releases the arf iff the other one doesnt
+     */
     public void backupCuzDontWantRecompile() {
         armNoSpringyServo.setPosition(.7);
         //one of those should work, just figure out which one
     }
 
+    /**
+     * moves the angle of hnad servo to a given position
+     * @param position
+     */
     public void armTopServoPos(double position) {
         armTopExtendyServo.setPosition(position);
     }
 
+    /**
+     *clamps or unclamps shit
+     * @param position
+     */
     public void armBotServoPos(double position) {
         armBottomExtendyServo.setPosition(position);
     }
 
+    /**
+     * let go of relic
+     * TODO
+     */
     public void ripTHICCBoi() {
         //TODO: make it so this lets go of the relic
     }

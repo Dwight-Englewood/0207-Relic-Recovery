@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 /**
@@ -71,18 +73,8 @@ public class Telebop extends OpMode
                 topServo = topServo + servoIncrement;
             }
 
-            //cleaner way? prolly
-            if (botServo < 0) {
-                botServo = 0;
-            } else if (botServo > 1) {
-                botServo = 1;
-            }
-
-            if (topServo < 0) {
-                topServo = 0;
-            } else if (topServo > 1) {
-                topServo = 1;
-            }
+            Range.clip(topServo, 0, 1);
+            Range.clip(botServo, 0, 1);
 
             robot.armBotServoPos(botServo);
             robot.armTopServoPos(topServo);

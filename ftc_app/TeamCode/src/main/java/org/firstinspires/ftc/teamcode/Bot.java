@@ -255,13 +255,13 @@ public class Bot
      * Releases the arm
      */
     public void releaseTheKraken() {
-        armNoSpringyServo.setPosition(.1);
+        armNoSpringyServo.setPosition(.9);
 
         //hopefully this is in right direcrion
     }
 
     public void releaseTheGiantSquid() {
-        armNoSpringyServo.setPosition(.2);
+        armNoSpringyServo.setPosition(.8);
     }
 
     /**

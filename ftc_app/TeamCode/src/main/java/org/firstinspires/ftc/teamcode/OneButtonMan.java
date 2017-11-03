@@ -50,9 +50,6 @@ public class OneButtonMan extends OpMode
         if (gamepad1.a) {
             robot.releaseTheKraken();
             //if it goes the wrong way use the other one
-        } else if (gamepad1.b) {
-            robot.backupCuzDontWantRecompile();
-            //if it goes the wrong way use the other one
         }
 
         if (gamepad2.dpad_up) {

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 public class Telebop extends OpMode
 {
         Bot robot = new Bot();
-
+        double servoIncrement = .05;
         double topServo = 0;
         double botServo = 0;
         @Override
@@ -55,15 +55,15 @@ public class Telebop extends OpMode
             }
 
             if (gamepad1.dpad_down) {
-                botServo = botServo + .01;
+                botServo = botServo + servoIncrement;
             } else if (gamepad1.dpad_up) {
-                topServo = topServo - .01;
+                botServo = topServo - servoIncrement;
             }
 
             if (gamepad1.dpad_left) {
-                topServo = topServo - .01;
+                topServo = topServo - servoIncrement;
             } else if (gamepad1.dpad_right) {
-                topServo = topServo + .01;
+                topServo = topServo + servoIncrement;
             }
 
             //cleaner way? prolly

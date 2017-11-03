@@ -40,8 +40,11 @@ public class Telebop extends OpMode
                 robot.intake(0);
             }
 
-            if (gamepad1.a){
+            if (gamepad2.right_stick_y > .3){
                 robot.intakeBrake.setPower(.3);
+            }
+            else if (gamepad1.right_stick_y < -.3){
+                robot.intakeBrake.setPower(-.3);
             }
             else {
                 robot.intakeBrake.setPower(0);
@@ -49,9 +52,6 @@ public class Telebop extends OpMode
 
             if (gamepad1.x) {
                 robot.releaseTheKraken();
-                //if it goes the wrong way use the other one
-            } else if (gamepad1.b) {
-                robot.backupCuzDontWantRecompile();
                 //if it goes the wrong way use the other one
             }
 

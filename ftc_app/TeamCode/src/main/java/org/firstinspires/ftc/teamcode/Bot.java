@@ -260,14 +260,6 @@ public class Bot
     }
 
     /**
-     * Releases the arf iff the other one doesnt
-     */
-    public void backupCuzDontWantRecompile() {
-        armNoSpringyServo.setPosition(.7);
-        //one of those should work, just figure out which one
-    }
-
-    /**
      * moves the angle of hnad servo to a given position
      * @param position
      */

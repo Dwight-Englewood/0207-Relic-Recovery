@@ -69,8 +69,11 @@ public class Telebop extends OpMode
                 robot.releaseTheKraken();
                 //if it goes the wrong way use the other one
             }
+            if (gamepad1.y) {
+                robot.releaseTheGiantSquid();
+            }
 
-            if (gamepad2.dpad_down) {
+            if (gamepad1.dpad_down) {
                 botServo = botServo + servoIncrement;
             } else if (gamepad2.dpad_up) {
                 botServo = topServo - servoIncrement;

@@ -255,8 +255,13 @@ public class Bot
      * Releases the arm
      */
     public void releaseTheKraken() {
-        armNoSpringyServo.setPosition(.3);
+        armNoSpringyServo.setPosition(.1);
+
         //hopefully this is in right direcrion
+    }
+
+    public void releaseTheGiantSquid() {
+        armNoSpringyServo.setPosition(.2);
     }
 
     /**
@@ -280,7 +285,8 @@ public class Bot
      * TODO
      */
     public void ripTHICCBoi() {
-        //TODO: make it so this lets go of the relic
+        this.armBottomExtendyServo.setPosition(0);
+
     }
 
     /**

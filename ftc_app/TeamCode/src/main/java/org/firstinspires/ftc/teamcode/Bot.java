@@ -113,7 +113,7 @@ public class Bot
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeBrake.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeOne.setDirection(DcMotorSimple.Direction.FORWARD);
-        intakeTwo.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeTwo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: Test different zeropower behaviors (BRAKE, FLOAT, etc)
         intakeBrake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -129,6 +129,7 @@ public class Bot
         intakeTwo.setPower(0);
 
         powerModifier = 0.0055; // 180 * .0055 ~= 1
+        k = .2;
     }
 
     /**

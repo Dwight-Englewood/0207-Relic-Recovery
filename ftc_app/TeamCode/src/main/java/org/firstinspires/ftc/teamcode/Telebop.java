@@ -46,7 +46,7 @@ public class Telebop extends OpMode
                 robot.intakeBrake.setPower(0);
             }
 
-            if (gamepad1.a) {
+            if (gamepad1.x) {
                 robot.releaseTheKraken();
                 //if it goes the wrong way use the other one
             } else if (gamepad1.b) {

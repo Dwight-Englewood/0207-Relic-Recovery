@@ -82,7 +82,7 @@ public class Bot
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
 
         //servo init code
-        servo = hardwareMap.get(Servo.class, "servo");
+        servo = hardwareMap.get(Servo.class, "servo"); //servo which does servo things
         armNoSpringyServo       = hardwareMap.get(Servo.class, "anss"); //Servo which prevents arm from springing out aka move this to extend arm
         armBottomExtendyServo   = hardwareMap.get(Servo.class, "abes"); //Servo which controls the clamp on the arm
         armTopExtendyServo      = hardwareMap.get(Servo.class, "ates"); //Servo which controls the angle of the hand

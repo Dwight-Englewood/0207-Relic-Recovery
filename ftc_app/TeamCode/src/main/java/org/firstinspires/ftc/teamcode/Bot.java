@@ -232,7 +232,7 @@ public class Bot
     }
 
     public void adjustHeading(int targetHeading) {
-        headingError = targetHeading - imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;;
+        headingError = targetHeading - imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).thirdAngle;
         driveScale = headingError * powerModifier;
 
         leftPower = 0 + driveScale;

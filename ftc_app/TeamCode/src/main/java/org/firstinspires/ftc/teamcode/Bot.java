@@ -129,7 +129,7 @@ public class Bot
         intakeTwo.setPower(0);
 
         powerModifier = 0.0055; // 180 * .0055 ~= 1
-        k = .2;
+        k = .1 ;
     }
 
     /**

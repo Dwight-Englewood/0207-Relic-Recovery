@@ -34,21 +34,34 @@ public class Telebop extends OpMode
         public void loop() {
             robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
-            if (gamepad1.right_trigger > .5) {
+            if (gamepad2.x) {
                 robot.intake(1);
-            } else if (gamepad1.left_trigger > .5) {
+            } else if (gamepad2.b) {
                 robot.intake(-1);
-            } else {
+            } else if (gamepad2.left_trigger < .3 && gamepad2.right_trigger < .3 && !gamepad2.left_bumper && !gamepad2.right_bumper){
                 robot.intake(0);
             }
 
+            if (gamepad2.right_trigger > .3){
+                robot.intakeOne.setPower(gamepad2.right_trigger);
+            }
+            if (gamepad2.left_trigger > .3) {
+                robot.intakeTwo.setPower(gamepad2.left_trigger);
+            }
+            if (gamepad2.right_bumper){
+                robot.intakeOne.setPower(-.5);
+            }
+            if (gamepad2.left_bumper){
+                robot.intakeTwo.setPower(-.5);
+            }
+
+
+
             if (gamepad2.right_stick_y > .3){
                 robot.intakeBrake.setPower(.3);
-            }
-            else if (gamepad1.right_stick_y < -.3){
+            } else if (gamepad2.right_stick_y < -.3){
                 robot.intakeBrake.setPower(-.3);
-            }
-            else {
+            } else {
                 robot.intakeBrake.setPower(0);
             }
 
@@ -57,15 +70,15 @@ public class Telebop extends OpMode
                 //if it goes the wrong way use the other one
             }
 
-            if (gamepad1.dpad_down) {
+            if (gamepad2.dpad_down) {
                 botServo = botServo + servoIncrement;
-            } else if (gamepad1.dpad_up) {
+            } else if (gamepad2.dpad_up) {
                 botServo = topServo - servoIncrement;
             }
 
-            if (gamepad1.dpad_left) {
+            if (gamepad2.dpad_left) {
                 topServo = topServo - servoIncrement;
-            } else if (gamepad1.dpad_right) {
+            } else if (gamepad2.dpad_right) {
                 topServo = topServo + servoIncrement;
             }
 

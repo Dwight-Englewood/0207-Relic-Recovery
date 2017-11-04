@@ -28,10 +28,12 @@ public class Telebop extends OpMode
         @Override
         public void start() {
             telemetry.clear();
+            robot.servoUp();
         }
 
         @Override
         public void loop() {
+            robot.servoUp();
             robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
             if (gamepad2.x) {
@@ -43,24 +45,22 @@ public class Telebop extends OpMode
             }
 
             if (gamepad2.right_trigger > .3){
-                robot.intakeOne.setPower(gamepad2.right_trigger);
+                robot.intakeTwo.setPower(gamepad2.right_trigger);
             }
             if (gamepad2.left_trigger > .3) {
-                robot.intakeTwo.setPower(gamepad2.left_trigger);
+                robot.intakeOne.setPower(gamepad2.left_trigger);
             }
             if (gamepad2.right_bumper){
-                robot.intakeOne.setPower(-.5);
+                robot.intakeTwo.setPower(-.4);
             }
             if (gamepad2.left_bumper){
-                robot.intakeTwo.setPower(-.5);
+                robot.intakeOne.setPower(-.4);
             }
 
-
-
             if (gamepad2.right_stick_y > .3){
-                robot.intakeBrake.setPower(.3);
+                robot.intakeBrake.setPower(1);
             } else if (gamepad2.right_stick_y < -.3){
-                robot.intakeBrake.setPower(-.3);
+                robot.intakeBrake.setPower(-1);
             } else {
                 robot.intakeBrake.setPower(0);
             }
@@ -73,10 +73,10 @@ public class Telebop extends OpMode
                 robot.releaseTheGiantSquid();
             }
 
-            if (gamepad1.dpad_down) {
+            if (gamepad2.dpad_down) {
                 botServo = botServo + servoIncrement;
             } else if (gamepad2.dpad_up) {
-                botServo = topServo - servoIncrement;
+                botServo = botServo - servoIncrement;
             }
 
             if (gamepad2.dpad_left) {
@@ -85,11 +85,13 @@ public class Telebop extends OpMode
                 topServo = topServo + servoIncrement;
             }
 
-            Range.clip(topServo, 0, 1);
-            Range.clip(botServo, 0, 1);
+            topServo = Range.clip(topServo, 0.0, 1.0);
+            botServo = Range.clip(botServo, 0.0, 1.0);
 
             robot.armBotServoPos(botServo);
             robot.armTopServoPos(topServo);
+            telemetry.addData("botServo", botServo);
+            telemetry.addData("topServo", topServo);
         }
 
         @Override

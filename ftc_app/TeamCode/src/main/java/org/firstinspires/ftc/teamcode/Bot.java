@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 /**
- * Created by aburur on 8/6/17.
+ * Created by aborcrust'em on 8/6/17.
  */
 
 public class Bot
@@ -129,11 +129,12 @@ public class Bot
         intakeTwo.setPower(0);
 
         powerModifier = 0.0055; // 180 * .0055 ~= 1
-        k = .1 ;
+        k = .4 ;
     }
 
     /**
      * Movement Functions
+     *
      */
     //TODO: DIAGONALS
     public void drive(MovementEnum movement, double power) {
@@ -189,7 +190,7 @@ public class Bot
        }
     }
 
-    //TODO: Test different k values.
+    //TODO: Test different k values. (.1,.2 are too low)
     public void fieldCentricDrive(double lStickX, double lStickY, double rStickX) {
         // Get the controller values
         forward = (-1)*lStickY;
@@ -261,7 +262,7 @@ public class Bot
     }
 
     public void releaseTheGiantSquid() {
-        armNoSpringyServo.setPosition(.8);
+        armNoSpringyServo.setPosition(.7);
     }
 
     /**
@@ -286,17 +287,16 @@ public class Bot
      */
     public void ripTHICCBoi() {
         this.armBottomExtendyServo.setPosition(0);
-
     }
 
     /**
      * Action Functions
      * */
-    public void servoDown() {
+    public void servoUp() {
         servo.setPosition(0.4);
     }
 
-    public void servoUp() {
+    public void servoDown() {
         servo.setPosition(0.8);
     }
 

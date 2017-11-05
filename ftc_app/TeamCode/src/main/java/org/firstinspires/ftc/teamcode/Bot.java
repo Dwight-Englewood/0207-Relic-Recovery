@@ -36,7 +36,7 @@ public class Bot
     /**
      * Servo Declarations
      */
-    private Servo servo;
+    private Servo jewelServo;
     private Servo armNoSpringyServo;
     private Servo armTopExtendyServo;
     private Servo armBottomExtendyServo;
@@ -82,7 +82,7 @@ public class Bot
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
 
         //servo init code
-        servo = hardwareMap.get(Servo.class, "servo"); //servo which does servo things
+        jewelServo = hardwareMap.get(Servo.class, "servo"); //servo which does servo things
         armNoSpringyServo       = hardwareMap.get(Servo.class, "anss"); //Servo which prevents arm from springing out aka move this to extend arm
         armBottomExtendyServo   = hardwareMap.get(Servo.class, "abes"); //Servo which controls the clamp on the arm
         armTopExtendyServo      = hardwareMap.get(Servo.class, "ates"); //Servo which controls the angle of the hand
@@ -257,8 +257,6 @@ public class Bot
      */
     public void releaseTheKraken() {
         armNoSpringyServo.setPosition(.9);
-
-        //hopefully this is in right direcrion
     }
 
     public void releaseTheGiantSquid() {
@@ -293,11 +291,11 @@ public class Bot
      * Action Functions
      * */
     public void servoUp() {
-        servo.setPosition(0.4);
+        jewelServo.setPosition(0.4);
     }
 
     public void servoDown() {
-        servo.setPosition(0.8);
+        jewelServo.setPosition(0.8);
     }
 
     public void intake(double power){

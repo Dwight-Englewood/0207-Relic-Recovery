@@ -37,9 +37,9 @@ public class Bot
      * Servo Declarations
      */
     private Servo jewelServo;
-    private Servo armNoSpringyServo;
-    private Servo armTopExtendyServo;
-    private Servo armBottomExtendyServo;
+    Servo armNoSpringyServo;
+    Servo armTopExtendyServo;
+    Servo armBottomExtendyServo;
     /**
      * Sensor Declarations
      * BNO055IMU is the builtin gyro on the REV Module
@@ -130,8 +130,24 @@ public class Bot
 
         powerModifier = 0.0055; // 180 * .0055 ~= 1
         k = .4 ;
+        armNoSpringyServo.setPosition(1);
     }
 
+    public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger){
+        if (leftTrigger > .3) {
+            drive(MovementEnum.LEFTSTRAFE, leftTrigger);
+            return;
+        }
+        if (rightTrigger > .3){
+            drive(MovementEnum.RIGHTSTRAFE, rightTrigger);
+            return;
+        }
+
+        FL.setPower(-leftStick);
+        BL.setPower(-leftStick);
+        FR.setPower(-rightStick);
+        BR.setPower(-rightStick);
+    }
     /**
      * Movement Functions
      *
@@ -234,7 +250,7 @@ public class Bot
     }
 
     public void adjustHeading(int targetHeading) {
-        headingError = targetHeading - imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        headingError = targetHeading + imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         driveScale = headingError * powerModifier;
 
         leftPower = 0 + driveScale;
@@ -247,6 +263,7 @@ public class Bot
         BL.setPower(leftPower);
         FR.setPower(rightPower);
         BR.setPower(rightPower);
+
     }
 
     /**
@@ -256,7 +273,7 @@ public class Bot
      * Releases the arm
      */
     public void releaseTheKraken() {
-        armNoSpringyServo.setPosition(.9);
+        armNoSpringyServo.setPosition(.85);
     }
 
     public void releaseTheGiantSquid() {
@@ -290,12 +307,12 @@ public class Bot
     /**
      * Action Functions
      * */
-    public void servoUp() {
+    public void servoDown() {
         jewelServo.setPosition(0.4);
     }
 
-    public void servoDown() {
-        jewelServo.setPosition(0.8);
+    public void servoUp() {
+        jewelServo.setPosition(1);
     }
 
     public void intake(double power){

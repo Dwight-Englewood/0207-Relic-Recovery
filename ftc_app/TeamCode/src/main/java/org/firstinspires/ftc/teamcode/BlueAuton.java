@@ -13,6 +13,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 @Autonomous(name="BlueAuton", group="Auton")
@@ -51,14 +54,14 @@ public class BlueAuton extends OpMode
      */
     @Override
     public void loop() {
-        if (robot.colorSensor.blue() > 2 && !done) {
-            robot.drive(MovementEnum.BACKWARD, 1);
+        if (robot.colorSensor.blue() >= 2 && !done) {
+            robot.adjustHeading(120);
             done = true;
             timer.reset();
         }
-        else if (robot.colorSensor.red() > 2 && !done)
+        else if (robot.colorSensor.red() >= 2 && !done)
         {
-            robot.drive(MovementEnum.FORWARD, 1);
+            robot.adjustHeading(60);
             done = true;
             timer.reset();
         }
@@ -66,6 +69,7 @@ public class BlueAuton extends OpMode
             robot.drive(MovementEnum.STOP, 0);
         }
         telemetry.addData("blue", robot.colorSensor.blue());
+        telemetry.addData("heading", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES).firstAngle);
         telemetry.update();
     }
 

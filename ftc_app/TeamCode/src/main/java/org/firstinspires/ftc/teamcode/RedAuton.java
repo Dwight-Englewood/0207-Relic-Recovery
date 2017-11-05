@@ -50,14 +50,14 @@ public class RedAuton extends OpMode
      */
     @Override
     public void loop() {
-        if (robot.colorSensor.red() > 2 && !done) {
-            robot.drive(MovementEnum.BACKWARD, 1);
+        if (robot.colorSensor.red() >= 2 && !done) {
+            robot.adjustHeading(120);
             timer.reset();
             done = true;
         }
-        else if (robot.colorSensor.blue() > 2 && !done)
+        else if (robot.colorSensor.blue() >= 2 && !done)
         {
-            robot.drive(MovementEnum.FORWARD, 1);
+            robot.adjustHeading(60);
             timer.reset();
             done = true;
         }

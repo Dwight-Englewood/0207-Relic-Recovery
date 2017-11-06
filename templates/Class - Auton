@@ -1,0 +1,37 @@
+#if (${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+#if (${IMPORT_BLOCK} != "")${IMPORT_BLOCK}
+#end
+#parse("File Header.java")
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+
+@Autonomous(name="${NAME}", group="Auton")
+public class ${NAME} extends OpMode {
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void init_loop() {
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void loop() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+}
+

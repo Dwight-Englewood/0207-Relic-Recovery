@@ -12,8 +12,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 
-@TeleOp(name = "ServoTest", group = "Teleop")
-public class ServoTest extends OpMode {
+@TeleOp(name = "HeadingTest", group = "Teleop")
+public class HeadingTest extends OpMode {
     Bot robot = new Bot();
 
     @Override

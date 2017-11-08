@@ -67,7 +67,6 @@ public class Telebop extends OpMode
 
             if (gamepad1.x) {
                 robot.releaseTheKraken();
-                //if it goes the wrong way use the other one
             }
             if (gamepad1.y) {
                 robot.releaseTheGiantSquid();

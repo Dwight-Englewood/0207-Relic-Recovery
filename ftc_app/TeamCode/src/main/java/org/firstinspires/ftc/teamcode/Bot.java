@@ -36,10 +36,10 @@ public class Bot
     /**
      * Servo Declarations
      */
-    private Servo jewelServo;
-    Servo armNoSpringyServo;
-    Servo armTopExtendyServo;
-    Servo armBottomExtendyServo;
+    private Servo jewelServo, flipper, releaseLeft, releaseRight;
+    //Servo armNoSpringyServo;
+    //Servo armTopExtendyServo;
+    //Servo armBottomExtendyServo;
     /**
      * Sensor Declarations
      * BNO055IMU is the builtin gyro on the REV Module
@@ -83,9 +83,9 @@ public class Bot
 
         //servo init code
         jewelServo = hardwareMap.get(Servo.class, "servo"); //servo which does servo things
-        armNoSpringyServo       = hardwareMap.get(Servo.class, "anss"); //Servo which prevents arm from springing out aka move this to extend arm
-        armBottomExtendyServo   = hardwareMap.get(Servo.class, "abes"); //Servo which controls the clamp on the arm
-        armTopExtendyServo      = hardwareMap.get(Servo.class, "ates"); //Servo which controls the angle of the hand
+        //armNoSpringyServo       = hardwareMap.get(Servo.class, "anss"); //Servo which prevents arm from springing out aka move this to extend arm
+        //armBottomExtendyServo   = hardwareMap.get(Servo.class, "abes"); //Servo which controls the clamp on the arm
+        //armTopExtendyServo      = hardwareMap.get(Servo.class, "ates"); //Servo which controls the angle of the hand
 
         //getting the motors from the hardware map
         FL = hardwareMap.get(DcMotor.class, "fl");
@@ -96,6 +96,10 @@ public class Bot
         intakeBrake = hardwareMap.get(DcMotor.class, "brake");
         intakeOne = hardwareMap.get(DcMotor.class, "int1");
         intakeTwo = hardwareMap.get(DcMotor.class, "int2");
+
+        releaseRight = hardwareMap.get(Servo.class, "rel r");
+        releaseLeft = hardwareMap.get(Servo.class, "rel l");
+        flipper = hardwareMap.get(Servo.class, "flip");
 
         //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -130,7 +134,7 @@ public class Bot
 
         powerModifier = 0.0055; // 180 * .0055 ~= 1
         k = .4 ;
-        armNoSpringyServo.setPosition(1);
+        //armNoSpringyServo.setPosition(1);
     }
 
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger){
@@ -272,7 +276,7 @@ public class Bot
     /**
      * Releases the arm
      */
-    public void releaseTheKraken() {
+    /*public void releaseTheKraken() {
         armNoSpringyServo.setPosition(.85);
     }
 
@@ -284,6 +288,7 @@ public class Bot
      * moves the angle of hnad servo to a given position
      * @param position
      */
+    /*
     public void armTopServoPos(double position) {
         armTopExtendyServo.setPosition(position);
     }
@@ -292,6 +297,7 @@ public class Bot
      *clamps or unclamps shit
      * @param position
      */
+    /*
     public void armBotServoPos(double position) {
         armBottomExtendyServo.setPosition(position);
     }
@@ -300,6 +306,7 @@ public class Bot
      * let go of relic
      * TODO
      */
+    /*
     public void ripTHICCBoi() {
         this.armBottomExtendyServo.setPosition(0);
     }
@@ -307,6 +314,7 @@ public class Bot
     /**
      * Action Functions
      * */
+
     public void servoDown() {
         jewelServo.setPosition(0.4);
     }

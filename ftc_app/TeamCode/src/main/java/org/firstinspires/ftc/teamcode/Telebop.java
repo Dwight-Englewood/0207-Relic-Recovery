@@ -65,14 +65,7 @@ public class Telebop extends OpMode
                 robot.intakeBrake.setPower(0);
             }
 
-            if (gamepad1.x) {
-                robot.releaseTheKraken();
-            }
-            if (gamepad1.y) {
-                robot.releaseTheGiantSquid();
-            }
-
-            if (gamepad2.dpad_down) {
+            /*if (gamepad2.dpad_down) {
                 botServo = botServo + servoIncrement;
             } else if (gamepad2.dpad_up) {
                 botServo = botServo - servoIncrement;
@@ -87,11 +80,8 @@ public class Telebop extends OpMode
             topServo = Range.clip(topServo, 0.0, 1.0);
             botServo = Range.clip(botServo, 0.0, 1.0);
 
-            robot.armBotServoPos(botServo);
-            robot.armTopServoPos(topServo);
-
             telemetry.addData("botServo", botServo);
-            telemetry.addData("topServo", topServo);
+            telemetry.addData("topServo", topServo);*/
         }
 
         @Override

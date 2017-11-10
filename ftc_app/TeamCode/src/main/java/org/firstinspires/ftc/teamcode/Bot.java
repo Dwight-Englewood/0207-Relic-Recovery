@@ -152,10 +152,7 @@ public class Bot
         FR.setPower(-rightStick);
         BR.setPower(-rightStick);
     }
-    /**
-     * Movement Functions
-     *
-     */
+
     //TODO: DIAGONALS
     public void drive(MovementEnum movement, double power) {
        switch (movement){
@@ -270,50 +267,7 @@ public class Bot
 
     }
 
-    /**
-     * Functions for controlling servos on the relic arm
-     */
-    /**
-     * Releases the arm
-     */
-    /*public void releaseTheKraken() {
-        armNoSpringyServo.setPosition(.85);
-    }
-
-    public void releaseTheGiantSquid() {
-        armNoSpringyServo.setPosition(.7);
-    }
-
-    /**
-     * moves the angle of hnad servo to a given position
-     * @param position
-     */
-    /*
-    public void armTopServoPos(double position) {
-        armTopExtendyServo.setPosition(position);
-    }
-
-    /**
-     *clamps or unclamps shit
-     * @param position
-     */
-    /*
-    public void armBotServoPos(double position) {
-        armBottomExtendyServo.setPosition(position);
-    }
-
-    /**
-     * let go of relic
-     * TODO
-     */
-    /*
-    public void ripTHICCBoi() {
-        this.armBottomExtendyServo.setPosition(0);
-    }
-
-    /**
-     * Action Functions
-     * */
+    /** Releases the arm  public void releaseTheKraken() { armNoSpringyServo.setPosition(.85); } public void releaseTheGiantSquid() { armNoSpringyServo.setPosition(.7); } /** moves the angle of hnad servo to a given position @param position  public void armTopServoPos(double position) { armTopExtendyServo.setPosition(position); } /** clamps or unclamps shit @param position  public void armBotServoPos(double position) { armBottomExtendyServo.setPosition(position); } /** let go of relic */ //TODO: public void ripTHICCBoi() { this.armBottomExtendyServo.setPosition(0); } /** Action Functions */
 
     public void servoDown() {
         jewelServo.setPosition(0.4);
@@ -328,14 +282,15 @@ public class Bot
         intakeTwo.setPower(power);
     }
 
-    /**
-     * Sensor-Related Functions
-     */
+    public void setDriveMotorModes(DcMotor.RunMode mode)
+    {
+        FL.setMode(mode);
+        FR.setMode(mode);
+        BL.setMode(mode);
+        BR.setMode(mode);
+    }
 
-    /**
-     * Helper Functions
-     */
-        public int distanceToRevs(double distance){
+    public int distanceToRevs(double distance){
             final double wheelCirc = 31.9185813;
 
             final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120,

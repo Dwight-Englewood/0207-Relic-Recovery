@@ -25,49 +25,7 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 public class Bot
 {
-    public Bot(){}
-
-    /**
-     * Motor Declarations
-     * FR, FL, BR, BL are drive train motors
-     */
-    public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake;
-
-    /**
-     * Servo Declarations
-     */
-    private Servo jewelServo, flipper, releaseLeft, releaseRight;
-    //Servo armNoSpringyServo;
-    //Servo armTopExtendyServo;
-    //Servo armBottomExtendyServo;
-    /**
-     * Sensor Declarations
-     * BNO055IMU is the builtin gyro on the REV Module
-     */
-    public BNO055IMU imu;
-    public ModernRoboticsI2cColorSensor colorSensor;
-
-    /**
-     * Variable Declarations
-     */
-
-    /**
-     * Other Declarations
-     * Orientation angles is used for the REv Module's gyro, to store the headings
-     */
-    private Orientation angles;
-    private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
-            leftPower, rightPower;
-
-
-    /**
-     * Initialization Function
-     */
-    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.initialize(hardwareMap, telemetry);
-    }
-
-    private void initialize(HardwareMap hardwareMap, Telemetry telemetry) {
+    public Bot(HardwareMap hardwareMap) {
 
         //BNO055IMU related initialization code
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -75,9 +33,6 @@ public class Bot
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        //imu.initialize(parameters);
-
-        //Colorsensor init code
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
 
@@ -100,6 +55,27 @@ public class Bot
         releaseRight = hardwareMap.get(Servo.class, "rel r");
         releaseLeft = hardwareMap.get(Servo.class, "rel l");
         flipper = hardwareMap.get(Servo.class, "flip");
+    }
+
+    public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake;
+
+    private Servo jewelServo, flipper, releaseLeft, releaseRight;
+    //Servo armNoSpringyServo;
+    //Servo armTopExtendyServo;
+    //Servo armBottomExtendyServo;
+
+    public BNO055IMU imu;
+    public ModernRoboticsI2cColorSensor colorSensor;
+
+    private Orientation angles;
+    private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
+            leftPower, rightPower;
+
+    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+        this.initialize(hardwareMap, telemetry);
+    }
+
+    private void initialize(HardwareMap hardwareMap, Telemetry telemetry) {
 
         //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

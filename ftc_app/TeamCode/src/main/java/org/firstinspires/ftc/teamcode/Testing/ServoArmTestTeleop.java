@@ -1,10 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Testing;
 /**
  * Created by weznon on 11/5/17.
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.Bot;
+
 
 /**
  * Teleop which tests the arm servo movements for their full range
@@ -30,8 +33,8 @@ public class ServoArmTestTeleop extends OpMode {
 
     @Override
     public void start() {
-        robot.armBottomExtendyServo.setPosition(.5);
-        robot.armTopExtendyServo.setPosition(.5);
+        //robot.armBottomExtendyServo.setPosition(.5);
+        //robot.armTopExtendyServo.setPosition(.5);
     }
 
     @Override
@@ -64,8 +67,8 @@ public class ServoArmTestTeleop extends OpMode {
             positionTop = positionTop - .01;
         }
 
-        robot.armBottomExtendyServo.setPosition(positionBot);
-        robot.armTopExtendyServo.setPosition(positionTop);
+        //robot.armBottomExtendyServo.setPosition(positionBot);
+        //robot.armTopExtendyServo.setPosition(positionTop);
         telemetry.addData("positionBot", positionBot);
         telemetry.addData("positionTop", positionTop);
     }

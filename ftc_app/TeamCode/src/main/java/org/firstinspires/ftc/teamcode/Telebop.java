@@ -16,14 +16,14 @@ public class Telebop extends OpMode
         double servoIncrement = .06;
         double topServo = 0;
         double botServo = 0;
+
         @Override
         public void init() {
             robot.init(hardwareMap, telemetry);
         }
 
         @Override
-        public void init_loop() {
-        }
+        public void init_loop() {}
 
         @Override
         public void start() {

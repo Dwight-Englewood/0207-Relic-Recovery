@@ -31,7 +31,7 @@ public class Bot
      * Motor Declarations
      * FR, FL, BR, BL are drive train motors
      */
-    DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake;
+    public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake;
 
     /**
      * Servo Declarations
@@ -44,8 +44,8 @@ public class Bot
      * Sensor Declarations
      * BNO055IMU is the builtin gyro on the REV Module
      */
-    BNO055IMU imu;
-    ModernRoboticsI2cColorSensor colorSensor;
+    public BNO055IMU imu;
+    public ModernRoboticsI2cColorSensor colorSensor;
 
     /**
      * Variable Declarations

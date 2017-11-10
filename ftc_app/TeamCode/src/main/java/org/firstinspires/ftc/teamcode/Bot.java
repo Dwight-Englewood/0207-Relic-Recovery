@@ -28,6 +28,20 @@ public class Bot
     private HardwareMap hmap;
     private Telemetry telemetry;
 
+    public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake;
+
+    private Servo jewelServo, flipper, releaseLeft, releaseRight;
+    //Servo armNoSpringyServo;
+    //Servo armTopExtendyServo;
+    //Servo armBottomExtendyServo;
+
+    public BNO055IMU imu;
+    public ModernRoboticsI2cColorSensor colorSensor;
+
+    private Orientation angles;
+    private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
+            leftPower, rightPower;
+
     public Bot(HardwareMap hardwareMap, Telemetry telemetry) {
 
         this.hmap = hardwareMap;
@@ -61,20 +75,6 @@ public class Bot
         releaseLeft = hardwareMap.get(Servo.class, "rel l");
         flipper = hardwareMap.get(Servo.class, "flip");
     }
-
-    public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake;
-
-    private Servo jewelServo, flipper, releaseLeft, releaseRight;
-    //Servo armNoSpringyServo;
-    //Servo armTopExtendyServo;
-    //Servo armBottomExtendyServo;
-
-    public BNO055IMU imu;
-    public ModernRoboticsI2cColorSensor colorSensor;
-
-    private Orientation angles;
-    private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
-            leftPower, rightPower;
 
     public void init() {
 

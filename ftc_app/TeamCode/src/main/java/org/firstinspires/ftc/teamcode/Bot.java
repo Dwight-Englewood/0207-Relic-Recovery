@@ -27,6 +27,7 @@ public class Bot
 {
     private HardwareMap hmap;
     private Telemetry telemetry;
+
     public Bot(HardwareMap hardwareMap, Telemetry telemetry) {
 
         this.hmap = hardwareMap;
@@ -113,15 +114,19 @@ public class Bot
         //armNoSpringyServo.setPosition(1);
     }
 
-    public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger){
+    public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert) {
+        int i = invert ?  -1 : 1;
+
         if (leftTrigger > .3) {
-            drive(MovementEnum.LEFTSTRAFE, leftTrigger);
+            drive(MovementEnum.LEFTSTRAFE, leftTrigger * i);
             return;
         }
         if (rightTrigger > .3){
-            drive(MovementEnum.RIGHTSTRAFE, rightTrigger);
+            drive(MovementEnum.RIGHTSTRAFE, rightTrigger * i);
             return;
         }
+        leftStick *= i;
+        rightStick *= i;
 
         FL.setPower(-leftStick);
         BL.setPower(-leftStick);

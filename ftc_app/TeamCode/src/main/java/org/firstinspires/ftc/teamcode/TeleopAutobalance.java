@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name = "TeleopAutobalance", group = "Teleop")
 public class TeleopAutobalance extends OpMode {
 
-    private Bot robot = new Bot();
+    private Bot robot = new Bot(hardwareMap, telemetry);
 
     /*
     https://github.com/adafruit/Adafruit_BNO055
@@ -22,7 +22,7 @@ public class TeleopAutobalance extends OpMode {
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
-        robot.init(hardwareMap, telemetry);
+        robot.init();
         telemetry.update();
     }
 

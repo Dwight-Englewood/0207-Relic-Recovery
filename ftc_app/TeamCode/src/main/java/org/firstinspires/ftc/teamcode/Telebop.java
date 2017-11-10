@@ -12,14 +12,14 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 @TeleOp(name="Telebop", group="Teleop")
 public class Telebop extends OpMode
 {
-        Bot robot = new Bot();
+        Bot robot = new Bot(hardwareMap, telemetry);
         double servoIncrement = .06;
         double topServo = 0;
         double botServo = 0;
 
         @Override
         public void init() {
-            robot.init(hardwareMap, telemetry);
+            robot.init();
         }
 
         @Override

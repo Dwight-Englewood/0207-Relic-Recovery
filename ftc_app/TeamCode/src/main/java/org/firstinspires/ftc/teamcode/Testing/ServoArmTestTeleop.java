@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Bot;
  */
 @TeleOp(name = "ServoArmTestTeleop", group = "Teleop")
 public class ServoArmTestTeleop extends OpMode {
-    Bot robot;
+    Bot robot = new Bot(hardwareMap, telemetry);
 
     double positionBot = .5;
     double positionTop = .5;
@@ -24,7 +24,7 @@ public class ServoArmTestTeleop extends OpMode {
 
     @Override
     public void init() {
-        robot.init(hardwareMap, telemetry);
+        robot.init();
     }
 
     @Override

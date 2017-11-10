@@ -20,12 +20,12 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 //@Disabled
 public class RedAuton extends OpMode
 {
-    Bot robot = new Bot();
+    Bot robot = new Bot(hardwareMap, telemetry);
     ElapsedTime timer;
     boolean done = false;
     @Override
     public void init() {
-        robot.init(hardwareMap, telemetry);
+        robot.init();
         timer = new ElapsedTime();
         robot.servoUp();
     }

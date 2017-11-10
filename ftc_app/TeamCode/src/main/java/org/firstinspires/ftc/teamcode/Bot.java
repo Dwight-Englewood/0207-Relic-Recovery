@@ -25,8 +25,12 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 public class Bot
 {
-    public Bot(HardwareMap hardwareMap) {
+    private HardwareMap hmap;
+    private Telemetry telemetry;
+    public Bot(HardwareMap hardwareMap, Telemetry telemetry) {
 
+        this.hmap = hardwareMap;
+        this.telemetry = telemetry;
         //BNO055IMU related initialization code
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -71,11 +75,7 @@ public class Bot
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
             leftPower, rightPower;
 
-    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.initialize(hardwareMap, telemetry);
-    }
-
-    private void initialize(HardwareMap hardwareMap, Telemetry telemetry) {
+    public void init() {
 
         //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

@@ -34,7 +34,7 @@ public class Telebop extends OpMode
         @Override
         public void loop() {
             //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
-            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger);
+            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false);
 
             if (gamepad2.x) {
                 robot.intake(1);
@@ -46,14 +46,11 @@ public class Telebop extends OpMode
 
             if (gamepad2.right_trigger > .3){
                 robot.intakeTwo.setPower(gamepad2.right_trigger);
-            }
-            if (gamepad2.left_trigger > .3) {
+            } if (gamepad2.left_trigger > .3) {
                 robot.intakeOne.setPower(gamepad2.left_trigger);
-            }
-            if (gamepad2.right_bumper){
+            } if (gamepad2.right_bumper){
                 robot.intakeTwo.setPower(-.4);
-            }
-            if (gamepad2.left_bumper){
+            } if (gamepad2.left_bumper){
                 robot.intakeOne.setPower(-.4);
             }
 

@@ -67,9 +67,9 @@ public class Bot
         BL = hardwareMap.get(DcMotor.class, "bl");
         BR = hardwareMap.get(DcMotor.class, "br");
 
-        intakeBrake = hardwareMap.get(DcMotor.class, "brake");
-        intakeOne = hardwareMap.get(DcMotor.class, "int1");
-        intakeTwo = hardwareMap.get(DcMotor.class, "int2");
+        intakeBrake = hardwareMap.get(DcMotor.class, "intlift");
+        intakeOne = hardwareMap.get(DcMotor.class, "rint");
+        intakeTwo = hardwareMap.get(DcMotor.class, "lint");
 
         lift = hardwareMap.get(DcMotor.class, "lift");
 

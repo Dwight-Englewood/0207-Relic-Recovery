@@ -1,11 +1,17 @@
+---
+geometry: landscape, left=1cm,right=1cm,top=1cm,bottom=1cm
+header-includes:
+    - \usepackage{setspace}
+    - \setstretch{0.5}
+    - \usepackage{listings}
+    - \lstset{ breakatwhitespace=false, breaklines=false}
+---
+
+\begin{lstlisting}
 ┏  7d8b50a  ::  2017-08-04, by Robert  ::  Initial commit 
-
 ┣  05944d2  ::  2017-08-04, by Rob A  ::  Updated FTC App to 3.2 Beta 
-
 ┣  d922861  ::  2017-08-04, by Rob A  ::  fixing submodule issue. Removed toTC.sh 
-
 ┣  0bf0f57  ::  2017-08-04, by Rob A  ::  Fixed submodule issue 
-
 ┣  a10c785  ::  2017-08-05, by Rob A  ::  lol notes 
 ┣  a426297  ::  2017-08-06, by Rob A  ::  Added enum for bot actions and the bot class to be filled in. 
 ┣  c16594f  ::  2017-08-06, by Rob A  ::  testing for slack integration 
@@ -128,3 +134,5 @@
 ┣  7ab27f4  ::  2017-11-13, by Rob A  ::  Renamed wen's wip bot class for confusion reasons. Also added the Enderbot's closable vuforia localizer so that we can use both vuforia and OpenCV in our code. 
 ┣  9b77560  ::  2017-11-13, by Rob A  ::  added enderbot's default exception handler for if the bot randomly crashes while on the field. Will auto restart the app. 
 ┗━[HEAD]──[master]──[remotes/origin/HEAD]──[remotes/origin/master]── fa11a29  ::  2017-11-13, by Wen P  ::  Added script which pretty prints our git history 
+\end{lstlisting}
+

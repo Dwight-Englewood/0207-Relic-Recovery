@@ -30,7 +30,7 @@ public class Bot
 
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake, lift;
 
-    private Servo jewelServo, flipper, releaseLeft, releaseRight;
+    public Servo jewelServo, flipper, releaseLeft, releaseRight;
     //Servo armNoSpringyServo;
     //Servo armTopExtendyServo;
     //Servo armBottomExtendyServo;

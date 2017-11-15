@@ -13,9 +13,9 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 public class Telebop extends OpMode
 {
         Bot robot = new Bot(hardwareMap, telemetry);
-        double servoIncrement = .06;
-        double topServo = 0;
-        double botServo = 0;
+        //double servoIncrement = .06;
+        //double topServo = 0;
+        //double botServo = 0;
 
         @Override
         public void init() {
@@ -33,8 +33,8 @@ public class Telebop extends OpMode
 
         @Override
         public void loop() {
-            //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
-            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false);
+            //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
+            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false); // Tank drive???
 
             if (gamepad2.x) {
                 robot.intake(1);

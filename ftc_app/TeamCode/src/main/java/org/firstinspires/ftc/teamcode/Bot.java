@@ -28,7 +28,7 @@ public class Bot
     private HardwareMap hmap;
     private Telemetry telemetry;
 
-    public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake;
+    public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake, lift;
 
     private Servo jewelServo, flipper, releaseLeft, releaseRight;
     //Servo armNoSpringyServo;
@@ -71,6 +71,8 @@ public class Bot
         intakeOne = hardwareMap.get(DcMotor.class, "int1");
         intakeTwo = hardwareMap.get(DcMotor.class, "int2");
 
+        lift = hardwareMap.get(DcMotor.class, "lift");
+
         releaseRight = hardwareMap.get(Servo.class, "rel r");
         releaseLeft = hardwareMap.get(Servo.class, "rel l");
         flipper = hardwareMap.get(Servo.class, "flip");
@@ -86,6 +88,7 @@ public class Bot
         intakeBrake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //setting directions for drive
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -95,11 +98,13 @@ public class Bot
         intakeBrake.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeOne.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeTwo.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // TODO: Test different zeropower behaviors (BRAKE, FLOAT, etc)
         intakeBrake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FL.setPower(0);
         FR.setPower(0);
@@ -108,6 +113,7 @@ public class Bot
         intakeBrake.setPower(0);
         intakeOne.setPower(0);
         intakeTwo.setPower(0);
+        lift.setPower(0);
 
         powerModifier = 0.0055; // 180 * .0055 ~= 1
         k = .4 ;
@@ -263,8 +269,7 @@ public class Bot
         intakeTwo.setPower(power);
     }
 
-    public void setDriveMotorModes(DcMotor.RunMode mode)
-    {
+    public void setDriveMotorModes(DcMotor.RunMode mode) {
         FL.setMode(mode);
         FR.setMode(mode);
         BL.setMode(mode);

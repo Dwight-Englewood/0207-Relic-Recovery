@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Testing;
  * Created by weznon on 11/5/17.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,9 +13,10 @@ import org.firstinspires.ftc.teamcode.Bot;
 /**
  * Teleop which tests the arm servo movements for their full range
  */
-@TeleOp(name = "ServoArmTestTeleop", group = "Teleop")
+//@TeleOp(name = "ServoArmTestTeleop", group = "Teleop")
+@Disabled
 public class ServoArmTestTeleop extends OpMode {
-    Bot robot = new Bot(hardwareMap, telemetry);
+    Bot robot = new Bot();
 
     double positionBot = .5;
     double positionTop = .5;
@@ -24,7 +26,7 @@ public class ServoArmTestTeleop extends OpMode {
 
     @Override
     public void init() {
-        robot.init();
+        robot.init(hardwareMap);
     }
 
     @Override

@@ -15,11 +15,11 @@ import org.firstinspires.ftc.teamcode.Bot;
 
 @TeleOp(name = "HeadingTest", group = "Teleop")
 public class HeadingTest extends OpMode {
-    Bot robot = new Bot(hardwareMap, telemetry);
+    Bot robot = new Bot();
 
     @Override
     public void init() {
-        robot.init();
+        robot.init(hardwareMap);
     }
 
     @Override

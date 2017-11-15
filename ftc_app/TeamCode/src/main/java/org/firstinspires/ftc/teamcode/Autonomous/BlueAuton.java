@@ -23,13 +23,13 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 //@Disabled
 public class BlueAuton extends OpMode
 {
-    Bot robot = new Bot(hardwareMap, telemetry);
+    Bot robot = new Bot();
     ElapsedTime timer;
     boolean done = false;
 
     @Override
     public void init() {
-        robot.init();
+        robot.init(hardwareMap);
         timer = new ElapsedTime();
         robot.servoUp();
     }

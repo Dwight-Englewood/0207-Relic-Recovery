@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Testing;
  * Created by weznon on 11/3/17.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,16 +12,17 @@ import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 
-@TeleOp(name="OneButtonMan", group="Teleop")
+//@TeleOp(name="OneButtonMan", group="Teleop")
+@Disabled
 public class OneButtonMan extends OpMode
 {
-    Bot robot = new Bot(hardwareMap, telemetry);
+    Bot robot = new Bot();
 
     double topServo = 0;
     double botServo = 0;
     @Override
     public void init() {
-        robot.init();
+        robot.init(hardwareMap);
     }
 
     @Override

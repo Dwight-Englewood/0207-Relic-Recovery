@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Bot;
 
 @TeleOp(name = "ServoValueFinder", group = "Teleop")
 public class ServoValueFinder extends OpMode {
-    Bot robot = new Bot(hardwareMap, telemetry);
+    Bot robot = new Bot();
 
     double flipperVal = .5;
     double juulVal = .5;
@@ -24,7 +24,7 @@ public class ServoValueFinder extends OpMode {
     int cooldown = 0;
     @Override
     public void init() {
-        robot.init();
+        robot.init(hardwareMap);
     }
 
     @Override

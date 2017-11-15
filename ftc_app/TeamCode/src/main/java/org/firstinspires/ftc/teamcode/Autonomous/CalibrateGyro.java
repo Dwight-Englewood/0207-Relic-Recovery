@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 /**
@@ -10,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
 @Autonomous(name="CalibrateGyro", group="Testing")
-//@Disabled
+@Disabled
 public class CalibrateGyro extends OpMode {
 
     BNO055IMU imu;

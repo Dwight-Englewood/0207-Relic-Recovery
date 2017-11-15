@@ -6,10 +6,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "TeleopAutobalance", group = "Teleop")
+//@TeleOp(name = "TeleopAutobalance", group = "Teleop")
 public class TeleopAutobalance extends OpMode {
 
-    private Bot robot = new Bot(hardwareMap, telemetry);
+    private Bot robot = new Bot();
 
     /*
     https://github.com/adafruit/Adafruit_BNO055
@@ -22,7 +22,7 @@ public class TeleopAutobalance extends OpMode {
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
-        robot.init();
+        robot.init(hardwareMap);
         telemetry.update();
     }
 

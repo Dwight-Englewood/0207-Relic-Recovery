@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Testing;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -8,7 +9,8 @@ import com.qualcomm.robotcore.util.Range;
 /**
  * Created by aburur on 11/9/17.
  */
-@TeleOp(name = "Test Bench", group = "Teleop")
+//@TeleOp(name = "Test Bench", group = "Teleop")
+@Disabled
 public class TestBench extends OpMode {
 
     Servo flipper, releaseLeft, releaseRight;

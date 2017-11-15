@@ -12,14 +12,14 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 @TeleOp(name="Telebop", group="Teleop")
 public class Telebop extends OpMode
 {
-        Bot robot = new Bot(hardwareMap, telemetry);
+        Bot robot = new Bot();
         //double servoIncrement = .06;
         //double topServo = 0;
         //double botServo = 0;
 
         @Override
         public void init() {
-            robot.init();
+            robot.init(hardwareMap);
         }
 
         @Override
@@ -44,19 +44,19 @@ public class Telebop extends OpMode
                 robot.intake(0);
             }
 
-            if (gamepad2.right_trigger > .3){
+            if (gamepad2.right_trigger > .3) {
                 robot.intakeTwo.setPower(gamepad2.right_trigger);
             } if (gamepad2.left_trigger > .3) {
                 robot.intakeOne.setPower(gamepad2.left_trigger);
-            } if (gamepad2.right_bumper){
+            } if (gamepad2.right_bumper) {
                 robot.intakeTwo.setPower(-.4);
-            } if (gamepad2.left_bumper){
+            } if (gamepad2.left_bumper) {
                 robot.intakeOne.setPower(-.4);
             }
 
-            if (gamepad2.right_stick_y > .3){
+            if (gamepad2.right_stick_y > .3) {
                 robot.intakeBrake.setPower(1);
-            } else if (gamepad2.right_stick_y < -.3){
+            } else if (gamepad2.right_stick_y < -.3) {
                 robot.intakeBrake.setPower(-1);
             } else {
                 robot.intakeBrake.setPower(0);

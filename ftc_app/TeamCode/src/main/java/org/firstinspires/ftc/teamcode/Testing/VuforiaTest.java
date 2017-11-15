@@ -38,8 +38,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * is explained in {@link ConceptVuforiaNavigation}.
  */
 
-@Autonomous(name="Vuforia Test", group ="Testing")
-//@Disabled
+//@Autonomous(name="Vuforia Test", group ="Testing")
+@Disabled
 public class VuforiaTest extends LinearOpMode {
 
     VuforiaLocalizer vuforia;

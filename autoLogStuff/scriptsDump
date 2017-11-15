@@ -1,0 +1,7 @@
+
+# Generates a pretty git log, for piping into pandoc or other stuff
+git forest --pretty=format:"--  %h  ::  %ad, by %an  ::  %s " --reverse --style=15 --date=short | sed 's/Burtorustum/Rob A/' | sed 's/weznon/Wen P/' | sed 's/shit/natural log/'
+
+
+# WIP pandoc pdf generator, current issue is line breaks and making it landscape. possible unicode font issue as well with one character
+pandoc test5.md -o test2.pdf --verbose --pdf-engine xelatex --variable mainfont="Hack"

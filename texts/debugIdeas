@@ -1,0 +1,7 @@
+attach to adb debugger to try to set breakpoints
+
+put a try catch around stuff with hardwaremap
+
+add telemetry back to init function (???)
+
+check config on phone, nuke and remake stuff on phone

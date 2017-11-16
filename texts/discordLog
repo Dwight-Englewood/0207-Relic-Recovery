@@ -1,0 +1,73 @@
+[11:48 AM] Weznon | 0207 Critical Mass: our phone is getting passed a null reference for the hardwareMap
+[11:48 AM] Weznon | 0207 Critical Mass: Is there some issue with our coding that could cause this
+[11:49 AM] Weznon | 0207 Critical Mass: Because we don't think we changed anything that would be related to the hardwaremap
+[11:49 AM] EthanS - 12670 Eclipse: that's really strange. Is your hardware map declared on the phone?
+[11:49 AM] Weznon | 0207 Critical Mass: Yeah
+[11:50 AM] Weznon | 0207 Critical Mass: https://github.com/Dwight-Englewood-Robotics/0207-Relic-Recovery/blob/master/ftc_app/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Bot.java
+GitHub
+Dwight-Englewood-Robotics/0207-Relic-Recovery
+0207-Relic-Recovery - Repo for 2017-18 Relic Recovery code of FTC team 0207 Critical Mass
+
+[11:50 AM] Weznon | 0207 Critical Mass: This is the file in question, it's the only class common among all of the op modes
+[11:50 AM] Weznon | 0207 Critical Mass: The issue occurs on all our teleops and auton
+🤔1
+[11:52 AM] Joshua  | FTC 9889: Did you calibrate the BNO055IMU?
+[11:52 AM] The60th -8397: Whats the object that is null?
+[11:52 AM] Weznon | 0207 Critical Mass: the hardwareMap iteself is null
+[11:52 AM] The60th -8397: your calling ur init methodright?
+[11:52 AM] Weznon | 0207 Critical Mass: we tried to cailbrate the imu but the teleop we use for that crashes before it can run
+[11:53 AM] The60th -8397: can you link a teleop/auto program?
+[11:54 AM] Joshua  | FTC 9889: https://github.com/Dwight-Englewood-Robotics/0207-Relic-Recovery/blob/master/ftc_app/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Telebop.java @The60th -8397 Maybe this code for teleop?
+GitHub
+Dwight-Englewood-Robotics/0207-Relic-Recovery
+0207-Relic-Recovery - Repo for 2017-18 Relic Recovery code of FTC team 0207 Critical Mass
+
+[11:54 AM] Weznon | 0207 Critical Mass: yeah
+[11:54 AM] BOTUseless Internet Points: Neatarini @Weznon | 0207 Critical Mass, you just advanced to level 3 !
+[11:54 AM] Weznon | 0207 Critical Mass: thats the main one we use
+[11:54 AM] Weznon | 0207 Critical Mass: is the issue with the setting robot with a consturctor
+[11:54 AM] Weznon | 0207 Critical Mass: i feel like we didnt do that beforehand
+[11:55 AM] Weznon | 0207 Critical Mass: nvm we did
+[11:55 AM] The60th -8397: should work fine
+[11:55 AM] The60th -8397: you might have to make a class based hardwaremap then asign that, (thats how I do it) but it should work how it is
+[11:55 AM] Joshua  | FTC 9889: DId you triple check the config file?
+[11:56 AM] The60th -8397: can you copy paste the full error?
+[11:56 AM] Weznon | 0207 Critical Mass: it was on the phone, we dont have access to phone right now
+[11:56 AM] Weznon | 0207 Critical Mass: we can get the error in 30 minutes
+[11:56 AM] The60th -8397: dang, do you remeber the wording?
+[11:57 AM] The60th -8397: Note i normally use linearOpMode so not sure how a raw extends opMode works
+[11:57 AM] The60th -8397: but my thought would be the 
+        @Override
+        public void init() {
+            robot.init(hardwareMap);
+        }
+[11:57 AM] The60th -8397: maybe thats not called somehow?
+[11:57 AM] Joshua  | FTC 9889: That should work
+[11:57 AM] The60th -8397: And that would lead to a null hardwaremap when you try and assign values
+[11:57 AM] Joshua  | FTC 9889: LinearOpMode extends OpMode
+[11:58 AM] Joshua  | FTC 9889: init just runs once
+[11:58 AM] The60th -8397: Yeah
+[11:58 AM] Weznon | 0207 Critical Mass: the error was somrhting along the lines of
+[11:58 AM] Weznon | 0207 Critical Mass: failed to run method get from the hardwaremap class
+[11:58 AM] The60th -8397: init -> initLoop - > start -> loop?
+[11:58 AM] Weznon | 0207 Critical Mass: on a hardwaremap object because the object was null
+🤔1
+[11:59 AM] The60th -8397: okay
+[11:59 AM] The60th -8397: 
+public void init(HardwareMap hardwareMap) {}
+
+That hardwareMap is coming in as null if i understand correctly
+[12:00 PM] Weznon | 0207 Critical Mass: yeah, that makes sense
+[12:00 PM] Noah | OpenFTC | 8528 Mentor: Do a null check. That should not be null. Make absolutely sure that it's the hardwareMap that is null
+👍🏻1
+[12:00 PM] The60th -8397: ^^
+[12:00 PM] Weznon | 0207 Critical Mass: that would be like a try catch around teh hardwaremap stuff right
+[12:00 PM] The60th -8397: if you can, run the program when your connected to the adb debugger
+[12:00 PM] Noah | OpenFTC | 8528 Mentor: Write to the RobotLog it's status
+[12:00 PM] The60th -8397: so you can use break points
+[12:01 PM] EthanS - 12670 Eclipse: literally just if(hardwareMap = null) { telemetry.addLine("hw map gone"); telemetry.update(); }
+[12:02 PM] Noah | OpenFTC | 8528 Mentor: do that, but also write to the RobotLog. I think the telemetry will disappear if your OpMode ends right away
+[12:02 PM] The60th -8397: ^
+[12:03 PM] Weznon | 0207 Critical Mass: ok, ill try that, thanks for the help
+[12:03 PM] EthanS - 12670 Eclipse: just add a Thread.sleep(10000) before the use of the hardware map
+[12:03 PM] Weznon | 0207 Critical Mass: ill be back later with how it goes

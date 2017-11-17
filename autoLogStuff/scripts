@@ -15,6 +15,10 @@ sed 's,\x1B\[[0-9;]*[a-zA-Z],,g'
 
 #TODO: add the seds which directly match long lines to replace them with shorter ones
 
+sed 's/added intellij templates - must be manually added to intellij, allows for super easy new teleop/auton creation/added intellij templates-must be manually added to intellij, allows for super easy new teleop/auton creation/'
+
+sed 's/Finished the test bench code. Began adding new servos to the bot class for the flipper and two release servos (now tested). TODO: find equilibrium distance for two release servos, find correct points for release and flip actions./Finished the test bench code. Began adding new servos to the bot class for the flipper and two release servos\n┃        (now tested). TODO: find equilibrium distance for two release servos, find correct points for release and flip actions./'
+  
 #final pdf generation with pandoc
 pandoc gitlogfile -o output.pdf --pdf-engine xelatex --variable mainfont="Hack"
 # note that the stuff needs to be made the right names

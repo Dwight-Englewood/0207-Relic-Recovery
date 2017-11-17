@@ -133,6 +133,7 @@ public class Bot
             drive(MovementEnum.RIGHTSTRAFE, rightTrigger * i);
             return;
         }
+        
         leftStick *= i;
         rightStick *= i;
 

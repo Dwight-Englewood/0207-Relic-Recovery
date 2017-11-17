@@ -335,16 +335,18 @@ public class Bot
     public void jewelDown(){jewelServo.setPosition(.05);}
     public void jewelOut(){jewelServo.setPosition(.1);}
 
+
+
     public void relLUp(){releaseLeft.setPosition(0);}
     public void relLDown(){releaseLeft.setPosition(.5);}
     public void relLMid(){
         releaseLeft.setPosition(0);
     }
 
-
     public void relRUp(){releaseRight.setPosition(1);}
     public void relRDown(){releaseRight.setPosition(.5);}
     public void relRMid() {releaseRight.setPosition(1);}
+
     public void flipUp(){flipper.setPosition(.55);}
     public void flipDown(){flipper.setPosition(.05);}
     public void flipOut(){flipper.setPosition(.75);}

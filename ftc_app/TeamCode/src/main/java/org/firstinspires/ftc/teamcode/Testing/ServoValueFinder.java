@@ -43,6 +43,9 @@ public class ServoValueFinder extends OpMode {
     double releaseRightVal = .5;
 
     int cooldown = 0;
+
+    int cooldownTime = 50;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -61,31 +64,31 @@ public class ServoValueFinder extends OpMode {
         if (cooldown == 0) {
             if (gamepad1.dpad_right) {
                 flipperVal = flipperVal + .01;
-                cooldown = 100;
+                cooldown = cooldownTime;
             }
             if (gamepad1.dpad_left) {
                 flipperVal = flipperVal - .01;
-                cooldown = 100;
+                cooldown = cooldownTime;
             }
 
             if (gamepad1.dpad_up) {
                 juulVal = juulVal + .01;
-                cooldown = 100;
+                cooldown = cooldownTime;
             }
             if (gamepad1.dpad_down) {
                 juulVal = juulVal - .01;
-                cooldown = 100;
+                cooldown = cooldownTime;
             }
 
             if (gamepad1.b) {
                 releaseLeftVal = releaseLeftVal + .01;
                 releaseRightVal = releaseRightVal - .01;
-                cooldown = 100;
+                cooldown = cooldownTime;
             }
             if (gamepad1.x) {
                 releaseLeftVal = releaseLeftVal - .01;
                 releaseRightVal = releaseRightVal + .01;
-                cooldown = 100;
+                cooldown = cooldownTime;
             }
 
 
@@ -106,6 +109,7 @@ public class ServoValueFinder extends OpMode {
         telemetry.addData("releaseRightVal", releaseRightVal);
 
         telemetry.addData("cooldown", cooldown);
+        telemetry.addData("cooldownTime", cooldownTime);
         telemetry.update();
 
     }

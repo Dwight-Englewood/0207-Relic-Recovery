@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -13,11 +12,10 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.Enums.BotActions;
 
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 /**
@@ -312,13 +310,32 @@ public class Bot
 
     public void relLUp(){releaseLeft.setPosition(0);}
     public void relLDown(){releaseLeft.setPosition(.5);}
+    public void relLMid(){
+        releaseLeft.setPosition(0);
+    }
+
 
     public void relRUp(){releaseRight.setPosition(1);}
     public void relRDown(){releaseRight.setPosition(.5);}
-
+    public void relRMid() {releaseRight.setPosition(1);}
     public void flipUp(){flipper.setPosition(.55);}
     public void flipDown(){flipper.setPosition(.05);}
     public void flipOut(){flipper.setPosition(.75);}
+
+    public void releaseMove(ReleasePosition position) {
+        switch (position) {
+            case DOWN:
+                relRDown();
+                relLDown();
+            case MIDDLE:
+                relRMid();
+                relLMid();
+            case UP:
+                relRUp();
+                relLUp();
+        }
+    }
+
 
     public int distanceToRevs(double distance){
         final double wheelCirc = 31.9185813;

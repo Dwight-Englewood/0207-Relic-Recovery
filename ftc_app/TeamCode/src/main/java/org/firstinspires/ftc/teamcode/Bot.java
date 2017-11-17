@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -133,6 +134,28 @@ public class Bot
         BL.setPower(-leftStick);
         FR.setPower(-rightStick);
         BR.setPower(-rightStick);
+    }
+
+    public void unfoldBot() {
+        this.rollOut();
+    }
+
+   private void nop() {
+       ;
+   }
+
+    public void rollOut() {
+        this.relRUp();
+        this.relLUp();
+
+        this.intakeBrake.setPower(1);
+        ElapsedTime kms = new ElapsedTime();
+        kms.reset();
+        while (kms.milliseconds() < 500) {
+            this.nop();
+        }
+        this.jewelOut();
+
     }
 
     //TODO: DIAGONALS

@@ -52,24 +52,24 @@ public class Telebop extends OpMode
                 robot.intakeBrake.setPower(0);
             }
 
-            if (gamepad2.b){
+            if (gamepad2.b) {
                 robot.flipUp();
             } else {
                 robot.flipDown();
             }
 
-            if (gamepad2.dpad_up){
+            if (gamepad2.dpad_up) {
                 robot.lift.setPower(-.5);
-            } else if (gamepad2.dpad_down){
+            } else if (gamepad2.dpad_down) {
                 robot.lift.setPower(1);
             } else {
                 robot.lift.setPower(0);
             }
 
-            if (gamepad2.y){
+            if (gamepad2.y) {
                 robot.relLUp();
                 robot.relRUp();
-            } else if (gamepad2.a){
+            } else if (gamepad2.a) {
                 robot.relLDown();
                 robot.relRDown();
             }

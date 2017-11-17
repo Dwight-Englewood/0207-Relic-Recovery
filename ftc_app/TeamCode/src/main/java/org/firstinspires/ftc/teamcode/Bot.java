@@ -287,13 +287,11 @@ public class Bot
     public void jewelDown(){jewelServo.setPosition(.05);}
     public void jewelOut(){jewelServo.setPosition(.1);}
 
-    public void relLUp(){releaseLeft.setPosition(.48);}
-    public void relLDown(){releaseLeft.setPosition(.98);}
-    public void relLOut(){releaseLeft.setPosition(.02);}
+    public void relLUp(){releaseLeft.setPosition(0);}
+    public void relLDown(){releaseLeft.setPosition(.5);}
 
-    public void relRUp(){releaseRight.setPosition(.52);}
-    public void relRDown(){releaseRight.setPosition(.02);}
-    public void relROut(){releaseRight.setPosition(.98);}
+    public void relRUp(){releaseRight.setPosition(1);}
+    public void relRDown(){releaseRight.setPosition(.5);}
 
     public void flipUp(){flipper.setPosition(.55);}
     public void flipDown(){flipper.setPosition(.05);}

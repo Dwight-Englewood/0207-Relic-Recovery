@@ -28,11 +28,13 @@ public class Telebop extends OpMode
         @Override
         public void start() {
             telemetry.clear();
-
+            robot.jewelUp();
         }
 
         @Override
-        public void loop() {
+        public void loop()
+
+        {
             //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
             robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false); // Tank drive???
 
@@ -74,6 +76,7 @@ public class Telebop extends OpMode
                 robot.relRDown();
             }
 
+            telemetry.update();
 
         }
 

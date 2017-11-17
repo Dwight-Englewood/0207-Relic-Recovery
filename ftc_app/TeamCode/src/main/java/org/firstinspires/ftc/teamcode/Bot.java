@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 public class Bot
 {
 
-    public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeBrake, lift;
+    public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
 
     public Servo jewelServo, flipper, releaseLeft, releaseRight;
     //Servo armNoSpringyServo;
@@ -64,7 +64,7 @@ public class Bot
         BL = hardwareMap.get(DcMotor.class, "bl");
         BR = hardwareMap.get(DcMotor.class, "br");
 
-        intakeBrake = hardwareMap.get(DcMotor.class, "intlift");
+        intakeDrop = hardwareMap.get(DcMotor.class, "intlift");
         intakeOne = hardwareMap.get(DcMotor.class, "rint");
         intakeTwo = hardwareMap.get(DcMotor.class, "lint");
 
@@ -79,7 +79,7 @@ public class Bot
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intakeBrake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeDrop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -89,13 +89,13 @@ public class Bot
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
-        intakeBrake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeDrop.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeOne.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeTwo.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // TODO: Test different zeropower behaviors (BRAKE, FLOAT, etc)
-        intakeBrake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeDrop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -104,7 +104,7 @@ public class Bot
         FR.setPower(0);
         BL.setPower(0);
         BR.setPower(0);
-        intakeBrake.setPower(0);
+        intakeDrop.setPower(0);
         intakeOne.setPower(0);
         intakeTwo.setPower(0);
         lift.setPower(0);
@@ -287,7 +287,14 @@ public class Bot
 
     /** Releases the arm  public void releaseTheKraken() { armNoSpringyServo.setPosition(.85); } public void releaseTheGiantSquid() { armNoSpringyServo.setPosition(.7); } /** moves the angle of hnad servo to a given position @param position  public void armTopServoPos(double position) { armTopExtendyServo.setPosition(position); } /** clamps or unclamps shit @param position  public void armBotServoPos(double position) { armBottomExtendyServo.setPosition(position); } /** let go of relic */ //TODO: public void ripTHICCBoi() { this.armBottomExtendyServo.setPosition(0); } /** Action Functions */=
 
+    ReleasePosition currentPosition = ReleasePosition.DOWN;
     public void intake(double power){
+        if (power == 0) {
+            currentPosition = ReleasePosition.MIDDLE;
+        } else {
+            currentPosition = ReleasePosition.DOWN;
+        }
+
         intakeOne.setPower(power);
         intakeTwo.setPower(power);
     }
@@ -397,7 +404,7 @@ public class Bot
         this.relRUp();
         this.relLUp();
 
-        this.intakeBrake.setPower(1);
+        this.intakeDrop.setPower(1);
         ElapsedTime kms = new ElapsedTime();
         kms.reset();
         while (kms.milliseconds() < 500) {

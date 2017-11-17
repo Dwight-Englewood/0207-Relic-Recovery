@@ -6,7 +6,6 @@ package org.firstinspires.ftc.teamcode.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
@@ -44,10 +43,10 @@ public class OneButtonMan extends OpMode
         }
 
         if (gamepad1.a){
-            robot.intakeBrake.setPower(.3);
+            robot.intakeDrop.setPower(.3);
         }
         else {
-            robot.intakeBrake.setPower(0);
+            robot.intakeDrop.setPower(0);
         }
 
         if (gamepad1.a) {

@@ -114,8 +114,15 @@ public class Bot
         //armNoSpringyServo.setPosition(1);
     }
 
-    public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert) {
+    public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
         int i = invert ?  -1 : 1;
+
+        if (brake){
+            drive(MovementEnum.STOP, 0);
+            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
+        } else {
+            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
+        }
 
         if (leftTrigger > .3) {
             drive(MovementEnum.LEFTSTRAFE, leftTrigger * i);
@@ -160,27 +167,7 @@ public class Bot
         rearRight.setPower(RR_speed);
     }*/
 
-    public void unfoldBot() {
-        this.rollOut();
-    }
 
-   private void nop() {
-       ;
-   }
-
-    public void rollOut() {
-        this.relRUp();
-        this.relLUp();
-
-        this.intakeBrake.setPower(1);
-        ElapsedTime kms = new ElapsedTime();
-        kms.reset();
-        while (kms.milliseconds() < 500) {
-            this.nop();
-        }
-        this.jewelOut();
-
-    }
 
 
     //TODO: DIAGONALS
@@ -310,6 +297,14 @@ public class Bot
         BL.setMode(mode);
         BR.setMode(mode);
     }
+
+    public void setDriveZeroPowers(DcMotor.ZeroPowerBehavior behavior){
+        FL.setZeroPowerBehavior(behavior);
+        FR.setZeroPowerBehavior(behavior);
+        BL.setZeroPowerBehavior(behavior);
+        BR.setZeroPowerBehavior(behavior);
+    }
+
     /**
      * Flip:
      *  down - .05
@@ -389,6 +384,27 @@ public class Bot
         }
     }
 
+    public void unfoldBot() {
+        this.rollOut();
+    }
+
+    private void nop() {
+        ;
+    }
+
+    private void rollOut() {
+        this.relRUp();
+        this.relLUp();
+
+        this.intakeBrake.setPower(1);
+        ElapsedTime kms = new ElapsedTime();
+        kms.reset();
+        while (kms.milliseconds() < 500) {
+            this.nop();
+        }
+        this.jewelOut();
+
+    }
 
     public int distanceToRevs(double distance){
         final double wheelCirc = 31.9185813;

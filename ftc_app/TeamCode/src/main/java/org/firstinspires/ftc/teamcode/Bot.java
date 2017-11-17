@@ -120,6 +120,7 @@ public class Bot
 
         if (leftTrigger > .3) {
             drive(MovementEnum.LEFTSTRAFE, leftTrigger * i);
+            //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
             return;
         }
         if (rightTrigger > .3){
@@ -134,6 +135,32 @@ public class Bot
         FR.setPower(-rightStick);
         BR.setPower(-rightStick);
     }
+
+    //TODO
+    /**public void safeStrafe(double target, MovementEnum direction) {
+        double FL_speed = 0;
+        double FR_speed = 0;
+        double RL_speed = 0;
+        double RR_speed = 0;
+
+        currentHeading = imu.;  //Current direction
+
+        FL_speed = power + (currentHeading - target) / 25;  //Calculate speed for each side
+        FR_speed = power + (currentHeading - target) / 25;
+        RL_speed = power - (currentHeading - target) / 25;  //Calculate speed for each side
+        RR_speed = power - (currentHeading - target) / 25;
+
+        FL_speed = Range.clip(FL_speed, -1, 1);
+        FR_speed = Range.clip(FR_speed, -1, 1);
+        RL_speed = Range.clip(RL_speed, -1, 1);
+        RR_speed = Range.clip(RR_speed, -1, 1);
+
+        frontLeft.setPower(FL_speed);
+        frontRight.setPower(-FR_speed);
+        rearLeft.setPower(-RL_speed);
+        rearRight.setPower(RR_speed);
+    }*/
+
 
     //TODO: DIAGONALS
     public void drive(MovementEnum movement, double power) {

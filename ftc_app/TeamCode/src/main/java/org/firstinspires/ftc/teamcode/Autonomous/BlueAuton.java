@@ -31,7 +31,6 @@ public class BlueAuton extends OpMode
     public void init() {
         robot.init(hardwareMap);
         timer = new ElapsedTime();
-        robot.servoUp();
     }
 
     /*
@@ -47,7 +46,7 @@ public class BlueAuton extends OpMode
      */
     @Override
     public void start() {
-        robot.servoDown();
+
     }
 
     /*

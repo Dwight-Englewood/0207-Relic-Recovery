@@ -28,7 +28,7 @@ public class Telebop extends OpMode
         @Override
         public void start() {
             telemetry.clear();
-            robot.servoUp();
+
         }
 
         @Override
@@ -36,49 +36,45 @@ public class Telebop extends OpMode
             //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
             robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false); // Tank drive???
 
-            if (gamepad2.x) {
+            if (gamepad2.right_bumper) {
                 robot.intake(1);
-            } else if (gamepad2.b) {
+            } else if (gamepad2.right_trigger > .3) {
                 robot.intake(-1);
-            } else if (gamepad2.left_trigger < .3 && gamepad2.right_trigger < .3 && !gamepad2.left_bumper && !gamepad2.right_bumper){
+            } else {
                 robot.intake(0);
             }
 
-            if (gamepad2.right_trigger > .3) {
-                robot.intakeTwo.setPower(gamepad2.right_trigger);
-            } if (gamepad2.left_trigger > .3) {
-                robot.intakeOne.setPower(gamepad2.left_trigger);
-            } if (gamepad2.right_bumper) {
-                robot.intakeTwo.setPower(-.4);
-            } if (gamepad2.left_bumper) {
-                robot.intakeOne.setPower(-.4);
-            }
-
             if (gamepad2.right_stick_y > .3) {
-                robot.intakeBrake.setPower(1);
-            } else if (gamepad2.right_stick_y < -.3) {
                 robot.intakeBrake.setPower(-1);
+            } else if (gamepad2.right_stick_y < -.3) {
+                robot.intakeBrake.setPower(1);
             } else {
                 robot.intakeBrake.setPower(0);
             }
 
-            /*if (gamepad2.dpad_down) {
-                botServo = botServo + servoIncrement;
-            } else if (gamepad2.dpad_up) {
-                botServo = botServo - servoIncrement;
+            if (gamepad2.b){
+                robot.flipUp();
+            } else {
+                robot.flipDown();
             }
 
-            if (gamepad2.dpad_left) {
-                topServo = topServo - servoIncrement;
-            } else if (gamepad2.dpad_right) {
-                topServo = topServo + servoIncrement;
+            if (gamepad2.dpad_up){
+                robot.lift.setPower(-.5);
+            } else if (gamepad2.dpad_down){
+                robot.lift.setPower(1);
+            } else {
+                robot.lift.setPower(0);
             }
 
-            topServo = Range.clip(topServo, 0.0, 1.0);
-            botServo = Range.clip(botServo, 0.0, 1.0);
+            if (gamepad2.y){
+                robot.relLUp();
+                robot.relRUp();
+            } else if (gamepad2.a){
+                robot.relLDown();
+                robot.relRDown();
+            }
 
-            telemetry.addData("botServo", botServo);
-            telemetry.addData("topServo", topServo);*/
+
         }
 
         @Override

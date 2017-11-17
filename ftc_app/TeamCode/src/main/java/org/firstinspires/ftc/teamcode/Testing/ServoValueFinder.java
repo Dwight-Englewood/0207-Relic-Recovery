@@ -11,6 +11,27 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Bot;
 
+/**
+ * Flip:
+ *  down - .05
+ *  up - .55
+ *  out - .75
+ *
+ * R release:
+ *  down - .98
+ *  up - .52
+ *  out - .02
+ *
+ * L release:
+ *  down - .02
+ *  up - .48
+ *  out - .98
+ *
+ * Jewel:
+ *  down - 1
+ *  up - .65
+ *  out - .1
+ */
 
 @TeleOp(name = "ServoValueFinder", group = "Teleop")
 public class ServoValueFinder extends OpMode {
@@ -28,13 +49,11 @@ public class ServoValueFinder extends OpMode {
     }
 
     @Override
-    public void init_loop() {
-    }
+    public void init_loop() {}
 
     @Override
     public void start() {
         telemetry.clear();
-
     }
 
     @Override
@@ -42,41 +61,41 @@ public class ServoValueFinder extends OpMode {
         if (cooldown == 0) {
             if (gamepad1.dpad_right) {
                 flipperVal = flipperVal + .01;
-                cooldown = 10000;
+                cooldown = 100;
             }
             if (gamepad1.dpad_left) {
                 flipperVal = flipperVal - .01;
-                cooldown = 10000;
+                cooldown = 100;
             }
 
             if (gamepad1.dpad_up) {
                 juulVal = juulVal + .01;
-                cooldown = 10000;
+                cooldown = 100;
             }
             if (gamepad1.dpad_down) {
                 juulVal = juulVal - .01;
-                cooldown = 10000;
+                cooldown = 100;
             }
 
             if (gamepad1.b) {
                 releaseLeftVal = releaseLeftVal + .01;
-                cooldown = 10000;
+                cooldown = 100;
             }
             if (gamepad1.x) {
                 releaseLeftVal = releaseLeftVal - .01;
-                cooldown = 10000;
+                cooldown = 100;
             }
 
             if (gamepad1.y) {
                 releaseRightVal = releaseRightVal + .01;
-                cooldown = 10000;
+                cooldown = 100;
             }
             if (gamepad1.a) {
                 releaseRightVal = releaseRightVal - .01;
-                cooldown = 10000;
+                cooldown = 100;
             }
         } else {
-            cooldown = cooldown - 1;
+            cooldown -= 1;
         }
 
         //Setting servo values
@@ -92,6 +111,8 @@ public class ServoValueFinder extends OpMode {
         telemetry.addData("releaseRightVal", releaseRightVal);
 
         telemetry.addData("cooldown", cooldown);
+        telemetry.update();
+
     }
 
     @Override

@@ -249,15 +249,7 @@ public class Bot
 
     }
 
-    /** Releases the arm  public void releaseTheKraken() { armNoSpringyServo.setPosition(.85); } public void releaseTheGiantSquid() { armNoSpringyServo.setPosition(.7); } /** moves the angle of hnad servo to a given position @param position  public void armTopServoPos(double position) { armTopExtendyServo.setPosition(position); } /** clamps or unclamps shit @param position  public void armBotServoPos(double position) { armBottomExtendyServo.setPosition(position); } /** let go of relic */ //TODO: public void ripTHICCBoi() { this.armBottomExtendyServo.setPosition(0); } /** Action Functions */
-
-    public void servoDown() {
-        jewelServo.setPosition(0.4);
-    }
-
-    public void servoUp() {
-        jewelServo.setPosition(1);
-    }
+    /** Releases the arm  public void releaseTheKraken() { armNoSpringyServo.setPosition(.85); } public void releaseTheGiantSquid() { armNoSpringyServo.setPosition(.7); } /** moves the angle of hnad servo to a given position @param position  public void armTopServoPos(double position) { armTopExtendyServo.setPosition(position); } /** clamps or unclamps shit @param position  public void armBotServoPos(double position) { armBottomExtendyServo.setPosition(position); } /** let go of relic */ //TODO: public void ripTHICCBoi() { this.armBottomExtendyServo.setPosition(0); } /** Action Functions */=
 
     public void intake(double power){
         intakeOne.setPower(power);
@@ -270,12 +262,48 @@ public class Bot
         BL.setMode(mode);
         BR.setMode(mode);
     }
+    /**
+     * Flip:
+     *  down - .05
+     *  up - .55
+     *  out - .75
+     *
+     * R release:
+     *  down - .98
+     *  up - .52
+     *  out - .02
+     *
+     * L release:
+     *  down - .02
+     *  up - .48
+     *  out - .98
+     *
+     * Jewel:
+     *  down - 1
+     *  up - .65
+     *  out - .1
+     */
+    public void jewelUp(){jewelServo.setPosition(.65);}
+    public void jewelDown(){jewelServo.setPosition(.05);}
+    public void jewelOut(){jewelServo.setPosition(.1);}
+
+    public void relLUp(){releaseLeft.setPosition(.48);}
+    public void relLDown(){releaseLeft.setPosition(.98);}
+    public void relLOut(){releaseLeft.setPosition(.02);}
+
+    public void relRUp(){releaseRight.setPosition(.52);}
+    public void relRDown(){releaseRight.setPosition(.02);}
+    public void relROut(){releaseRight.setPosition(.98);}
+
+    public void flipUp(){flipper.setPosition(.55);}
+    public void flipDown(){flipper.setPosition(.05);}
+    public void flipOut(){flipper.setPosition(.75);}
 
     public int distanceToRevs(double distance){
-            final double wheelCirc = 31.9185813;
+        final double wheelCirc = 31.9185813;
 
-            final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120,
+        final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120,
 
-            return (int)(gearMotorTickThing * (distance / wheelCirc));
-        }
+        return (int)(gearMotorTickThing * (distance / wheelCirc));
+    }
 }

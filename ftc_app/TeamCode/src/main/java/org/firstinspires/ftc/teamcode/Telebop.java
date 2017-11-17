@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 public class Telebop extends OpMode
 {
         Bot robot = new Bot();
+        boolean brakeToggle = false;
         //double servoIncrement = .06;
         //double topServo = 0;
         //double botServo = 0;
@@ -35,8 +36,11 @@ public class Telebop extends OpMode
         public void loop()
 
         {
+            if (gamepad1.right_bumper) {
+                brakeToggle = brakeToggle ? false : true;
+            }
             //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
-            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false); // Tank drive???
+            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false, brakeToggle); // Tank drive???
 
             if (gamepad2.right_bumper) {
                 robot.intake(1);
@@ -76,6 +80,7 @@ public class Telebop extends OpMode
                 robot.relRDown();
             }
 
+            telemetry.addData("Braking", brakeToggle);
             telemetry.update();
         }
 

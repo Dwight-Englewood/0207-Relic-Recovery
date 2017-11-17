@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
@@ -51,11 +50,11 @@ public class Telebop extends OpMode
             }
 
             if (gamepad2.right_stick_y > .3) {
-                robot.intakeBrake.setPower(-1);
+                robot.intakeDrop.setPower(-1);
             } else if (gamepad2.right_stick_y < -.3) {
-                robot.intakeBrake.setPower(1);
+                robot.intakeDrop.setPower(1);
             } else {
-                robot.intakeBrake.setPower(0);
+                robot.intakeDrop.setPower(0);
             }
 
             if (gamepad2.b) {

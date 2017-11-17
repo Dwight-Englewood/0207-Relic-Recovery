@@ -79,21 +79,16 @@ public class ServoValueFinder extends OpMode {
 
             if (gamepad1.b) {
                 releaseLeftVal = releaseLeftVal + .01;
+                releaseRightVal = releaseRightVal - .01;
                 cooldown = 100;
             }
             if (gamepad1.x) {
                 releaseLeftVal = releaseLeftVal - .01;
-                cooldown = 100;
-            }
-
-            if (gamepad1.y) {
                 releaseRightVal = releaseRightVal + .01;
                 cooldown = 100;
             }
-            if (gamepad1.a) {
-                releaseRightVal = releaseRightVal - .01;
-                cooldown = 100;
-            }
+
+
         } else {
             cooldown -= 1;
         }

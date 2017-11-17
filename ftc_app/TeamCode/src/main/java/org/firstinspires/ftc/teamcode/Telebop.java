@@ -77,7 +77,6 @@ public class Telebop extends OpMode
             }
 
             telemetry.update();
-
         }
 
         @Override

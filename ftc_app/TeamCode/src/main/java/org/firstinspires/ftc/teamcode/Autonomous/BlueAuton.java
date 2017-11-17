@@ -46,7 +46,7 @@ public class BlueAuton extends OpMode
      */
     @Override
     public void start() {
-
+        robot.unfoldBot();
     }
 
     /*

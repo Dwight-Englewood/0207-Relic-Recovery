@@ -42,6 +42,7 @@ public class RedAuton extends OpMode
      */
     @Override
     public void start() {
+        robot.unfoldBot();
     }
 
     /*

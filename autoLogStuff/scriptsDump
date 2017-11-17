@@ -10,3 +10,5 @@ pandoc test5.md -o test2.pdf --verbose --pdf-engine xelatex --variable mainfont=
 #idek its the one ive been using
 pandoc test5.md -o test6.pdf --pdf-engine xelatex --variable mainfont="Hack"
 
+# removes color codes from the text file, so it will be parsed correctly by pandoc
+sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" 

@@ -7,28 +7,20 @@ header-includes:
     - \lstset{ breakatwhitespace=false, breaklines=false, extendedchars=true}
 ---
 
-\begin{lstlisting}
-
-testing if this is done right (asd) {
-  asdkjasdf
-}
-
-kms;
-
- ┏  7d8b50a  ::  2017-08-04, by Robert  ::  Initial commit 
- ┣  05944d2  ::  2017-08-04, by Rob A  ::  Updated FTC App to 3.2 Beta 
- ┣  d922861  ::  2017-08-04, by Rob A  ::  fixing submodule issue. Removed toTC.sh 
- ┣  0bf0f57  ::  2017-08-04, by Rob A  ::  Fixed submodule issue 
- ┣  a10c785  ::  2017-08-05, by Rob A  ::  lol notes 
- ┣  a426297  ::  2017-08-06, by Rob A  ::  Added enum for bot actions and the bot class to be filled in. 
- ┣  c16594f  ::  2017-08-06, by Rob A  ::  testing for slack integration 
- ┣  ab6379d  ::  2017-08-07, by Rob A  ::  removed slack test file 
- ┣  bdfb595  ::  2017-08-07, by Rob A  ::  slight improvements to bot class 
- ┣  e77f0d9  ::  2017-08-07, by Wen P  ::  Added some basic enums; we should add more as we figure out the bot's hardware 
- ┣  51efa9d  ::  2017-08-07, by Rob A  ::  minor updates to bot actions for future us to fill in (actions enum). 
- ┣  255bb0e  ::  2017-08-07, by Rob A  ::  updates to bot class 
- ┣  775db69  ::  2017-08-18, by Rob A  ::  update to bot 
- ┣  17319a8  ::  2017-08-29, by Rob A  ::  updated gitignore 
+┏  7d8b50a  ::  2017-08-04, by Robert  ::  Initial commit 
+┣  05944d2  ::  2017-08-04, by Rob A  ::  Updated FTC App to 3.2 Beta 
+┣  d922861  ::  2017-08-04, by Rob A  ::  fixing submodule issue. Removed toTC.sh 
+┣  0bf0f57  ::  2017-08-04, by Rob A  ::  Fixed submodule issue 
+┣  a10c785  ::  2017-08-05, by Rob A  ::  lol notes 
+┣  a426297  ::  2017-08-06, by Rob A  ::  Added enum for bot actions and the bot class to be filled in. 
+┣  c16594f  ::  2017-08-06, by Rob A  ::  testing for slack integration 
+┣  ab6379d  ::  2017-08-07, by Rob A  ::  removed slack test file 
+┣  bdfb595  ::  2017-08-07, by Rob A  ::  slight improvements to bot class 
+┣  e77f0d9  ::  2017-08-07, by Wen P  ::  Added some basic enums; we should add more as we figure out the bot's hardware 
+┣  51efa9d  ::  2017-08-07, by Rob A  ::  minor updates to bot actions for future us to fill in (actions enum). 
+┣  255bb0e  ::  2017-08-07, by Rob A  ::  updates to bot class 
+┣  775db69  ::  2017-08-18, by Rob A  ::  update to bot 
+┣  17319a8  ::  2017-08-29, by Rob A  ::  updated gitignore 
 ┣  12ad864  ::  2017-09-09, by Wen P  ::  Updated sdk? 
 ┣  a3c0292  ::  2017-09-09, by Wen P  ::  Updated sdk 
 ┣  c2e111a  ::  2017-09-09, by Wen P  ::  Finish updating 
@@ -141,5 +133,4 @@ kms;
 ┣  7ab27f4  ::  2017-11-13, by Rob A  ::  Renamed wen's wip bot class for confusion reasons. Also added the Enderbot's closable vuforia localizer so that we can use both vuforia and OpenCV in our code. 
 ┣  9b77560  ::  2017-11-13, by Rob A  ::  added enderbot's default exception handler for if the bot randomly crashes while on the field. Will auto restart the app. 
 ┗━[HEAD]──[master]──[remotes/origin/HEAD]──[remotes/origin/master]── fa11a29  ::  2017-11-13, by Wen P  ::  Added script which pretty prints our git history 
-\end{lstlisting}
 

@@ -1,0 +1,20 @@
+# Generates the raw git log
+git forest --pretty=format:"--  %h  ::  %ad, by %an  ::  %s " --reverse --style=15 --date=short
+
+#replaces robs username with real name, for notebook
+sed 's/Burtorustum/Rob A/'
+
+#ditto for wen
+sed 's/weznon/Wen P/'
+
+#removes exsisting profanity from the git log
+sed 's/shit/stuff/'
+
+#removes color codes auto made by git-forest, as the file wont be properly parsed by pandoc with them in
+sed 's,\x1B\[[0-9;]*[a-zA-Z],,g'
+
+#TODO: add the seds which directly match long lines to replace them with shorter ones
+
+#final pdf generation with pandoc
+pandoc gitlogfile -o output.pdf --pdf-engine xelatex --variable mainfont="Hack"
+# note that the stuff needs to be made the right names

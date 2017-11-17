@@ -160,27 +160,7 @@ public class Bot
         rearRight.setPower(RR_speed);
     }*/
 
-    public void unfoldBot() {
-        this.rollOut();
-    }
 
-   private void nop() {
-       ;
-   }
-
-    public void rollOut() {
-        this.relRUp();
-        this.relLUp();
-
-        this.intakeBrake.setPower(1);
-        ElapsedTime kms = new ElapsedTime();
-        kms.reset();
-        while (kms.milliseconds() < 500) {
-            this.nop();
-        }
-        this.jewelOut();
-
-    }
 
 
     //TODO: DIAGONALS
@@ -310,6 +290,14 @@ public class Bot
         BL.setMode(mode);
         BR.setMode(mode);
     }
+    
+    public void setDriveZeroPowers(DcMotor.ZeroPowerBehavior behavior){
+        FL.setZeroPowerBehavior(behavior);
+        FR.setZeroPowerBehavior(behavior);
+        BL.setZeroPowerBehavior(behavior);
+        BR.setZeroPowerBehavior(behavior);
+    }
+
     /**
      * Flip:
      *  down - .05
@@ -336,12 +324,9 @@ public class Bot
     public void jewelOut(){jewelServo.setPosition(.1);}
 
 
-
     public void relLUp(){releaseLeft.setPosition(0);}
     public void relLDown(){releaseLeft.setPosition(.5);}
-    public void relLMid(){
-        releaseLeft.setPosition(0);
-    }
+    public void relLMid(){releaseLeft.setPosition(0); }
 
     public void relRUp(){releaseRight.setPosition(1);}
     public void relRDown(){releaseRight.setPosition(.5);}
@@ -365,6 +350,27 @@ public class Bot
         }
     }
 
+    public void unfoldBot() {
+        this.rollOut();
+    }
+
+    private void nop() {
+        ;
+    }
+
+    private void rollOut() {
+        this.relRUp();
+        this.relLUp();
+
+        this.intakeBrake.setPower(1);
+        ElapsedTime kms = new ElapsedTime();
+        kms.reset();
+        while (kms.milliseconds() < 500) {
+            this.nop();
+        }
+        this.jewelOut();
+
+    }
 
     public int distanceToRevs(double distance){
         final double wheelCirc = 31.9185813;

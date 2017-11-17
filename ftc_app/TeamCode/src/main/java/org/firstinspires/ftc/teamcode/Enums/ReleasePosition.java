@@ -7,5 +7,6 @@ package org.firstinspires.ftc.teamcode.Enums;
 public enum ReleasePosition {
     DOWN,
     MIDDLE,
+    MIDDLEUP,
     UP;
 }

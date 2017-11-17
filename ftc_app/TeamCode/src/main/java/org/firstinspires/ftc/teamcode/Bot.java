@@ -336,16 +336,37 @@ public class Bot
     public void jewelOut(){jewelServo.setPosition(.1);}
 
 
+    double relDown = .53;
+    double relMid = .59;
+    double relMidWhileUp = .63;
+    double relUp = 1;
 
-    public void relLUp(){releaseLeft.setPosition(0);}
-    public void relLDown(){releaseLeft.setPosition(.5);}
-    public void relLMid(){
-        releaseLeft.setPosition(0);
+    public void relLUp() {
+        releaseLeft.setPosition(1 - relUp);
+    }
+    public void relLDown() {
+        releaseLeft.setPosition(1 - relDown);
+    }
+    public void relLMid() {
+        releaseLeft.setPosition(1 - relMid);
     }
 
-    public void relRUp(){releaseRight.setPosition(1);}
-    public void relRDown(){releaseRight.setPosition(.5);}
-    public void relRMid() {releaseRight.setPosition(1);}
+    public void relLMidWhileUp() {
+        releaseLeft.setPosition(1 - relMidWhileUp);
+    }
+
+    public void relRUp() {
+        releaseRight.setPosition(relUp);
+    }
+    public void relRDown() {
+        releaseRight.setPosition(relDown);
+    }
+    public void relRMid() {
+        releaseRight.setPosition(relMid);
+    }
+    public void relRMidWhileUp() {
+        releaseRight.setPosition(relMidWhileUp);
+    }
 
     public void flipUp(){flipper.setPosition(.55);}
     public void flipDown(){flipper.setPosition(.05);}
@@ -359,6 +380,9 @@ public class Bot
             case MIDDLE:
                 relRMid();
                 relLMid();
+            case MIDDLEUP:
+                relRMidWhileUp();
+                relLMidWhileUp();
             case UP:
                 relRUp();
                 relLUp();

@@ -399,6 +399,8 @@ public class Bot
     }
 
     public void unfoldBot() {
+        this.drive(MovementEnum.STOP, 0);
+        this.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         this.rollOut();
     }
 

@@ -416,6 +416,9 @@ public class Bot
             this.nop();
         }
         this.jewelOut();
+        while (kms.milliseconds() < 500) {
+            this.nop();
+        }
         this.releaseMove(ReleasePosition.DOWN);
     }
 

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
@@ -21,13 +22,12 @@ public class Telebop extends OpMode
         boolean abnormalReleaseFlag = false;
         boolean isLiftUp = false;
 
-        //double servoIncrement = .06;
-        //double topServo = 0;
-        //double botServo = 0;
+        int releaseEncoderMax = 2000; //todo figure out real nuumber
 
         @Override
         public void init() {
             robot.init(hardwareMap);
+            robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
 
         @Override
@@ -37,6 +37,7 @@ public class Telebop extends OpMode
         public void start() {
             telemetry.clear();
             robot.jewelUp();
+            robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
         @Override
@@ -99,6 +100,7 @@ public class Telebop extends OpMode
 
             if (gamepad2.y) {
                 currentPosition = ReleasePosition.UP;
+                robot.flipUp();
             } else if (gamepad2.a) {
                 currentPosition = ReleasePosition.DOWN;
             }
@@ -107,6 +109,11 @@ public class Telebop extends OpMode
                 countdown--;
             }
 
+            if (Math.abs(robot.lift.getCurrentPosition()) < 100) {
+                currentPosition = ReleasePosition.MIDDLE;
+            } else {
+                currentPosition = ReleasePosition.MIDDLEUP;
+            }
             robot.releaseMove(currentPosition);
 
             telemetry.addData("release pos", currentPosition);

@@ -343,7 +343,7 @@ public class Bot
 
     double relDown = .53;
     double relMid = .59;
-    double relMidWhileUp = .63;
+    double relMidWhileUp = .65;
     double relUp = 1;
 
     public void relLUp() {

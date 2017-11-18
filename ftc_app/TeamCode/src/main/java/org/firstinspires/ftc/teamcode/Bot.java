@@ -382,15 +382,19 @@ public class Bot
             case DOWN:
                 relRDown();
                 relLDown();
+                break;
             case MIDDLE:
                 relRMid();
                 relLMid();
+                break;
             case MIDDLEUP:
                 relRMidWhileUp();
                 relLMidWhileUp();
+                break;
             case UP:
                 relRUp();
                 relLUp();
+                break;
         }
     }
 
@@ -405,7 +409,7 @@ public class Bot
     private void rollOut() {
         this.releaseMove(ReleasePosition.UP);
 
-        this.intakeDrop.setPower(1);
+        this.intakeDrop.setPower(-1);
         ElapsedTime kms = new ElapsedTime();
         kms.reset();
         while (kms.milliseconds() < 500) {

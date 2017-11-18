@@ -17,6 +17,7 @@ public class Telebop extends OpMode
         boolean brakeToggle = false;
 
         int countdown = 0;
+        int ticks = 0;
 
         ReleasePosition currentPosition = ReleasePosition.MIDDLE;
         boolean abnormalReleaseFlag = false;
@@ -27,6 +28,7 @@ public class Telebop extends OpMode
         public void init() {
             robot.init(hardwareMap);
             robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         }
 
         @Override
@@ -37,6 +39,8 @@ public class Telebop extends OpMode
             telemetry.clear();
             robot.jewelUp();
             robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+            ticks = robot.lift.getCurrentPosition();
+
         }
 
         @Override
@@ -97,6 +101,14 @@ public class Telebop extends OpMode
                 robot.lift.setPower(0);
             }
 
+            if (!abnormalReleaseFlag) {
+                if (robot.lift.getCurrentPosition() - ticks < 100) {
+                    currentPosition = ReleasePosition.MIDDLEUP;
+                } else {
+                    currentPosition = ReleasePosition.MIDDLE;
+                }
+            }
+
             if (gamepad2.y) {
                 currentPosition = ReleasePosition.UP;
                 robot.flipUp();
@@ -108,13 +120,12 @@ public class Telebop extends OpMode
                 countdown--;
             }
 
-            if (Math.abs(robot.lift.getCurrentPosition()) < 100) {
-                currentPosition = ReleasePosition.MIDDLE;
-            } else {
-                currentPosition = ReleasePosition.MIDDLEUP;
-            }
+
+
             robot.releaseMove(currentPosition);
 
+            telemetry.addData("lift enc", robot.lift.getCurrentPosition());
+            telemetry.addData("ticks", ticks);
             telemetry.addData("release pos", currentPosition);
             telemetry.addData("Braking", brakeToggle);
             telemetry.update();

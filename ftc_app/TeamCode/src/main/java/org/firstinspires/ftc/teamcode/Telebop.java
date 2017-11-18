@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
@@ -27,6 +28,7 @@ public class Telebop extends OpMode
         @Override
         public void init() {
             robot.init(hardwareMap);
+            robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
 
         @Override
@@ -36,6 +38,7 @@ public class Telebop extends OpMode
         public void start() {
             telemetry.clear();
             robot.jewelUp();
+            robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
         @Override
@@ -108,6 +111,7 @@ public class Telebop extends OpMode
 
             robot.releaseMove(currentPosition);
 
+            telemetry.addData("lift enc", robot.lift.getCurrentPosition());
             telemetry.addData("release pos", currentPosition);
             telemetry.addData("Braking", brakeToggle);
             telemetry.update();

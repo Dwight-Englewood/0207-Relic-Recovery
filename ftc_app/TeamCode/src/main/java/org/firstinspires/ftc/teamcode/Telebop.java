@@ -20,7 +20,6 @@ public class Telebop extends OpMode
 
         ReleasePosition currentPosition = ReleasePosition.MIDDLE;
         boolean abnormalReleaseFlag = false;
-        boolean isLiftUp = false;
 
         int releaseEncoderMax = 2000; //todo figure out real nuumber
 

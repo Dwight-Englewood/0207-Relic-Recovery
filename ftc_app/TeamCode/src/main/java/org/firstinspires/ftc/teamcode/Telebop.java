@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
+import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 
 /**
  * Created by aburur on 9/10/17.
@@ -13,7 +14,12 @@ public class Telebop extends OpMode
 {
         Bot robot = new Bot();
         boolean brakeToggle = false;
+
         int countdown = 0;
+
+        ReleasePosition currentPosition = ReleasePosition.DOWN;
+        boolean abnormalReleaseFlag = false;
+
         //double servoIncrement = .06;
         //double topServo = 0;
         //double botServo = 0;
@@ -36,6 +42,8 @@ public class Telebop extends OpMode
         public void loop()
 
         {
+            abnormalReleaseFlag = false;
+
             if (gamepad1.right_bumper && countdown == 0) {
                 brakeToggle = brakeToggle ? false : true;
                 countdown = 100;
@@ -44,10 +52,17 @@ public class Telebop extends OpMode
             robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false, brakeToggle); // Tank drive???
 
             if (gamepad2.right_bumper) {
+                abnormalReleaseFlag = true;
+                currentPosition = ReleasePosition.MIDDLE;
                 robot.intake(1);
             } else if (gamepad2.right_trigger > .3) {
+                abnormalReleaseFlag = true;
+                currentPosition = ReleasePosition.MIDDLE;
                 robot.intake(-1);
             } else {
+                if (!abnormalReleaseFlag) {
+                    currentPosition = ReleasePosition.DOWN;
+                }
                 robot.intake(0);
             }
 
@@ -66,24 +81,31 @@ public class Telebop extends OpMode
             }
 
             if (gamepad2.dpad_up) {
+                abnormalReleaseFlag = true;
+                currentPosition = ReleasePosition.MIDDLEUP;
                 robot.lift.setPower(-.5);
             } else if (gamepad2.dpad_down) {
+                abnormalReleaseFlag = true;
+                currentPosition = ReleasePosition.MIDDLEUP;
                 robot.lift.setPower(1);
             } else {
+                if (!abnormalReleaseFlag) {
+                    currentPosition = ReleasePosition.DOWN;
+                }
                 robot.lift.setPower(0);
             }
 
             if (gamepad2.y) {
-                robot.relLUp();
-                robot.relRUp();
+                currentPosition = ReleasePosition.UP;
             } else if (gamepad2.a) {
-                robot.relLDown();
-                robot.relRDown();
+                currentPosition = ReleasePosition.DOWN;
             }
 
             if (countdown != 0){
                 countdown--;
             }
+           robot.releaseMove(currentPosition);
+
             telemetry.addData("Braking", brakeToggle);
             telemetry.update();
         }

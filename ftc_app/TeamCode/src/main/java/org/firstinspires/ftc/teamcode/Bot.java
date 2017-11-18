@@ -287,14 +287,16 @@ public class Bot
 
     /** Releases the arm  public void releaseTheKraken() { armNoSpringyServo.setPosition(.85); } public void releaseTheGiantSquid() { armNoSpringyServo.setPosition(.7); } /** moves the angle of hnad servo to a given position @param position  public void armTopServoPos(double position) { armTopExtendyServo.setPosition(position); } /** clamps or unclamps shit @param position  public void armBotServoPos(double position) { armBottomExtendyServo.setPosition(position); } /** let go of relic */ //TODO: public void ripTHICCBoi() { this.armBottomExtendyServo.setPosition(0); } /** Action Functions */=
 
+
     ReleasePosition currentPosition = ReleasePosition.DOWN;
+
+    public void setLift(double power) {}
     public void intake(double power){
         if (power == 0) {
             currentPosition = ReleasePosition.MIDDLE;
         } else {
             currentPosition = ReleasePosition.DOWN;
         }
-
         intakeOne.setPower(power);
         intakeTwo.setPower(power);
     }
@@ -401,8 +403,7 @@ public class Bot
     }
 
     private void rollOut() {
-        this.relRUp();
-        this.relLUp();
+        this.releaseMove(ReleasePosition.UP);
 
         this.intakeDrop.setPower(1);
         ElapsedTime kms = new ElapsedTime();
@@ -411,7 +412,7 @@ public class Bot
             this.nop();
         }
         this.jewelOut();
-
+        this.releaseMove(ReleasePosition.DOWN);
     }
 
     public int distanceToRevs(double distance){

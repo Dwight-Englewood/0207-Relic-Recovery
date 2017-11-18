@@ -20,6 +20,7 @@ public class Telebop extends OpMode
 
         ReleasePosition currentPosition = ReleasePosition.MIDDLE;
         boolean abnormalReleaseFlag = false;
+        boolean isLiftUp = false;
 
         //double servoIncrement = .06;
         //double topServo = 0;

@@ -13,6 +13,7 @@ public class Telebop extends OpMode
 {
         Bot robot = new Bot();
         boolean brakeToggle = false;
+        int countdown = 0;
         //double servoIncrement = .06;
         //double topServo = 0;
         //double botServo = 0;
@@ -35,8 +36,9 @@ public class Telebop extends OpMode
         public void loop()
 
         {
-            if (gamepad1.right_bumper) {
+            if (gamepad1.right_bumper && countdown == 0) {
                 brakeToggle = brakeToggle ? false : true;
+                countdown = 100;
             }
             //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
             robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false, brakeToggle); // Tank drive???
@@ -79,6 +81,9 @@ public class Telebop extends OpMode
                 robot.relRDown();
             }
 
+            if (countdown != 0){
+                countdown--;
+            }
             telemetry.addData("Braking", brakeToggle);
             telemetry.update();
         }

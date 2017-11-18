@@ -22,9 +22,7 @@ public class Telebop extends OpMode
         boolean abnormalReleaseFlag = false;
         boolean isLiftUp = false;
 
-        //double servoIncrement = .06;
-        //double topServo = 0;
-        //double botServo = 0;
+        int releaseEncoderMax = 2000; //todo figure out real nuumber
 
         @Override
         public void init() {
@@ -102,6 +100,7 @@ public class Telebop extends OpMode
 
             if (gamepad2.y) {
                 currentPosition = ReleasePosition.UP;
+                robot.flipUp();
             } else if (gamepad2.a) {
                 currentPosition = ReleasePosition.DOWN;
             }
@@ -110,6 +109,11 @@ public class Telebop extends OpMode
                 countdown--;
             }
 
+            if (Math.abs(robot.lift.getCurrentPosition()) < 100) {
+                currentPosition = ReleasePosition.MIDDLE;
+            } else {
+                currentPosition = ReleasePosition.MIDDLEUP;
+            }
             robot.releaseMove(currentPosition);
 
             telemetry.addData("lift enc", robot.lift.getCurrentPosition());

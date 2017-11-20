@@ -5,10 +5,8 @@ package org.firstinspires.ftc.teamcode.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Bot;
 
 /**
@@ -41,6 +39,8 @@ public class ServoValueFinder extends OpMode {
     double juulVal = .5;
     double releaseLeftVal = .5;
     double releaseRightVal = .5;
+    double frontIntakeWallVal = .5;
+    double backIntakeWallVal = .5;
 
     int cooldown = 0;
 
@@ -91,22 +91,49 @@ public class ServoValueFinder extends OpMode {
                 cooldown = cooldownTime;
             }
 
+            if (gamepad1.a) {
+                frontIntakeWallVal = frontIntakeWallVal + .01;
+                cooldown = cooldownTime;
+            }
+
+            if (gamepad1.y) {
+                frontIntakeWallVal = frontIntakeWallVal - .01;
+                cooldown = cooldownTime;
+            }
+
+            if (gamepad2.a) {
+                backIntakeWallVal = backIntakeWallVal + .01;
+                cooldown = cooldownTime;
+            }
+
+            if (gamepad2.y) {
+                backIntakeWallVal = backIntakeWallVal - .01;
+                cooldown = cooldownTime;
+            }
 
         } else {
             cooldown -= 1;
         }
 
+        flipperVal = Range.clip(flipperVal, 0, 1.0);
+        juulVal = Range.clip(juulVal, 0, 1.0);
+        releaseLeftVal = Range.clip(releaseLeftVal, 0, 1.0);
+        releaseRightVal = Range.clip(releaseRightVal, 0, 1.0);
+        frontIntakeWallVal = Range.clip(frontIntakeWallVal, 0, 1.0);
+
         //Setting servo values
-        robot.flipper.setPosition(Range.clip(flipperVal, 0, 1.0));
-        robot.jewelServo.setPosition(Range.clip(juulVal, 0, 1.0));
-        robot.releaseLeft.setPosition(Range.clip(releaseLeftVal, 0, 1.0));
-        robot.releaseRight.setPosition(Range.clip(releaseRightVal, 0, 1.0));
+        robot.flipper.setPosition(flipperVal);
+        robot.jewelServo.setPosition(juulVal);
+        robot.releaseLeft.setPosition(releaseLeftVal);
+        robot.releaseRight.setPosition(releaseRightVal);
+        robot.frontIntakeWall.setPosition(frontIntakeWallVal);
 
         //Telemetry
         telemetry.addData("flipperVal", flipperVal);
         telemetry.addData("juulVal", juulVal);
         telemetry.addData("releaseLeftVal", releaseLeftVal);
         telemetry.addData("releaseRightVal", releaseRightVal);
+        telemetry.addData("frontIntakeWallVal", frontIntakeWallVal);
 
         telemetry.addData("cooldown", cooldown);
         telemetry.addData("cooldownTime", cooldownTime);

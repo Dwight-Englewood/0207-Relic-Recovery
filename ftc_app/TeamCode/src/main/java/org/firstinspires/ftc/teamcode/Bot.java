@@ -44,11 +44,11 @@ public class Bot
 
     public void init(HardwareMap hardwareMap) {
         //BNO055IMU related initialization code
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu = hardwareMap.get(BNO055IMU.class, "imu");*/
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
 
@@ -168,9 +168,6 @@ public class Bot
         rearRight.setPower(RR_speed);
     }*/
 
-
-
-
     //TODO: DIAGONALS
     public void drive(MovementEnum movement, double power) {
        switch (movement){
@@ -269,7 +266,7 @@ public class Bot
     }
 
     public void adjustHeading(int targetHeading) {
-        headingError = targetHeading + imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        headingError = targetHeading -  Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
         driveScale = headingError * powerModifier;
 
         leftPower = 0 + driveScale;
@@ -336,28 +333,26 @@ public class Bot
      *  up - .65
      *  out - .1
      */
-    public void jewelUp(){jewelServo.setPosition(.65);}
-    public void jewelDown(){jewelServo.setPosition(.05);}
+    public void jewelUp(){jewelServo.setPosition(.6);}
     public void jewelOut(){jewelServo.setPosition(.1);}
 
 
     double relDown = .53;
-    double relMid = .59;
-    double relMidWhileUp = .65;
+    double relMid = .57;
+    double relMidWhileUp = .64;
     double relUp = 1;
 
     public void relLUp() {
-        releaseLeft.setPosition(1 - relUp);
+        releaseLeft.setPosition(1- relUp);
     }
     public void relLDown() {
-        releaseLeft.setPosition(1 - relDown);
+        releaseLeft.setPosition(1-relDown);
     }
     public void relLMid() {
-        releaseLeft.setPosition(1 - relMid);
+        releaseLeft.setPosition(1-relMid);
     }
-
     public void relLMidWhileUp() {
-        releaseLeft.setPosition(1 - relMidWhileUp);
+        releaseLeft.setPosition(1-relMidWhileUp);
     }
 
     public void relRUp() {
@@ -404,6 +399,13 @@ public class Bot
         this.rollOut();
     }
 
+    public void semiUnfoldBot(){
+        this.drive(MovementEnum.STOP, 0);
+        this.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.releaseMove(ReleasePosition.UP);
+        this.jewelUp();
+    }
+
     private void nop() {
         ;
     }
@@ -411,17 +413,31 @@ public class Bot
     private void rollOut() {
         this.releaseMove(ReleasePosition.UP);
 
-        this.intakeDrop.setPower(-1);
+        this.intakeDrop.setPower(-.9);
         ElapsedTime kms = new ElapsedTime();
         kms.reset();
-        while (kms.milliseconds() < 500) {
+        while (kms.milliseconds() < 400) {
             this.nop();
         }
-        this.jewelOut();
-        while (kms.milliseconds() < 500) {
+        this.intakeDrop.setPower(1);
+        kms.reset();
+        this.jewelUp();
+        while (kms.milliseconds() < 850) {
             this.nop();
         }
+        this.intakeDrop.setPower(0);
         this.releaseMove(ReleasePosition.DOWN);
+    }
+
+    public void runToPosition (int target, double power){
+        this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FL.setTargetPosition(target);
+        FR.setTargetPosition(target);
+        BL.setTargetPosition(target);
+        BR.setTargetPosition(target);
+
+        this.drive(MovementEnum.FORWARD, power);
     }
 
     public int distanceToRevs(double distance){

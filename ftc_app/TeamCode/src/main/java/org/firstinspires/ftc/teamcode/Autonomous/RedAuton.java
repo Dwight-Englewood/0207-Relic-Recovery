@@ -12,6 +12,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
@@ -22,11 +25,16 @@ public class RedAuton extends OpMode
 {
     Bot robot = new Bot();
     ElapsedTime timer;
-    boolean done = false;
+    int tickBL;
+    int tickBR;
+    int tickFL;
+    int tickFR;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
         timer = new ElapsedTime();
+        //robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
@@ -42,7 +50,14 @@ public class RedAuton extends OpMode
      */
     @Override
     public void start() {
-        robot.unfoldBot();
+        robot.semiUnfoldBot();
+        timer.reset();
+        robot.jewelOut();
+        robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+        //tickBL = robot.BL.getCurrentPosition();
+        //tickBR = robot.BR.getCurrentPosition();
+        //tickFR = robot.FR.getCurrentPosition();
+        //tickFL = robot.FL.getCurrentPosition();
     }
 
     /*
@@ -50,22 +65,29 @@ public class RedAuton extends OpMode
      */
     @Override
     public void loop() {
-        if (robot.colorSensor.red() >= 2 && !done) {
-            robot.adjustHeading(120);
-            timer.reset();
-            done = true;
-        }
-        else if (robot.colorSensor.blue() >= 2 && !done)
-        {
-            robot.adjustHeading(60);
-            timer.reset();
-            done = true;
-        }
-        if (timer.milliseconds() > 1000 && done); {
+
+        /*if (Math.abs(tickBL - robot.BL.getCurrentPosition()) > 100 ||
+            Math.abs(tickBR - robot.BR.getCurrentPosition()) > 100 ||
+            Math.abs(tickFL - robot.FL.getCurrentPosition()) > 100 ||
+            Math.abs(tickFR - robot.FR.getCurrentPosition()) > 100
+                ) {
+            robot.
+        }*/
+
+        if (timer.milliseconds() > 2000) {
             robot.drive(MovementEnum.STOP, 0);
+            robot.jewelUp();
+        } else if (robot.colorSensor.red() >= 2) {
+            //robot.adjustHeading(120);
+            robot.drive(MovementEnum.BACKWARD, .2);
+        } else if (robot.colorSensor.blue() >= 2) {
+            //robot.adjustHeading(60);
+            robot.drive(MovementEnum.FORWARD, .2);
         }
 
         telemetry.addData("red", robot.colorSensor.red());
+        telemetry.addData("blue", robot.colorSensor.blue());
+        telemetry.addData("time", timer.milliseconds());
         telemetry.update();
 
 

@@ -21,6 +21,7 @@ public class Telebop extends OpMode
 
         ReleasePosition currentPosition = ReleasePosition.MIDDLE;
         boolean abnormalReleaseFlag = false;
+        boolean i = false;
 
         int releaseEncoderMax = 2000; //todo figure out real nuumber
 
@@ -28,7 +29,7 @@ public class Telebop extends OpMode
         public void init() {
             robot.init(hardwareMap);
             robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+            robot.colorSensor.enableLed(false);
         }
 
         @Override
@@ -50,12 +51,17 @@ public class Telebop extends OpMode
             abnormalReleaseFlag = false;
             currentPosition = ReleasePosition.MIDDLE;
 
-            if (gamepad1.right_bumper && countdown == 0) {
+            if (gamepad1.left_bumper && countdown <= 0){
+                i = i ? false:true;
+                countdown = 100;
+            }
+
+            if (gamepad1.right_bumper && countdown <= 0) {
                 brakeToggle = brakeToggle ? false : true;
                 countdown = 100;
             }
             //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
-            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false, brakeToggle); // Tank drive???
+            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
 
             if (gamepad2.right_bumper) {
                 abnormalReleaseFlag = true;
@@ -82,15 +88,15 @@ public class Telebop extends OpMode
 
             if (gamepad2.b) {
                 robot.flipUp();
-            } else {
+            } else if (!gamepad2.y) {
                 robot.flipDown();
             }
 
-            if (gamepad2.dpad_up) {
+            if (gamepad2.dpad_down) {
                 abnormalReleaseFlag = true;
                 currentPosition = ReleasePosition.MIDDLEUP;
                 robot.lift.setPower(-.5);
-            } else if (gamepad2.dpad_down) {
+            } else if (gamepad2.dpad_up) {
                 abnormalReleaseFlag = true;
                 currentPosition = ReleasePosition.MIDDLEUP;
                 robot.lift.setPower(1);
@@ -102,11 +108,11 @@ public class Telebop extends OpMode
             }
 
             if (!abnormalReleaseFlag) {
-                if (robot.lift.getCurrentPosition() - ticks < 100) {
-                    currentPosition = ReleasePosition.MIDDLEUP;
-                } else {
+                //if (robot.lift.getCurrentPosition() - ticks < 100) {
+                    //currentPosition = ReleasePosition.MIDDLEUP;
+                //} else {
                     currentPosition = ReleasePosition.MIDDLE;
-                }
+                //}
             }
 
             if (gamepad2.y) {
@@ -116,16 +122,16 @@ public class Telebop extends OpMode
                 currentPosition = ReleasePosition.DOWN;
             }
 
-            if (countdown != 0){
-                countdown--;
+            if (gamepad2.x){
+                robot.jewelServo.setPosition(.3);
+            } else {
+                robot.jewelUp();
             }
 
 
-
+            countdown--;
             robot.releaseMove(currentPosition);
 
-            telemetry.addData("lift enc", robot.lift.getCurrentPosition());
-            telemetry.addData("start ticks", ticks);
             telemetry.addData("release pos", currentPosition);
             telemetry.addData("Braking", brakeToggle);
             telemetry.update();

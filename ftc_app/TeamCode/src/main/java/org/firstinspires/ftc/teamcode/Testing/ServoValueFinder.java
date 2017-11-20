@@ -120,6 +120,7 @@ public class ServoValueFinder extends OpMode {
         releaseLeftVal = Range.clip(releaseLeftVal, 0, 1.0);
         releaseRightVal = Range.clip(releaseRightVal, 0, 1.0);
         frontIntakeWallVal = Range.clip(frontIntakeWallVal, 0, 1.0);
+        backIntakeWallVal = Range.clip(backIntakeWallVal, 0, 1.0);
 
         //Setting servo values
         robot.flipper.setPosition(flipperVal);
@@ -127,6 +128,7 @@ public class ServoValueFinder extends OpMode {
         robot.releaseLeft.setPosition(releaseLeftVal);
         robot.releaseRight.setPosition(releaseRightVal);
         robot.frontIntakeWall.setPosition(frontIntakeWallVal);
+        robot.backIntakeWall.setPosition(backIntakeWallVal);
 
         //Telemetry
         telemetry.addData("flipperVal", flipperVal);
@@ -134,6 +136,7 @@ public class ServoValueFinder extends OpMode {
         telemetry.addData("releaseLeftVal", releaseLeftVal);
         telemetry.addData("releaseRightVal", releaseRightVal);
         telemetry.addData("frontIntakeWallVal", frontIntakeWallVal);
+        telemetry.addData("backIntakeWallVal", backIntakeWallVal);
 
         telemetry.addData("cooldown", cooldown);
         telemetry.addData("cooldownTime", cooldownTime);

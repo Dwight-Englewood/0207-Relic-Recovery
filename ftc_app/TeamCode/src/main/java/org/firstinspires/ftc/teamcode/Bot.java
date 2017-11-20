@@ -451,10 +451,10 @@ public class Bot
     }
 
     public void stopperUp() {
-        frontIntakeWall.setPosition(.5);
+        frontIntakeWall.setPosition(.12);
     }
 
     public void stopperDown() {
-        frontIntakeWall.setPosition(0);
+        frontIntakeWall.setPosition(.84);
     }
 }

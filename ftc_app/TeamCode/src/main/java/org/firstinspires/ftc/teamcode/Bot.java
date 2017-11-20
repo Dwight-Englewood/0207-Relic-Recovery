@@ -27,7 +27,7 @@ public class Bot
 
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
 
-    public Servo jewelServo, flipper, releaseLeft, releaseRight;
+    public Servo jewelServo, flipper, releaseLeft, releaseRight, stopperIntake;
     //Servo armNoSpringyServo;
     //Servo armTopExtendyServo;
     //Servo armBottomExtendyServo;
@@ -73,6 +73,7 @@ public class Bot
         releaseRight = hardwareMap.get(Servo.class, "rel r");
         releaseLeft = hardwareMap.get(Servo.class, "rel l");
         flipper = hardwareMap.get(Servo.class, "flip");
+        stopperIntake = hardwareMap.get(Servo.class, "stopper");
 
         //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -446,5 +447,13 @@ public class Bot
         final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120,
 
         return (int)(gearMotorTickThing * (distance / wheelCirc));
+    }
+
+    public void stopperUp() {
+        stopperIntake.setPosition(.5);
+    }
+
+    public void stopperDown() {
+        stopperIntake.setPosition(0);
     }
 }

@@ -450,11 +450,20 @@ public class Bot
         return (int)(gearMotorTickThing * (distance / wheelCirc));
     }
 
-    public void stopperUp() {
+    public void frontIntakeWallUp() {
         frontIntakeWall.setPosition(.12);
     }
 
-    public void stopperDown() {
+    public void frontIntakeWallDown() {
         frontIntakeWall.setPosition(.84);
     }
+
+    public void backIntakeWallUp() {
+        frontIntakeWall.setPosition(.78);
+    }
+
+    public void backIntakeWallDown() {
+        frontIntakeWall.setPosition(.5);
+    }
+
 }

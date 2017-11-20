@@ -73,7 +73,8 @@ public class Bot
         releaseRight = hardwareMap.get(Servo.class, "rel r");
         releaseLeft = hardwareMap.get(Servo.class, "rel l");
         flipper = hardwareMap.get(Servo.class, "flip");
-        frontIntakeWall = hardwareMap.get(Servo.class, "stopper");
+        frontIntakeWall = hardwareMap.get(Servo.class, "frontiw");
+        backIntakeWall = hardwareMap.get(Servo.class, "backiw");
 
         //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

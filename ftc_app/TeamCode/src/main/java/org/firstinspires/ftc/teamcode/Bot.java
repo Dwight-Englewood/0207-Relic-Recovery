@@ -27,7 +27,7 @@ public class Bot
 
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
 
-    public Servo jewelServo, flipper, releaseLeft, releaseRight, stopperIntake;
+    public Servo jewelServo, flipper, releaseLeft, releaseRight, frontIntakeWall, backIntakeWall;
     //Servo armNoSpringyServo;
     //Servo armTopExtendyServo;
     //Servo armBottomExtendyServo;
@@ -73,7 +73,7 @@ public class Bot
         releaseRight = hardwareMap.get(Servo.class, "rel r");
         releaseLeft = hardwareMap.get(Servo.class, "rel l");
         flipper = hardwareMap.get(Servo.class, "flip");
-        stopperIntake = hardwareMap.get(Servo.class, "stopper");
+        frontIntakeWall = hardwareMap.get(Servo.class, "stopper");
 
         //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -450,10 +450,10 @@ public class Bot
     }
 
     public void stopperUp() {
-        stopperIntake.setPosition(.5);
+        frontIntakeWall.setPosition(.5);
     }
 
     public void stopperDown() {
-        stopperIntake.setPosition(0);
+        frontIntakeWall.setPosition(0);
     }
 }

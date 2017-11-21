@@ -385,6 +385,7 @@ public class Bot
             case DOWNER:
                 relRDowner();
                 relLDowner();
+                break;
             case DOWN:
                 relRDown();
                 relLDown();

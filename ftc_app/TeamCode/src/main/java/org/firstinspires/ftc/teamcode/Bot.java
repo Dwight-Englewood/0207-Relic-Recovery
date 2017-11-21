@@ -44,11 +44,11 @@ public class Bot
 
     public void init(HardwareMap hardwareMap) {
         //BNO055IMU related initialization code
-        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        imu = hardwareMap.get(BNO055IMU.class, "imu");*/
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
 
@@ -112,7 +112,7 @@ public class Bot
         lift.setPower(0);
 
         powerModifier = 0.0055; // 180 * .0055 ~= 1
-        k = .4 ;
+        k = .6;
         //armNoSpringyServo.setPosition(1);
     }
 

@@ -82,7 +82,7 @@ public class Telebop extends OpMode
             if (gamepad2.left_trigger > .3){
                 robot.frontIntakeWallUp();
                 abnormalReleaseFlag = true;
-                currentPosition = ReleasePosition.DOWN;
+                currentPosition = ReleasePosition.DOWNER;
             } else {
                 robot.frontIntakeWallDown();
             }

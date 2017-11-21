@@ -338,7 +338,7 @@ public class Bot
     public void jewelUp(){jewelServo.setPosition(.6);}
     public void jewelOut(){jewelServo.setPosition(.1);}
 
-
+    double relDowner = .48;
     double relDown = .53;
     double relMid = .57;
     double relMidWhileUp = .64;
@@ -356,6 +356,9 @@ public class Bot
     public void relLMidWhileUp() {
         releaseLeft.setPosition(1-relMidWhileUp);
     }
+    public void relLDowner() {
+        releaseLeft.setPosition(1-relDowner);
+    }
 
     public void relRUp() {
         releaseRight.setPosition(relUp);
@@ -369,6 +372,9 @@ public class Bot
     public void relRMidWhileUp() {
         releaseRight.setPosition(relMidWhileUp);
     }
+    public void relRDowner() {
+        releaseRight.setPosition(relDowner);
+    }
 
     public void flipUp(){flipper.setPosition(.55);}
     public void flipDown(){flipper.setPosition(.05);}
@@ -376,6 +382,9 @@ public class Bot
 
     public void releaseMove(ReleasePosition position) {
         switch (position) {
+            case DOWNER:
+                relRDowner();
+                relLDowner();
             case DOWN:
                 relRDown();
                 relLDown();

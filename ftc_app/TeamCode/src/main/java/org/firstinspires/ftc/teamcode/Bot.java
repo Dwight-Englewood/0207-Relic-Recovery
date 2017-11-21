@@ -459,11 +459,11 @@ public class Bot
     }
 
     public void backIntakeWallUp() {
-        frontIntakeWall.setPosition(.78);
+        backIntakeWall.setPosition(.78);
     }
 
     public void backIntakeWallDown() {
-        frontIntakeWall.setPosition(.5);
+        backIntakeWall.setPosition(.5);
     }
 
 }

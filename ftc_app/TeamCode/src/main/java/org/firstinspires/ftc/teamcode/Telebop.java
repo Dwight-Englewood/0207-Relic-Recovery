@@ -81,6 +81,8 @@ public class Telebop extends OpMode
 
             if (gamepad2.left_trigger > .3){
                 robot.frontIntakeWallUp();
+                abnormalReleaseFlag = true;
+                currentPosition = ReleasePosition.DOWN;
             } else {
                 robot.frontIntakeWallDown();
             }
@@ -121,13 +123,13 @@ public class Telebop extends OpMode
                 currentPosition = ReleasePosition.MIDDLE;
                 //}
             }
-            
+
             if (gamepad2.y) {
                 currentPosition = ReleasePosition.UP;
                 robot.flipUp();
                 robot.backIntakeWallDown();
                 wallCountdown = 100;
-            } else if (wallCountdown <= 0) {
+            } else if (wallCountdown <= 0 && !abnormalReleaseFlag) {
                 currentPosition = ReleasePosition.MIDDLE;
                 robot.backIntakeWallUp();
             }

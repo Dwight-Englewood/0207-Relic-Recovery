@@ -114,17 +114,22 @@ public class Telebop extends OpMode
                 robot.lift.setPower(0);
             }
 
+            if (!abnormalReleaseFlag) {
+                //if (robot.lift.getCurrentPosition() - ticks < 100) {
+                //currentPosition = ReleasePosition.MIDDLEUP;
+                //} else {
+                currentPosition = ReleasePosition.MIDDLE;
+                //}
+            }
+            
             if (gamepad2.y) {
                 currentPosition = ReleasePosition.UP;
                 robot.flipUp();
                 robot.backIntakeWallDown();
                 wallCountdown = 100;
-                abnormalReleaseFlag = true;
-            } else if (wallCountdown <= 0){
-                currentPosition = ReleasePosition.DOWN;
+            } else if (wallCountdown <= 0) {
+                currentPosition = ReleasePosition.MIDDLE;
                 robot.backIntakeWallUp();
-            } else if (!abnormalReleaseFlag){
-                currentPosition = ReleasePosition.DOWN;
             }
 
             if (gamepad2.x){
@@ -133,13 +138,7 @@ public class Telebop extends OpMode
                 robot.jewelUp();
             }
 
-            if (!abnormalReleaseFlag) {
-                //if (robot.lift.getCurrentPosition() - ticks < 100) {
-                //currentPosition = ReleasePosition.MIDDLEUP;
-                //} else {
-                currentPosition = ReleasePosition.MIDDLE;
-                //}
-            }
+
 
 
             countdown--;

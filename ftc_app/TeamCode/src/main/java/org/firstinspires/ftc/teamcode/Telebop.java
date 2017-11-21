@@ -18,6 +18,7 @@ public class Telebop extends OpMode
 
         int countdown = 0;
         int ticks = 0;
+        int wallCountdown = 0;
 
         ReleasePosition currentPosition = ReleasePosition.MIDDLE;
         boolean abnormalReleaseFlag = false;
@@ -78,6 +79,12 @@ public class Telebop extends OpMode
                 robot.intake(0);
             }
 
+            if (gamepad2.left_trigger > .3){
+                robot.frontIntakeWallUp();
+            } else {
+                robot.frontIntakeWallDown();
+            }
+
             if (gamepad2.right_stick_y > .3) {
                 robot.intakeDrop.setPower(-1);
             } else if (gamepad2.right_stick_y < -.3) {
@@ -107,18 +114,16 @@ public class Telebop extends OpMode
                 robot.lift.setPower(0);
             }
 
-            if (!abnormalReleaseFlag) {
-                //if (robot.lift.getCurrentPosition() - ticks < 100) {
-                    //currentPosition = ReleasePosition.MIDDLEUP;
-                //} else {
-                    currentPosition = ReleasePosition.MIDDLE;
-                //}
-            }
-
             if (gamepad2.y) {
                 currentPosition = ReleasePosition.UP;
                 robot.flipUp();
-            } else if (gamepad2.a) {
+                robot.backIntakeWallDown();
+                wallCountdown = 100;
+                abnormalReleaseFlag = true;
+            } else if (wallCountdown <= 0){
+                currentPosition = ReleasePosition.DOWN;
+                robot.backIntakeWallUp();
+            } else if (!abnormalReleaseFlag){
                 currentPosition = ReleasePosition.DOWN;
             }
 
@@ -128,8 +133,17 @@ public class Telebop extends OpMode
                 robot.jewelUp();
             }
 
+            if (!abnormalReleaseFlag) {
+                //if (robot.lift.getCurrentPosition() - ticks < 100) {
+                //currentPosition = ReleasePosition.MIDDLEUP;
+                //} else {
+                currentPosition = ReleasePosition.MIDDLE;
+                //}
+            }
+
 
             countdown--;
+            wallCountdown--;
             robot.releaseMove(currentPosition);
 
             telemetry.addData("release pos", currentPosition);

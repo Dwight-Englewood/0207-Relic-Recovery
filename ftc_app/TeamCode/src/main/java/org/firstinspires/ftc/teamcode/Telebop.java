@@ -49,6 +49,9 @@ public class Telebop extends OpMode
         public void loop()
 
         {
+            //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
+            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
+
             abnormalReleaseFlag = false;
             currentPosition = ReleasePosition.MIDDLE;
 
@@ -61,8 +64,6 @@ public class Telebop extends OpMode
                 brakeToggle = brakeToggle ? false : true;
                 countdown = 50;
             }
-            //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
-            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
 
             if (gamepad2.right_bumper) {
                 abnormalReleaseFlag = true;

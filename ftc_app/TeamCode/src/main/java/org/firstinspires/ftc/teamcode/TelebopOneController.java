@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 //This is out of date, as the normal telebop is the teleop where the changes will be made
 //
 
-@TeleOp(name="TelebopOneController", group="Teleop")
+@TeleOp(name="sudo Telebop", group="Teleop")
 public class TelebopOneController extends OpMode
 {
         Bot robot = new Bot();
@@ -56,23 +56,18 @@ public class TelebopOneController extends OpMode
             abnormalReleaseFlag = false;
             currentPosition = ReleasePosition.MIDDLE;
 
-            if (gamepad1.left_bumper && countdown <= 0){
-                i = i ? false:true;
-                countdown = 50;
-            }
-
-            if (gamepad1.right_bumper && countdown <= 0) {
+            if (gamepad1.left_bumper && countdown <= 0) {
                 brakeToggle = brakeToggle ? false : true;
                 countdown = 50;
             }
             robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
             //robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
 
-            if (gamepad2.right_bumper) {
+            if (gamepad1.right_bumper) {
                 abnormalReleaseFlag = true;
                 currentPosition = ReleasePosition.DOWN;
                 robot.intake(1);
-            } else if (gamepad2.right_trigger > .3) {
+            } else if (gamepad1.right_trigger > .3) {
                 abnormalReleaseFlag = true;
                 currentPosition = ReleasePosition.DOWN;
                 robot.intake(-1);
@@ -83,7 +78,7 @@ public class TelebopOneController extends OpMode
                 robot.intake(0);
             }
 
-            if (gamepad2.left_trigger > .3){
+            if (gamepad1.left_trigger > .3){
                 robot.frontIntakeWallUp();
                 abnormalReleaseFlag = true;
                 currentPosition = ReleasePosition.DOWNER;
@@ -91,25 +86,25 @@ public class TelebopOneController extends OpMode
                 robot.frontIntakeWallDown();
             }
 
-            if (gamepad2.right_stick_y > .3) {
+            if (gamepad1.dpad_left) {
                 robot.intakeDrop.setPower(-1);
-            } else if (gamepad2.right_stick_y < -.3) {
+            } else if (gamepad1.dpad_right) {
                 robot.intakeDrop.setPower(1);
             } else {
                 robot.intakeDrop.setPower(0);
             }
 
-            if (gamepad2.b) {
+            if (gamepad1.b) {
                 robot.flipUp();
-            } else if (!gamepad2.y) {
+            } else if (!gamepad1.a) {
                 robot.flipDown();
             }
 
-            if (gamepad2.dpad_down) {
+            if (gamepad1.dpad_down) {
                 abnormalReleaseFlag = true;
                 currentPosition = ReleasePosition.MIDDLEUP;
                 robot.lift.setPower(-.5);
-            } else if (gamepad2.dpad_up) {
+            } else if (gamepad1.dpad_up) {
                 abnormalReleaseFlag = true;
                 currentPosition = ReleasePosition.MIDDLEUP;
                 robot.lift.setPower(1);
@@ -128,7 +123,7 @@ public class TelebopOneController extends OpMode
                 //}
             }
 
-            if (gamepad2.y) {
+            if (gamepad1.y) {
                 currentPosition = ReleasePosition.UP;
                 robot.flipUp();
                 robot.backIntakeWallDown();
@@ -138,7 +133,7 @@ public class TelebopOneController extends OpMode
                 robot.backIntakeWallUp();
             }
 
-            if (gamepad2.x){
+            if (gamepad1.x){
                 robot.jewelServo.setPosition(.3);
             } else {
                 robot.jewelUp();

@@ -26,8 +26,8 @@ public class Bot
 {
 
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
-
     public Servo jewelServo, flipper, releaseLeft, releaseRight, frontIntakeWall, backIntakeWall;
+
     //Servo armNoSpringyServo;
     //Servo armTopExtendyServo;
     //Servo armBottomExtendyServo;
@@ -39,16 +39,18 @@ public class Bot
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
             leftPower, rightPower;
 
+    ReleasePosition currentPosition = ReleasePosition.DOWN;
+
     public Bot() {
     }
 
     public void init(HardwareMap hardwareMap) {
         //BNO055IMU related initialization code
-        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        imu = hardwareMap.get(BNO055IMU.class, "imu");*/
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
 
@@ -112,7 +114,7 @@ public class Bot
         lift.setPower(0);
 
         powerModifier = 0.0055; // 180 * .0055 ~= 1
-        k = .4 ;
+        k = .6;
         //armNoSpringyServo.setPosition(1);
     }
 
@@ -224,7 +226,7 @@ public class Bot
        }
     }
 
-    //TODO: Test different k values. (.1,.2 are too low)
+    //TODO: Test different k values
     public void fieldCentricDrive(double lStickX, double lStickY, double rStickX) {
         // Get the controller values
         forward = (-1)*lStickY;
@@ -284,10 +286,7 @@ public class Bot
 
     }
 
-    /** Releases the arm  public void releaseTheKraken() { armNoSpringyServo.setPosition(.85); } public void releaseTheGiantSquid() { armNoSpringyServo.setPosition(.7); } /** moves the angle of hnad servo to a given position @param position  public void armTopServoPos(double position) { armTopExtendyServo.setPosition(position); } /** clamps or unclamps shit @param position  public void armBotServoPos(double position) { armBottomExtendyServo.setPosition(position); } /** let go of relic */ //TODO: public void ripTHICCBoi() { this.armBottomExtendyServo.setPosition(0); } /** Action Functions */=
-
-
-    ReleasePosition currentPosition = ReleasePosition.DOWN;
+    /** Releases the arm  public void releaseTheKraken() { armNoSpringyServo.setPosition(.85); } public void releaseTheGiantSquid() { armNoSpringyServo.setPosition(.7); } /** moves the angle of hnad servo to a given position @param position  public void armTopServoPos(double position) { armTopExtendyServo.setPosition(position); } /** clamps or unclamps shit @param position  public void armBotServoPos(double position) { armBottomExtendyServo.setPosition(position); } /** let go of relic */ //TODO: public void ripTHICCBoi() { this.armBottomExtendyServo.setPosition(0); } /** Action Functions */
 
     public void setLift(double power) {}
     public void intake(double power){
@@ -405,6 +404,12 @@ public class Bot
         }
     }
 
+    public void foldBot() {
+        this.relLUp();
+        this.relRUp();
+
+    }
+
     public void unfoldBot() {
         this.drive(MovementEnum.STOP, 0);
         this.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -416,10 +421,6 @@ public class Bot
         this.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         this.releaseMove(ReleasePosition.UP);
         this.jewelUp();
-    }
-
-    private void nop() {
-        ;
     }
 
     private void rollOut() {
@@ -439,6 +440,10 @@ public class Bot
         }
         this.intakeDrop.setPower(0);
         this.releaseMove(ReleasePosition.DOWN);
+    }
+
+    private void nop() {
+        ;
     }
 
     public void runToPosition (int target, double power){

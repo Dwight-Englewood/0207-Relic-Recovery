@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 //@TeleOp(name="OneButtonMan", group="Teleop")
 @Disabled
-public class OneButtonMan extends OpMode
+public class  OneButtonMan extends OpMode
 {
     Bot robot = new Bot();
 

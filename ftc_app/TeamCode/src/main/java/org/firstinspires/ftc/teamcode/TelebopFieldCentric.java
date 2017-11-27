@@ -27,8 +27,6 @@ public class TelebopFieldCentric extends OpMode
         boolean abnormalReleaseFlag = false;
         boolean i = false;
 
-        int releaseEncoderMax = 2000; //todo figure out real nuumber
-
         @Override
         public void init() {
             robot.init(hardwareMap);
@@ -57,15 +55,14 @@ public class TelebopFieldCentric extends OpMode
 
             if (gamepad1.left_bumper && countdown <= 0){
                 i = i ? false:true;
-                countdown = 100;
+                countdown = 50;
             }
 
             if (gamepad1.right_bumper && countdown <= 0) {
                 brakeToggle = brakeToggle ? false : true;
-                countdown = 100;
+                countdown = 50;
             }
-            robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
-            //robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
+            robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
             if (gamepad2.right_bumper) {
                 abnormalReleaseFlag = true;
@@ -131,7 +128,7 @@ public class TelebopFieldCentric extends OpMode
                 currentPosition = ReleasePosition.UP;
                 robot.flipUp();
                 robot.backIntakeWallDown();
-                wallCountdown = 100;
+                wallCountdown = 30;
             } else if (wallCountdown <= 0 && !abnormalReleaseFlag) {
                 currentPosition = ReleasePosition.MIDDLE;
                 robot.backIntakeWallUp();
@@ -142,9 +139,6 @@ public class TelebopFieldCentric extends OpMode
             } else {
                 robot.jewelUp();
             }
-
-
-
 
             countdown--;
             wallCountdown--;

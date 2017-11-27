@@ -61,7 +61,6 @@ public class TelebopOneController extends OpMode
                 countdown = 50;
             }
             robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
-            //robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
 
             if (gamepad1.right_bumper) {
                 abnormalReleaseFlag = true;
@@ -127,7 +126,7 @@ public class TelebopOneController extends OpMode
                 currentPosition = ReleasePosition.UP;
                 robot.flipUp();
                 robot.backIntakeWallDown();
-                wallCountdown = 30;
+                wallCountdown = 20;
             } else if (wallCountdown <= 0 && !abnormalReleaseFlag) {
                 currentPosition = ReleasePosition.MIDDLE;
                 robot.backIntakeWallUp();

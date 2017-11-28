@@ -25,20 +25,20 @@ public class BlueAuton extends OpMode
 {
     Bot robot = new Bot();
     ElapsedTime timer;
+    int command = 1;
 
     @Override
     public void init() {
         robot.init(hardwareMap);
         timer = new ElapsedTime();
+        robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
     @Override
-    public void init_loop() {
-
-    }
+    public void init_loop() {}
 
     /*
      * Code to run ONCE when the driver hits PLAY
@@ -48,6 +48,7 @@ public class BlueAuton extends OpMode
         robot.semiUnfoldBot();
         timer.reset();
         robot.jewelOut();
+        robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /*
@@ -55,20 +56,25 @@ public class BlueAuton extends OpMode
      */
     @Override
     public void loop() {
-        if (timer.milliseconds() > 2000) {
-            robot.drive(MovementEnum.STOP, 0);
-            robot.jewelUp();
-        } else if (robot.colorSensor.blue() >= 2) {
-            robot.drive(MovementEnum.BACKWARD, .2);
-            //robot.adjustHeading(120);
-        } else if (robot.colorSensor.red() >= 2) {
-            robot.drive(MovementEnum.FORWARD, .2);
-            //robot.adjustHeading(60);
+        switch(command){
+            case 1:
+                if (timer.milliseconds() > 2000) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.jewelUp();
+                    command++;
+                } else if (robot.colorSensor.blue() >= 2) {
+                    robot.adjustHeading(105);
+                } else if (robot.colorSensor.red() >= 2) {
+                    robot.adjustHeading(75);
+                }
+                break;
         }
 
         telemetry.addData("red", robot.colorSensor.red());
         telemetry.addData("blue", robot.colorSensor.blue());
         telemetry.addData("time", timer.milliseconds());
+        telemetry.addData("heading", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        telemetry.addData("command", command);
         telemetry.update();
     }
 

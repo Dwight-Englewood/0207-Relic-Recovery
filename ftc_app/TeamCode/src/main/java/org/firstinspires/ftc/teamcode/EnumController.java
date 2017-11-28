@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by weznon on 11/27/17.
  */
 
-public class EunmController<T> {
+public class EnumController<T> {
 
     public boolean abnormalFlag;
     public final T defaultVal;
@@ -14,7 +14,7 @@ public class EunmController<T> {
     public ArrayList<T> instructionList;
     public String log;
 
-    public EunmController(T defaultVal) {
+    public EnumController (T defaultVal) {
         this.abnormalFlag = false;
         this.defaultVal = defaultVal;
         this.currentVal = defaultVal;

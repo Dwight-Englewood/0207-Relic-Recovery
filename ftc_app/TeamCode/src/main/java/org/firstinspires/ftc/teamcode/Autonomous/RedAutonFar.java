@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 
-@Autonomous(name="RedAutonClose", group="Auton")
+@Autonomous(name="RedAutonFar", group="Auton")
 //@Disabled
 public class RedAutonFar extends OpMode
 {

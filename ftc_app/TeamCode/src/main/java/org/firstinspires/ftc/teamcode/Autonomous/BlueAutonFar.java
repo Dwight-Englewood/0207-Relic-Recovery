@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
-@Autonomous(name="BlueAutonClose", group="Auton")
+@Autonomous(name="BlueAutonFar", group="Auton")
 //@Disabled
 public class BlueAutonFar extends OpMode
 {

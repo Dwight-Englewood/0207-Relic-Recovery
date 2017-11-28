@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
+import java.util.ArrayList;
 
 /**
  * Created by weznon on 11/27/17.
@@ -11,6 +11,7 @@ public class EunmController<T> {
     public boolean abnormalFlag;
     public final T defaultVal;
     public T currentVal;
+    public ArrayList<T> instructionList;
     public String log;
 
     public EunmController(T defaultVal) {
@@ -47,6 +48,9 @@ public class EunmController<T> {
 
 enum flag {
     OVERRIDE,
+    o,
     MODIFY,
-    NORMAL
+    m,
+    NORMAL,
+    n
 }

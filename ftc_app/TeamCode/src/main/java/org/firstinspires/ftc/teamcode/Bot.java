@@ -227,7 +227,25 @@ public class Bot
     }
 
     //TODO: Test different k values
-    public void fieldCentricDrive(double lStickX, double lStickY, double rStickX) {
+    public void fieldCentricDrive(double lStickX, double lStickY, double rStickX, double leftTrigger, double rightTrigger, boolean brake) {
+
+        if (brake){
+            drive(MovementEnum.STOP, 0);
+            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
+        } else {
+            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
+        }
+
+        if (leftTrigger > .3) {
+            drive(MovementEnum.LEFTSTRAFE, leftTrigger);
+            //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
+            return;
+        }
+        if (rightTrigger > .3){
+            drive(MovementEnum.RIGHTSTRAFE, rightTrigger);
+            return;
+        }
+
         // Get the controller values
         forward = (-1)*lStickY;
         right =  lStickX;

@@ -270,19 +270,27 @@ public class Bot
     }
 
     public void adjustHeading(int targetHeading) {
-        headingError = targetHeading -  Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
-        driveScale = headingError * powerModifier;
 
-        leftPower = 0 + driveScale;
-        rightPower = 0 - driveScale;
+        if (Math.abs(Math.abs(targetHeading)-Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)) <= 1) {
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
+        } else {
+            headingError = targetHeading + imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+            driveScale = headingError * powerModifier;
 
-        Range.clip(leftPower, -1, 1);
-        Range.clip(rightPower, -1, 1);
+            leftPower = 0 + driveScale;
+            rightPower = 0 - driveScale;
 
-        FL.setPower(leftPower);
-        BL.setPower(leftPower);
-        FR.setPower(rightPower);
-        BR.setPower(rightPower);
+            leftPower = Range.clip(leftPower, -1, 1);
+            rightPower = Range.clip(rightPower, -1, 1);
+
+            FL.setPower(leftPower);
+            BL.setPower(leftPower);
+            FR.setPower(rightPower);
+            BR.setPower(rightPower);
+        }
 
     }
 

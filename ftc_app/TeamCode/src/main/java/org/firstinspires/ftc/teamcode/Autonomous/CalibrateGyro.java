@@ -5,6 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+
 /**
  * Created by aburur on 9/26/17.
  */
@@ -41,10 +45,12 @@ public class CalibrateGyro extends OpMode {
     @Override
     public void loop() {
         if (imu.isGyroCalibrated() && calib)
-        {
-            telemetry.addLine("Calibrated");
             calib = false;
-        }
+        if (!calib)
+            telemetry.addLine("done");
+
+        telemetry.addData("heading", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        telemetry.update();
     }
 
     @Override

@@ -230,7 +230,6 @@ public class Bot
     public void fieldCentricDrive(double lStickX, double lStickY, double rStickX, double leftTrigger, double rightTrigger, boolean brake) {
 
         if (brake){
-            drive(MovementEnum.STOP, 0);
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         } else {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);

@@ -128,7 +128,7 @@ public class TelebopFieldCentric extends OpMode
                 currentPosition = ReleasePosition.UP;
                 robot.flipUp();
                 robot.backIntakeWallDown();
-                wallCountdown = 30;
+                wallCountdown = 20;
             } else if (wallCountdown <= 0 && !abnormalReleaseFlag) {
                 currentPosition = ReleasePosition.MIDDLE;
                 robot.backIntakeWallUp();

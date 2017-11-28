@@ -1,17 +1,10 @@
 
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -19,9 +12,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
-@Autonomous(name="BlueAuton", group="Auton")
+
+@Autonomous(name="RedAutonClose", group="Auton")
 //@Disabled
-public class BlueAuton extends OpMode
+public class RedAutonFar extends OpMode
 {
     Bot robot = new Bot();
     ElapsedTime timer;
@@ -56,26 +50,29 @@ public class BlueAuton extends OpMode
      */
     @Override
     public void loop() {
-        switch(command){
+        switch(command) {
             case 1:
                 if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.jewelUp();
                     command++;
-                } else if (robot.colorSensor.blue() >= 2) {
-                    robot.adjustHeading(105);
                 } else if (robot.colorSensor.red() >= 2) {
+                    robot.adjustHeading(105);
+                    //robot.drive(MovementEnum.BACKWARD, .2);
+                } else if (robot.colorSensor.blue() >= 2) {
                     robot.adjustHeading(75);
+                    //robot.drive(MovementEnum.FORWARD, .2);
                 }
                 break;
         }
-
         telemetry.addData("red", robot.colorSensor.red());
         telemetry.addData("blue", robot.colorSensor.blue());
         telemetry.addData("time", timer.milliseconds());
         telemetry.addData("heading", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
         telemetry.addData("command", command);
         telemetry.update();
+
+
     }
 
     /*

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.content.ContentResolver;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -21,10 +23,11 @@ public class Telebop extends OpMode
         int wallCountdown = 0;
 
         ReleasePosition currentPosition = ReleasePosition.MIDDLE;
-        boolean abnormalReleaseFlag = false;
         boolean i = false;
 
         int releaseEncoderMax = 2000; //todo figure out real nuumber
+
+        EnumController<ReleasePosition> controller = new EnumController<>(ReleasePosition.MIDDLE);
 
         @Override
         public void init() {
@@ -52,38 +55,31 @@ public class Telebop extends OpMode
             //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
             robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
 
-            abnormalReleaseFlag = false;
-            currentPosition = ReleasePosition.MIDDLE;
+            controller.reset();
 
             if (gamepad1.left_bumper && countdown <= 0){
-                i = i ? false:true;
+                i = !i;
                 countdown = 50;
             }
 
             if (gamepad1.right_bumper && countdown <= 0) {
-                brakeToggle = brakeToggle ? false : true;
+                brakeToggle = !brakeToggle;
                 countdown = 50;
             }
 
             if (gamepad2.right_bumper) {
-                abnormalReleaseFlag = true;
-                currentPosition = ReleasePosition.DOWN;
+                controller.addInstruction(ReleasePosition.DOWN, flag.MODIFY);
                 robot.intake(1);
             } else if (gamepad2.right_trigger > .3) {
-                abnormalReleaseFlag = true;
-                currentPosition = ReleasePosition.DOWN;
+                controller.addInstruction(ReleasePosition.DOWN, flag.MODIFY);
                 robot.intake(-1);
             } else {
-                if (!abnormalReleaseFlag) {
-                    currentPosition = ReleasePosition.MIDDLE;
-                }
                 robot.intake(0);
             }
 
             if (gamepad2.left_trigger > .3){
                 robot.frontIntakeWallUp();
-                abnormalReleaseFlag = true;
-                currentPosition = ReleasePosition.DOWNER;
+                controller.addInstruction(ReleasePosition.DOWNER, flag.MODIFY);
             } else {
                 robot.frontIntakeWallDown();
             }
@@ -103,35 +99,24 @@ public class Telebop extends OpMode
             }
 
             if (gamepad2.dpad_down) {
-                abnormalReleaseFlag = true;
-                currentPosition = ReleasePosition.MIDDLEUP;
+                controller.addInstruction(ReleasePosition.MIDDLEUP, flag.MODIFY);
                 robot.lift.setPower(-.5);
             } else if (gamepad2.dpad_up) {
-                abnormalReleaseFlag = true;
-                currentPosition = ReleasePosition.MIDDLEUP;
+                controller.addInstruction(ReleasePosition.MIDDLEUP, flag.MODIFY);
                 robot.lift.setPower(1);
             } else {
-                if (!abnormalReleaseFlag) {
-                    currentPosition = ReleasePosition.MIDDLE;
-                }
                 robot.lift.setPower(0);
             }
 
-            if (!abnormalReleaseFlag) {
-                //if (robot.lift.getCurrentPosition() - ticks < 100) {
-                //currentPosition = ReleasePosition.MIDDLEUP;
-                //} else {
-                currentPosition = ReleasePosition.MIDDLE;
-                //}
-            }
+            controller.addInstruction(ReleasePosition.MIDDLE, flag.NORMAL);
 
             if (gamepad2.y) {
-                currentPosition = ReleasePosition.UP;
+                controller.addInstruction(ReleasePosition.UP, flag.OVERRIDE);
                 robot.flipUp();
                 robot.backIntakeWallDown();
                 wallCountdown = 30;
-            } else if (wallCountdown <= 0 && !abnormalReleaseFlag) {
-                currentPosition = ReleasePosition.MIDDLE;
+            } else if (wallCountdown <= 0) {
+                controller.addInstruction(ReleasePosition.MIDDLE, flag.NORMAL);
                 robot.backIntakeWallUp();
             }
 
@@ -146,6 +131,7 @@ public class Telebop extends OpMode
 
             countdown--;
             wallCountdown--;
+            currentPosition = controller.processAndGetCurrentVal();
             robot.releaseMove(currentPosition);
 
             telemetry.addData("release pos", currentPosition);

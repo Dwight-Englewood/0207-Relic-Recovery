@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
  */
 
 //This is out of date, as the normal telebop is the teleop where the changes will be made
-
+@Disabled
 @TeleOp(name="TelebopFieldCentric", group="Teleop")
 public class TelebopFieldCentric extends OpMode
 {

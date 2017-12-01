@@ -60,7 +60,8 @@ public class TelebopOneController extends OpMode
                 brakeToggle = brakeToggle ? false : true;
                 countdown = 50;
             }
-            robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_trigger, gamepad1.right_trigger, brakeToggle);
+            robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
+            //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_trigger, gamepad1.right_trigger, brakeToggle);
 
             if (gamepad1.right_bumper) {
                 abnormalReleaseFlag = true;

@@ -11,16 +11,48 @@ public class EnumController<T> {
     public boolean abnormalFlag;
     public final T defaultVal;
     public T currentVal;
-    public ArrayList<T> instructionList;
+    public ArrayList<Tuple<T>> instructionList;
     public String log;
 
-    public EnumController (T defaultVal) {
+    public EnumController(T defaultVal) {
         this.abnormalFlag = false;
         this.defaultVal = defaultVal;
-        this.currentVal = defaultVal;
+        this.instructionList = new ArrayList<Tuple<T>>();
     }
 
+    public void addInstruction(T newVal, flag flag) {
+        this.instructionList.add(new Tuple<T>(newVal, flag));
+    }
+
+    public T processAndGetCurrentVal() {
+        for (int i = 0; i < this.instructionList.size(); i++) {
+            //MODIFY means it cannot be overriden afterwards, except by OVERRIDE
+            if (this.instructionList.get(i).flag == flag.MODIFY || this.instructionList.get(i).flag == flag.m) {
+                if (abnormalFlag) {
+                    ;
+                } else {
+                    abnormalFlag = true;
+                    this.currentVal = this.instructionList.get(i).value;
+                }
+                //NORMAL means it can be overriden by anything, including other normals
+            } else if (this.instructionList.get(i).flag == flag.NORMAL || this.instructionList.get(i).flag == flag.n) {
+                if (abnormalFlag) {
+                    ;
+                } else {
+                    this.currentVal = this.instructionList.get(i).value;
+                }
+            //OVERRIDE will break the loop - so using this means no matter what other stuff was, do this
+            } else if (this.instructionList.get(i).flag == flag.OVERRIDE || this.instructionList.get(i).flag == flag.o) {
+                this.currentVal = this.instructionList.get(i).value;
+                break;
+            }
+        }
+        return (this.currentVal);
+    }
+
+    /*
     public void modifyVal(T newVal, flag flag) {
+
         if (flag == flag.MODIFY) {
             if (abnormalFlag) {
                 return;
@@ -38,10 +70,23 @@ public class EnumController<T> {
             this.currentVal = newVal;
         }
     }
+    */
 
     public void reset() {
         this.abnormalFlag = false;
         this.currentVal = defaultVal;
+    }
+
+}
+
+//im a little tuple, short and stout
+class Tuple<T> {
+    public T value;
+    public flag flag;
+
+    public Tuple(T value, flag flag) {
+        this.value = value;
+        this.flag = flag;
     }
 
 }

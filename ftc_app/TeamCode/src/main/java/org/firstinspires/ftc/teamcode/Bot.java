@@ -532,4 +532,55 @@ public class Bot
         FR.setPower(rightPower);
         BR.setPower(rightPower);
     }
+
+    public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
+        double scale = 1;
+        if (
+                (Math.abs(tickFL - targetTickFL) < 25) &&
+                        (Math.abs(tickFR - targetTickFR) < 25) &&
+                        (Math.abs(tickBL - targetTickBL) < 25) &&
+                        (Math.abs(tickBR - targetTickBR) < 25)
+                )
+        {
+            scale = 0;
+            //stopped, can be changed
+        } else if (
+                (Math.abs(tickFL) < 200) &&
+                        (Math.abs(tickFR) < 200) &&
+                        (Math.abs(tickBL) < 200) &&
+                        (Math.abs(tickBR) < 200)
+                )
+        {
+            scale = .1;
+        } else if (
+                (Math.abs(tickFL) < 1000) &&
+                        (Math.abs(tickFR) < 1000) &&
+                        (Math.abs(tickBL) < 1000) &&
+                        (Math.abs(tickBR) < 1000)
+                )
+        {
+            scale = .3;
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 500) &&
+                        (Math.abs(tickFR - targetTickFR) < 500) &&
+                        (Math.abs(tickBL - targetTickBL) < 500) &&
+                        (Math.abs(tickBR - targetTickBR) < 500)
+                )
+        {
+            scale = .1;
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 2000) &&
+                        (Math.abs(tickFR - targetTickFR) < 2000) &&
+                        (Math.abs(tickBL - targetTickBL) < 2000) &&
+                        (Math.abs(tickBR - targetTickBR) < 2000)
+                )
+        {
+            scale = .3;
+        } else if ((Math.abs(tickFL - targetTickFL) < 2400) && (Math.abs(tickFR - targetTickFR) < 2400) && (Math.abs(tickBL - targetTickBL) < 2400) && (Math.abs(tickBR - targetTickBR) < 2400)) {
+            scale = .5;
+        } else {
+            scale = .7;
+        }
+        return scale;
+    }
 }

@@ -35,12 +35,10 @@ public class EncoderTest extends OpMode {
     @Override
     public void loop() {
 
-        if (gamepad1.b) {
+        if (gamepad1.b)
             robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        }
-        if (gamepad1.a) {
+        if (gamepad1.a)
             robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
 
         if (gamepad1.dpad_up)
             robot.drive(MovementEnum.FORWARD, .2);

@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 @Autonomous(name="BlueAutonClose", group="Auton")
-//@Disabled
+@Disabled
 public class BlueAutonClose extends OpMode
 {
     Bot robot = new Bot();

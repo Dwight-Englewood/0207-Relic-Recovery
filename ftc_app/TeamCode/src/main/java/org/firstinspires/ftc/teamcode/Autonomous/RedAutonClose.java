@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 
 @Autonomous(name="RedAutonClose", group="Auton")
-//@Disabled
+@Disabled
 public class RedAutonClose extends OpMode
 {
     Bot robot = new Bot();

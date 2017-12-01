@@ -100,6 +100,9 @@ public class RedAutonClose extends OpMode
                     robot.adjustHeading(75);
                 }
                 break;
+
+            case 2:
+                break;
         }
         telemetry.addData("red", robot.colorSensor.red());
         telemetry.addData("blue", robot.colorSensor.blue());

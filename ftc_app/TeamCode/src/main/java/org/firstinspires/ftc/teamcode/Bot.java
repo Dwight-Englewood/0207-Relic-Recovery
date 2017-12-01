@@ -507,4 +507,29 @@ public class Bot
         backIntakeWall.setPosition(.5);
     }
 
+    public void safeStrafe(int targetHeading)
+    {
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        headingError = targetHeading - angles.firstAngle;
+        driveScale = headingError * powerModifier;
+
+        leftPower = .85 + driveScale;
+        rightPower = .85 - driveScale;
+
+        if (leftPower > 1)
+            leftPower = 1;
+        else if (leftPower < 0)
+            leftPower = 0;
+
+        if (rightPower > 1)
+            rightPower = 1;
+        else if (rightPower < 0)
+            rightPower = 0;
+
+
+        FL.setPower(leftPower);
+        BL.setPower(leftPower);
+        FR.setPower(rightPower);
+        BR.setPower(rightPower);
+    }
 }

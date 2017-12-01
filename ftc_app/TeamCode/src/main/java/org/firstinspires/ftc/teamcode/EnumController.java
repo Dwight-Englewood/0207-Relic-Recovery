@@ -25,6 +25,10 @@ public class EnumController<T> {
     }
 
     public T processAndGetCurrentVal() {
+        if (this.instructionList.size() == 0) {
+            return this.defaultVal;
+        }
+
         for (int i = 0; i < this.instructionList.size(); i++) {
             //MODIFY means it cannot be overriden afterwards, except by OVERRIDE
             if (this.instructionList.get(i).flag == flag.MODIFY || this.instructionList.get(i).flag == flag.m) {

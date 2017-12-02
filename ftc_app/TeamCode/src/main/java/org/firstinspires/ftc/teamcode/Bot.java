@@ -558,6 +558,13 @@ public class Bot {
         BR.setPower(rightPower);
     }
 
+    public void setDriveTargets(int targetFL, int targetFR, int targetBL, int targetBR){
+        FL.setTargetPosition(targetFL);
+        FR.setTargetPosition(targetFR);
+        BL.setTargetPosition(targetBL);
+        BR.setTargetPosition(targetBR);
+    }
+
     public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
         double scale = 1;
         if (

@@ -34,6 +34,10 @@ public class BlueAutonClose extends OpMode {
     VuforiaTrackables relicTrackables;
     VuforiaTrackable relicTemplate;
     RelicRecoveryVuMark vuMark;
+    int targetFL;
+    int targetFR;
+    int targetBL;
+    int targetBR;
 
     @Override
     public void init() {
@@ -88,10 +92,12 @@ public class BlueAutonClose extends OpMode {
                     telemetry.addData("VuMark", "not visible");
                 }
                 break;
+
             case 1:
                 if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.jewelUp();
+                    timer.reset();
                     command++;
                 } else if (robot.colorSensor.blue() >= 2) {
                     robot.adjustHeading(105);
@@ -99,6 +105,53 @@ public class BlueAutonClose extends OpMode {
                     robot.adjustHeading(75);
                 }
                 break;
+
+            case 2:
+                if (timer.milliseconds() > 1000) {
+                    timer.reset();
+                    robot.drive(MovementEnum.STOP, 0);
+                    command++;
+                }
+                robot.adjustHeading(90);
+                break;
+
+            case 3:
+                robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                try {Thread.sleep(1000);} catch (InterruptedException e){}
+                robot.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
+                targetFR = robot.distanceToRevs(75);
+                targetFL = robot.distanceToRevs(75);
+                targetBR = robot.distanceToRevs(75);
+                targetBL = robot.distanceToRevs(75);
+                robot.setDriveTargets(targetFL, targetFR, targetBL, targetBR);
+                command++;
+                break;
+
+            case 4:
+                double power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(),
+                        robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(),
+                        targetFL, targetFR, targetBL, targetBR);
+
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    timer.reset();
+                    command++;
+                } else {
+                    robot.drive(MovementEnum.FORWARD, power);
+                }
+                break;
+
+            case 5:
+                if (timer.milliseconds() > 2000){
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    command++;
+                }
+                robot.adjustHeading(180);
+                break;
+
+
         }
 
         telemetry.addData("red", robot.colorSensor.red());

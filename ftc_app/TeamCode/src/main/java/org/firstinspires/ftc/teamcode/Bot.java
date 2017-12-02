@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -32,7 +33,8 @@ public class Bot {
     //Servo armBottomExtendyServo;
 
     public BNO055IMU imu;
-    public ModernRoboticsI2cColorSensor colorSensor;
+    public ModernRoboticsI2cColorSensor colorSensor, cryptoColor;
+    public ModernRoboticsI2cRangeSensor rangeSensor;
 
     private Orientation angles;
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
@@ -52,6 +54,8 @@ public class Bot {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
+        cryptoColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "crypcs");
+        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
         //servo init code
         jewelServo = hardwareMap.get(Servo.class, "servo"); //servo which does servo things

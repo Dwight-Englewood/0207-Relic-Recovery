@@ -25,7 +25,8 @@ public class EncoderTest extends OpMode {
     }
 
     @Override
-    public void init_loop() {}
+    public void init_loop() {
+    }
 
     @Override
     public void start() {
@@ -48,7 +49,6 @@ public class EncoderTest extends OpMode {
             robot.drive(MovementEnum.LEFTSTRAFE, .5);
         if (gamepad1.dpad_right)
             robot.drive(MovementEnum.RIGHTSTRAFE, .5);
-
 
 
         telemetry.addData("FL Ticks", robot.FL.getCurrentPosition());

@@ -11,24 +11,24 @@ import org.firstinspires.ftc.teamcode.Bot;
 
 /**
  * Flip:
- *  down - .05
- *  up - .55
- *  out - .75
- *
+ * down - .05
+ * up - .55
+ * out - .75
+ * <p>
  * R release:
- *  down - .98
- *  up - .52
- *  out - .02
- *
+ * down - .98
+ * up - .52
+ * out - .02
+ * <p>
  * L release:
- *  down - .02
- *  up - .48
- *  out - .98
- *
+ * down - .02
+ * up - .48
+ * out - .98
+ * <p>
  * Jewel:
- *  down - 1
- *  up - .65
- *  out - .1
+ * down - 1
+ * up - .65
+ * out - .1
  */
 
 @TeleOp(name = "ServoValueFinder", group = "Teleop")
@@ -52,7 +52,8 @@ public class ServoValueFinder extends OpMode {
     }
 
     @Override
-    public void init_loop() {}
+    public void init_loop() {
+    }
 
     @Override
     public void start() {

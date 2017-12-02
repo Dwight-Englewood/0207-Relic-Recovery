@@ -13,12 +13,12 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 //@TeleOp(name="OneButtonMan", group="Teleop")
 @Disabled
-public class  OneButtonMan extends OpMode
-{
+public class OneButtonMan extends OpMode {
     Bot robot = new Bot();
 
     double topServo = 0;
     double botServo = 0;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -37,15 +37,13 @@ public class  OneButtonMan extends OpMode
     public void loop() {
         if (gamepad1.right_trigger > .5) {
             robot.intake(1);
-        }
-        else {
+        } else {
             robot.intake(0);
         }
 
-        if (gamepad1.a){
+        if (gamepad1.a) {
             robot.intakeDrop.setPower(.3);
-        }
-        else {
+        } else {
             robot.intakeDrop.setPower(0);
         }
 

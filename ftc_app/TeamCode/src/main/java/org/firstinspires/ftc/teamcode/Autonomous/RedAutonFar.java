@@ -19,10 +19,9 @@ import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 
-@Autonomous(name="RedAutonFar", group="Auton")
+@Autonomous(name = "RedAutonFar", group = "Auton")
 @Disabled
-public class RedAutonFar extends OpMode
-{
+public class RedAutonFar extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer;
     int command = 0;
@@ -54,7 +53,8 @@ public class RedAutonFar extends OpMode
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
     @Override
-    public void init_loop() {}
+    public void init_loop() {
+    }
 
     /*
      * Code to run ONCE when the driver hits PLAY
@@ -74,7 +74,7 @@ public class RedAutonFar extends OpMode
      */
     @Override
     public void loop() {
-        switch(command) {
+        switch (command) {
             case 0:
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {

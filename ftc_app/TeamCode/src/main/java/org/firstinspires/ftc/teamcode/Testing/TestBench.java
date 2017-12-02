@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.Range;
 public class TestBench extends OpMode {
 
     Servo flipper, releaseLeft, releaseRight;
-    double relLPos, relRPos,flipPos ;
+    double relLPos, relRPos, flipPos;
 
     public void init() {
         releaseRight = hardwareMap.get(Servo.class, "rel r");
@@ -36,23 +36,21 @@ public class TestBench extends OpMode {
     @Override
     public void loop() {
 
-        if (gamepad1.a){
+        if (gamepad1.a) {
             flipPos += .005;
-        }
-        else if (gamepad1.b){
+        } else if (gamepad1.b) {
             flipPos -= .005;
         }
 
-        if (gamepad1.x){
+        if (gamepad1.x) {
             relRPos += .005;
             relLPos -= .005;
-        }
-        else if (gamepad1.y){
+        } else if (gamepad1.y) {
             relRPos -= .005;
             relLPos += .005;
         }
 
-        relRPos = Range.clip(relRPos, 0,1);
+        relRPos = Range.clip(relRPos, 0, 1);
         relLPos = Range.clip(relLPos, 0, 1);
         flipPos = Range.clip(flipPos, 0, 1);
         releaseLeft.setPosition(relLPos);

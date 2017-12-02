@@ -44,7 +44,8 @@ public class VuforiaTest extends LinearOpMode {
 
     VuforiaLocalizer vuforia;
 
-    @Override public void runOpMode() {
+    @Override
+    public void runOpMode() {
 
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 

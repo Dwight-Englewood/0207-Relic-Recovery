@@ -24,10 +24,9 @@ import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 
 
-@Autonomous(name="RedAutonClose", group="Auton")
+@Autonomous(name = "RedAutonClose", group = "Auton")
 //@Disabled
-public class RedAutonClose extends OpMode
-{
+public class RedAutonClose extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer;
     int command = 0;
@@ -60,7 +59,8 @@ public class RedAutonClose extends OpMode
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
     @Override
-    public void init_loop() {}
+    public void init_loop() {
+    }
 
     /*
      * Code to run ONCE when the driver hits PLAY
@@ -79,7 +79,7 @@ public class RedAutonClose extends OpMode
      */
     @Override
     public void loop() {
-        switch(command) {
+        switch (command) {
             case 0:
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {

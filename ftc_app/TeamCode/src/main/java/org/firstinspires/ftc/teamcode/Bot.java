@@ -22,8 +22,7 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
  * Created by aborcrust'em on 8/6/17.
  */
 
-public class Bot
-{
+public class Bot {
 
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
     public Servo jewelServo, flipper, releaseLeft, releaseRight, frontIntakeWall, backIntakeWall;
@@ -119,9 +118,9 @@ public class Bot
     }
 
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
-        int i = invert ?  -1 : 1;
+        int i = invert ? -1 : 1;
 
-        if (brake){
+        if (brake) {
             drive(MovementEnum.STOP, 0);
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         } else {
@@ -133,11 +132,11 @@ public class Bot
             //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
             return;
         }
-        if (rightTrigger > .3){
+        if (rightTrigger > .3) {
             drive(MovementEnum.RIGHTSTRAFE, rightTrigger * i);
             return;
         }
-        
+
         leftStick *= i;
         rightStick *= i;
 
@@ -148,88 +147,91 @@ public class Bot
     }
 
     //TODO
-    /**public void safeStrafe(double target, MovementEnum direction) {
-        double FL_speed = 0;
-        double FR_speed = 0;
-        double RL_speed = 0;
-        double RR_speed = 0;
 
-        currentHeading = imu.;  //Current direction
-
-        FL_speed = power + (currentHeading - target) / 25;  //Calculate speed for each side
-        FR_speed = power + (currentHeading - target) / 25;
-        RL_speed = power - (currentHeading - target) / 25;  //Calculate speed for each side
-        RR_speed = power - (currentHeading - target) / 25;
-
-        FL_speed = Range.clip(FL_speed, -1, 1);
-        FR_speed = Range.clip(FR_speed, -1, 1);
-        RL_speed = Range.clip(RL_speed, -1, 1);
-        RR_speed = Range.clip(RR_speed, -1, 1);
-
-        frontLeft.setPower(FL_speed);
-        frontRight.setPower(-FR_speed);
-        rearLeft.setPower(-RL_speed);
-        rearRight.setPower(RR_speed);
-    }*/
+    /**
+     * public void safeStrafe(double target, MovementEnum direction) {
+     * double FL_speed = 0;
+     * double FR_speed = 0;
+     * double RL_speed = 0;
+     * double RR_speed = 0;
+     * <p>
+     * currentHeading = imu.;  //Current direction
+     * <p>
+     * FL_speed = power + (currentHeading - target) / 25;  //Calculate speed for each side
+     * FR_speed = power + (currentHeading - target) / 25;
+     * RL_speed = power - (currentHeading - target) / 25;  //Calculate speed for each side
+     * RR_speed = power - (currentHeading - target) / 25;
+     * <p>
+     * FL_speed = Range.clip(FL_speed, -1, 1);
+     * FR_speed = Range.clip(FR_speed, -1, 1);
+     * RL_speed = Range.clip(RL_speed, -1, 1);
+     * RR_speed = Range.clip(RR_speed, -1, 1);
+     * <p>
+     * frontLeft.setPower(FL_speed);
+     * frontRight.setPower(-FR_speed);
+     * rearLeft.setPower(-RL_speed);
+     * rearRight.setPower(RR_speed);
+     * }
+     */
 
     //TODO: DIAGONALS
     public void drive(MovementEnum movement, double power) {
-       switch (movement){
-           case FORWARD:
-               FL.setPower(power);
-               FR.setPower(power);
-               BL.setPower(power);
-               BR.setPower(power);
-               break;
+        switch (movement) {
+            case FORWARD:
+                FL.setPower(power);
+                FR.setPower(power);
+                BL.setPower(power);
+                BR.setPower(power);
+                break;
 
-           case BACKWARD:
-               FL.setPower(-power);
-               FR.setPower(-power);
-               BL.setPower(-power);
-               BR.setPower(-power);
-               break;
+            case BACKWARD:
+                FL.setPower(-power);
+                FR.setPower(-power);
+                BL.setPower(-power);
+                BR.setPower(-power);
+                break;
 
-           case LEFTSTRAFE:
-               FL.setPower(-power);
-               FR.setPower(power);
-               BL.setPower(power);
-               BR.setPower(-power);
-               break;
+            case LEFTSTRAFE:
+                FL.setPower(-power);
+                FR.setPower(power);
+                BL.setPower(power);
+                BR.setPower(-power);
+                break;
 
-           case RIGHTSTRAFE:
-               FL.setPower(power);
-               FR.setPower(-power);
-               BL.setPower(-power);
-               BR.setPower(power);
-               break;
+            case RIGHTSTRAFE:
+                FL.setPower(power);
+                FR.setPower(-power);
+                BL.setPower(-power);
+                BR.setPower(power);
+                break;
 
-           case LEFTTURN:
-               FL.setPower(-power);
-               FR.setPower(power);
-               BL.setPower(-power);
-               BR.setPower(power);
-               break;
+            case LEFTTURN:
+                FL.setPower(-power);
+                FR.setPower(power);
+                BL.setPower(-power);
+                BR.setPower(power);
+                break;
 
-           case RIGHTTURN:
-               FL.setPower(power);
-               FR.setPower(-power);
-               BL.setPower(power);
-               BR.setPower(-power);
-               break;
+            case RIGHTTURN:
+                FL.setPower(power);
+                FR.setPower(-power);
+                BL.setPower(power);
+                BR.setPower(-power);
+                break;
 
-           case STOP:
-               FL.setPower(0);
-               FR.setPower(0);
-               BL.setPower(0);
-               BR.setPower(0);
-               break;
-       }
+            case STOP:
+                FL.setPower(0);
+                FR.setPower(0);
+                BL.setPower(0);
+                BR.setPower(0);
+                break;
+        }
     }
 
     //TODO: Test different k values
     public void fieldCentricDrive(double lStickX, double lStickY, double rStickX, double leftTrigger, double rightTrigger, boolean brake) {
 
-        if (brake){
+        if (brake) {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         } else {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -240,14 +242,14 @@ public class Bot
             //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
             return;
         }
-        if (rightTrigger > .3){
+        if (rightTrigger > .3) {
             drive(MovementEnum.RIGHTSTRAFE, rightTrigger);
             return;
         }
 
         // Get the controller values
-        forward = (-1)*lStickY;
-        right =  lStickX;
+        forward = (-1) * lStickY;
+        right = lStickX;
         clockwise = rStickX;
 
         // Apply the turn modifier k
@@ -260,7 +262,7 @@ public class Bot
         }
 
         // Convert to Radians for Math.sin/cos
-        angles.firstAngle = (float)(angles.firstAngle * (Math.PI / 180));
+        angles.firstAngle = (float) (angles.firstAngle * (Math.PI / 180));
 
         // Do Math
         temp = forward * Math.cos(angles.firstAngle) - right * Math.sin(angles.firstAngle);
@@ -288,7 +290,7 @@ public class Bot
 
     public void adjustHeading(int targetHeading) {
 
-        if (Math.abs(Math.abs(targetHeading)-Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)) <= 1) {
+        if (Math.abs(Math.abs(targetHeading) - Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)) <= 1) {
             FL.setPower(0);
             BL.setPower(0);
             FR.setPower(0);
@@ -312,10 +314,13 @@ public class Bot
     }
 
 
-    /** Releases the arm  public void releaseTheKraken() { armNoSpringyServo.setPosition(.85); } public void releaseTheGiantSquid() { armNoSpringyServo.setPosition(.7); } /** moves the angle of hnad servo to a given position @param position  public void armTopServoPos(double position) { armTopExtendyServo.setPosition(position); } /** clamps or unclamps shit @param position  public void armBotServoPos(double position) { armBottomExtendyServo.setPosition(position); } /** let go of relic */ //TODO: public void ripTHICCBoi() { this.armBottomExtendyServo.setPosition(0); } /** Action Functions */
+    /**
+     * Releases the arm  public void releaseTheKraken() { armNoSpringyServo.setPosition(.85); } public void releaseTheGiantSquid() { armNoSpringyServo.setPosition(.7); } /** moves the angle of hnad servo to a given position @param position  public void armTopServoPos(double position) { armTopExtendyServo.setPosition(position); } /** clamps or unclamps shit @param position  public void armBotServoPos(double position) { armBottomExtendyServo.setPosition(position); } /** let go of relic
+     */ //TODO: public void ripTHICCBoi() { this.armBottomExtendyServo.setPosition(0); } /** Action Functions */
+    public void setLift(double power) {
+    }
 
-    public void setLift(double power) {}
-    public void intake(double power){
+    public void intake(double power) {
         if (power == 0) {
             currentPosition = ReleasePosition.MIDDLE;
         } else {
@@ -332,7 +337,7 @@ public class Bot
         BR.setMode(mode);
     }
 
-    public void setDriveZeroPowers(DcMotor.ZeroPowerBehavior behavior){
+    public void setDriveZeroPowers(DcMotor.ZeroPowerBehavior behavior) {
         FL.setZeroPowerBehavior(behavior);
         FR.setZeroPowerBehavior(behavior);
         BL.setZeroPowerBehavior(behavior);
@@ -341,27 +346,32 @@ public class Bot
 
     /**
      * Flip:
-     *  down - .05
-     *  up - .55
-     *  out - .75
-     *
+     * down - .05
+     * up - .55
+     * out - .75
+     * <p>
      * R release:
-     *  down - .98
-     *  up - .52
-     *  out - .02
-     *
+     * down - .98
+     * up - .52
+     * out - .02
+     * <p>
      * L release:
-     *  down - .02
-     *  up - .48
-     *  out - .98
-     *
+     * down - .02
+     * up - .48
+     * out - .98
+     * <p>
      * Jewel:
-     *  down - 1
-     *  up - .65
-     *  out - .1
+     * down - 1
+     * up - .65
+     * out - .1
      */
-    public void jewelUp(){jewelServo.setPosition(.6);}
-    public void jewelOut(){jewelServo.setPosition(.1);}
+    public void jewelUp() {
+        jewelServo.setPosition(.6);
+    }
+
+    public void jewelOut() {
+        jewelServo.setPosition(.1);
+    }
 
     double relDowner = .48;
     double relDown = .53;
@@ -370,40 +380,56 @@ public class Bot
     double relUp = 1;
 
     public void relLUp() {
-        releaseLeft.setPosition(1- relUp);
+        releaseLeft.setPosition(1 - relUp);
     }
+
     public void relLDown() {
-        releaseLeft.setPosition(1-relDown);
+        releaseLeft.setPosition(1 - relDown);
     }
+
     public void relLMid() {
-        releaseLeft.setPosition(1-relMid);
+        releaseLeft.setPosition(1 - relMid);
     }
+
     public void relLMidWhileUp() {
-        releaseLeft.setPosition(1-relMidWhileUp);
+        releaseLeft.setPosition(1 - relMidWhileUp);
     }
+
     public void relLDowner() {
-        releaseLeft.setPosition(1-relDowner);
+        releaseLeft.setPosition(1 - relDowner);
     }
 
     public void relRUp() {
         releaseRight.setPosition(relUp);
     }
+
     public void relRDown() {
         releaseRight.setPosition(relDown);
     }
+
     public void relRMid() {
         releaseRight.setPosition(relMid);
     }
+
     public void relRMidWhileUp() {
         releaseRight.setPosition(relMidWhileUp);
     }
+
     public void relRDowner() {
         releaseRight.setPosition(relDowner);
     }
 
-    public void flipUp(){flipper.setPosition(.55);}
-    public void flipDown(){flipper.setPosition(.05);}
-    public void flipOut(){flipper.setPosition(.75);}
+    public void flipUp() {
+        flipper.setPosition(.55);
+    }
+
+    public void flipDown() {
+        flipper.setPosition(.05);
+    }
+
+    public void flipOut() {
+        flipper.setPosition(.75);
+    }
 
     public void releaseMove(ReleasePosition position) {
         switch (position) {
@@ -442,7 +468,7 @@ public class Bot
         this.rollOut();
     }
 
-    public void semiUnfoldBot(){
+    public void semiUnfoldBot() {
         this.drive(MovementEnum.STOP, 0);
         this.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         this.releaseMove(ReleasePosition.UP);
@@ -472,7 +498,7 @@ public class Bot
         ;
     }
 
-    public void runToPosition (int target, double power){
+    public void runToPosition(int target, double power) {
         this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
 
         FL.setTargetPosition(target);
@@ -483,12 +509,12 @@ public class Bot
         this.drive(MovementEnum.FORWARD, power);
     }
 
-    public int distanceToRevs(double distance){
+    public int distanceToRevs(double distance) {
         final double wheelCirc = 31.9185813;
 
         final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120,
 
-        return (int)(gearMotorTickThing * (distance / wheelCirc));
+        return (int) (gearMotorTickThing * (distance / wheelCirc));
     }
 
     public void frontIntakeWallUp() {
@@ -507,8 +533,7 @@ public class Bot
         backIntakeWall.setPosition(.5);
     }
 
-    public void safeStrafe(int targetHeading)
-    {
+    public void safeStrafe(int targetHeading) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         headingError = targetHeading - angles.firstAngle;
         driveScale = headingError * powerModifier;
@@ -540,8 +565,7 @@ public class Bot
                         (Math.abs(tickFR - targetTickFR) < 25) &&
                         (Math.abs(tickBL - targetTickBL) < 25) &&
                         (Math.abs(tickBR - targetTickBR) < 25)
-                )
-        {
+                ) {
             scale = 0;
             //stopped, can be changed
         } else if (
@@ -549,32 +573,28 @@ public class Bot
                         (Math.abs(tickFR) < 200) &&
                         (Math.abs(tickBL) < 200) &&
                         (Math.abs(tickBR) < 200)
-                )
-        {
+                ) {
             scale = .1;
         } else if (
                 (Math.abs(tickFL) < 1000) &&
                         (Math.abs(tickFR) < 1000) &&
                         (Math.abs(tickBL) < 1000) &&
                         (Math.abs(tickBR) < 1000)
-                )
-        {
+                ) {
             scale = .3;
         } else if (
                 (Math.abs(tickFL - targetTickFL) < 500) &&
                         (Math.abs(tickFR - targetTickFR) < 500) &&
                         (Math.abs(tickBL - targetTickBL) < 500) &&
                         (Math.abs(tickBR - targetTickBR) < 500)
-                )
-        {
+                ) {
             scale = .1;
         } else if (
                 (Math.abs(tickFL - targetTickFL) < 2000) &&
                         (Math.abs(tickFR - targetTickFR) < 2000) &&
                         (Math.abs(tickBL - targetTickBL) < 2000) &&
                         (Math.abs(tickBR - targetTickBR) < 2000)
-                )
-        {
+                ) {
             scale = .3;
         } else if ((Math.abs(tickFL - targetTickFL) < 2400) && (Math.abs(tickFR - targetTickFR) < 2400) && (Math.abs(tickBL - targetTickBL) < 2400) && (Math.abs(tickBR - targetTickBR) < 2400)) {
             scale = .5;

@@ -45,7 +45,7 @@ public class EnumController<T> {
                 } else {
                     this.currentVal = this.instructionList.get(i).value;
                 }
-            //OVERRIDE will break the loop - so using this means no matter what other stuff was, do this
+                //OVERRIDE will break the loop - so using this means no matter what other stuff was, do this
             } else if (this.instructionList.get(i).flag == flag.OVERRIDE || this.instructionList.get(i).flag == flag.o) {
                 this.currentVal = this.instructionList.get(i).value;
                 break;

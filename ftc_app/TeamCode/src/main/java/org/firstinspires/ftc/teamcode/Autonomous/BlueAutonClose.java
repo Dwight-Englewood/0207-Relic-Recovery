@@ -119,10 +119,7 @@ public class BlueAutonClose extends OpMode {
                 robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 try {Thread.sleep(1000);} catch (InterruptedException e){}
                 robot.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
-                targetFR = robot.distanceToRevs(75);
-                targetFL = robot.distanceToRevs(75);
-                targetBR = robot.distanceToRevs(75);
-                targetBL = robot.distanceToRevs(75);
+                targetFR = targetFL = targetBR = targetBL = robot.distanceToRevs(75);
                 robot.setDriveTargets(targetFL, targetFR, targetBL, targetBR);
                 command++;
                 break;
@@ -146,6 +143,7 @@ public class BlueAutonClose extends OpMode {
                 if (timer.milliseconds() > 2000){
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    timer.reset();
                     command++;
                 }
                 robot.adjustHeading(180);
@@ -154,10 +152,6 @@ public class BlueAutonClose extends OpMode {
 
         }
 
-        telemetry.addData("red", robot.colorSensor.red());
-        telemetry.addData("blue", robot.colorSensor.blue());
-        telemetry.addData("time", timer.milliseconds());
-        telemetry.addData("heading", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
         telemetry.addData("command", command);
         telemetry.update();
     }

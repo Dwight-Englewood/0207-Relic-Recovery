@@ -125,9 +125,11 @@ public class BlueAutonClose extends OpMode {
                 break;
 
             case 4:
-                double power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(),
+                double power = robot.slowDownScale(
+                        robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(),
                         robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(),
-                        targetFL, targetFR, targetBL, targetBR);
+                        targetFL, targetFR,
+                        targetBL, targetBR);
 
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);

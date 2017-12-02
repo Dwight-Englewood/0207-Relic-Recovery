@@ -54,8 +54,8 @@ public class Bot {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
-        cryptoColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "crypcs");
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+        //cryptoColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "crypcs");
+        //rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
         //servo init code
         jewelServo = hardwareMap.get(Servo.class, "servo"); //servo which does servo things
@@ -77,6 +77,10 @@ public class Bot {
 
         releaseRight = hardwareMap.get(Servo.class, "rel r");
         releaseLeft = hardwareMap.get(Servo.class, "rel l");
+
+        releaseRight.scaleRange(.2, .8);
+        releaseLeft.scaleRange(.2, .8);
+
         flipper = hardwareMap.get(Servo.class, "flip");
         frontIntakeWall = hardwareMap.get(Servo.class, "frontiw");
         backIntakeWall = hardwareMap.get(Servo.class, "backiw");
@@ -382,6 +386,7 @@ public class Bot {
     double relMid = .57;
     double relMidWhileUp = .64;
     double relUp = 1;
+
 
     public void relLUp() {
         releaseLeft.setPosition(1 - relUp);

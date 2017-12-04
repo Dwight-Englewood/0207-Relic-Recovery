@@ -269,7 +269,7 @@ public class Bot {
         }
 
         // Convert to Radians for Math.sin/cos
-        angles.firstAngle = (float) (angles.firstAngle * (Math.PI / 180));
+        angles.firstAngle = (float) Math.toRadians(angles.firstAngle);
         double sin = Math.sin(angles.firstAngle);
         double cos = Math.cos(angles.firstAngle);
 

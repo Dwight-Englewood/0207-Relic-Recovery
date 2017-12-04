@@ -32,7 +32,7 @@ public class Bot {
     //Servo armTopExtendyServo;
     //Servo armBottomExtendyServo;
 
-    //public BNO055IMU imu;
+    public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor, cryptoColor;
     public ModernRoboticsI2cRangeSensor rangeSensor;
 
@@ -47,11 +47,11 @@ public class Bot {
 
     public void init(HardwareMap hardwareMap) {
         //BNO055IMU related initialization code
-        //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        //parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        //parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        //parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        //imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
         //cryptoColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "crypcs");
@@ -247,7 +247,6 @@ public class Bot {
 
         if (leftTrigger > .3) {
             drive(MovementEnum.LEFTSTRAFE, leftTrigger);
-            //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
             return;
         }
         if (rightTrigger > .3) {
@@ -271,10 +270,12 @@ public class Bot {
 
         // Convert to Radians for Math.sin/cos
         angles.firstAngle = (float) (angles.firstAngle * (Math.PI / 180));
+        double sin = Math.sin(angles.firstAngle);
+        double cos = Math.cos(angles.firstAngle);
 
         // Do Math
-        temp = forward * Math.cos(angles.firstAngle) - right * Math.sin(angles.firstAngle);
-        right = forward * Math.sin(angles.firstAngle) + right * Math.cos(angles.firstAngle);
+        temp = forward * cos - right * sin;
+        right = forward * sin + right * cos;
         forward = temp;
 
         // Set power values using Math
@@ -296,7 +297,7 @@ public class Bot {
         BR.setPower(rearRight);
     }
 
-    /* public void adjustHeading(int targetHeading, boolean slow) {
+    public void adjustHeading(int targetHeading, boolean slow) {
 
         if (Math.abs(Math.abs(targetHeading) - Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)) <= 1) {
             FL.setPower(0);
@@ -324,7 +325,7 @@ public class Bot {
             BR.setPower(rightPower);
         }
 
-    } */
+    }
 
 
     /**

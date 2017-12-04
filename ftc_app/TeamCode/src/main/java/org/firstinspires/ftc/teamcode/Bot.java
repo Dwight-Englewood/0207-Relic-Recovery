@@ -32,7 +32,7 @@ public class Bot {
     //Servo armTopExtendyServo;
     //Servo armBottomExtendyServo;
 
-    public BNO055IMU imu;
+    //public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor, cryptoColor;
     public ModernRoboticsI2cRangeSensor rangeSensor;
 
@@ -47,11 +47,11 @@ public class Bot {
 
     public void init(HardwareMap hardwareMap) {
         //BNO055IMU related initialization code
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        //parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        //parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        //parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        //imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
         //cryptoColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "crypcs");
@@ -264,7 +264,7 @@ public class Bot {
         clockwise *= k;
 
         // Turn the output heading value to be based on counterclockwise turns
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         if (angles.firstAngle < 0) {
             angles.firstAngle += 360;
         }
@@ -296,7 +296,7 @@ public class Bot {
         BR.setPower(rearRight);
     }
 
-    public void adjustHeading(int targetHeading) {
+    /* public void adjustHeading(int targetHeading, boolean slow) {
 
         if (Math.abs(Math.abs(targetHeading) - Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)) <= 1) {
             FL.setPower(0);
@@ -313,13 +313,18 @@ public class Bot {
             leftPower = Range.clip(leftPower, -1, 1);
             rightPower = Range.clip(rightPower, -1, 1);
 
+            if (slow){
+                leftPower = Range.clip(leftPower, -.1, .1);
+                rightPower = Range.clip(rightPower, -.1, .1);
+            }
+
             FL.setPower(leftPower);
             BL.setPower(leftPower);
             FR.setPower(rightPower);
             BR.setPower(rightPower);
         }
 
-    }
+    } */
 
 
     /**
@@ -381,31 +386,33 @@ public class Bot {
         jewelServo.setPosition(.1);
     }
 
-    double relDowner = .48;
-    double relDown = .53;
-    double relMid = .57;
-    double relMidWhileUp = .64;
+    public void jewelOuter() {jewelServo.setPosition(0);}
+
+    double relDowner = 0;
+    double relDown = 0;
+    double relMid = .50;
+    double relMidWhileUp = .52;
     double relUp = 1;
 
 
     public void relLUp() {
-        releaseLeft.setPosition(1 - relUp);
+        releaseLeft.setPosition(relUp);
     }
 
     public void relLDown() {
-        releaseLeft.setPosition(1 - relDown);
+        releaseLeft.setPosition(relDown);
     }
 
     public void relLMid() {
-        releaseLeft.setPosition(1 - relMid);
+        releaseLeft.setPosition(relMid);
     }
 
     public void relLMidWhileUp() {
-        releaseLeft.setPosition(1 - relMidWhileUp);
+        releaseLeft.setPosition(relMidWhileUp);
     }
 
     public void relLDowner() {
-        releaseLeft.setPosition(1 - relDowner);
+        releaseLeft.setPosition(relDowner);
     }
 
     public void relRUp() {
@@ -542,7 +549,7 @@ public class Bot {
         backIntakeWall.setPosition(.5);
     }
 
-    public void safeStrafe(int targetHeading) {
+    /**public void safeStrafe(int targetHeading) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         headingError = targetHeading - angles.firstAngle;
         driveScale = headingError * powerModifier;
@@ -565,7 +572,7 @@ public class Bot {
         BL.setPower(leftPower);
         FR.setPower(rightPower);
         BR.setPower(rightPower);
-    }
+    }*/
 
     public void setDriveTargets(int targetFL, int targetFR, int targetBL, int targetBR){
         FL.setTargetPosition(targetFL);

@@ -23,7 +23,7 @@ public class Telebop extends OpMode {
     boolean abnormalReleaseFlag = false;
     boolean i = false;
 
-    int releaseEncoderMax = 2000; //todo figure out real nuumber
+    //int releaseEncoderMax = 2000; //todo figure out real nuumber
 
     @Override
     public void init() {
@@ -41,8 +41,7 @@ public class Telebop extends OpMode {
         telemetry.clear();
         robot.jewelUp();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
-        ticks = robot.lift.getCurrentPosition();
-
+        //ticks = robot.lift.getCurrentPosition();
     }
 
     @Override
@@ -55,13 +54,13 @@ public class Telebop extends OpMode {
         currentPosition = ReleasePosition.MIDDLE;
 
         if (gamepad1.left_bumper && countdown <= 0) {
-            i = i ? false : true;
+            //i = i ? false : true;
             countdown = 50;
         }
 
         if (gamepad1.right_bumper && countdown <= 0) {
             brakeToggle = brakeToggle ? false : true;
-            countdown = 50;
+            countdown = 30;
         }
 
         if (gamepad2.right_bumper) {
@@ -101,11 +100,11 @@ public class Telebop extends OpMode {
             robot.flipDown();
         }
 
-        if (gamepad2.dpad_down) {
+        if (gamepad2.dpad_up) {
             abnormalReleaseFlag = true;
             currentPosition = ReleasePosition.MIDDLEUP;
             robot.lift.setPower(-.5);
-        } else if (gamepad2.dpad_up) {
+        } else if (gamepad2.dpad_down) {
             abnormalReleaseFlag = true;
             currentPosition = ReleasePosition.MIDDLEUP;
             robot.lift.setPower(1);
@@ -128,7 +127,7 @@ public class Telebop extends OpMode {
             currentPosition = ReleasePosition.UP;
             robot.flipUp();
             robot.backIntakeWallDown();
-            wallCountdown = 30;
+            wallCountdown = 40;
         } else if (wallCountdown <= 0 && !abnormalReleaseFlag) {
             currentPosition = ReleasePosition.MIDDLE;
             robot.backIntakeWallUp();

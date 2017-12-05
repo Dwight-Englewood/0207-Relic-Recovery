@@ -269,9 +269,9 @@ public class Bot {
         }
 
         // Convert to Radians for Math.sin/cos
-        angles.firstAngle = (float) Math.toRadians(angles.firstAngle);
-        double sin = Math.sin(angles.firstAngle);
-        double cos = Math.cos(angles.firstAngle);
+        double orient = Math.toRadians(angles.firstAngle);
+        double sin = Math.sin(orient);
+        double cos = Math.cos(orient);
 
         // Do Math
         temp = forward * cos - right * sin;

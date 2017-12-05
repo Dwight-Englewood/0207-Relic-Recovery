@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Testing;
  * Created by weznon on 11/5/17.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Bot;
 
 @TeleOp(name = "HeadingTest", group = "Teleop")
+@Disabled
 public class HeadingTest extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();
@@ -34,18 +36,18 @@ public class HeadingTest extends OpMode {
 
     @Override
     public void loop() {
-        if (timer.milliseconds() < 5000)
-            robot.adjustHeading(180);
+        /*if (timer.milliseconds() < 5000)
+            robot.adjustHeading(180, false);
         else if (timer.milliseconds() < 10000)
-            robot.adjustHeading(90);
+            robot.adjustHeading(90, false);
         else if (timer.milliseconds() < 15000)
-            robot.adjustHeading(-90);
+            robot.adjustHeading(-90, false);
         else
-            robot.adjustHeading(0);
+            robot.adjustHeading(0, false);
 
         telemetry.addData("heading", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
         telemetry.addData("time", timer.milliseconds());
-        telemetry.update();
+        telemetry.update();*/
     }
 
 

@@ -30,14 +30,16 @@ public class BlueAutonClose extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer;
     int command = 0;
-    VuforiaLocalizer vuforia;
+    /*VuforiaLocalizer vuforia;
     VuforiaTrackables relicTrackables;
     VuforiaTrackable relicTemplate;
-    RelicRecoveryVuMark vuMark;
+    RelicRecoveryVuMark vuMark;*/
+
     int targetFL;
     int targetFR;
     int targetBL;
     int targetBR;
+    boolean towardBox;
 
     @Override
     public void init() {
@@ -45,14 +47,14 @@ public class BlueAutonClose extends OpMode {
         timer = new ElapsedTime();
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        /*VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = "AbZUuPf/////AAAAGUmS0Chan00iu7rnRhzu63+JgDtPo889M6dNtjvv+WKxiMJ8w2DgSJdM2/zEI+a759I7DlPj++D2Ryr5sEHAg4k1bGKdo3BKtkSeh8hCy78w0SIwoOACschF/ImuyP/V259ytjiFtEF6TX4teE8zYpQZiVkCQy0CmHI9Ymoa7NEvFEqfb3S4P6SicguAtQ2NSLJUX+Fdn49SEJKvpSyhwyjbrinJbak7GWqBHcp7fGh7TNFcfPFMacXg28XxlvVpQaVNgkvuqolN7wkTiR9ZMg6Fnm0zN4Xjr5lRtDHeE51Y0bZoBUbyLWSA+ts3SyDjDPPUU7GMI+Ed/ifb0csVpM12aOiNr8d+HsfF2Frnzrj2";
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
         relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        relicTemplate = relicTrackables.get(0);
+        relicTemplate = relicTrackables.get(0);*/
 
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
@@ -74,7 +76,7 @@ public class BlueAutonClose extends OpMode {
         timer.reset();
         robot.jewelOut();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
-        relicTrackables.activate();
+        //relicTrackables.activate();
     }
 
     /*
@@ -83,7 +85,7 @@ public class BlueAutonClose extends OpMode {
     @Override
     public void loop() {
         switch (command) {
-            case 0:
+            /*case 0:
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     command++;
@@ -91,35 +93,52 @@ public class BlueAutonClose extends OpMode {
                 } else {
                     telemetry.addData("VuMark", "not visible");
                 }
+                break;*/
+            case 0:
+                if (timer.milliseconds() > 10000){
+                    timer.reset();
+                    command++;
+                }
                 break;
-
             case 1:
-                if (timer.milliseconds() > 2000) {
+                if (timer.milliseconds() > 1500){
+                    robot.jewelUp();
+                }
+                if (timer.milliseconds() > 2500) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.jewelUp();
                     timer.reset();
                     command++;
                 } else if (robot.colorSensor.blue() >= 2) {
-                    robot.adjustHeading(105);
+                    //robot.adjustHeading(110, true);
+                    robot.drive(MovementEnum.BACKWARD, .1);
+                    towardBox = false;
                 } else if (robot.colorSensor.red() >= 2) {
-                    robot.adjustHeading(75);
+                    //robot.adjustHeading(70, true);
+                    robot.drive(MovementEnum.FORWARD, .1);
+                    towardBox = true;
                 }
                 break;
 
             case 2:
-                if (timer.milliseconds() > 1000) {
+                if (timer.milliseconds() > 3000 && towardBox) {
                     timer.reset();
                     robot.drive(MovementEnum.STOP, 0);
+                    robot.jewelOuter();
                     command++;
                 }
-                robot.adjustHeading(90);
+                //robot.adjustHeading(90, false);
                 break;
 
-            case 3:
+            /*case 3:
                 robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 try {Thread.sleep(1000);} catch (InterruptedException e){}
                 robot.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
-                targetFR = targetFL = targetBR = targetBL = robot.distanceToRevs(75);
+                if (towardBox) {
+                    targetFR = targetFL = targetBR = targetBL = robot.distanceToRevs(50);
+                } else {
+                    targetFR = targetFL = targetBR = targetBL = 0;
+                }
                 robot.setDriveTargets(targetFL, targetFR, targetBL, targetBR);
                 command++;
                 break;
@@ -142,16 +161,14 @@ public class BlueAutonClose extends OpMode {
                 break;
 
             case 5:
-                if (timer.milliseconds() > 2000){
+                if (timer.milliseconds() > 1000){
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 }
-                robot.adjustHeading(180);
-                break;
-
-
+                robot.adjustHeading(0, false);
+                break;*/
         }
 
         telemetry.addData("command", command);

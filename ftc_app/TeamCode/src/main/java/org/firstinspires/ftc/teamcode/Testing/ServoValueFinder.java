@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Testing;
  * Created by weznon on 11/15/17.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -32,6 +33,7 @@ import org.firstinspires.ftc.teamcode.Bot;
  */
 
 @TeleOp(name = "ServoValueFinder", group = "Teleop")
+@Disabled
 public class ServoValueFinder extends OpMode {
     Bot robot = new Bot();
 

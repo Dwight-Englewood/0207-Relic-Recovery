@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 
+import java.sql.Time;
+
 /**
  * Created by aburur on 9/10/17.
  */
@@ -24,6 +26,15 @@ public class Telebop extends OpMode {
     boolean i = false;
 
     int releaseEncoderMax = 2000; //todo figure out real nuumber
+
+    boolean firstRun = true;
+    int loopNum = 0;
+    long time0 = 0;
+    long time1 = 0;
+    long time100 = 0;
+    long time1000 = 0;
+    long time10000 = 0;
+    long time100000 = 0;
 
     @Override
     public void init() {
@@ -46,8 +57,24 @@ public class Telebop extends OpMode {
     }
 
     @Override
-    public void loop()
-    {
+    public void loop() {
+
+        if (firstRun) {
+            time0 = System.nanoTime();
+            firstRun = false;
+        }
+
+        if (loopNum == 1) {
+            time1 = System.nanoTime();
+        } else if (loopNum == 100) {
+            time100 = System.nanoTime();
+        } else if (loopNum == 1000) {
+            time1000 = System.nanoTime();
+        } else if (loopNum == 10000) {
+            time10000 = System.nanoTime();
+        } else if (loopNum == 100000) {
+            time100000 = System.nanoTime();
+        }
         //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
 
@@ -145,8 +172,16 @@ public class Telebop extends OpMode {
         wallCountdown--;
         robot.releaseMove(currentPosition);
 
+        loopNum = loopNum + 1;
+
         telemetry.addData("release pos", currentPosition);
         telemetry.addData("Braking", brakeToggle);
+        telemetry.addData("time0", time0);
+        telemetry.addData("time1", time1);
+        telemetry.addData("time100", time100);
+        telemetry.addData("time1000", time1000);
+        telemetry.addData("time10000", time10000);
+        telemetry.addData("time100000", time100000);
         telemetry.update();
     }
 

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -139,15 +140,15 @@ public class Bot {
         }
 
         if (leftTrigger > .3) {
-            //drive(MovementEnum.LEFTSTRAFE, leftTrigger * i);
-            drive(MovementEnum.LEFTSTRAFE, .1);
+            drive(MovementEnum.LEFTSTRAFE, leftTrigger * i);
+            // drive(MovementEnum.LEFTSTRAFE, .1);
 
             //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
             return;
         }
         if (rightTrigger > .3) {
-            //drive(MovementEnum.RIGHTSTRAFE, rightTrigger * i);
-            drive(MovementEnum.RIGHTSTRAFE, .1);
+            drive(MovementEnum.RIGHTSTRAFE, rightTrigger * i);
+            //drive(MovementEnum.RIGHTSTRAFE, .1);
 
             return;
         }
@@ -161,7 +162,7 @@ public class Bot {
         BR.setPower(-rightStick);
     }
 
-    public void tankDrive2(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
+    public void tankDrive2(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {
         int i = invert ? -1 : 1;
 
         if (leftTrigger < .3 && rightTrigger < .3) {
@@ -182,7 +183,7 @@ public class Bot {
                 heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
                 isStrafing = true;
             }
-            safeStrafe(heading);
+            safeStrafe(heading, false, telemetry);
             //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
             return;
         }
@@ -194,8 +195,8 @@ public class Bot {
                 heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
                 isStrafing = true;
             }
-            safeStrafe(heading);
-            return;
+            safeStrafe(heading, true, telemetry);
+
         }
 
         leftStick *= i;
@@ -605,13 +606,13 @@ public class Bot {
         backIntakeWall.setPosition(.5);
     }
 
-    public void safeStrafe(float targetHeading) {
+    public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry, double powerCenter) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         headingError = targetHeading - angles.firstAngle;
         driveScale = headingError * powerModifier;
 
-        leftPower = .85 + driveScale;
-        rightPower = .85 - driveScale;
+        leftPower = powerCenter - driveScale;
+        rightPower = powerCenter + driveScale;
 
         if (leftPower > 1)
             leftPower = 1;
@@ -624,10 +625,52 @@ public class Bot {
             rightPower = 0;
 
 
-        FL.setPower(leftPower);
-        FR.setPower(-rightPower);
-        BL.setPower(-leftPower);
-        BR.setPower(rightPower);
+        if (isRight) {
+            FL.setPower(leftPower);
+            FR.setPower(-rightPower);
+            BL.setPower(-leftPower);
+            BR.setPower(rightPower);
+        } else {
+            FL.setPower(-leftPower);
+            FR.setPower(rightPower);
+            BL.setPower(leftPower);
+            BR.setPower(-rightPower);
+        }
+        telemetry.addData("leftPower", leftPower);
+        telemetry.addData("rightPower", rightPower);
+    }
+    public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry) {
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        headingError = targetHeading - angles.firstAngle;
+        driveScale = headingError * powerModifier;
+
+        leftPower = .85 - driveScale;
+        rightPower = .85 + driveScale;
+
+        if (leftPower > 1)
+            leftPower = 1;
+        else if (leftPower < 0)
+            leftPower = 0;
+
+        if (rightPower > 1)
+            rightPower = 1;
+        else if (rightPower < 0)
+            rightPower = 0;
+
+
+        if (isRight) {
+            FL.setPower(leftPower);
+            FR.setPower(-rightPower);
+            BL.setPower(-leftPower);
+            BR.setPower(rightPower);
+        } else {
+            FL.setPower(-leftPower);
+            FR.setPower(rightPower);
+            BL.setPower(leftPower);
+            BR.setPower(-rightPower);
+        }
+        telemetry.addData("leftPower", leftPower);
+        telemetry.addData("rightPower", rightPower);
     }
 
     public void setDriveTargets(int targetFL, int targetFR, int targetBL, int targetBR) {

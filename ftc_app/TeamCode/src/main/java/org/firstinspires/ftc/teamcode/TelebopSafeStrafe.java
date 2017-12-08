@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,8 +11,9 @@ import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 /**
  * Created by plotnw on 12/08/2017
  */
-@TeleOp(name = "Telebop 2 electric boogaloo", group = "Teleop")
-public class Telebop2 extends OpMode {
+@TeleOp(name = "TelebopSafeStrafe", group = "Teleop")
+@Disabled
+public class TelebopSafeStrafe extends OpMode {
     Bot robot = new Bot();
     boolean brakeToggle = false;
 
@@ -73,7 +75,7 @@ public class Telebop2 extends OpMode {
             time100000 = System.nanoTime();
         }
         //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
-        robot.tankDrive2(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
+        robot.tankDrive2(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle, telemetry); // Tank drive???
 
         abnormalReleaseFlag = false;
         currentPosition = ReleasePosition.MIDDLE;

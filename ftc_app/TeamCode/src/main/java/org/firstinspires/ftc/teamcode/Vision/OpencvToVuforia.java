@@ -1,4 +1,4 @@
-public Mat readFrame() {
+/*public Mat readFrame() {
          VuforiaLocalizer.CloseableFrame frame;
          Image rgb = null;
 
@@ -44,3 +44,4 @@ public Mat readFrame() {
 
          return mat;
      }
+     */

@@ -40,6 +40,9 @@ public class Bot {
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
             leftPower, rightPower;
 
+    boolean isStrafing;
+    float heading;
+
     ReleasePosition currentPosition = ReleasePosition.DOWN;
 
     public Bot() {
@@ -158,6 +161,52 @@ public class Bot {
         BR.setPower(-rightStick);
     }
 
+    public void tankDrive2(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
+        int i = invert ? -1 : 1;
+
+        if (leftTrigger < .3 && rightTrigger < .3) {
+            isStrafing = false;
+        }
+
+        if (brake) {
+            drive(MovementEnum.STOP, 0);
+            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
+        } else {
+            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
+        }
+
+        if (leftTrigger > .3) {
+            if (isStrafing) {
+                ;
+            } else {
+                heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+                isStrafing = true;
+            }
+            safeStrafe(heading);
+            //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
+            return;
+        }
+
+        if (rightTrigger > .3) {
+            if (isStrafing) {
+                ;
+            } else {
+                heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+                isStrafing = true;
+            }
+            safeStrafe(heading);
+            return;
+        }
+
+        leftStick *= i;
+        rightStick *= i;
+        if (!isStrafing) {
+            FL.setPower(-leftStick);
+            BL.setPower(-leftStick);
+            FR.setPower(-rightStick);
+            BR.setPower(-rightStick);
+        }
+    }
     //TODO
 
     /**
@@ -318,7 +367,7 @@ public class Bot {
             leftPower = Range.clip(leftPower, -1, 1);
             rightPower = Range.clip(rightPower, -1, 1);
 
-            if (slow){
+            if (slow) {
                 leftPower = Range.clip(leftPower, -.1, .1);
                 rightPower = Range.clip(rightPower, -.1, .1);
             }
@@ -391,7 +440,9 @@ public class Bot {
         jewelServo.setPosition(.1);
     }
 
-    public void jewelOuter() {jewelServo.setPosition(0);}
+    public void jewelOuter() {
+        jewelServo.setPosition(0);
+    }
 
     double relDowner = 0;
     double relDown = 0;
@@ -554,7 +605,7 @@ public class Bot {
         backIntakeWall.setPosition(.5);
     }
 
-    public void safeStrafe(int targetHeading) {
+    public void safeStrafe(float targetHeading) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         headingError = targetHeading - angles.firstAngle;
         driveScale = headingError * powerModifier;
@@ -574,12 +625,12 @@ public class Bot {
 
 
         FL.setPower(leftPower);
-        FR.setPower(rightPower);
-        BL.setPower(leftPower);
+        FR.setPower(-rightPower);
+        BL.setPower(-leftPower);
         BR.setPower(rightPower);
     }
 
-    public void setDriveTargets(int targetFL, int targetFR, int targetBL, int targetBR){
+    public void setDriveTargets(int targetFL, int targetFR, int targetBL, int targetBR) {
         FL.setTargetPosition(targetFL);
         FR.setTargetPosition(targetFR);
         BL.setTargetPosition(targetBL);

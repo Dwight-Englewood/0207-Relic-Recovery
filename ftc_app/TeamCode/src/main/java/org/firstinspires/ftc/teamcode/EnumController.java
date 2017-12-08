@@ -83,18 +83,6 @@ public class EnumController<T> {
 
 }
 
-//im a little tuple, short and stout
-class Tuple<T> {
-    public T value;
-    public flag flag;
-
-    public Tuple(T value, flag flag) {
-        this.value = value;
-        this.flag = flag;
-    }
-
-}
-
 enum flag {
     OVERRIDE,
     o,

@@ -75,7 +75,7 @@ public class TelebopSafeStrafe extends OpMode {
             time100000 = System.nanoTime();
         }
         //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
-        robot.tankDrive2(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle, telemetry); // Tank drive???
+        robot.tankDriveSafeStrafe(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle, telemetry); // Tank drive???
 
         abnormalReleaseFlag = false;
         currentPosition = ReleasePosition.MIDDLE;

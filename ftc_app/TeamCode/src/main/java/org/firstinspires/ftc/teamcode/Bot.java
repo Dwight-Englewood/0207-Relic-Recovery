@@ -162,7 +162,7 @@ public class Bot {
         BR.setPower(-rightStick);
     }
 
-    public void tankDrive2(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {
+    public void tankDriveSafeStrafe(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {
         int i = invert ? -1 : 1;
 
         if (leftTrigger < .3 && rightTrigger < .3) {

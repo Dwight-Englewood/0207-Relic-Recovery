@@ -278,7 +278,7 @@ public class Bot {
         right = forward * sin + right * cos;
         forward = temp;
 
-        // Set power values using Math
+        // Set power values using Math -- could be optimized
         frontLeft = forward + clockwise + right;
         frontRight = forward - clockwise - right;
         rearLeft = forward + clockwise - right;

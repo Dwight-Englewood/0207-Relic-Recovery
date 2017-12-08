@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 
 @Autonomous(name = "CalibrateGyro", group = "Testing")
-@Disabled
+//@Disabled
 public class CalibrateGyro extends OpMode {
 
     BNO055IMU imu;

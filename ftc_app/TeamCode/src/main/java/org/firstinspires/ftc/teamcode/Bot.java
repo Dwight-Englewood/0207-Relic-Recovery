@@ -136,12 +136,16 @@ public class Bot {
         }
 
         if (leftTrigger > .3) {
-            drive(MovementEnum.LEFTSTRAFE, leftTrigger * i);
+            //drive(MovementEnum.LEFTSTRAFE, leftTrigger * i);
+            drive(MovementEnum.LEFTSTRAFE, .1);
+
             //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
             return;
         }
         if (rightTrigger > .3) {
-            drive(MovementEnum.RIGHTSTRAFE, rightTrigger * i);
+            //drive(MovementEnum.RIGHTSTRAFE, rightTrigger * i);
+            drive(MovementEnum.RIGHTSTRAFE, .1);
+
             return;
         }
 
@@ -550,7 +554,7 @@ public class Bot {
         backIntakeWall.setPosition(.5);
     }
 
-    /**public void safeStrafe(int targetHeading) {
+    public void safeStrafe(int targetHeading) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         headingError = targetHeading - angles.firstAngle;
         driveScale = headingError * powerModifier;
@@ -570,10 +574,10 @@ public class Bot {
 
 
         FL.setPower(leftPower);
-        BL.setPower(leftPower);
         FR.setPower(rightPower);
+        BL.setPower(leftPower);
         BR.setPower(rightPower);
-    }*/
+    }
 
     public void setDriveTargets(int targetFL, int targetFR, int targetBL, int targetBR){
         FL.setTargetPosition(targetFL);

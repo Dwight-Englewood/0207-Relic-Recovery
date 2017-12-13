@@ -317,7 +317,7 @@ public class Bot {
         clockwise *= k;
 
         // Turn the output heading value to be based on counterclockwise turns
-        //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         if (angles.firstAngle < 0) {
             angles.firstAngle += 360;
         }

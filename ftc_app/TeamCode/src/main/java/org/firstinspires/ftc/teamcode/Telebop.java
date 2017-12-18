@@ -127,14 +127,14 @@ public class Telebop extends OpMode {
             robot.flipDown();
         }
 
-        if (gamepad2.dpad_up) {
+        if (gamepad2.left_stick_y > .15) {
             abnormalReleaseFlag = true;
             currentPosition = ReleasePosition.MIDDLEUP;
-            robot.lift.setPower(-.5);
-        } else if (gamepad2.dpad_down) {
+            robot.lift.setPower(gamepad2.left_stick_y);
+        } else if (gamepad2.left_stick_y < -.15) {
             abnormalReleaseFlag = true;
             currentPosition = ReleasePosition.MIDDLEUP;
-            robot.lift.setPower(1);
+            robot.lift.setPower(gamepad2.left_stick_y);
         } else {
             if (!abnormalReleaseFlag) {
                 currentPosition = ReleasePosition.MIDDLE;

@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 
-import java.sql.Time;
-
 /**
  * Created by aburur on 9/10/17.
  */
@@ -161,7 +159,7 @@ public class Telebop extends OpMode {
         }
 
         if (gamepad2.x) {
-            robot.jewelServo.setPosition(.3);
+            robot.jewelServoBottom.setPosition(.3);
         } else {
             robot.jewelUp();
         }

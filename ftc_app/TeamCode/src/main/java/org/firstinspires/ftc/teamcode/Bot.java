@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 public class Bot {
 
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
-    public Servo jewelServo, flipper, releaseLeft, releaseRight, frontIntakeWall, backIntakeWall;
+    public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, frontIntakeWall, backIntakeWall, jewelServoTop;
 
     //Servo armNoSpringyServo;
     //Servo armTopExtendyServo;
@@ -62,7 +62,9 @@ public class Bot {
         //rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
         //servo init code
-        jewelServo = hardwareMap.get(Servo.class, "servo"); //servo which does servo things
+        jewelServoBottom = hardwareMap.get(Servo.class, "brandon"); //servo which does servo things
+        jewelServoTop = hardwareMap.get(Servo.class, "hahn"); //another servo which does servo things
+
         //armNoSpringyServo       = hardwareMap.get(Servo.class, "anss"); //Servo which prevents arm from springing out aka move this to extend arm
         //armBottomExtendyServo   = hardwareMap.get(Servo.class, "abes"); //Servo which controls the clamp on the arm
         //armTopExtendyServo      = hardwareMap.get(Servo.class, "ates"); //Servo which controls the angle of the hand
@@ -72,6 +74,8 @@ public class Bot {
         FR = hardwareMap.get(DcMotor.class, "fr");
         BL = hardwareMap.get(DcMotor.class, "bl");
         BR = hardwareMap.get(DcMotor.class, "br");
+
+
 
         intakeDrop = hardwareMap.get(DcMotor.class, "intlift");
         intakeOne = hardwareMap.get(DcMotor.class, "rint");
@@ -434,15 +438,15 @@ public class Bot {
      * out - .1
      */
     public void jewelUp() {
-        jewelServo.setPosition(.6);
+        jewelServoBottom.setPosition(.6);
     }
 
     public void jewelOut() {
-        jewelServo.setPosition(.1);
+        jewelServoBottom.setPosition(.1);
     }
 
     public void jewelOuter() {
-        jewelServo.setPosition(0);
+        jewelServoBottom.setPosition(0);
     }
 
     double relDowner = 0;

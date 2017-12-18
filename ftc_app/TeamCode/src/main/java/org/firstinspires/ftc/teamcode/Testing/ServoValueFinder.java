@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Testing;
  * Created by weznon on 11/15/17.
  */
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -38,12 +37,12 @@ public class ServoValueFinder extends OpMode {
     Bot robot = new Bot();
 
     double flipperVal = .5;
-    double juulVal = .5;
+    double brandonVal = .5;
     double releaseLeftVal = .5;
     double releaseRightVal = .5;
     double frontIntakeWallVal = .5;
     double backIntakeWallVal = .5;
-    double brandonHahn = .5;
+    double hahnVal = .5;
 
 
     int cooldown = 0;
@@ -77,19 +76,19 @@ public class ServoValueFinder extends OpMode {
             }
 
             if (gamepad1.dpad_up) {
-                juulVal = juulVal + .01;
+                brandonVal = brandonVal + .01;
                 cooldown = cooldownTime;
             }
             if (gamepad1.dpad_down) {
-                juulVal = juulVal - .01;
+                brandonVal = brandonVal - .01;
                 cooldown = cooldownTime;
             }
             if (gamepad1.dpad_left) {
-                brandonHahn = brandonHahn - .01;
+                hahnVal = hahnVal - .01;
                 cooldown = cooldownTime;
             }
             if (gamepad1.dpad_right) {
-                brandonHahn = brandonHahn + .01;
+                hahnVal = hahnVal + .01;
                 cooldown = cooldownTime;
             }
             if (gamepad1.b) {
@@ -127,7 +126,8 @@ public class ServoValueFinder extends OpMode {
         }
 
         flipperVal = Range.clip(flipperVal, 0, 1.0);
-        juulVal = Range.clip(juulVal, 0, 1.0);
+        brandonVal = Range.clip(brandonVal, 0, 1.0);
+        hahnVal = Range.clip(hahnVal, 0, 1.0);
         releaseLeftVal = Range.clip(releaseLeftVal, 0, 1.0);
         releaseRightVal = Range.clip(releaseRightVal, 0, 1.0);
         frontIntakeWallVal = Range.clip(frontIntakeWallVal, 0, 1.0);
@@ -135,15 +135,16 @@ public class ServoValueFinder extends OpMode {
 
         //Setting servo values
         robot.flipper.setPosition(flipperVal);
-        robot.jewelServo.setPosition(juulVal);
+        robot.jewelServoBottom.setPosition(brandonVal);
         robot.releaseLeft.setPosition(releaseLeftVal);
         robot.releaseRight.setPosition(releaseRightVal);
         robot.frontIntakeWall.setPosition(frontIntakeWallVal);
         robot.backIntakeWall.setPosition(backIntakeWallVal);
+        robot.jewelServoTop.setPosition(hahnVal);
 
         //Telemetry
         telemetry.addData("flipperVal", flipperVal);
-        telemetry.addData("juulVal", juulVal);
+        telemetry.addData("juulVal", brandonVal);
         telemetry.addData("releaseLeftVal", releaseLeftVal);
         telemetry.addData("releaseRightVal", releaseRightVal);
         telemetry.addData("frontIntakeWallVal", frontIntakeWallVal);

@@ -136,7 +136,7 @@ public class TelebopFieldCentric extends OpMode {
         }
 
         if (gamepad2.x) {
-            robot.jewelServo.setPosition(.3);
+            robot.jewelServoBottom.setPosition(.3);
         } else {
             robot.jewelUp();
         }

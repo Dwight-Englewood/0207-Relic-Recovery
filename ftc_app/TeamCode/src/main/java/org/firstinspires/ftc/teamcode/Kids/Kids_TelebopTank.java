@@ -119,7 +119,7 @@ public class Kids_TelebopTank extends OpMode
         }
 
         if (gamepad2.x) {
-            robot.jewelServo.setPosition(.3);
+            robot.jewelServoBottom.setPosition(.3);
         } else {
             robot.jewelUp();
         }

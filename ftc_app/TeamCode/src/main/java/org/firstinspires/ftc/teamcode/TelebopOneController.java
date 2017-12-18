@@ -134,7 +134,7 @@ public class TelebopOneController extends OpMode {
         }
 
         if (gamepad1.x) {
-            robot.jewelServo.setPosition(.3);
+            robot.jewelServoBottom.setPosition(.3);
         } else {
             robot.jewelUp();
         }

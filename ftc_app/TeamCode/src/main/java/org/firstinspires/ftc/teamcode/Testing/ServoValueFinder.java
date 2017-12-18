@@ -33,7 +33,7 @@ import org.firstinspires.ftc.teamcode.Bot;
  */
 
 @TeleOp(name = "ServoValueFinder", group = "Teleop")
-@Disabled
+//@Disabled
 public class ServoValueFinder extends OpMode {
     Bot robot = new Bot();
 
@@ -43,6 +43,8 @@ public class ServoValueFinder extends OpMode {
     double releaseRightVal = .5;
     double frontIntakeWallVal = .5;
     double backIntakeWallVal = .5;
+    double brandonHahn = .5;
+
 
     int cooldown = 0;
 
@@ -65,11 +67,11 @@ public class ServoValueFinder extends OpMode {
     @Override
     public void loop() {
         if (cooldown == 0) {
-            if (gamepad1.dpad_right) {
+            if (gamepad2.dpad_right) {
                 flipperVal = flipperVal + .01;
                 cooldown = cooldownTime;
             }
-            if (gamepad1.dpad_left) {
+            if (gamepad2.dpad_left) {
                 flipperVal = flipperVal - .01;
                 cooldown = cooldownTime;
             }
@@ -82,7 +84,14 @@ public class ServoValueFinder extends OpMode {
                 juulVal = juulVal - .01;
                 cooldown = cooldownTime;
             }
-
+            if (gamepad1.dpad_left) {
+                brandonHahn = brandonHahn - .01;
+                cooldown = cooldownTime;
+            }
+            if (gamepad1.dpad_right) {
+                brandonHahn = brandonHahn + .01;
+                cooldown = cooldownTime;
+            }
             if (gamepad1.b) {
                 releaseLeftVal = releaseLeftVal + .01;
                 releaseRightVal = releaseRightVal - .01;
@@ -113,7 +122,6 @@ public class ServoValueFinder extends OpMode {
                 backIntakeWallVal = backIntakeWallVal - .01;
                 cooldown = cooldownTime;
             }
-
         } else {
             cooldown -= 1;
         }

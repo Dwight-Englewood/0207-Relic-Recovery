@@ -145,10 +145,12 @@ public class ServoValueFinder extends OpMode {
         //Telemetry
         telemetry.addData("flipperVal", flipperVal);
         telemetry.addData("juulVal", brandonVal);
+        telemetry.addData("hahnVal", hahnVal);
         telemetry.addData("releaseLeftVal", releaseLeftVal);
         telemetry.addData("releaseRightVal", releaseRightVal);
         telemetry.addData("frontIntakeWallVal", frontIntakeWallVal);
         telemetry.addData("backIntakeWallVal", backIntakeWallVal);
+
 
         telemetry.addData("cooldown", cooldown);
         telemetry.addData("cooldownTime", cooldownTime);

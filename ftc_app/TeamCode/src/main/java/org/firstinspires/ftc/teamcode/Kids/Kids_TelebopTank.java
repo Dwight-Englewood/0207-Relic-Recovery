@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Kids;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
  * Created by aburur on 12/12/17.
  */
 @TeleOp(name = "KIDS TANK", group = "Teleop")
+@Disabled
 public class Kids_TelebopTank extends OpMode
 {
     Bot robot = new Bot();

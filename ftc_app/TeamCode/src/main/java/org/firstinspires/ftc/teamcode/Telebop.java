@@ -34,6 +34,8 @@ public class Telebop extends OpMode {
     long time10000 = 0;
     long time100000 = 0;
 
+    double liftScale = .3;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -128,11 +130,11 @@ public class Telebop extends OpMode {
         if (gamepad2.left_stick_y > .15) {
             abnormalReleaseFlag = true;
             currentPosition = ReleasePosition.MIDDLEUP;
-            robot.lift.setPower(gamepad2.left_stick_y);
+            robot.lift.setPower(gamepad2.left_stick_y * liftScale);
         } else if (gamepad2.left_stick_y < -.15) {
             abnormalReleaseFlag = true;
             currentPosition = ReleasePosition.MIDDLEUP;
-            robot.lift.setPower(gamepad2.left_stick_y);
+            robot.lift.setPower(gamepad2.left_stick_y * liftScale);
         } else {
             if (!abnormalReleaseFlag) {
                 currentPosition = ReleasePosition.MIDDLE;
@@ -179,6 +181,11 @@ public class Telebop extends OpMode {
         telemetry.addData("time1000", time1000);
         telemetry.addData("time10000", time10000);
         telemetry.addData("time100000", time100000);
+        telemetry.addData("time1Avg", time1 - time0);
+        telemetry.addData("time100Avg", (time100 - time0) / 100);
+        telemetry.addData("time1000Avg", (time1000 - time0) / 1000);
+        telemetry.addData("time10000Avg", (time10000 - time0) / 10000);
+
         telemetry.update();
     }
 

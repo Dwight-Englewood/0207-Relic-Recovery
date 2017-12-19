@@ -721,8 +721,24 @@ public class Bot {
         return scale;
     }
 
-    public void autoLineup(){
-        
+    public void autoLineup(boolean goRight) {
+        if (Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) <= 2) {
+            if (goRight) {
+                if (cryptoColor.red() >= 3 || cryptoColor.blue() >= 3) {
+                    drive(MovementEnum.STOP, 0);
+                } else {
+                    drive(MovementEnum.RIGHTSTRAFE, .1);
+                }
+            } else {
+                if (cryptoColor.red() >= 3 || cryptoColor.blue() >= 3) {
+                    drive(MovementEnum.STOP, 0);
+                } else {
+                    drive(MovementEnum.LEFTSTRAFE, .1);
+                }
+            }
+        } else {
+            adjustHeading(0, true);
+        }
     }
 
 }

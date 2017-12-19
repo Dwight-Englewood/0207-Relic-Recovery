@@ -185,6 +185,7 @@ public class Telebop extends OpMode {
         telemetry.addData("time100Avg", (time100 - time0) / 100);
         telemetry.addData("time1000Avg", (time1000 - time0) / 1000);
         telemetry.addData("time10000Avg", (time10000 - time0) / 10000);
+        telemetry.addData("time100000Avg", (time100000 - time0) / 100000);
 
         telemetry.update();
     }

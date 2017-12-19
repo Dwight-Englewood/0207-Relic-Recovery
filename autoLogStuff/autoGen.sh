@@ -57,6 +57,8 @@ sed -i $'s/added enderbot\'s default exception handler for if the bot randomly c
 sed -i 's/Created a Vision package for all computer vision stuff. Minor comments in Telebop and additions to bot class for new servos for lift and new motor for lift./created a vision package for computer vision, minor servo additions to bot class/' temp.md
 
 # note the really annoying unicode crap
+
+echo -e "    \e[31m->\e[39m Removing end line specifying branch"
 sed -i 's/\xe2\x94\x81\[HEAD\]\xe2\x94\x80\xe2\x94\x80\[master\]\xe2\x94\x80\xe2\x94\x80\[remotes\/origin\/HEAD\]\xe2\x94\x80\xe2\x94\x80\[remotes\/origin\/master\]\xe2\x94\x80\xe2\x94\x80/ /' temp.md
 
 echo -e "    \e[31m->\e[39m Adding extra newlines for markdown processing"
@@ -65,7 +67,6 @@ sed -i G temp.md
 
 echo -e "    \e[31m->\e[39m Removing things that make xelatex crash"
 sed -i 's/#/ /' temp.md
-
 
 echo -e "  \e[32m=>\e[39m Appending processed log to yaml"
 # add to main file
@@ -83,6 +84,34 @@ echo "\end{spacing}" >> log.md
 echo -e "  \e[32m=>\e[39m Generating pdf"
 # finally, run pandoc. writes the pdf to output.pdf
 pandoc log.md -o outputForest.pdf --latex-engine xelatex --variable mainfont="Hack"
+
+echo -e "  \e[32m=>\e[39m Cleanup"
+rm log.md
+
+echo -e "\033[38;5;27m::\e[39m Making the git log"
+
+echo -e "  \e[32m=>\e[39m Piping the output of git log"
+git log --no-merges --no-color > temp.md
+
+echo -e "  \e[32m=>\e[39m Processing log"
+
+echo -e "    \e[31m->\e[39m Changing usernames to real names"
+sed -i 's/weznon/Wen P/' temp.md
+sed -i 's/Wen/Wen P/' temp.md
+sed -i 's/burtorustum/Rob A/' temp.md
+
+echo -e "    \e[31m->\e[39m Removing profanity"
+sed -i 's/shit/stuff/' temp.md
+
+echo -e "  \e[32m=>\e[39m Appending temp to log"
+cat temp.md > log.txt
+
+echo -e "  \e[32m=>\e[39m Generating PDF"
+paps log.txt --font="Hack 8" | ps2pdf - outputLog.pdf
+
+echo -e "  \e[32m=>\e[39m Cleaning up temp files"
+rm log.txt
+rm temp.md
 
 echo -e "\033[38;5;27m::\e[39m Done!"
 

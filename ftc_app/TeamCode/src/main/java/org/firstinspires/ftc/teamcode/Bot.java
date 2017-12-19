@@ -208,31 +208,7 @@ public class Bot {
     }
 
     //TODO
-    /**
-     * public void safeStrafe(double target, MovementEnum direction) {
-     * double FL_speed = 0;
-     * double FR_speed = 0;
-     * double RL_speed = 0;
-     * double RR_speed = 0;
-     * <p>
-     * currentHeading = imu.;  //Current direction
-     * <p>
-     * FL_speed = power + (currentHeading - target) / 25;  //Calculate speed for each side
-     * FR_speed = power + (currentHeading - target) / 25;
-     * RL_speed = power - (currentHeading - target) / 25;  //Calculate speed for each side
-     * RR_speed = power - (currentHeading - target) / 25;
-     * <p>
-     * FL_speed = Range.clip(FL_speed, -1, 1);
-     * FR_speed = Range.clip(FR_speed, -1, 1);
-     * RL_speed = Range.clip(RL_speed, -1, 1);
-     * RR_speed = Range.clip(RR_speed, -1, 1);
-     * <p>
-     * frontLeft.setPower(FL_speed);
-     * frontRight.setPower(-FR_speed);
-     * rearLeft.setPower(-RL_speed);
-     * rearRight.setPower(RR_speed);
-     * }
-     */
+
 
     //TODO: DIAGONALS
     public void drive(MovementEnum movement, double power) {

@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Bot;
  * Created by aburur on 12/19/17.
  */
 
-@TeleOp(name = "Servo Test", group = "Teleop")
+@TeleOp(name = "Sensor Test", group = "Teleop")
 //@Disabled
 public class SensorTest extends OpMode {
     Bot robot = new Bot();
@@ -39,6 +39,8 @@ public class SensorTest extends OpMode {
         telemetry.addData("range", robot.rangeSensor.getDistance(DistanceUnit.CM));
         telemetry.addData("range Optical", robot.rangeSensor.cmOptical());
         telemetry.addData("range ultrasonic", robot.rangeSensor.cmUltrasonic());
+        telemetry.addData("jewel red", robot.colorSensor.red());
+        telemetry.addData("jewel blue", robot.colorSensor.blue());
 
         telemetry.update();
     }

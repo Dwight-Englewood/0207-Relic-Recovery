@@ -54,8 +54,8 @@ public class Bot {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
-        //cryptoColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "crypcs");
-        //rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+        cryptoColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "crypcs");
+        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
         //servo init code
         jewelServoBottom = hardwareMap.get(Servo.class, "brandon"); //servo which does servo things
@@ -70,8 +70,6 @@ public class Bot {
         FR = hardwareMap.get(DcMotor.class, "fr");
         BL = hardwareMap.get(DcMotor.class, "bl");
         BR = hardwareMap.get(DcMotor.class, "br");
-
-
 
         intakeDrop = hardwareMap.get(DcMotor.class, "intlift");
         intakeOne = hardwareMap.get(DcMotor.class, "rint");
@@ -722,4 +720,9 @@ public class Bot {
         }
         return scale;
     }
+
+    public void autoLineup(){
+        
+    }
+
 }

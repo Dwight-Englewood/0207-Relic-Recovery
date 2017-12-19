@@ -1,6 +1,8 @@
 #!/bin/bash
 
 #add latex formatting stuff to start of file
+echo -e "\033[38;5;27m::\e[39m Making the forest log"
+
 echo "---
 geometry: landscape, left=1cm,right=1cm,top=1cm,bottom=1cm
 header-includes:
@@ -13,30 +15,28 @@ header-includes:
 
 \begin{spacing}{0}
 " > log.md
-echo "Added yaml header"
+echo -e "  \e[32m=>\e[39m Added yaml header"
 
+echo -e "  \e[32m=>\e[39m Creating temp file, with the formatted markdown of the log"
 
-echo "Creating temp file, with the formatted markdown of the log"
-echo "-----------------------------------"
-
-echo "Growing the Forest"
+echo -e "    \e[31m->\e[39m Piping git forest to temporary file"
 # process the git forest. store in temporary file for now, since we need to add extra newlines cuz markdown, but the yaml stuff cant have said lines
 git forest --pretty=format:"--  %h  ::  %ad, by %an  ::  %s " --reverse --style=15 --date=short > temp.md
 
-echo "Sapping Color"
+echo -e "    \e[31m->\e[39m Striping color codes from log"
 # strip color codes from the log
 sed -i "s,\x1B\[[0-9;]*[a-zA-Z],,g" temp.md
 
-echo "Naming native fauna"
+echo -e "    \e[31m->\e[39m Replacing usernames with real names"
 # replace the usernames with real names
 sed -i 's/Burtorustum/Rob A/' temp.md
 sed -i 's/weznon/Wen P/' temp.md
 
-echo "Discovering Soap"
+echo -e "    \e[31m->\e[39m Removing profanity"
 # remove profanity
 sed -i 's/shit/stuff/' temp.md
 
-echo "Harvesting tall trees"
+echo -e "    \e[31m->\e[39m Shortening long lines, so the formatting isn't messed up"
 # fix formatting of really long lines
 sed -i 's/added intellij templates - must be manually added to intellij, allows for super easy new teleop\/auton creation/added intellij templates for easy creation of Teleop\/Auton/' temp.md
 
@@ -59,31 +59,30 @@ sed -i 's/Created a Vision package for all computer vision stuff. Minor comments
 # note the really annoying unicode crap
 sed -i 's/\xe2\x94\x81\[HEAD\]\xe2\x94\x80\xe2\x94\x80\[master\]\xe2\x94\x80\xe2\x94\x80\[remotes\/origin\/HEAD\]\xe2\x94\x80\xe2\x94\x80\[remotes\/origin\/master\]\xe2\x94\x80\xe2\x94\x80/ /' temp.md
 
-echo "Giving some space"
+echo -e "    \e[31m->\e[39m Adding extra newlines for markdown processing"
 # add in extra newlines
 sed -i G temp.md
 
-echo -e "Removing things that make xelatex crash"
+echo -e "    \e[31m->\e[39m Removing things that make xelatex crash"
 sed -i 's/#/ /' temp.md
 
-echo "-----------------------------------"
 
-echo "Appending processed log to yaml"
+echo -e "  \e[32m=>\e[39m Appending processed log to yaml"
 # add to main file
 cat temp.md >> log.md
 
-echo "Removing temp.md"
+echo -e "  \e[32m=>\e[39m Removing temp.md"
 # clean up temp.md
 rm temp.md
 
-echo "Finalizing latex"
+echo -e "  \e[32m=>\e[39m Finalizing latex"
 # append the closing spacing tag
 echo "\end{spacing}" >> log.md
 
 
-echo "Generating pdf"
+echo -e "  \e[32m=>\e[39m Generating pdf"
 # finally, run pandoc. writes the pdf to output.pdf
-pandoc log.md -o output.pdf --latex-engine xelatex --variable mainfont="Hack"
+pandoc log.md -o outputForest.pdf --latex-engine xelatex --variable mainfont="Hack"
 
-echo "Done!"
+echo -e "\033[38;5;27m::\e[39m Done!"
 

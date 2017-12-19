@@ -723,19 +723,20 @@ public class Bot {
         return scale;
     }
 
-    public void autoLineup(boolean goRight) {
-        if (Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) <= 2) {
+    public void autoLineup(boolean goRight, Telemetry telem) {
+        double heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        if (Math.abs(heading) <= 2) {
             if (goRight) {
                 if (cryptoColor.red() >= 3 || cryptoColor.blue() >= 3) {
                     drive(MovementEnum.STOP, 0);
                 } else {
-                    drive(MovementEnum.RIGHTSTRAFE, .1);
+                    safeStrafe(0, true, telem, .1);
                 }
             } else {
                 if (cryptoColor.red() >= 3 || cryptoColor.blue() >= 3) {
                     drive(MovementEnum.STOP, 0);
                 } else {
-                    drive(MovementEnum.LEFTSTRAFE, .1);
+                    safeStrafe(0, false, telem, .1);
                 }
             }
         } else {

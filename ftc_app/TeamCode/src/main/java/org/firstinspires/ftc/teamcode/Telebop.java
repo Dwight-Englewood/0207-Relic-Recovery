@@ -76,10 +76,10 @@ public class Telebop extends OpMode {
         }
 
         if (gamepad1.right_bumper){
-            robot.autoLineup(true);
+            robot.autoLineup(true, telemetry);
             return;
         } else if (gamepad1.left_bumper) {
-            robot.autoLineup(false);
+            robot.autoLineup(false, telemetry);
             return;
         }
 

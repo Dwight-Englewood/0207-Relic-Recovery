@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -32,7 +33,7 @@ public class Bot {
 
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor;
-    public ColorSensor cryptoColor;
+    public ColorSensor cryptoColorL, cryptoColorR;
     public ModernRoboticsI2cRangeSensor rangeSensor;
 
     private Orientation angles;
@@ -56,7 +57,8 @@ public class Bot {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
-        cryptoColor = hardwareMap.get(ColorSensor.class, "crypcs");
+        cryptoColorL = hardwareMap.get(ColorSensor.class, "crypcsl");
+        cryptoColorR = hardwareMap.get(ColorSensor.class, "crypcsr");
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
         //servo init code
@@ -726,14 +728,15 @@ public class Bot {
     public void autoLineup(boolean goRight, Telemetry telem) {
         double heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         if (Math.abs(heading) <= 2) {
+            if (rangeSensor.cmUltrasonic() < 10){}
             if (goRight) {
-                if (cryptoColor.red() >= 3 || cryptoColor.blue() >= 3) {
+                if (cryptoColorR.red() >= 3 || cryptoColorR.blue() >= 3) {
                     drive(MovementEnum.STOP, 0);
                 } else {
                     safeStrafe(0, true, telem, .1);
                 }
             } else {
-                if (cryptoColor.red() >= 3 || cryptoColor.blue() >= 3) {
+                if (cryptoColorL.red() >= 3 || cryptoColorL.blue() >= 3) {
                     drive(MovementEnum.STOP, 0);
                 } else {
                     safeStrafe(0, false, telem, .1);

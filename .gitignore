@@ -1,4 +1,7 @@
 .idea/
-autoLogStuff/log.md
-autoLogStuff/output.pdf
 TODO.md
+
+autoLogStuff/outputForest.pdf
+autoLogStuff/outputLog.pdf
+.gitignore
+

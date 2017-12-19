@@ -74,6 +74,15 @@ public class Telebop extends OpMode {
         } else if (loopNum == 100000) {
             time100000 = System.nanoTime();
         }
+
+        if (gamepad1.right_bumper){
+            robot.autoLineup(true, telemetry);
+            return;
+        } else if (gamepad1.left_bumper) {
+            robot.autoLineup(false, telemetry);
+            return;
+        }
+
         //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x); // Field centric????
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
 

@@ -63,6 +63,9 @@ echo "Giving some space"
 # add in extra newlines
 sed -i G temp.md
 
+echo -e "Removing things that make xelatex crash"
+sed -i 's/#/ /' temp.md
+
 echo "-----------------------------------"
 
 echo "Appending processed log to yaml"
@@ -78,10 +81,9 @@ echo "Finalizing latex"
 echo "\end{spacing}" >> log.md
 
 
-
 echo "Generating pdf"
 # finally, run pandoc. writes the pdf to output.pdf
-pandoc log.md -o output.pdf --pdf-engine xelatex --variable mainfont="Hack"
+pandoc log.md -o output.pdf --latex-engine xelatex --variable mainfont="Hack"
 
 echo "Done!"
 

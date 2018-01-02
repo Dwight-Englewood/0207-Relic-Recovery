@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -62,6 +63,7 @@ public class Bot {
         cryptoColorL = hardwareMap.get(ColorSensor.class, "crypcsl");
         cryptoColorR = hardwareMap.get(ColorSensor.class, "crypcsr");
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+        rangeSensor.setI2cAddress(I2cAddr.create8bit(0x28));
 
         //servo init code
         jewelServoBottom = hardwareMap.get(Servo.class, "brandon"); //servo which does servo things
@@ -710,7 +712,7 @@ public class Bot {
     }
 
     public void autoLineup(boolean goRight, Telemetry telem) {
-        double heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         if (Math.abs(heading) <= 2) {
             if (rangeSensor.cmUltrasonic() < 10){}
             if (goRight) {

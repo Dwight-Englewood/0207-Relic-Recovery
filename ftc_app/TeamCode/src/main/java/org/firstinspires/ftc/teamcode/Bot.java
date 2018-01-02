@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -30,6 +31,7 @@ public class Bot {
 
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
     public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, frontIntakeWall, backIntakeWall, jewelServoTop;
+    public CRServo relicArmServo, relicArmVex, relicArmINNOUT;
 
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor;
@@ -68,6 +70,12 @@ public class Bot {
         //armNoSpringyServo       = hardwareMap.get(Servo.class, "anss"); //Servo which prevents arm from springing out aka move this to extend arm
         //armBottomExtendyServo   = hardwareMap.get(Servo.class, "abes"); //Servo which controls the clamp on the arm
         //armTopExtendyServo      = hardwareMap.get(Servo.class, "ates"); //Servo which controls the angle of the hand
+
+        relicArmServo = hardwareMap.get(CRServo.class, "relicS");
+        relicArmVex = hardwareMap.get(CRServo.class, "relicVM");
+        relicArmINNOUT = hardwareMap.get(CRServo.class, "relicINNOUT");
+
+
 
         //getting the motors from the hardware map
         FL = hardwareMap.get(DcMotor.class, "fl");

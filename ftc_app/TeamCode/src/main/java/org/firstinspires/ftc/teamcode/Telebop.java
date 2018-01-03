@@ -27,14 +27,15 @@ public class Telebop extends OpMode {
 
     boolean firstRun = true;
     int loopNum = 0;
-    long time0 = 0;
+    /*long time0 = 0;
     long time1 = 0;
     long time100 = 0;
     long time1000 = 0;
     long time10000 = 0;
-    long time100000 = 0;
+    long time100000 = 0;*/
 
-    double liftScale = .3;
+    double liftScaledown = .5;
+    double liftScaleup = .2;
 
     @Override
     public void init() {
@@ -58,7 +59,7 @@ public class Telebop extends OpMode {
     @Override
     public void loop() {
 
-        if (firstRun) {
+        /*if (firstRun) {
             time0 = System.nanoTime();
             firstRun = false;
         }
@@ -73,7 +74,7 @@ public class Telebop extends OpMode {
             time10000 = System.nanoTime();
         } else if (loopNum == 100000) {
             time100000 = System.nanoTime();
-        }
+        }*/
 
         if (gamepad1.right_bumper){
             robot.autoLineup(true, telemetry);
@@ -163,11 +164,11 @@ public class Telebop extends OpMode {
         if (gamepad2.left_stick_y > .15) {
             abnormalReleaseFlag = true;
             currentPosition = ReleasePosition.MIDDLEUP;
-            robot.lift.setPower(gamepad2.left_stick_y * liftScale);
+            robot.lift.setPower(gamepad2.left_stick_y * liftScaleup);
         } else if (gamepad2.left_stick_y < -.15) {
             abnormalReleaseFlag = true;
             currentPosition = ReleasePosition.MIDDLEUP;
-            robot.lift.setPower(gamepad2.left_stick_y * liftScale);
+            robot.lift.setPower(gamepad2.left_stick_y * liftScaledown);
         } else {
             if (!abnormalReleaseFlag) {
                 currentPosition = ReleasePosition.MIDDLE;
@@ -208,7 +209,7 @@ public class Telebop extends OpMode {
 
         telemetry.addData("release pos", currentPosition);
         telemetry.addData("Braking", brakeToggle);
-        telemetry.addData("time0", time0);
+        /*telemetry.addData("time0", time0);
         telemetry.addData("time1", time1);
         telemetry.addData("time100", time100);
         telemetry.addData("time1000", time1000);
@@ -218,7 +219,7 @@ public class Telebop extends OpMode {
         telemetry.addData("time100Avg", (time100 - time0) / 100);
         telemetry.addData("time1000Avg", (time1000 - time0) / 1000);
         telemetry.addData("time10000Avg", (time10000 - time0) / 10000);
-        telemetry.addData("time100000Avg", (time100000 - time0) / 100000);
+        telemetry.addData("time100000Avg", (time100000 - time0) / 100000);*/
 
         telemetry.update();
     }

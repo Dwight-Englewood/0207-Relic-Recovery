@@ -3,5 +3,5 @@ TODO.md
 
 autoLogStuff/outputForest.pdf
 autoLogStuff/outputLog.pdf
-.gitignore
 
+*.iml

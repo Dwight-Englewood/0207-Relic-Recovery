@@ -23,6 +23,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
+import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 
 @Autonomous(name = "BlueAutonClose", group = "Auton")
 //@Disabled
@@ -39,7 +40,8 @@ public class BlueAutonClose extends OpMode {
     int targetFR;
     int targetBL;
     int targetBR;
-    boolean towardBox;
+    double power;
+    int generalTarget;
 
     @Override
     public void init() {
@@ -72,7 +74,6 @@ public class BlueAutonClose extends OpMode {
      */
     @Override
     public void start() {
-        robot.semiUnfoldBot();
         timer.reset();
         robot.jewelOut();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -101,74 +102,91 @@ public class BlueAutonClose extends OpMode {
                 }
                 break;*/
             case 1:
-                if (timer.milliseconds() > 1500){
-                    robot.jewelUp();
-                }
                 if (timer.milliseconds() > 2500) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.jewelUp();
                     timer.reset();
+                    generalTarget = targetBL = targetFL = targetBR = targetFR = robot.distanceToRevs(90);
+                    robot.runToPosition(generalTarget, .7);
                     command++;
                 } else if (robot.colorSensor.blue() >= 2) {
-                    //robot.adjustHeading(110, true);
-                    robot.drive(MovementEnum.BACKWARD, .1);
-                    towardBox = false;
+                    robot.jewelKnockback();
                 } else if (robot.colorSensor.red() >= 2) {
-                    //robot.adjustHeading(70, true);
-                    robot.drive(MovementEnum.FORWARD, .1);
-                    towardBox = true;
+                    robot.jewelKnockforward();
                 }
                 break;
 
             case 2:
-                if (timer.milliseconds() > 3000 && towardBox) {
-                    timer.reset();
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
-                    robot.jewelOuter();
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     command++;
                 }
-                //robot.adjustHeading(90, false);
                 break;
 
-            /*case 3:
-                robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                try {Thread.sleep(1000);} catch (InterruptedException e){}
-                robot.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
-                if (towardBox) {
-                    targetFR = targetFL = targetBR = targetBL = robot.distanceToRevs(50);
-                } else {
-                    targetFR = targetFL = targetBR = targetBL = 0;
-                }
-                robot.setDriveTargets(targetFL, targetFR, targetBL, targetBR);
+            case 3:
+                try { Thread.sleep(500); } catch(Exception e) {}
                 command++;
                 break;
 
             case 4:
-                double power = robot.slowDownScale(
-                        robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(),
-                        robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(),
-                        targetFL, targetFR,
-                        targetBL, targetBR);
-
-                if (power == 0) {
-                    robot.drive(MovementEnum.STOP, 0);
-                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
-                    timer.reset();
-                    command++;
-                } else {
-                    robot.drive(MovementEnum.FORWARD, power);
-                }
+                robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                timer.reset();
+                command++;
                 break;
 
             case 5:
-                if (timer.milliseconds() > 1000){
-                    robot.drive(MovementEnum.STOP, 0);
-                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                if (timer.milliseconds() > 3000) {
+                    robot.drive(MovementEnum.STOP);
+                    robot.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
+                    timer.reset();
+                    command++;
+                } else {
+                    robot.adjustHeading(0, false);
+                }
+                break;
+
+            case 6:
+                robot.releaseMove(ReleasePosition.UP);
+                robot.intakeDrop.setPower(-1);
+                if (timer.milliseconds() > 1000) {
+                    robot.intakeDrop.setPower(0);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
                     timer.reset();
                     command++;
                 }
-                robot.adjustHeading(0, false);
-                break;*/
+                break;
+
+            case 7:
+                if (timer.milliseconds() < 3000) {
+                    robot.intake(1);
+                } else {
+                    robot.intake(0);
+                    robot.flipUp();
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 8:
+                if (timer.milliseconds() < 1000) {
+                    robot.releaseMove(ReleasePosition.UP);
+                    robot.drive(MovementEnum.BACKWARD, .1);
+                } else {
+                    robot.drive(MovementEnum.FORWARD, .1);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 9:
+                if (timer.milliseconds() > 500) {
+                    robot.drive(MovementEnum.STOP);
+                    command++;
+                }
+                break;
         }
 
         telemetry.addData("red", robot.colorSensor.red());

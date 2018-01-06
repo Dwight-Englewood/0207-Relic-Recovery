@@ -97,6 +97,8 @@ public class Bot {
         releaseRight.scaleRange(.2, .8);
         releaseLeft.scaleRange(.2, .8);
 
+        releaseMove(ReleasePosition.INIT);
+
         flipper = hardwareMap.get(Servo.class, "flip");
         frontIntakeWall = hardwareMap.get(Servo.class, "frontiw");
         backIntakeWall = hardwareMap.get(Servo.class, "backiw");
@@ -221,9 +223,6 @@ public class Bot {
         }
     }
 
-    //TODO
-
-
     //TODO: DIAGONALS
     public void drive(MovementEnum movement, double power) {
         switch (movement) {
@@ -269,6 +268,17 @@ public class Bot {
                 BR.setPower(-power);
                 break;
 
+            case STOP:
+                FL.setPower(0);
+                FR.setPower(0);
+                BL.setPower(0);
+                BR.setPower(0);
+                break;
+        }
+    }
+
+    public void drive(MovementEnum movement){
+        switch (movement) {
             case STOP:
                 FL.setPower(0);
                 FR.setPower(0);
@@ -341,13 +351,14 @@ public class Bot {
 
     public void adjustHeading(int targetHeading, boolean slow) {
 
-        if (Math.abs(Math.abs(targetHeading) - Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle)) <= 1) {
+        float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        if (Math.abs(Math.abs(targetHeading) - Math.abs(curHeading)) <= 1) {
             FL.setPower(0);
             BL.setPower(0);
             FR.setPower(0);
             BR.setPower(0);
         } else {
-            headingError = targetHeading + imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+            headingError = targetHeading + curHeading;
             driveScale = headingError * powerModifier;
 
             leftPower = 0 + driveScale;
@@ -357,8 +368,8 @@ public class Bot {
             rightPower = Range.clip(rightPower, -1, 1);
 
             if (slow) {
-                leftPower = Range.clip(leftPower, -.1, .1);
-                rightPower = Range.clip(rightPower, -.1, .1);
+                leftPower = Range.clip(leftPower, -.2, .2);
+                rightPower = Range.clip(rightPower, -.2, .2 );
             }
 
             FL.setPower(leftPower);
@@ -419,15 +430,23 @@ public class Bot {
      */
     public void jewelUp() {
         jewelServoBottom.setPosition(.6);
+        jewelServoTop.setPosition(1);
     }
 
     public void jewelOut() {
         jewelServoBottom.setPosition(.1);
+        jewelServoTop.setPosition(.5);
     }
 
     public void jewelOuter() {
         jewelServoBottom.setPosition(0);
     }
+
+    public void jewelKnockback() { jewelServoTop.setPosition(0.2); }
+
+    public void jewelKnockforward() { jewelServoTop.setPosition( .8); }
+
+
 
     double relDowner = 0;
     double relDown = 0;
@@ -476,6 +495,10 @@ public class Bot {
         releaseRight.setPosition(relDowner);
     }
 
+    public void relRInit(){}
+
+    public void relLInit(){}
+
     public void flipUp() {
         flipper.setPosition(.55);
     }
@@ -510,13 +533,16 @@ public class Bot {
                 relRUp();
                 relLUp();
                 break;
+            case INIT:
+                relRInit();
+                relLInit();
+                break;
         }
     }
 
     public void foldBot() {
         this.relLUp();
         this.relRUp();
-
     }
 
     public void unfoldBot() {

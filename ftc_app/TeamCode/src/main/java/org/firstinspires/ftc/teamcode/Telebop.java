@@ -76,21 +76,21 @@ public class Telebop extends OpMode {
             time100000 = System.nanoTime();
         }*/
 
-        if (gamepad1.right_bumper){
+        /*if (gamepad1.right_bumper){
             robot.autoLineup(true, telemetry);
             return;
         } else if (gamepad1.left_bumper) {
             robot.autoLineup(false, telemetry);
             return;
-        }
+        }*/
 
         if (gamepad1.right_bumper && countdown <= 0) {
             brakeToggle = brakeToggle ? false : true;
             countdown = 30;
         }
 
-        robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_trigger, gamepad1.right_trigger, brakeToggle); // Field centric????
-        //robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
+        //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_trigger, gamepad1.right_trigger, brakeToggle); // Field centric????
+        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
 
         abnormalReleaseFlag = false;
         currentPosition = ReleasePosition.MIDDLE;

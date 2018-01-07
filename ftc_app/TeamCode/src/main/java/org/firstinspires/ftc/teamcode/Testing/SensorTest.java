@@ -32,13 +32,13 @@ public class SensorTest extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("Left CS red", robot.cryptoColorL.red());
+        /*telemetry.addData("Left CS red", robot.cryptoColorL.red());
         telemetry.addData("Left CS blue", robot.cryptoColorL.blue());
         telemetry.addData("Right CS red", robot.cryptoColorR.red());
         telemetry.addData("Right CS blue", robot.cryptoColorR.blue());
         telemetry.addData("range", robot.rangeSensor.getDistance(DistanceUnit.CM));
         telemetry.addData("range Optical", robot.rangeSensor.cmOptical());
-        telemetry.addData("range ultrasonic", robot.rangeSensor.cmUltrasonic());
+        telemetry.addData("range ultrasonic", robot.rangeSensor.cmUltrasonic());*/
         telemetry.addData("jewel red", robot.colorSensor.red());
         telemetry.addData("jewel blue", robot.colorSensor.blue());
 

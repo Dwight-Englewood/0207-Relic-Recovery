@@ -36,8 +36,8 @@ public class Bot {
 
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor;
-    public ColorSensor cryptoColorL, cryptoColorR;
-    public ModernRoboticsI2cRangeSensor rangeSensor;
+    //public ColorSensor cryptoColorL, cryptoColorR;
+    //public ModernRoboticsI2cRangeSensor rangeSensor;
 
     private Orientation angles;
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
@@ -48,8 +48,7 @@ public class Bot {
 
     ReleasePosition currentPosition = ReleasePosition.DOWN;
 
-    public Bot() {
-    }
+    public Bot() {}
 
     public void init(HardwareMap hardwareMap) {
         //BNO055IMU related initialization code
@@ -60,13 +59,14 @@ public class Bot {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
-        cryptoColorL = hardwareMap.get(ColorSensor.class, "crypcsl");
-        cryptoColorR = hardwareMap.get(ColorSensor.class, "crypcsr");
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
-        rangeSensor.setI2cAddress(I2cAddr.create8bit(0x28));
+        //cryptoColorL = hardwareMap.get(ColorSensor.class, "crypcsl");
+        //cryptoColorR = hardwareMap.get(ColorSensor.class, "crypcsr");
+        //rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+        //rangeSensor.setI2cAddress(I2cAddr.create8bit(0x28));
 
         //servo init code
         jewelServoBottom = hardwareMap.get(Servo.class, "brandon"); //servo which does servo things
+        //jewelServoBottom.scaleRange(.2, .8);
         jewelServoTop = hardwareMap.get(Servo.class, "hahn"); //another servo which does servo things
 
         //armNoSpringyServo       = hardwareMap.get(Servo.class, "anss"); //Servo which prevents arm from springing out aka move this to extend arm
@@ -96,8 +96,6 @@ public class Bot {
 
         releaseRight.scaleRange(.2, .8);
         releaseLeft.scaleRange(.2, .8);
-
-        releaseMove(ReleasePosition.INIT);
 
         flipper = hardwareMap.get(Servo.class, "flip");
         frontIntakeWall = hardwareMap.get(Servo.class, "frontiw");
@@ -138,7 +136,7 @@ public class Bot {
         intakeTwo.setPower(0);
         lift.setPower(0);
 
-        powerModifier = 0.0055; // 180 * .0055 ~= 1
+        powerModifier = 0.0075; // 180 * .0055 ~= 1
         k = .6;
         //armNoSpringyServo.setPosition(1);
     }
@@ -429,22 +427,22 @@ public class Bot {
      * out - .1
      */
     public void jewelUp() {
-        jewelServoBottom.setPosition(.6);
-        jewelServoTop.setPosition(1);
+        jewelServoBottom.setPosition(.155);
+        jewelServoTop.setPosition(.73);
     }
 
     public void jewelOut() {
-        jewelServoBottom.setPosition(.1);
-        jewelServoTop.setPosition(.5);
+        jewelServoBottom.setPosition(.5);
+        jewelServoTop.setPosition(.38);
     }
 
     public void jewelOuter() {
-        jewelServoBottom.setPosition(0);
+        jewelServoBottom.setPosition(0.86);
     }
 
-    public void jewelKnockback() { jewelServoTop.setPosition(0.2); }
+    public void jewelKnockback() { jewelServoTop.setPosition(0.24); }
 
-    public void jewelKnockforward() { jewelServoTop.setPosition( .8); }
+    public void jewelKnockforward() { jewelServoTop.setPosition(.54); }
 
 
 
@@ -495,9 +493,13 @@ public class Bot {
         releaseRight.setPosition(relDowner);
     }
 
-    public void relRInit(){}
+    public void relRInit(){releaseRight.setPosition(.699);}
 
-    public void relLInit(){}
+    public void relLInit(){releaseLeft.setPosition(.699);}
+
+    public void relLDrop(){releaseLeft.setPosition(.73);}
+
+    public void relRDrop(){releaseRight.setPosition(.73);}
 
     public void flipUp() {
         flipper.setPosition(.55);
@@ -581,15 +583,13 @@ public class Bot {
         ;
     }
 
-    public void runToPosition(int target, double power) {
+    public void runToPosition(int target) {
         this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
 
         FL.setTargetPosition(target);
         FR.setTargetPosition(target);
         BL.setTargetPosition(target);
         BR.setTargetPosition(target);
-
-        this.drive(MovementEnum.FORWARD, power);
     }
 
     public int distanceToRevs(double distance) {
@@ -694,10 +694,10 @@ public class Bot {
     public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
         double scale = 1;
         if (
-                (Math.abs(tickFL - targetTickFL) < 25) &&
-                        (Math.abs(tickFR - targetTickFR) < 25) &&
-                        (Math.abs(tickBL - targetTickBL) < 25) &&
-                        (Math.abs(tickBR - targetTickBR) < 25)
+                (Math.abs(tickFL - targetTickFL) < 50) &&
+                        (Math.abs(tickFR - targetTickFR) < 50) &&
+                        (Math.abs(tickBL - targetTickBL) < 50) &&
+                        (Math.abs(tickBR - targetTickBR) < 50)
                 ) {
             scale = 0;
             //stopped, can be changed
@@ -729,7 +729,12 @@ public class Bot {
                         (Math.abs(tickBR - targetTickBR) < 2000)
                 ) {
             scale = .3;
-        } else if ((Math.abs(tickFL - targetTickFL) < 2400) && (Math.abs(tickFR - targetTickFR) < 2400) && (Math.abs(tickBL - targetTickBL) < 2400) && (Math.abs(tickBR - targetTickBR) < 2400)) {
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 2400) &&
+                        (Math.abs(tickFR - targetTickFR) < 2400) &&
+                        (Math.abs(tickBL - targetTickBL) < 2400) &&
+                        (Math.abs(tickBR - targetTickBR) < 2400)
+                ) {
             scale = .5;
         } else {
             scale = .7;
@@ -740,9 +745,9 @@ public class Bot {
     public void autoLineup(boolean goRight, Telemetry telem) {
         heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         if (Math.abs(heading) <= 2) {
-            if (rangeSensor.cmUltrasonic() < 10){}
+            //if (rangeSensor.cmUltrasonic() < 10){}
             if (goRight) {
-                if (cryptoColorR.red() >= 3 || cryptoColorR.blue() >= 3) {
+                /*if (cryptoColorR.red() >= 3 || cryptoColorR.blue() >= 3) {
                     drive(MovementEnum.STOP, 0);
                 } else {
                     safeStrafe(0, true, telem, .1);
@@ -752,7 +757,7 @@ public class Bot {
                     drive(MovementEnum.STOP, 0);
                 } else {
                     safeStrafe(0, false, telem, .1);
-                }
+                }*/
             }
         } else {
             adjustHeading(0, true);

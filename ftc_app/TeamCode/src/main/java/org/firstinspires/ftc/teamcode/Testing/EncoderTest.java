@@ -17,11 +17,15 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 @TeleOp(name = "Encoder Test", group = "Teleop")
 public class EncoderTest extends OpMode {
     Bot robot = new Bot();
+    int target = robot.distanceToRevs(30);
+    double power;
 
     @Override
     public void init() {
         robot.init(hardwareMap);
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        telemetry.addLine("GO");
+        telemetry.update();
     }
 
     @Override
@@ -30,27 +34,15 @@ public class EncoderTest extends OpMode {
 
     @Override
     public void start() {
-        robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+        //robot.runToPosition(target);
     }
 
     @Override
     public void loop() {
+        //power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), target, target, target, target);
+        //robot.drive(MovementEnum.FORWARD, power);
 
-        if (gamepad1.b)
-            robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        if (gamepad1.a)
-            robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        if (gamepad1.dpad_up)
-            robot.drive(MovementEnum.FORWARD, .2);
-        if (gamepad1.dpad_down)
-            robot.drive(MovementEnum.BACKWARD, .2);
-        if (gamepad1.dpad_left)
-            robot.drive(MovementEnum.LEFTSTRAFE, .5);
-        if (gamepad1.dpad_right)
-            robot.drive(MovementEnum.RIGHTSTRAFE, .5);
-
-
+        telemetry.addData("power", power);
         telemetry.addData("FL Ticks", robot.FL.getCurrentPosition());
         telemetry.addData("BL Ticks", robot.BL.getCurrentPosition());
         telemetry.addData("FR Ticks", robot.FR.getCurrentPosition());

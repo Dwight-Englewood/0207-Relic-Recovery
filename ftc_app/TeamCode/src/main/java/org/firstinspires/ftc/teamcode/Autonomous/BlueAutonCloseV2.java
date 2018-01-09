@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 
 @Autonomous(name = "BlueAutonCloseV2", group = "Auton")
-@Disabled
+//@Disabled
 public class BlueAutonCloseV2 extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer;
@@ -72,7 +72,7 @@ public class BlueAutonCloseV2 extends OpMode {
     @Override
     public void loop() {
         switch (command) {
-            /*case 0:
+            /*case -1:
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     command++;
@@ -83,7 +83,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;*/
 
             case 0:
-                if (timer.milliseconds() > 750){
+                if (timer.milliseconds() > 500){
                     timer.reset();
                     robot.jewelOuter();
                     command++;
@@ -91,7 +91,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 1:
-                if (timer.milliseconds() > 2000 && hitjewel) {
+                if (hitjewel) {
                     robot.drive(MovementEnum.STOP);
                     robot.jewelUp();
                     timer.reset();
@@ -123,43 +123,34 @@ public class BlueAutonCloseV2 extends OpMode {
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
-                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
                     timer.reset();
                     command++;
                 }
                 break;
 
             case 3:
-                command++;
-                robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                break;
-
-            case 4:
                 if (timer.milliseconds() > 800) {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
-                    command++;
                     generalTarget = robot.distanceToRevs(27);
                     robot.runToPosition(generalTarget);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    command++;
                 } else {
                     robot.adjustHeading(90, false);
                 }
                 break;
 
-            case 5:
-                if (timer.milliseconds() > 750) {
+            case 4:
+                if (timer.milliseconds() > 500) {
                     robot.runToPosition(generalTarget);
+                    timer.reset();
                     command++;
                 }
                 break;
 
-            case 6:
-                command++;
-                break;
-
-            case 7:
+            case 5:
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power * .4);
                 if (power == 0 || timer.milliseconds() > 2000) {
@@ -170,8 +161,8 @@ public class BlueAutonCloseV2 extends OpMode {
                 }
                 break;
 
-            case 8:
-                if (timer.milliseconds() < 4000) {
+            case 6:
+                if (timer.milliseconds() < 3000) {
                     robot.adjustHeading(0, false);
                 } else {
                     robot.drive(MovementEnum.STOP);
@@ -179,10 +170,9 @@ public class BlueAutonCloseV2 extends OpMode {
                     timer.reset();
                     command++;
                 }
-
                 break;
 
-            case 9:
+            case 7:
                 robot.relRDrop();
                 robot.relLDrop();
                 robot.jewelOut();
@@ -199,79 +189,62 @@ public class BlueAutonCloseV2 extends OpMode {
                 }
                 break;
 
-            case 10:
-                if (timer.milliseconds()  > 750) {
-                    command++;
-                }
-                 //   robot.intake(-1);
-                //} else {
-                    //robot.intake(0);
-                    //robot.flipUp();
-                    //timer.reset();
-                //}
-                break;
-
-            case 11:
-                robot.flipDown();
-                timer.reset();
-                generalTarget = -1*robot.distanceToRevs(19);
-                robot.runToPosition(generalTarget);
-                command++;
-                    //robot.releaseMove(ReleasePosition.UP);
-                    //robot.drive(MovementEnum.BACKWARD, .1);
-                    //robot.drive(MovementEnum.FORWARD, .1);
-                    //timer.reset();
-                    //command++;
-                break;
-
-            case 12:
-                //if (timer.milliseconds() > 500) {
-                //    robot.drive(MovementEnum.STOP);
-                //    timer.reset();
-                //    command++;
-                //}
-                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.BACKWARD, power);
-                if (power == 0 || timer.milliseconds() > 2000) {
-                    robot.drive(MovementEnum.STOP, 0);
-                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+            case 8:
+                if (timer.milliseconds()  > 500) { // may need to be 750
                     timer.reset();
                     command++;
                 }
                 break;
 
+            case 9:
+                robot.flipDown();
+                timer.reset();
+                generalTarget = -1*robot.distanceToRevs(19);
+                robot.runToPosition(generalTarget);
+                command++;
+                break;
+
+            case 10:
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.BACKWARD, power);
+                if (power == 0 || timer.milliseconds() > 2000) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 11:
+                robot.backIntakeWallDown();
+                timer.reset();
+                command++;
+                break;
+
+            case 12:
+                if (timer.milliseconds() > 250) {
+                    robot.releaseMove(ReleasePosition.UP);
+                    timer.milliseconds();
+                    command++;
+                }
+                break;
+
             case 13:
-                if (timer.milliseconds() < 1000) {
-                    robot.adjustHeading(0, false);
-                    robot.backIntakeWallDown();
-                } else {
-                    robot.drive(MovementEnum.STOP);
+                if (timer.milliseconds() > 500) {
+                    generalTarget = robot.distanceToRevs(20);
+                    robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
                 }
                 break;
 
             case 14:
-                robot.releaseMove(ReleasePosition.UP);
-                command++;
-                break;
-
-            case 15:
-                if (timer.milliseconds() > 1000) {
-                    robot.releaseMove(ReleasePosition.MIDDLE);
-                    timer.reset();
-                    generalTarget = robot.distanceToRevs(10);
-                    robot.runToPosition(generalTarget);
-                    command++;
-                }
-                break;
-
-            case 16:
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0 || timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP, 0);
-                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 }

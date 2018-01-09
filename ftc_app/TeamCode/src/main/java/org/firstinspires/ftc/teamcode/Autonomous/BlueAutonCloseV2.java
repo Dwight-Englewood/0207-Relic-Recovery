@@ -17,18 +17,18 @@ import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 
 @Autonomous(name = "BlueAutonCloseV2", group = "Auton")
 public class BlueAutonCloseV2 extends OpMode {
-    Bot robot = new Bot();
-    ElapsedTime timer;
-    int command = 0;
-    VuforiaLocalizer vuforia;
-    VuforiaTrackables relicTrackables;
-    VuforiaTrackable relicTemplate;
-    RelicRecoveryVuMark vuMark;
+    private Bot robot = new Bot();
+    private ElapsedTime timer;
+    private int command = -1;
+    private VuforiaLocalizer vuforia;
+    private VuforiaTrackables relicTrackables;
+    private VuforiaTrackable relicTemplate;
+    private RelicRecoveryVuMark vuMark;
 
-    double power;
-    int generalTarget;
-    boolean hitjewel = false;
-    boolean seeMark = false;
+    private double power;
+    private int generalTarget;
+    private boolean hitjewel = false;
+    private boolean seeMark = false;
 
     @Override
     public void init() {
@@ -59,7 +59,6 @@ public class BlueAutonCloseV2 extends OpMode {
     @Override
     public void start() {
         timer.reset();
-        robot.jewelOut();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
         relicTrackables.activate();
     }
@@ -71,8 +70,13 @@ public class BlueAutonCloseV2 extends OpMode {
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     seeMark = true;
+                    robot.jewelOut();
+                    timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 1000) {
+                    seeMark = false;
+                    robot.jewelOut();
+                    timer.reset();
                     command++;
                 }
                 break;
@@ -93,7 +97,7 @@ public class BlueAutonCloseV2 extends OpMode {
                     generalTarget = robot.distanceToRevs(50);
                     robot.runToPosition(generalTarget);
                     command++;
-                } else if (timer.milliseconds() > 2000) {
+                } else if (timer.milliseconds() > 1500) {
                     robot.drive(MovementEnum.STOP);
                     robot.jewelKnockforward();
                     try {Thread.sleep(300);}catch(Exception e){}

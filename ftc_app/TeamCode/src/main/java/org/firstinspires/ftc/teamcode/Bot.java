@@ -2,14 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -36,17 +32,15 @@ public class Bot {
 
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor;
-    //public ColorSensor cryptoColorL, cryptoColorR;
-    //public ModernRoboticsI2cRangeSensor rangeSensor;
 
     private Orientation angles;
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
             leftPower, rightPower;
 
-    boolean isStrafing;
-    float heading;
+    private boolean isStrafing;
+    private float heading;
 
-    ReleasePosition currentPosition = ReleasePosition.DOWN;
+    private ReleasePosition currentPosition = ReleasePosition.DOWN;
 
     public Bot() {}
 
@@ -145,7 +139,6 @@ public class Bot {
         int i = invert ? -1 : 1;
 
         if (brake) {
-            drive(MovementEnum.STOP, 0);
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         } else {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -153,15 +146,10 @@ public class Bot {
 
         if (leftTrigger > .3) {
             drive(MovementEnum.LEFTSTRAFE, leftTrigger * i);
-            // drive(MovementEnum.LEFTSTRAFE, .1);
-
-            //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
             return;
         }
         if (rightTrigger > .3) {
             drive(MovementEnum.RIGHTSTRAFE, rightTrigger * i);
-            //drive(MovementEnum.RIGHTSTRAFE, .1);
-
             return;
         }
 
@@ -313,7 +301,7 @@ public class Bot {
         clockwise *= k;
 
         // Turn the output heading value to be based on counterclockwise turns
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles = imu.getAngularOrientation();
         if (angles.firstAngle < 0) {
             angles.firstAngle += 360;
         }
@@ -378,9 +366,6 @@ public class Bot {
 
     }
 
-    public void setLift(double power) {
-    }
-
     public void intake(double power) {
         if (power == 0) {
             currentPosition = ReleasePosition.MIDDLE;
@@ -405,27 +390,6 @@ public class Bot {
         BR.setZeroPowerBehavior(behavior);
     }
 
-    /**
-     * Flip:
-     * down - .05
-     * up - .55
-     * out - .75
-     * <p>
-     * R release:
-     * down - .98
-     * up - .52
-     * out - .02
-     * <p>
-     * L release:
-     * down - .02
-     * up - .48
-     * out - .98
-     * <p>
-     * Jewel:
-     * down - 1
-     * up - .65
-     * out - .1
-     */
     public void jewelUp() {
         jewelServoBottom.setPosition(.155);
         jewelServoTop.setPosition(.73);
@@ -444,14 +408,11 @@ public class Bot {
 
     public void jewelKnockforward() { jewelServoTop.setPosition(.54); }
 
-
-
     double relDowner = 0;
     double relDown = 0;
     double relMid = .50;
     double relMidWhileUp = .52;
     double relUp = 1;
-
 
     public void relLUp() {
         releaseLeft.setPosition(relUp);
@@ -509,10 +470,6 @@ public class Bot {
         flipper.setPosition(.05);
     }
 
-    public void flipOut() {
-        flipper.setPosition(.75);
-    }
-
     public void releaseMove(ReleasePosition position) {
         switch (position) {
             case DOWNER:
@@ -540,17 +497,6 @@ public class Bot {
                 relLInit();
                 break;
         }
-    }
-
-    public void foldBot() {
-        this.relLUp();
-        this.relRUp();
-    }
-
-    public void unfoldBot() {
-        this.drive(MovementEnum.STOP, 0);
-        this.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
-        this.rollOut();
     }
 
     public void semiUnfoldBot() {
@@ -740,28 +686,6 @@ public class Bot {
             scale = .7;
         }
         return scale;
-    }
-
-    public void autoLineup(boolean goRight, Telemetry telem) {
-        heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        if (Math.abs(heading) <= 2) {
-            //if (rangeSensor.cmUltrasonic() < 10){}
-            if (goRight) {
-                /*if (cryptoColorR.red() >= 3 || cryptoColorR.blue() >= 3) {
-                    drive(MovementEnum.STOP, 0);
-                } else {
-                    safeStrafe(0, true, telem, .1);
-                }
-            } else {
-                if (cryptoColorL.red() >= 3 || cryptoColorL.blue() >= 3) {
-                    drive(MovementEnum.STOP, 0);
-                } else {
-                    safeStrafe(0, false, telem, .1);
-                }*/
-            }
-        } else {
-            adjustHeading(0, true);
-        }
     }
 
 }

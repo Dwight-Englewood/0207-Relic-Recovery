@@ -58,38 +58,11 @@ public class Telebop extends OpMode {
 
     @Override
     public void loop() {
-
-        /*if (firstRun) {
-            time0 = System.nanoTime();
-            firstRun = false;
-        }
-
-        if (loopNum == 1) {
-            time1 = System.nanoTime();
-        } else if (loopNum == 100) {
-            time100 = System.nanoTime();
-        } else if (loopNum == 1000) {
-            time1000 = System.nanoTime();
-        } else if (loopNum == 10000) {
-            time10000 = System.nanoTime();
-        } else if (loopNum == 100000) {
-            time100000 = System.nanoTime();
-        }*/
-
-        /*if (gamepad1.right_bumper){
-            robot.autoLineup(true, telemetry);
-            return;
-        } else if (gamepad1.left_bumper) {
-            robot.autoLineup(false, telemetry);
-            return;
-        }*/
-
         if (gamepad1.right_bumper && countdown <= 0) {
             brakeToggle = brakeToggle ? false : true;
             countdown = 30;
         }
 
-        //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_trigger, gamepad1.right_trigger, brakeToggle); // Field centric????
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
 
         abnormalReleaseFlag = false;
@@ -177,11 +150,7 @@ public class Telebop extends OpMode {
         }
 
         if (!abnormalReleaseFlag) {
-            //if (robot.lift.getCurrentPosition() - ticks < 100) {
-            //currentPosition = ReleasePosition.MIDDLEUP;
-            //} else {
             currentPosition = ReleasePosition.MIDDLE;
-            //}
         }
 
         if (gamepad2.y) {
@@ -209,18 +178,6 @@ public class Telebop extends OpMode {
 
         telemetry.addData("release pos", currentPosition);
         telemetry.addData("Braking", brakeToggle);
-        /*telemetry.addData("time0", time0);
-        telemetry.addData("time1", time1);
-        telemetry.addData("time100", time100);
-        telemetry.addData("time1000", time1000);
-        telemetry.addData("time10000", time10000);
-        telemetry.addData("time100000", time100000);
-        telemetry.addData("time1Avg", time1 - time0);
-        telemetry.addData("time100Avg", (time100 - time0) / 100);
-        telemetry.addData("time1000Avg", (time1000 - time0) / 1000);
-        telemetry.addData("time10000Avg", (time10000 - time0) / 10000);
-        telemetry.addData("time100000Avg", (time100000 - time0) / 100000);*/
-
         telemetry.update();
     }
 

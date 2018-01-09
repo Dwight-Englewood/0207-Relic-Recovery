@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,24 +6,29 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 
 @Autonomous(name = "BlueAutonCloseV2", group = "Auton")
-//@Disabled
 public class BlueAutonCloseV2 extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer;
     int command = 0;
-    //VuforiaLocalizer vuforia;
-    //VuforiaTrackables relicTrackables;
-    //VuforiaTrackable relicTemplate;
-    //RelicRecoveryVuMark vuMark;
+    VuforiaLocalizer vuforia;
+    VuforiaTrackables relicTrackables;
+    VuforiaTrackable relicTemplate;
+    RelicRecoveryVuMark vuMark;
 
     double power;
     int generalTarget;
     boolean hitjewel = false;
+    boolean seeMark = false;
 
     @Override
     public void init() {
@@ -35,14 +39,14 @@ public class BlueAutonCloseV2 extends OpMode {
         robot.jewelUp();
         robot.backIntakeWallUp();
 
-        //VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        //parameters.vuforiaLicenseKey = "AbZUuPf/////AAAAGUmS0Chan00iu7rnRhzu63+JgDtPo889M6dNtjvv+WKxiMJ8w2DgSJdM2/zEI+a759I7DlPj++D2Ryr5sEHAg4k1bGKdo3BKtkSeh8hCy78w0SIwoOACschF/ImuyP/V259ytjiFtEF6TX4teE8zYpQZiVkCQy0CmHI9Ymoa7NEvFEqfb3S4P6SicguAtQ2NSLJUX+Fdn49SEJKvpSyhwyjbrinJbak7GWqBHcp7fGh7TNFcfPFMacXg28XxlvVpQaVNgkvuqolN7wkTiR9ZMg6Fnm0zN4Xjr5lRtDHeE51Y0bZoBUbyLWSA+ts3SyDjDPPUU7GMI+Ed/ifb0csVpM12aOiNr8d+HsfF2Frnzrj2";
-        //parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        //vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        parameters.vuforiaLicenseKey = "AbZUuPf/////AAAAGUmS0Chan00iu7rnRhzu63+JgDtPo889M6dNtjvv+WKxiMJ8w2DgSJdM2/zEI+a759I7DlPj++D2Ryr5sEHAg4k1bGKdo3BKtkSeh8hCy78w0SIwoOACschF/ImuyP/V259ytjiFtEF6TX4teE8zYpQZiVkCQy0CmHI9Ymoa7NEvFEqfb3S4P6SicguAtQ2NSLJUX+Fdn49SEJKvpSyhwyjbrinJbak7GWqBHcp7fGh7TNFcfPFMacXg28XxlvVpQaVNgkvuqolN7wkTiR9ZMg6Fnm0zN4Xjr5lRtDHeE51Y0bZoBUbyLWSA+ts3SyDjDPPUU7GMI+Ed/ifb0csVpM12aOiNr8d+HsfF2Frnzrj2";
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
-        //relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        //relicTemplate = relicTrackables.get(0);
+        relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        relicTemplate = relicTrackables.get(0);
 
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
@@ -57,21 +61,21 @@ public class BlueAutonCloseV2 extends OpMode {
         timer.reset();
         robot.jewelOut();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
-        //relicTrackables.activate();
+        relicTrackables.activate();
     }
 
     @Override
     public void loop() {
         switch (command) {
-            /*case -1:
+            case -1:
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                    seeMark = true;
                     command++;
-                    telemetry.addData("VuMark", "%s visible", vuMark);
-                } else {
-                    telemetry.addData("VuMark", "not visible");
+                } else if (timer.milliseconds() > 1000) {
+                    command++;
                 }
-                break;*/
+                break;
 
             case 0:
                 if (timer.milliseconds() > 500){
@@ -242,6 +246,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
         }
 
+        telemetry.addData("vuMark", vuMark);
         telemetry.addData("red", robot.colorSensor.red());
         telemetry.addData("blue", robot.colorSensor.blue());
         telemetry.addData("time", timer.seconds());

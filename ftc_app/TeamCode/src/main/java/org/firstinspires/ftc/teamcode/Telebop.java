@@ -59,7 +59,7 @@ public class Telebop extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.right_bumper && countdown <= 0) {
-            brakeToggle = brakeToggle ? false : true;
+            brakeToggle = !brakeToggle;
             countdown = 30;
         }
 
@@ -68,10 +68,11 @@ public class Telebop extends OpMode {
         abnormalReleaseFlag = false;
         currentPosition = ReleasePosition.MIDDLE;
 
-        if (gamepad1.left_bumper && countdown <= 0) {
+        //Invert (Currently Disabled)
+        /*if (gamepad1.left_bumper && countdown <= 0) {
             //i = i ? false : true;
             countdown = 50;
-        }
+        }*/
 
         if (gamepad2.dpad_up) {
             robot.relicArmServo.setPower(.5);

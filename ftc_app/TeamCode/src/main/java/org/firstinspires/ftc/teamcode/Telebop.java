@@ -71,7 +71,7 @@ public class Telebop extends OpMode {
         //Invert (Currently Disabled)
         /*if (gamepad1.left_bumper && countdown <= 0) {
             //i = i ? false : true;
-            countdown = 50;
+            countdown = 30;
         }*/
 
         if (gamepad2.dpad_up) {

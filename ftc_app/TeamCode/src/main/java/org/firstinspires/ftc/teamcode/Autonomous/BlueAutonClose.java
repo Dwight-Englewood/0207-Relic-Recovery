@@ -327,9 +327,6 @@ public class BlueAutonClose extends OpMode {
         telemetry.update();
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
     @Override
     public void stop() {
 

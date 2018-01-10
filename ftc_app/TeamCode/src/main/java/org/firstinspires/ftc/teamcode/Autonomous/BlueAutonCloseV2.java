@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
 
 @Autonomous(name = "BlueAutonCloseV2", group = "Auton")
+//@Disabled
 public class BlueAutonCloseV2 extends OpMode {
     private Bot robot = new Bot();
     private ElapsedTime timer;
@@ -53,8 +54,7 @@ public class BlueAutonCloseV2 extends OpMode {
     }
 
     @Override
-    public void init_loop() {
-    }
+    public void init_loop() {}
 
     @Override
     public void start() {

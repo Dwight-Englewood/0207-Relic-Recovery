@@ -22,8 +22,8 @@ public class Telebop extends OpMode {
     boolean abnormalReleaseFlag = false;
     boolean i = false;
 
-    double liftScaledown = .5;
-    double liftScaleup = .2;
+    double liftScaledown = .7;
+    double liftScaleup = .4;
 
     @Override
     public void init() {

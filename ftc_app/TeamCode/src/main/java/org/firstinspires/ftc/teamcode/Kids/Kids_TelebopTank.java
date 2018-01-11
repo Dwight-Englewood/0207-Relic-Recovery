@@ -69,14 +69,6 @@ public class Kids_TelebopTank extends OpMode
             robot.intake(0);
         }
 
-        if (gamepad2.left_trigger > .3) {
-            robot.frontIntakeWallUp();
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.DOWNER;
-        } else {
-            robot.frontIntakeWallDown();
-        }
-
         if (gamepad2.right_stick_y > .3) {
             robot.intakeDrop.setPower(-1);
         } else if (gamepad2.right_stick_y < -.3) {

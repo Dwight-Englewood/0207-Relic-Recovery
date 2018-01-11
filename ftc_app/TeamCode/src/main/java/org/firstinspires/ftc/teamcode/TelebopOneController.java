@@ -46,7 +46,6 @@ public class TelebopOneController extends OpMode {
         robot.jewelUp();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
         ticks = robot.lift.getCurrentPosition();
-
     }
 
     @Override
@@ -76,14 +75,6 @@ public class TelebopOneController extends OpMode {
                 currentPosition = ReleasePosition.MIDDLE;
             }
             robot.intake(0);
-        }
-
-        if (gamepad1.left_trigger > .3) {
-            robot.frontIntakeWallUp();
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.DOWNER;
-        } else {
-            robot.frontIntakeWallDown();
         }
 
         if (gamepad1.dpad_left) {

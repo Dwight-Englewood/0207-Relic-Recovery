@@ -16,23 +16,11 @@ public class Telebop extends OpMode {
     boolean brakeToggle = false;
 
     int countdown = 0;
-    int ticks = 0;
     int wallCountdown = 0;
 
     ReleasePosition currentPosition = ReleasePosition.MIDDLE;
     boolean abnormalReleaseFlag = false;
     boolean i = false;
-
-    //int releaseEncoderMax = 2000; //todo figure out real nuumber
-
-    boolean firstRun = true;
-    int loopNum = 0;
-    /*long time0 = 0;
-    long time1 = 0;
-    long time100 = 0;
-    long time1000 = 0;
-    long time10000 = 0;
-    long time100000 = 0;*/
 
     double liftScaledown = .5;
     double liftScaleup = .2;
@@ -45,22 +33,20 @@ public class Telebop extends OpMode {
     }
 
     @Override
-    public void init_loop() {
-    }
+    public void init_loop() {}
 
     @Override
     public void start() {
         telemetry.clear();
         robot.jewelUp();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
-        //ticks = robot.lift.getCurrentPosition();
     }
 
     @Override
     public void loop() {
         if (gamepad1.right_bumper && countdown <= 0) {
             brakeToggle = !brakeToggle;
-            countdown = 30;
+            countdown = 5;
         }
 
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
@@ -113,14 +99,6 @@ public class Telebop extends OpMode {
             robot.intake(0);
         }
 
-        if (gamepad2.left_trigger > .3) {
-            robot.frontIntakeWallUp();
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.DOWNER;
-        } else {
-            robot.frontIntakeWallDown();
-        }
-
         if (gamepad2.right_stick_y > .3) {
             robot.intakeDrop.setPower(-1);
         } else if (gamepad2.right_stick_y < -.3) {
@@ -154,7 +132,7 @@ public class Telebop extends OpMode {
             currentPosition = ReleasePosition.MIDDLE;
         }
 
-        if (gamepad2.y) {
+        if (gamepad2.y ) {
             currentPosition = ReleasePosition.UP;
             robot.flipUp();
             robot.backIntakeWallDown();
@@ -170,14 +148,10 @@ public class Telebop extends OpMode {
             robot.jewelUp();
         }
 
-
         countdown--;
         wallCountdown--;
         robot.releaseMove(currentPosition);
 
-        loopNum = loopNum + 1;
-
-        telemetry.addData("release pos", currentPosition);
         telemetry.addData("Braking", brakeToggle);
         telemetry.update();
     }

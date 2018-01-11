@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -27,11 +28,12 @@ import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
 public class Bot {
 
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
-    public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, frontIntakeWall, backIntakeWall, jewelServoTop;
+    public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, backIntakeWall, jewelServoTop;
     public CRServo relicArmServo, relicArmVex, relicArmINNOUT;
 
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor;
+    public ModernRoboticsI2cRangeSensor rangeBack;
 
     private Orientation angles;
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
@@ -41,6 +43,8 @@ public class Bot {
     private float heading;
 
     private ReleasePosition currentPosition = ReleasePosition.DOWN;
+
+    //--------------------------------------------------------------------------------------------------------------------------
 
     public Bot() {}
 
@@ -53,27 +57,15 @@ public class Bot {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
-        //cryptoColorL = hardwareMap.get(ColorSensor.class, "crypcsl");
-        //cryptoColorR = hardwareMap.get(ColorSensor.class, "crypcsr");
-        //rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
-        //rangeSensor.setI2cAddress(I2cAddr.create8bit(0x28));
+        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
-        //servo init code
         jewelServoBottom = hardwareMap.get(Servo.class, "brandon"); //servo which does servo things
-        //jewelServoBottom.scaleRange(.2, .8);
         jewelServoTop = hardwareMap.get(Servo.class, "hahn"); //another servo which does servo things
-
-        //armNoSpringyServo       = hardwareMap.get(Servo.class, "anss"); //Servo which prevents arm from springing out aka move this to extend arm
-        //armBottomExtendyServo   = hardwareMap.get(Servo.class, "abes"); //Servo which controls the clamp on the arm
-        //armTopExtendyServo      = hardwareMap.get(Servo.class, "ates"); //Servo which controls the angle of the hand
 
         relicArmServo = hardwareMap.get(CRServo.class, "relicS");
         relicArmVex = hardwareMap.get(CRServo.class, "relicVM");
         relicArmINNOUT = hardwareMap.get(CRServo.class, "relicINNOUT");
 
-
-
-        //getting the motors from the hardware map
         FL = hardwareMap.get(DcMotor.class, "fl");
         FR = hardwareMap.get(DcMotor.class, "fr");
         BL = hardwareMap.get(DcMotor.class, "bl");
@@ -92,7 +84,6 @@ public class Bot {
         releaseLeft.scaleRange(.2, .8);
 
         flipper = hardwareMap.get(Servo.class, "flip");
-        frontIntakeWall = hardwareMap.get(Servo.class, "frontiw");
         backIntakeWall = hardwareMap.get(Servo.class, "backiw");
 
         //setting runmode
@@ -132,7 +123,6 @@ public class Bot {
 
         powerModifier = 0.0075; // 180 * .0055 ~= 1
         k = .6;
-        //armNoSpringyServo.setPosition(1);
     }
 
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
@@ -499,32 +489,6 @@ public class Bot {
         }
     }
 
-    public void semiUnfoldBot() {
-        this.drive(MovementEnum.STOP, 0);
-        this.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
-        this.releaseMove(ReleasePosition.UP);
-        this.jewelUp();
-    }
-
-    private void rollOut() {
-        this.releaseMove(ReleasePosition.UP);
-
-        this.intakeDrop.setPower(-.9);
-        ElapsedTime kms = new ElapsedTime();
-        kms.reset();
-        while (kms.milliseconds() < 400) {
-            this.nop();
-        }
-        this.intakeDrop.setPower(1);
-        kms.reset();
-        this.jewelUp();
-        while (kms.milliseconds() < 850) {
-            this.nop();
-        }
-        this.intakeDrop.setPower(0);
-        this.releaseMove(ReleasePosition.DOWN);
-    }
-
     private void nop() {
         ;
     }
@@ -544,14 +508,6 @@ public class Bot {
         final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120,
 
         return (int) (gearMotorTickThing * (distance / wheelCirc));
-    }
-
-    public void frontIntakeWallUp() {
-        frontIntakeWall.setPosition(.12);
-    }
-
-    public void frontIntakeWallDown() {
-        frontIntakeWall.setPosition(1);
     }
 
     public void backIntakeWallUp() {
@@ -628,13 +584,6 @@ public class Bot {
         }
         telemetry.addData("leftPower", leftPower);
         telemetry.addData("rightPower", rightPower);
-    }
-
-    public void setDriveTargets(int targetFL, int targetFR, int targetBL, int targetBR) {
-        FL.setTargetPosition(targetFL);
-        FR.setTargetPosition(targetFR);
-        BL.setTargetPosition(targetBL);
-        BR.setTargetPosition(targetBR);
     }
 
     public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {

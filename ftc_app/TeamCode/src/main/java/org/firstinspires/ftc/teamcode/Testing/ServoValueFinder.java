@@ -138,7 +138,6 @@ public class ServoValueFinder extends OpMode {
         robot.jewelServoBottom.setPosition(brandonVal);
         robot.releaseLeft.setPosition(releaseLeftVal);
         robot.releaseRight.setPosition(releaseRightVal);
-        robot.frontIntakeWall.setPosition(frontIntakeWallVal);
         robot.backIntakeWall.setPosition(backIntakeWallVal);
         robot.jewelServoTop.setPosition(hahnVal);
 

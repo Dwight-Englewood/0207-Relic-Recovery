@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -33,7 +34,7 @@ public class Bot {
     public CRServo relicArmServo, relicArmVex, relicArmINNOUT;
 
     public BNO055IMU imu;
-    public ColorSensor colorSensor, intakeColor;
+    public ModernRoboticsI2cColorSensor colorSensor, intakeColor;
     public OpticalDistanceSensor ods;
     public ModernRoboticsI2cRangeSensor rangeBack;
 
@@ -58,8 +59,8 @@ public class Bot {
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        colorSensor = hardwareMap.colorSensor.get("cs");
-        intakeColor = hardwareMap.colorSensor.get("ics");
+        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
+        intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
         ods = hardwareMap.opticalDistanceSensor.get("iods");
         rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 

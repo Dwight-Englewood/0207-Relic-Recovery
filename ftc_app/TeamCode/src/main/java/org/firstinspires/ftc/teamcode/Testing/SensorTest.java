@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Testing;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -17,10 +18,14 @@ import org.firstinspires.ftc.teamcode.Bot;
 @TeleOp(name = "Sensor Test", group = "Teleop")
 //@Disabled
 public class SensorTest extends OpMode {
-    Bot robot = new Bot();
+
+    ModernRoboticsI2cRangeSensor rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+    ModernRoboticsI2cColorSensor colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
+
 
     public void init() {
-        robot.init(hardwareMap);
+        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
+        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
     }
 
     @Override
@@ -39,11 +44,11 @@ public class SensorTest extends OpMode {
         telemetry.addData("Right CS red", robot.cryptoColorR.red());
         telemetry.addData("Right CS blue", robot.cryptoColorR.blue()); */
 
-        telemetry.addData("range", robot.rangeBack.getDistance(DistanceUnit.CM));
-        telemetry.addData("range Optical", robot.rangeBack.cmOptical());
-        telemetry.addData("range ultrasonic", robot.rangeBack.cmUltrasonic());
-        telemetry.addData("jewel red", robot.colorSensor.red());
-        telemetry.addData("jewel blue", robot.colorSensor.blue());
+        telemetry.addData("range", rangeBack.getDistance(DistanceUnit.CM));
+        telemetry.addData("range Optical", rangeBack.cmOptical());
+        telemetry.addData("range ultrasonic", rangeBack.cmUltrasonic());
+        telemetry.addData("jewel red", colorSensor.red());
+        telemetry.addData("jewel blue", colorSensor.blue());
 
         telemetry.update();
     }

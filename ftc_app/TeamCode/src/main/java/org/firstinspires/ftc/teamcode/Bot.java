@@ -129,6 +129,8 @@ public class Bot {
         k = .6;
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------
+
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
         int i = invert ? -1 : 1;
 

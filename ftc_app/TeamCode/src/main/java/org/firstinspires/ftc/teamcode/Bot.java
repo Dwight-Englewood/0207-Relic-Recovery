@@ -34,7 +34,7 @@ public class Bot {
     public CRServo relicArmServo, relicArmVex, relicArmINNOUT;
 
     public BNO055IMU imu;
-    public ColorSensor colorSensor, intakeColor;
+    public ModernRoboticsI2cColorSensor colorSensor, intakeColor;
     public OpticalDistanceSensor ods;
     public ModernRoboticsI2cRangeSensor rangeBack;
 
@@ -60,7 +60,7 @@ public class Bot {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor =hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
-        intakeColor = hardwareMap.colorSensor.get("ics");
+        intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
         ods = hardwareMap.opticalDistanceSensor.get("iods");
         rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 

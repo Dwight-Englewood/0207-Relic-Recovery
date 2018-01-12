@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -35,7 +37,9 @@ public class Bot {
     public BNO055IMU imu;
     public ColorSensor colorSensor, intakeColor;
     public OpticalDistanceSensor ods;
-    public ModernRoboticsI2cRangeSensor rangeBack;
+    //public ModernRoboticsI2cRangeSensor rangeBack;
+    public I2cDeviceSynch rangeBack;
+
 
     private Orientation angles;
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
@@ -61,7 +65,8 @@ public class Bot {
         colorSensor = hardwareMap.colorSensor.get("cs");
         intakeColor = hardwareMap.colorSensor.get("ics");
         ods = hardwareMap.opticalDistanceSensor.get("iods");
-        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+        //rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+        rangeBack = hardwareMap.get(I2cDeviceSynch.class, "range");
 
         jewelServoBottom = hardwareMap.servo.get("brandon"); //servo which does servo things
         jewelServoTop = hardwareMap.servo.get("hahn"); //another servo which does servo things

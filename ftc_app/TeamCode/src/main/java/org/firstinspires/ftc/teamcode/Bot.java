@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -32,7 +33,8 @@ public class Bot {
     public CRServo relicArmServo, relicArmVex, relicArmINNOUT;
 
     public BNO055IMU imu;
-    public ModernRoboticsI2cColorSensor colorSensor;
+    public ColorSensor colorSensor, intakeColor;
+    public OpticalDistanceSensor ods;
     public ModernRoboticsI2cRangeSensor rangeBack;
 
     private Orientation angles;
@@ -56,35 +58,37 @@ public class Bot {
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
+        colorSensor = hardwareMap.colorSensor.get("cs");
+        intakeColor = hardwareMap.colorSensor.get("ics");
+        ods = hardwareMap.opticalDistanceSensor.get("iods");
         rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
-        jewelServoBottom = hardwareMap.get(Servo.class, "brandon"); //servo which does servo things
-        jewelServoTop = hardwareMap.get(Servo.class, "hahn"); //another servo which does servo things
+        jewelServoBottom = hardwareMap.servo.get("brandon"); //servo which does servo things
+        jewelServoTop = hardwareMap.servo.get("hahn"); //another servo which does servo things
 
-        relicArmServo = hardwareMap.get(CRServo.class, "relicS");
-        relicArmVex = hardwareMap.get(CRServo.class, "relicVM");
-        relicArmINNOUT = hardwareMap.get(CRServo.class, "relicINNOUT");
+        relicArmServo = hardwareMap.crservo.get("relicS");
+        relicArmVex = hardwareMap.crservo.get("relicVM");
+        relicArmINNOUT = hardwareMap.crservo.get("relicINNOUT");
 
-        FL = hardwareMap.get(DcMotor.class, "fl");
-        FR = hardwareMap.get(DcMotor.class, "fr");
-        BL = hardwareMap.get(DcMotor.class, "bl");
-        BR = hardwareMap.get(DcMotor.class, "br");
+        FL = hardwareMap.dcMotor.get("fl");
+        FR = hardwareMap.dcMotor.get("fr");
+        BL = hardwareMap.dcMotor.get("bl");
+        BR = hardwareMap.dcMotor.get("br");
 
-        intakeDrop = hardwareMap.get(DcMotor.class, "intlift");
-        intakeOne = hardwareMap.get(DcMotor.class, "rint");
-        intakeTwo = hardwareMap.get(DcMotor.class, "lint");
+        intakeDrop = hardwareMap.dcMotor.get("intlift");
+        intakeOne = hardwareMap.dcMotor.get("rint");
+        intakeTwo = hardwareMap.dcMotor.get("lint");
 
-        lift = hardwareMap.get(DcMotor.class, "lift");
+        lift = hardwareMap.dcMotor.get("lift");
 
-        releaseRight = hardwareMap.get(Servo.class, "rel r");
-        releaseLeft = hardwareMap.get(Servo.class, "rel l");
+        releaseRight = hardwareMap.servo.get("rel r");
+        releaseLeft = hardwareMap.servo.get("rel l");
 
         releaseRight.scaleRange(.2, .8);
         releaseLeft.scaleRange(.2, .8);
 
-        flipper = hardwareMap.get(Servo.class, "flip");
-        backIntakeWall = hardwareMap.get(Servo.class, "backiw");
+        flipper = hardwareMap.servo.get("flip");
+        backIntakeWall = hardwareMap.servo.get("backiw");
 
         //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

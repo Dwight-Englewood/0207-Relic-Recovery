@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
+import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
 
 @Autonomous(name = "BlueAutonCloseV2", group = "Auton")
 //@Disabled
@@ -20,7 +21,7 @@ public class BlueAutonCloseV2 extends OpMode {
     private Bot robot = new Bot();
     private ElapsedTime timer;
     private int command = -1;
-    private VuforiaLocalizer vuforia;
+    private ClosableVuforiaLocalizer vuforia;
     private VuforiaTrackables relicTrackables;
     private VuforiaTrackable relicTemplate;
     private RelicRecoveryVuMark vuMark;
@@ -43,7 +44,7 @@ public class BlueAutonCloseV2 extends OpMode {
 
         parameters.vuforiaLicenseKey = "AbZUuPf/////AAAAGUmS0Chan00iu7rnRhzu63+JgDtPo889M6dNtjvv+WKxiMJ8w2DgSJdM2/zEI+a759I7DlPj++D2Ryr5sEHAg4k1bGKdo3BKtkSeh8hCy78w0SIwoOACschF/ImuyP/V259ytjiFtEF6TX4teE8zYpQZiVkCQy0CmHI9Ymoa7NEvFEqfb3S4P6SicguAtQ2NSLJUX+Fdn49SEJKvpSyhwyjbrinJbak7GWqBHcp7fGh7TNFcfPFMacXg28XxlvVpQaVNgkvuqolN7wkTiR9ZMg6Fnm0zN4Xjr5lRtDHeE51Y0bZoBUbyLWSA+ts3SyDjDPPUU7GMI+Ed/ifb0csVpM12aOiNr8d+HsfF2Frnzrj2";
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        vuforia = new ClosableVuforiaLocalizer(parameters);
 
         relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
@@ -84,6 +85,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 if (timer.milliseconds() > 500){
                     timer.reset();
                     robot.jewelOuter();
+                    vuforia.close();
                     command++;
                 }
                 break;

@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Enums;
+
+import org.firstinspires.ftc.teamcode.Tuple;
 
 import java.util.ArrayList;
 

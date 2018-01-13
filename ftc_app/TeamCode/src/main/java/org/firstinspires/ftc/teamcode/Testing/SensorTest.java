@@ -2,14 +2,11 @@ package org.firstinspires.ftc.teamcode.Testing;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Bot;
 
 /**
  * Created by aburur on 12/19/17.
@@ -19,12 +16,12 @@ import org.firstinspires.ftc.teamcode.Bot;
 //@Disabled
 public class SensorTest extends OpMode {
 
-    ModernRoboticsI2cRangeSensor rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
-    ModernRoboticsI2cColorSensor colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
+    ModernRoboticsI2cRangeSensor rangeBack;
+    ColorSensor colorSensor;
 
 
     public void init() {
-        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
+        colorSensor = hardwareMap.colorSensor.get("cs");
         rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
     }
 

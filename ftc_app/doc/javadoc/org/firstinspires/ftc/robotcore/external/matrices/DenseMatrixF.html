@@ -119,7 +119,7 @@ var activeTableTab = "activeTableTab";
 <pre>public abstract class <span class="typeNameLabel">DenseMatrixF</span>
 extends <a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">MatrixF</a></pre>
 <div class="block">A <a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/DenseMatrixF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices"><code>DenseMatrixF</code></a> is a matrix of floats whose storage is a contiguous float[] array. It may
- logically be ranged arranged either in row or column major order.</div>
+ logically be ranged arranged either in row or position major order.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices"><code>MatrixF</code></a>, 
@@ -197,7 +197,7 @@ extends <a href="../../../../../../org/firstinspires/ftc/robotcore/external/matr
 <td class="colFirst"><code>protected abstract int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/DenseMatrixF.html#indexFromRowCol-int-int-">indexFromRowCol</a></span>(int&nbsp;row,
                int&nbsp;col)</code>
-<div class="block">Given a row and column index into the matrix, returns the corresponding index
+<div class="block">Given a row and position index into the matrix, returns the corresponding index
  into the underlying float[] array.</div>
 </td>
 </tr>
@@ -271,9 +271,9 @@ extends <a href="../../../../../../org/firstinspires/ftc/robotcore/external/matr
 <dd><code><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html#get-int-int-">get</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">MatrixF</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>row</code> - the index of the row of the element to return</dd>
-<dd><code>col</code> - the index of the column of the element to return</dd>
+<dd><code>col</code> - the index of the position of the element to return</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the element at the indicated row and column</dd>
+<dd>the element at the indicated row and position</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html#put-int-int-float-"><code>MatrixF.put(int, int, float)</code></a></dd>
 </dl>
@@ -295,7 +295,7 @@ extends <a href="../../../../../../org/firstinspires/ftc/robotcore/external/matr
 <dd><code><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html#put-int-int-float-">put</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">MatrixF</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>row</code> - the index of the row of the element to update</dd>
-<dd><code>col</code> - the index of the column of the element to update</dd>
+<dd><code>col</code> - the index of the position of the element to update</dd>
 <dd><code>value</code> - the new value for the indicated element</dd>
 </dl>
 </li>
@@ -322,12 +322,12 @@ extends <a href="../../../../../../org/firstinspires/ftc/robotcore/external/matr
 <h4>indexFromRowCol</h4>
 <pre>protected abstract&nbsp;int&nbsp;indexFromRowCol(int&nbsp;row,
                                        int&nbsp;col)</pre>
-<div class="block">Given a row and column index into the matrix, returns the corresponding index
+<div class="block">Given a row and position index into the matrix, returns the corresponding index
  into the underlying float[] array.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>row</code> - the row whose index is desired</dd>
-<dd><code>col</code> - the column whose index is desired</dd>
+<dd><code>col</code> - the position whose index is desired</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the index of (row,col) in the data returned by <a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/DenseMatrixF.html#getData--"><code>getData()</code></a></dd>
 </dl>

@@ -279,7 +279,7 @@ extends java.lang.Object</pre>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">VectorF</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html#getColumn-int-">getColumn</a></span>(int&nbsp;col)</code>
-<div class="block">Returns a vector containing data of a particular column of the receiver.</div>
+<div class="block">Returns a vector containing data of a particular position of the receiver.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
@@ -316,7 +316,7 @@ extends java.lang.Object</pre>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">VectorF</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html#multiplied-float:A-">multiplied</a></span>(float[]&nbsp;him)</code>
-<div class="block">Multiplies the receiver by the indicated vector, considered as a column matrix.</div>
+<div class="block">Multiplies the receiver by the indicated vector, considered as a position matrix.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
@@ -328,7 +328,7 @@ extends java.lang.Object</pre>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">VectorF</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html#multiplied-org.firstinspires.ftc.robotcore.external.matrices.VectorF-">multiplied</a></span>(<a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">VectorF</a>&nbsp;him)</code>
-<div class="block">Multiplies the receiver by the indicated vector, considered as a column matrix.</div>
+<div class="block">Multiplies the receiver by the indicated vector, considered as a position matrix.</div>
 </td>
 </tr>
 <tr id="i24" class="altColor">
@@ -519,7 +519,7 @@ public&nbsp;<a href="../../../../../../org/firstinspires/ftc/robotcore/external/
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>row</code> - the row in the receiver at which the submatrix is to start</dd>
-<dd><code>col</code> - the column in the receiver at which the submatrix is to start</dd>
+<dd><code>col</code> - the position in the receiver at which the submatrix is to start</dd>
 <dd><code>numRows</code> - the number of rows in the submatrix</dd>
 <dd><code>numCols</code> - the number of columns in the submatrix</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -666,9 +666,9 @@ public abstract&nbsp;float&nbsp;get(int&nbsp;row,
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>row</code> - the index of the row of the element to return</dd>
-<dd><code>col</code> - the index of the column of the element to return</dd>
+<dd><code>col</code> - the index of the position of the element to return</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the element at the indicated row and column</dd>
+<dd>the element at the indicated row and position</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/MatrixF.html#put-int-int-float-"><code>put(int, int, float)</code></a></dd>
 </dl>
@@ -688,7 +688,7 @@ public abstract&nbsp;void&nbsp;put(int&nbsp;row,
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>row</code> - the index of the row of the element to update</dd>
-<dd><code>col</code> - the index of the column of the element to update</dd>
+<dd><code>col</code> - the index of the position of the element to update</dd>
 <dd><code>value</code> - the new value for the indicated element</dd>
 </dl>
 </li>
@@ -718,12 +718,12 @@ public&nbsp;<a href="../../../../../../org/firstinspires/ftc/robotcore/external/
 <h4>getColumn</h4>
 <pre><a href="../../../../../../org/firstinspires/ftc/robotcore/external/Const.html" title="annotation in org.firstinspires.ftc.robotcore.external">@Const</a>
 public&nbsp;<a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">VectorF</a>&nbsp;getColumn(int&nbsp;col)</pre>
-<div class="block">Returns a vector containing data of a particular column of the receiver.</div>
+<div class="block">Returns a vector containing data of a particular position of the receiver.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>col</code> - the column to extract</dd>
+<dd><code>col</code> - the position to extract</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a vector containing data of the indicated column</dd>
+<dd>a vector containing data of the indicated position</dd>
 </dl>
 </li>
 </ul>
@@ -914,7 +914,7 @@ public&nbsp;void&nbsp;multiply(float&nbsp;scale)</pre>
 <h4>multiplied</h4>
 <pre><a href="../../../../../../org/firstinspires/ftc/robotcore/external/Const.html" title="annotation in org.firstinspires.ftc.robotcore.external">@Const</a>
 public&nbsp;<a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">VectorF</a>&nbsp;multiplied(<a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">VectorF</a>&nbsp;him)</pre>
-<div class="block">Multiplies the receiver by the indicated vector, considered as a column matrix.</div>
+<div class="block">Multiplies the receiver by the indicated vector, considered as a position matrix.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>him</code> - the vector with which the receiver is to be multiplied</dd>
@@ -941,7 +941,7 @@ public&nbsp;void&nbsp;multiply(<a href="../../../../../../org/firstinspires/ftc/
 <h4>multiplied</h4>
 <pre><a href="../../../../../../org/firstinspires/ftc/robotcore/external/Const.html" title="annotation in org.firstinspires.ftc.robotcore.external">@Const</a>
 public&nbsp;<a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">VectorF</a>&nbsp;multiplied(float[]&nbsp;him)</pre>
-<div class="block">Multiplies the receiver by the indicated vector, considered as a column matrix.</div>
+<div class="block">Multiplies the receiver by the indicated vector, considered as a position matrix.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>him</code> - the vector with which the receiver is to be multiplied</dd>

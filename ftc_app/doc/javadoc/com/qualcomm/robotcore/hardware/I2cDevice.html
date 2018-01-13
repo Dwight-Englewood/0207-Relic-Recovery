@@ -151,7 +151,7 @@ extends <a href="../../../../com/qualcomm/robotcore/hardware/I2cControllerPortDe
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/qualcomm/robotcore/hardware/I2cDevice.html#clearI2cPortActionFlag--">clearI2cPortActionFlag</a></span>()</code>
-<div class="block">Clears the flag that <a href="../../../../com/qualcomm/robotcore/hardware/I2cDevice.html#setI2cPortActionFlag--"><code>setI2cPortActionFlag()</code></a> sets</div>
+<div class="block">Clears the Flag that <a href="../../../../com/qualcomm/robotcore/hardware/I2cDevice.html#setI2cPortActionFlag--"><code>setI2cPortActionFlag()</code></a> sets</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -337,7 +337,7 @@ extends <a href="../../../../com/qualcomm/robotcore/hardware/I2cControllerPortDe
 <tr id="i27" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/qualcomm/robotcore/hardware/I2cDevice.html#setI2cPortActionFlag--">setI2cPortActionFlag</a></span>()</code>
-<div class="block">Set the flag in the write cache that indicates that when the write cache is next transferred
+<div class="block">Set the Flag in the write cache that indicates that when the write cache is next transferred
  to the controller an i2c transaction should take place.</div>
 </td>
 </tr>
@@ -509,7 +509,7 @@ extends <a href="../../../../com/qualcomm/robotcore/hardware/I2cControllerPortDe
 <li class="blockList">
 <h4>setI2cPortActionFlag</h4>
 <pre>void&nbsp;setI2cPortActionFlag()</pre>
-<div class="block">Set the flag in the write cache that indicates that when the write cache is next transferred
+<div class="block">Set the Flag in the write cache that indicates that when the write cache is next transferred
  to the controller an i2c transaction should take place. This will be either a read transaction
  or a write transaction according to whether the <a href="../../../../com/qualcomm/robotcore/hardware/I2cDevice.html#enableI2cReadMode-com.qualcomm.robotcore.hardware.I2cAddr-int-int-"><code>enableI2cReadMode(I2cAddr, int, int)</code></a> or
  <a href="../../../../com/qualcomm/robotcore/hardware/I2cDevice.html#enableI2cWriteMode-com.qualcomm.robotcore.hardware.I2cAddr-int-int-"><code>enableI2cWriteMode(I2cAddr, int, int)</code></a> has most recently been called.</div>
@@ -528,11 +528,11 @@ extends <a href="../../../../com/qualcomm/robotcore/hardware/I2cControllerPortDe
 <pre>@Deprecated
 boolean&nbsp;isI2cPortActionFlagSet()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">this method returns a value that is rarely that which is expected</span></div>
-<div class="block">Returns whether the action flag is set in the read cache. This is rarely what is actually
+<div class="block">Returns whether the action Flag is set in the read cache. This is rarely what is actually
  desired by the <a href="../../../../com/qualcomm/robotcore/hardware/I2cDevice.html" title="interface in com.qualcomm.robotcore.hardware"><code>I2cDevice</code></a> client; it's use generally should be avoided.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the value of the action flag in the read cache.</dd>
+<dd>the value of the action Flag in the read cache.</dd>
 </dl>
 </li>
 </ul>
@@ -543,7 +543,7 @@ boolean&nbsp;isI2cPortActionFlagSet()</pre>
 <li class="blockList">
 <h4>clearI2cPortActionFlag</h4>
 <pre>void&nbsp;clearI2cPortActionFlag()</pre>
-<div class="block">Clears the flag that <a href="../../../../com/qualcomm/robotcore/hardware/I2cDevice.html#setI2cPortActionFlag--"><code>setI2cPortActionFlag()</code></a> sets</div>
+<div class="block">Clears the Flag that <a href="../../../../com/qualcomm/robotcore/hardware/I2cDevice.html#setI2cPortActionFlag--"><code>setI2cPortActionFlag()</code></a> sets</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../com/qualcomm/robotcore/hardware/I2cDevice.html#setI2cPortActionFlag--"><code>setI2cPortActionFlag()</code></a></dd>

@@ -17,8 +17,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.Utility.Column;
+import org.firstinspires.ftc.teamcode.Utility.Position;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 
@@ -35,7 +36,7 @@ public class Bot {
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor, intakeColor;
     public OpticalDistanceSensor ods;
-    public ModernRoboticsI2cRangeSensor rangeBack;
+    public ModernRoboticsI2cRangeSensor rangeBack, rangeLeft, rangeRight;
 
     private Orientation angles;
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
@@ -61,7 +62,9 @@ public class Bot {
         colorSensor =hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
         intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
         ods = hardwareMap.opticalDistanceSensor.get("iods");
-        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
+        rangeLeft = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangel");
+        rangeRight = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "ranger");
 
         jewelServoBottom = hardwareMap.servo.get("brandon"); //servo which does servo things
         jewelServoTop = hardwareMap.servo.get("hahn"); //another servo which does servo things
@@ -643,11 +646,69 @@ public class Bot {
         return scale;
     }
 
-    public void lineup(Column column) {
+    public double getDistance(Position sensorSide) {
+        double distance = 0;
+        switch (sensorSide) {
+            case BACK:
+                distance = this.rangeBack.getDistance(DistanceUnit.CM);
+                break;
+
+            case LEFT:
+                distance = this.rangeLeft.getDistance(DistanceUnit.CM);
+                break;
+
+            case RIGHT:
+                distance = this.rangeRight.getDistance(DistanceUnit.CM);
+                break;
+        }
+        return distance;
+    }
+
+    public void moveToDistance(Position sensorSide, int targetDistance) {
+        double curDistance = getDistance(sensorSide);
+        if (Math.abs(curDistance - targetDistance) > 3) {
+            switch (sensorSide){
+                case RIGHT:
+                    if (curDistance < targetDistance) {
+                        drive(MovementEnum.LEFTSTRAFE, .3);
+                    } else {
+                        drive(MovementEnum.RIGHTSTRAFE, .3);
+                    } break;
+
+                case LEFT:
+                    if (curDistance < targetDistance) {
+                        drive(MovementEnum.RIGHTSTRAFE, .3);
+                    } else {
+                        drive(MovementEnum.LEFTSTRAFE, .3);
+                    } break;
+
+                case BACK:
+                    if (curDistance < targetDistance) {
+                        drive(MovementEnum.FORWARD, .3);
+                    } else {
+                        drive(MovementEnum.BACKWARD, .3);
+                    } break;
+            }
+        } else {
+            drive(MovementEnum.STOP);
+        }
+    }
+
+    public void lineup(Position column, Position sensorSide) {
         if (Math.abs(imu.getAngularOrientation().firstAngle) > 2) {
             adjustHeading(0, false);
         } else {
+            switch (column) {
+                case LEFT:
 
+                    break;
+
+                case RIGHT:
+                    break;
+
+                case MIDDLE:
+                    break;
+            }
         }
     }
 

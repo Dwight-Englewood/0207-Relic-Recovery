@@ -697,7 +697,6 @@ public class Bot {
         } else {
             switch (column) {
                 case LEFT:
-
                     break;
 
                 case RIGHT:

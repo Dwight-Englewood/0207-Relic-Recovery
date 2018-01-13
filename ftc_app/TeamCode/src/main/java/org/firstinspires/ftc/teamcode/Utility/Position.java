@@ -8,5 +8,5 @@ public enum Position {
     LEFT,
     RIGHT,
     MIDDLE,
-    BACK;
+    BACK
 }

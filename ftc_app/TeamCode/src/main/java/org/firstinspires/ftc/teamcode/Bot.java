@@ -177,7 +177,6 @@ public class Bot {
 
         if (leftTrigger > .3) {
             if (isStrafing) {
-                ;
             } else {
                 heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
                 isStrafing = true;
@@ -189,7 +188,6 @@ public class Bot {
 
         if (rightTrigger > .3) {
             if (isStrafing) {
-                ;
             } else {
                 heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
                 isStrafing = true;
@@ -499,7 +497,6 @@ public class Bot {
     }
 
     private void nop() {
-        ;
     }
 
     public void runToPosition(int target) {

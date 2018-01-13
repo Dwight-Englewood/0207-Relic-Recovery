@@ -33,7 +33,6 @@ public class EnumController<T> {
             //MODIFY means it cannot be overriden afterwards, except by OVERRIDE
             if (this.instructionList.get(i).flag == Flag.MODIFY || this.instructionList.get(i).flag == Flag.m) {
                 if (abnormalFlag) {
-                    ;
                 } else {
                     abnormalFlag = true;
                     this.currentVal = this.instructionList.get(i).value;
@@ -41,7 +40,6 @@ public class EnumController<T> {
                 //NORMAL means it can be overriden by anything, including other normals
             } else if (this.instructionList.get(i).flag == Flag.NORMAL || this.instructionList.get(i).flag == Flag.n) {
                 if (abnormalFlag) {
-                    ;
                 } else {
                     this.currentVal = this.instructionList.get(i).value;
                 }

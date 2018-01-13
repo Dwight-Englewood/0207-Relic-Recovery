@@ -56,7 +56,7 @@ public class TelebopOneController extends OpMode {
         currentPosition = ReleasePosition.MIDDLE;
 
         if (gamepad1.left_bumper && countdown <= 0) {
-            brakeToggle = brakeToggle ? false : true;
+            brakeToggle = !brakeToggle;
             countdown = 50;
         }
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???

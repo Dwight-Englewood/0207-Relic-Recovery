@@ -661,29 +661,29 @@ public class Bot {
         return distance;
     }
 
-    public void moveToDistance(Position sensorSide, int targetDistance) {
+    public void moveToDistance(Position sensorSide, int targetDistance, double power) {
         double curDistance = getDistance(sensorSide);
         if (Math.abs(curDistance - targetDistance) > 3) {
             switch (sensorSide){
                 case RIGHT:
                     if (curDistance < targetDistance) {
-                        drive(MovementEnum.LEFTSTRAFE, .3);
+                        drive(MovementEnum.LEFTSTRAFE, power);
                     } else {
-                        drive(MovementEnum.RIGHTSTRAFE, .3);
+                        drive(MovementEnum.RIGHTSTRAFE, power);
                     } break;
 
                 case LEFT:
                     if (curDistance < targetDistance) {
-                        drive(MovementEnum.RIGHTSTRAFE, .3);
+                        drive(MovementEnum.RIGHTSTRAFE, power);
                     } else {
-                        drive(MovementEnum.LEFTSTRAFE, .3);
+                        drive(MovementEnum.LEFTSTRAFE, power);
                     } break;
 
                 case BACK:
                     if (curDistance < targetDistance) {
-                        drive(MovementEnum.FORWARD, .3);
+                        drive(MovementEnum.FORWARD, power);
                     } else {
-                        drive(MovementEnum.BACKWARD, .3);
+                        drive(MovementEnum.BACKWARD, power);
                     } break;
             }
         } else {

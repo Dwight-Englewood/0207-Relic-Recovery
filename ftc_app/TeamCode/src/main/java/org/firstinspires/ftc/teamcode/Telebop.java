@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
-import org.firstinspires.ftc.teamcode.Enums.ReleasePosition;
+import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
+import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 
 /**
  * Created by aburur on 9/10/17.

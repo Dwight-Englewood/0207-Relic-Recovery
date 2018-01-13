@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Bot;
-import org.firstinspires.ftc.teamcode.Enums.MovementEnum;
+import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 
 
 //@TeleOp(name="OneButtonMan", group="Teleop")

@@ -403,59 +403,59 @@ public class Bot {
 
     public void jewelKnockforward() { jewelServoTop.setPosition(.54); }
 
-    double relDowner = 0;
-    double relDown = 0;
-    double relMid = .50;
-    double relMidWhileUp = .52;
-    double relUp = 1;
+    private final double relDowner = 0;
+    private final double relDown = 0;
+    private final double relMid = .50;
+    private final double relMidWhileUp = .52;
+    private final double relUp = 1;
 
-    public void relLUp() {
+    private void relLUp() {
         releaseLeft.setPosition(relUp);
     }
 
-    public void relLDown() {
+    private void relLDown() {
         releaseLeft.setPosition(relDown);
     }
 
-    public void relLMid() {
+    private void relLMid() {
         releaseLeft.setPosition(relMid);
     }
 
-    public void relLMidWhileUp() {
+    private void relLMidWhileUp() {
         releaseLeft.setPosition(relMidWhileUp);
     }
 
-    public void relLDowner() {
+    private void relLDowner() {
         releaseLeft.setPosition(relDowner);
     }
 
-    public void relRUp() {
+    private void relRUp() {
         releaseRight.setPosition(relUp);
     }
 
-    public void relRDown() {
+    private void relRDown() {
         releaseRight.setPosition(relDown);
     }
 
-    public void relRMid() {
+    private void relRMid() {
         releaseRight.setPosition(relMid);
     }
 
-    public void relRMidWhileUp() {
+    private void relRMidWhileUp() {
         releaseRight.setPosition(relMidWhileUp);
     }
 
-    public void relRDowner() {
+    private void relRDowner() {
         releaseRight.setPosition(relDowner);
     }
 
-    public void relRInit(){releaseRight.setPosition(.699);}
+    private void relRInit(){releaseRight.setPosition(.699);}
 
-    public void relLInit(){releaseLeft.setPosition(.699);}
+    private void relLInit(){releaseLeft.setPosition(.699);}
 
-    public void relLDrop(){releaseLeft.setPosition(.73);}
+    private void relLDrop(){releaseLeft.setPosition(.73);}
 
-    public void relRDrop(){releaseRight.setPosition(.73);}
+    private void relRDrop(){releaseRight.setPosition(.73);}
 
     public void flipUp() {
         flipper.setPosition(.55);
@@ -491,10 +491,11 @@ public class Bot {
                 relRInit();
                 relLInit();
                 break;
+            case DROP:
+                relRDrop();
+                relLDrop();
+                break;
         }
-    }
-
-    private void nop() {
     }
 
     public void runToPosition(int target) {

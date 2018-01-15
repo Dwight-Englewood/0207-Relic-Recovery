@@ -172,8 +172,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 7:
-                robot.relRDrop();
-                robot.relLDrop();
+                robot.releaseMove(ReleasePosition.DROP);
                 robot.jewelOut();
                 robot.intakeDrop.setPower(-1);
                 if (timer.milliseconds() > 1000) {

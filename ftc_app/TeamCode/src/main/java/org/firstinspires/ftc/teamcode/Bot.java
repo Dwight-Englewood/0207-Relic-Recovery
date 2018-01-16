@@ -337,46 +337,75 @@ public class Bot {
         BR.setPower(rearRight);
     }
 
-    public void adjustHeading(int targetHeading, boolean slow) {
+    public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry, double powerCenter) {
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        headingError = targetHeading - angles.firstAngle;
+        driveScale = headingError * powerModifier;
 
-        float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        if (Math.abs(Math.abs(targetHeading) - Math.abs(curHeading)) <= 1) {
-            FL.setPower(0);
-            BL.setPower(0);
-            FR.setPower(0);
-            BR.setPower(0);
-        } else {
-            headingError = targetHeading + curHeading;
-            driveScale = headingError * powerModifier;
+        leftPower = powerCenter - driveScale;
+        rightPower = powerCenter + driveScale;
 
-            leftPower = 0 + driveScale;
-            rightPower = 0 - driveScale;
+        if (leftPower > 1)
+            leftPower = 1;
+        else if (leftPower < 0)
+            leftPower = 0;
 
-            leftPower = Range.clip(leftPower, -1, 1);
-            rightPower = Range.clip(rightPower, -1, 1);
+        if (rightPower > 1)
+            rightPower = 1;
+        else if (rightPower < 0)
+            rightPower = 0;
 
-            if (slow) {
-                leftPower = Range.clip(leftPower, -.2, .2);
-                rightPower = Range.clip(rightPower, -.2, .2 );
-            }
 
+        if (isRight) {
             FL.setPower(leftPower);
-            BL.setPower(leftPower);
-            FR.setPower(rightPower);
+            FR.setPower(-rightPower);
+            BL.setPower(-leftPower);
             BR.setPower(rightPower);
-        }
-
-    }
-
-    public void intake(double power) {
-        if (power == 0) {
-            currentPosition = ReleasePosition.MIDDLE;
         } else {
-            currentPosition = ReleasePosition.DOWN;
+            FL.setPower(-leftPower);
+            FR.setPower(rightPower);
+            BL.setPower(leftPower);
+            BR.setPower(-rightPower);
         }
-        intakeOne.setPower(power);
-        intakeTwo.setPower(power);
+        telemetry.addData("leftPower", leftPower);
+        telemetry.addData("rightPower", rightPower);
     }
+
+    public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry) {
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        headingError = targetHeading - angles.firstAngle;
+        driveScale = headingError * powerModifier;
+
+        leftPower = .85 - driveScale;
+        rightPower = .85 + driveScale;
+
+        if (leftPower > 1)
+            leftPower = 1;
+        else if (leftPower < 0)
+            leftPower = 0;
+
+        if (rightPower > 1)
+            rightPower = 1;
+        else if (rightPower < 0)
+            rightPower = 0;
+
+
+        if (isRight) {
+            FL.setPower(leftPower);
+            FR.setPower(-rightPower);
+            BL.setPower(-leftPower);
+            BR.setPower(rightPower);
+        } else {
+            FL.setPower(-leftPower);
+            FR.setPower(rightPower);
+            BL.setPower(leftPower);
+            BR.setPower(-rightPower);
+        }
+        telemetry.addData("leftPower", leftPower);
+        telemetry.addData("rightPower", rightPower);
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------------
 
     public void setDriveMotorModes(DcMotor.RunMode mode) {
         FL.setMode(mode);
@@ -391,6 +420,8 @@ public class Bot {
         BL.setZeroPowerBehavior(behavior);
         BR.setZeroPowerBehavior(behavior);
     }
+
+    //--------------------------------------------------------------------------------------------------------------------------
 
     public void jewelUp() {
         jewelServoBottom.setPosition(.155);
@@ -409,6 +440,8 @@ public class Bot {
     public void jewelKnockback() { jewelServoTop.setPosition(0.24); }
 
     public void jewelKnockforward() { jewelServoTop.setPosition(.54); }
+
+    //--------------------------------------------------------------------------------------------------------------------------
 
     private final double relDowner = 0;
     private final double relDown = 0;
@@ -505,6 +538,26 @@ public class Bot {
         }
     }
 
+    public void intake(double power) {
+        if (power == 0) {
+            currentPosition = ReleasePosition.MIDDLE;
+        } else {
+            currentPosition = ReleasePosition.DOWN;
+        }
+        intakeOne.setPower(power);
+        intakeTwo.setPower(power);
+    }
+
+    public void backIntakeWallUp() {
+        backIntakeWall.setPosition(.78);
+    }
+
+    public void backIntakeWallDown() {
+        backIntakeWall.setPosition(.5);
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------------
+
     public void runToPosition(int target) {
         this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -522,80 +575,35 @@ public class Bot {
         return (int) (gearMotorTickThing * (distance / wheelCirc));
     }
 
-    public void backIntakeWallUp() {
-        backIntakeWall.setPosition(.78);
-    }
+    public void adjustHeading(int targetHeading, boolean slow) {
 
-    public void backIntakeWallDown() {
-        backIntakeWall.setPosition(.5);
-    }
-
-    public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry, double powerCenter) {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        headingError = targetHeading - angles.firstAngle;
-        driveScale = headingError * powerModifier;
-
-        leftPower = powerCenter - driveScale;
-        rightPower = powerCenter + driveScale;
-
-        if (leftPower > 1)
-            leftPower = 1;
-        else if (leftPower < 0)
-            leftPower = 0;
-
-        if (rightPower > 1)
-            rightPower = 1;
-        else if (rightPower < 0)
-            rightPower = 0;
-
-
-        if (isRight) {
-            FL.setPower(leftPower);
-            FR.setPower(-rightPower);
-            BL.setPower(-leftPower);
-            BR.setPower(rightPower);
+        float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        if (Math.abs(Math.abs(targetHeading) - Math.abs(curHeading)) <= 1) {
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
         } else {
-            FL.setPower(-leftPower);
-            FR.setPower(rightPower);
-            BL.setPower(leftPower);
-            BR.setPower(-rightPower);
-        }
-        telemetry.addData("leftPower", leftPower);
-        telemetry.addData("rightPower", rightPower);
-    }
+            headingError = targetHeading + curHeading;
+            driveScale = headingError * powerModifier;
 
-    public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry) {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        headingError = targetHeading - angles.firstAngle;
-        driveScale = headingError * powerModifier;
+            leftPower = 0 + driveScale;
+            rightPower = 0 - driveScale;
 
-        leftPower = .85 - driveScale;
-        rightPower = .85 + driveScale;
+            leftPower = Range.clip(leftPower, -1, 1);
+            rightPower = Range.clip(rightPower, -1, 1);
 
-        if (leftPower > 1)
-            leftPower = 1;
-        else if (leftPower < 0)
-            leftPower = 0;
+            if (slow) {
+                leftPower = Range.clip(leftPower, -.2, .2);
+                rightPower = Range.clip(rightPower, -.2, .2 );
+            }
 
-        if (rightPower > 1)
-            rightPower = 1;
-        else if (rightPower < 0)
-            rightPower = 0;
-
-
-        if (isRight) {
             FL.setPower(leftPower);
-            FR.setPower(-rightPower);
-            BL.setPower(-leftPower);
-            BR.setPower(rightPower);
-        } else {
-            FL.setPower(-leftPower);
-            FR.setPower(rightPower);
             BL.setPower(leftPower);
-            BR.setPower(-rightPower);
+            FR.setPower(rightPower);
+            BR.setPower(rightPower);
         }
-        telemetry.addData("leftPower", leftPower);
-        telemetry.addData("rightPower", rightPower);
+
     }
 
     public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {

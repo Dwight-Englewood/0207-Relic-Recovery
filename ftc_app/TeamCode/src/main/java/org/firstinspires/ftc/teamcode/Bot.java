@@ -736,10 +736,10 @@ public class Bot {
                     break;
             }
 
+            //TODO: Add power speed up/down
             if (Math.abs(curSideDistance - this.targetDistance) < 3) {
                 moveToDistance(Position.BACK, cryptoDistance, .3);
             } else {
-                //TODO: Add power speed up/down
                 moveToDistance(this.sensorSide, leftDistance, .5);
             }
 

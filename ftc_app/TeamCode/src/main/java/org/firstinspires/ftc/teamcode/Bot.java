@@ -724,25 +724,20 @@ public class Bot {
             curBackDistance = rangeBack.getDistance(DistanceUnit.CM);
             switch (column) {
                 case LEFT:
-                    targetDistance = leftDistance;
+                    this.targetDistance = leftDistance;
                     break;
 
                 case RIGHT:
-                    targetDistance = rightDistance;
+                    this.targetDistance = rightDistance;
                     break;
 
                 case MIDDLE:
-                    targetDistance = midDistance;
+                    this.targetDistance = midDistance;
                     break;
             }
 
-            if (Math.abs(curSideDistance - targetDistance) < 2) {
-                if (Math.abs(curBackDistance - cryptoDistance) < 1) {
-                    drive(MovementEnum.STOP);
-                } else {
-                    //TODO: Add power speed up/down
-                    moveToDistance(Position.BACK, cryptoDistance, .3);
-                }
+            if (Math.abs(curSideDistance - this.targetDistance) < 3) {
+                moveToDistance(Position.BACK, cryptoDistance, .3);
             } else {
                 //TODO: Add power speed up/down
                 moveToDistance(this.sensorSide, leftDistance, .5);

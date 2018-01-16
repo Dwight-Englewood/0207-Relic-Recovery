@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.Testing;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Bot;
 
 /**
  * Created by aburur on 12/19/17.
@@ -15,13 +14,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 //@Disabled
 public class SensorTest extends OpMode {
 
-    ModernRoboticsI2cRangeSensor rangeBack;
-    ColorSensor colorSensor;
 
 
+    Bot robot = new Bot();
     public void init() {
-        colorSensor = hardwareMap.colorSensor.get("cs");
-        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+        robot.init(hardwareMap);
     }
 
     @Override
@@ -35,17 +32,13 @@ public class SensorTest extends OpMode {
 
     @Override
     public void loop() {
-        /*telemetry.addData("Left CS red", robot.cryptoColorL.red());
-        telemetry.addData("Left CS blue", robot.cryptoColorL.blue());
-        telemetry.addData("Right CS red", robot.cryptoColorR.red());
-        telemetry.addData("Right CS blue", robot.cryptoColorR.blue()); */
-
-        telemetry.addData("range", rangeBack.getDistance(DistanceUnit.CM));
-        telemetry.addData("range Optical", rangeBack.cmOptical());
-        telemetry.addData("range ultrasonic", rangeBack.cmUltrasonic());
-        telemetry.addData("jewel red", colorSensor.red());
-        telemetry.addData("jewel blue", colorSensor.blue());
-
+        telemetry.addData("RangeBack: ", robot.rangeBack.getDistance(DistanceUnit.CM));
+        telemetry.addData("RangeLeft: ", robot.rangeLeft.getDistance(DistanceUnit.CM));
+        telemetry.addData("RangeRight: ", robot.rangeRight.getDistance(DistanceUnit.CM));
+        telemetry.addData("intakeColor: ", robot.intakeColor.alpha());
+        telemetry.addData("jewelColor: ", robot.colorSensor.alpha());
+        telemetry.addData("ods light: ", robot.ods.getLightDetected());
+        telemetry.addData("ods raw: ", robot.ods.getRawLightDetected());
         telemetry.update();
     }
 

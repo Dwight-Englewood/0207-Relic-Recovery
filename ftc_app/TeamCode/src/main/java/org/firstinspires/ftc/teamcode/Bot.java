@@ -62,8 +62,10 @@ public class Bot {
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        colorSensor =hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
+        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
+        colorSensor.enableLed(true);
         intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
+        intakeColor.enableLed(true);
         ods = hardwareMap.opticalDistanceSensor.get("iods");
         rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
         rangeLeft = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangel");

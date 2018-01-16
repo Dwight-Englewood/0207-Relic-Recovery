@@ -45,6 +45,11 @@ public class Bot {
 
     private ReleasePosition currentPosition = ReleasePosition.DOWN;
 
+    private ModernRoboticsI2cRangeSensor rangeSide;
+    private double curSideDistance;
+    private double curBackDistance;
+    private Position sensorSide;
+
     //--------------------------------------------------------------------------------------------------------------------------
 
     public Bot() {}
@@ -660,6 +665,20 @@ public class Bot {
         return distance;
     }
 
+    public void setupAuton(Position sensorSide) {
+        switch (sensorSide) {
+            case LEFT:
+                rangeSide = rangeLeft;
+                break;
+
+            case RIGHT:
+                rangeSide = rangeRight;
+                break;
+        }
+        this.sensorSide = sensorSide;
+
+    }
+
     public void moveToDistance(Position sensorSide, int targetDistance, double power) {
         double curDistance = getDistance(sensorSide);
         if (Math.abs(curDistance - targetDistance) > 3) {
@@ -690,20 +709,43 @@ public class Bot {
         }
     }
 
-    public void lineup(Position column, Position sensorSide) {
+    private final int leftDistance = 100;
+    private final int rightDistance = 100;
+    private final int midDistance = 100;
+    private final int cryptoDistance = 12;
+    private int targetDistance;
+
+    //SETUP AUTON MUST BE CALLED FIRST
+    public void lineup(Position column) {
         if (Math.abs(imu.getAngularOrientation().firstAngle) > 2) {
             adjustHeading(0, false);
         } else {
+            curSideDistance = rangeSide.getDistance(DistanceUnit.CM);
+            curBackDistance = rangeBack.getDistance(DistanceUnit.CM);
             switch (column) {
                 case LEFT:
+                    targetDistance = leftDistance;
                     break;
 
                 case RIGHT:
+                    targetDistance = rightDistance;
                     break;
 
                 case MIDDLE:
+                    targetDistance = midDistance;
                     break;
             }
+
+            if (Math.abs(curSideDistance - targetDistance) < 2) {
+                if (Math.abs(curBackDistance - cryptoDistance) < 1) {
+                    drive(MovementEnum.STOP);
+                } else {
+                    moveToDistance(Position.BACK, cryptoDistance, .3);
+                }
+            } else {
+                moveToDistance(this.sensorSide, leftDistance, .5);
+            }
+
         }
     }
 

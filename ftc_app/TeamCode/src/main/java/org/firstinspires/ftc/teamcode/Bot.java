@@ -498,11 +498,11 @@ public class Bot {
     private void relRDrop(){releaseRight.setPosition(.73);}
 
     public void flipUp() {
-        flipper.setPosition(.55);
+        flipper.setPosition(1);
     }
 
     public void flipDown() {
-        flipper.setPosition(.05);
+        flipper.setPosition(0);
     }
 
     public void releaseMove(ReleasePosition position) {

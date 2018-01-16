@@ -740,9 +740,11 @@ public class Bot {
                 if (Math.abs(curBackDistance - cryptoDistance) < 1) {
                     drive(MovementEnum.STOP);
                 } else {
+                    //TODO: Add power speed up/down
                     moveToDistance(Position.BACK, cryptoDistance, .3);
                 }
             } else {
+                //TODO: Add power speed up/down
                 moveToDistance(this.sensorSide, leftDistance, .5);
             }
 

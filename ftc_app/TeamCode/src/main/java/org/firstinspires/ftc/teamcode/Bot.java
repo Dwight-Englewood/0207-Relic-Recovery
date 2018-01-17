@@ -583,7 +583,7 @@ public class Bot {
             FR.setPower(0);
             BR.setPower(0);
         } else {
-            headingError = targetHeading + curHeading;
+            headingError = targetHeading < 0 ? targetHeading + curHeading : Math.abs(targetHeading + curHeading);
             driveScale = headingError * powerModifier;
 
             leftPower = 0 + driveScale;

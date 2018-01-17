@@ -30,6 +30,7 @@ public class SensorTest extends OpMode {
 
     @Override
     public void loop() {
+        robot.adjustHeading(0, false);
         telemetry.addData("RangeBack: ", robot.rangeBack.getDistance(DistanceUnit.CM));
         telemetry.addData("RangeLeft: ", robot.rangeLeft.getDistance(DistanceUnit.CM));
         telemetry.addData("RangeRight: ", robot.rangeRight.getDistance(DistanceUnit.CM));

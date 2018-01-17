@@ -18,11 +18,12 @@ public class LineupTest extends OpMode
 {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();
+    Position curSensor = Position.RIGHT;
+    int cooldown = 0;
 
     @Override
     public void init() {
         robot.init(hardwareMap);
-        robot.setupAuton(Position.RIGHT);
     }
 
     @Override
@@ -36,17 +37,32 @@ public class LineupTest extends OpMode
 
     @Override
     public void loop() {
+        robot.setupAuton(curSensor);
+
+        if (gamepad1.y && cooldown < 0) {
+            switch (curSensor) {
+                case RIGHT:
+                    curSensor = Position.LEFT;
+                    break;
+                case LEFT:
+                    curSensor = Position.RIGHT;
+                    break;
+            }
+            cooldown = 20;
+        }
+
         if (gamepad1.b) {
-            robot.lineup(Position.MIDDLE);
-        } else if (gamepad1.a) {
-            robot.lineup(Position.LEFT);
-        } else if (gamepad1.y) {
             robot.lineup(Position.RIGHT);
+        } else if (gamepad1.a) {
+            robot.lineup(Position.MIDDLE);
+        } else if (gamepad1.x) {
+            robot.lineup(Position.LEFT);
         } else {
             robot.drive(MovementEnum.STOP);
             timer.reset();
         }
 
+        cooldown--;
         telemetry.addData("back sensor: ", robot.rangeBack.getDistance(DistanceUnit.CM));
         telemetry.addData("left sensor: ", robot.rangeLeft.getDistance(DistanceUnit.CM));
         telemetry.addData("right sensor: ", robot.rangeRight.getDistance(DistanceUnit.CM));

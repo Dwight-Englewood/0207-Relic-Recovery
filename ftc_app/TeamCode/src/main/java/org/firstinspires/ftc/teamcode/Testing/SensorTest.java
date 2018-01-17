@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.Bot;
 @TeleOp(name = "Sensor Test", group = "Testing")
 //@Disabled
 public class SensorTest extends OpMode {
-
     Bot robot = new Bot();
+
     public void init() {
         robot.init(hardwareMap);
     }

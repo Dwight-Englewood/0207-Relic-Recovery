@@ -161,7 +161,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 6:
-                if (timer.milliseconds() < 3000) {
+                if (timer.milliseconds() < 2000) {
                     robot.adjustHeading(0, false, telemetry);
                 } else {
                     robot.drive(MovementEnum.STOP);
@@ -188,7 +188,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 8:
-                if (timer.milliseconds()  > 500) { // may need to be 750
+                if (timer.milliseconds()  > 500) {
                     timer.reset();
                     command++;
                 }

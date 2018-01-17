@@ -705,7 +705,7 @@ public class Bot {
 
     public boolean moveToDistance(Position sensorSide, int targetDistance, double power) {
         double curDistance = getDistance(sensorSide);
-        if (Math.abs(curDistance - targetDistance) > 3) {
+        if (Math.abs(curDistance - targetDistance) > 2) {
             switch (sensorSide){
                 case RIGHT:
                     if (curDistance < targetDistance) {
@@ -722,6 +722,7 @@ public class Bot {
                     } break;
 
                 case BACK:
+                    jewelOut();
                     if (curDistance < targetDistance) {
                         drive(MovementEnum.FORWARD, power);
                     } else {
@@ -731,6 +732,7 @@ public class Bot {
             return false;
         } else {
             drive(MovementEnum.STOP);
+            jewelUp();
             return true;
         }
     }
@@ -738,7 +740,7 @@ public class Bot {
     private final int farleftDistance = 100;
     private final int farrightDistance = 100;
     private final int farmidDistance = 100;
-    private final int cryptoDistance = 12;
+    private final int cryptoDistance = 35;
     private int targetDistance;
 
     /* crypto when looking from the field...
@@ -770,7 +772,7 @@ public class Bot {
             }
 
             //TODO: Add power speed up/down
-            if (Math.abs(curSideDistance - this.targetDistance) < 3) {
+            if (Math.abs(curSideDistance - this.targetDistance) < 2) {
                 return moveToDistance(Position.BACK, cryptoDistance, .3);
 
             } else {

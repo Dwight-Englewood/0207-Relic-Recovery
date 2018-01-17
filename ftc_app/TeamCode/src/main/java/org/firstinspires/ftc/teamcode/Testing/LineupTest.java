@@ -67,6 +67,7 @@ public class LineupTest extends OpMode
         telemetry.addData("left sensor: ", robot.rangeLeft.getDistance(DistanceUnit.CM));
         telemetry.addData("right sensor: ", robot.rangeRight.getDistance(DistanceUnit.CM));
         telemetry.addData("Time Elapsed: ", timer.milliseconds());
+        telemetry.addData("cooldown? ", cooldown > 0 ? "Yep" : "Nope");
         telemetry.update();
     }
 

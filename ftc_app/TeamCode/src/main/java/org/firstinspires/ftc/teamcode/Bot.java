@@ -689,7 +689,7 @@ public class Bot {
 
     }
 
-    public void moveToDistance(Position sensorSide, int targetDistance, double power) {
+    public boolean moveToDistance(Position sensorSide, int targetDistance, double power) {
         double curDistance = getDistance(sensorSide);
         if (Math.abs(curDistance - targetDistance) > 3) {
             switch (sensorSide){
@@ -714,8 +714,10 @@ public class Bot {
                         drive(MovementEnum.BACKWARD, power);
                     } break;
             }
+            return false;
         } else {
             drive(MovementEnum.STOP);
+            return true;
         }
     }
 
@@ -725,10 +727,19 @@ public class Bot {
     private final int cryptoDistance = 12;
     private int targetDistance;
 
+    /* crypto when looking from the field...
+     *  |L|M|R|
+     *  |E|I|I|
+     *  |F|D|G|
+     *  |T|D|H|
+     *
+     */
+
     //SETUP AUTON MUST BE CALLED FIRST
-    public void lineup(Position column) {
+    public boolean lineup(Position column) {
         if (Math.abs(imu.getAngularOrientation().firstAngle) > 2) {
             adjustHeading(0, false);
+            return false;
         } else {
             curSideDistance = rangeSide.getDistance(DistanceUnit.CM);
             curBackDistance = rangeBack.getDistance(DistanceUnit.CM);
@@ -748,9 +759,11 @@ public class Bot {
 
             //TODO: Add power speed up/down
             if (Math.abs(curSideDistance - this.targetDistance) < 3) {
-                moveToDistance(Position.BACK, cryptoDistance, .3);
+                return moveToDistance(Position.BACK, cryptoDistance, .3);
+
             } else {
                 moveToDistance(this.sensorSide, leftDistance, .5);
+                return false;
             }
 
         }

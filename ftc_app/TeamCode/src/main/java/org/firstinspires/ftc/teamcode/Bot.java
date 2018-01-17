@@ -731,7 +731,6 @@ public class Bot {
      *  |E|I|I|
      *  |F|D|G|
      *  |T|D|H|
-     *
      */
 
     //SETUP AUTON MUST BE CALLED FIRST

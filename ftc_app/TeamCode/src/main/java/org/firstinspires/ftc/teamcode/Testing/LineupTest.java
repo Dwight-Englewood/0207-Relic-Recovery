@@ -44,11 +44,13 @@ public class LineupTest extends OpMode
             robot.lineup(Position.RIGHT);
         } else {
             robot.drive(MovementEnum.STOP);
+            timer.reset();
         }
 
         telemetry.addData("back sensor: ", robot.rangeBack.getDistance(DistanceUnit.CM));
         telemetry.addData("left sensor: ", robot.rangeLeft.getDistance(DistanceUnit.CM));
         telemetry.addData("right sensor: ", robot.rangeRight.getDistance(DistanceUnit.CM));
+        telemetry.addData("Time Elapsed: ", timer.milliseconds());
         telemetry.update();
     }
 

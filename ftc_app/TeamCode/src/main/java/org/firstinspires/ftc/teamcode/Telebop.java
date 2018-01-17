@@ -54,12 +54,14 @@ public class Telebop extends OpMode {
         abnormalReleaseFlag = false;
         currentPosition = ReleasePosition.MIDDLE;
 
-        //Invert (Currently Disabled)
+        //invert (durrently disabled)
         /*if (gamepad1.left_bumper && countdown <= 0) {
             //i = i ? false : true;
             countdown = 30;
         }*/
 
+        //relic stuff (currently disabled)
+        /*
         if (gamepad2.dpad_up) {
             robot.relicArmServo.setPower(.5);
         } else if (gamepad2.dpad_down) {
@@ -82,7 +84,7 @@ public class Telebop extends OpMode {
             robot.relicArmVex.setPower(-.5);
         } else {
             robot.relicArmVex.setPower(0);
-        }
+        }*/
         
         if (gamepad2.right_bumper) {
             abnormalReleaseFlag = true;

@@ -720,9 +720,9 @@ public class Bot {
         }
     }
 
-    private final int leftDistance = 100;
-    private final int rightDistance = 100;
-    private final int midDistance = 100;
+    private final int farleftDistance = 100;
+    private final int farrightDistance = 100;
+    private final int farmidDistance = 100;
     private final int cryptoDistance = 12;
     private int targetDistance;
 
@@ -742,15 +742,15 @@ public class Bot {
             curSideDistance = rangeSide.getDistance(DistanceUnit.CM);
             switch (column) {
                 case LEFT:
-                    this.targetDistance = leftDistance;
+                    this.targetDistance = farleftDistance;
                     break;
 
                 case RIGHT:
-                    this.targetDistance = rightDistance;
+                    this.targetDistance = farrightDistance;
                     break;
 
                 case MIDDLE:
-                    this.targetDistance = midDistance;
+                    this.targetDistance = farmidDistance;
                     break;
             }
 
@@ -759,7 +759,7 @@ public class Bot {
                 return moveToDistance(Position.BACK, cryptoDistance, .3);
 
             } else {
-                moveToDistance(this.sensorSide, leftDistance, .5);
+                moveToDistance(this.sensorSide, farleftDistance, .5);
                 return false;
             }
 

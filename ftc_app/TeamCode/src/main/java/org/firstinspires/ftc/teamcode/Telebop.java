@@ -155,6 +155,8 @@ public class Telebop extends OpMode {
         robot.releaseMove(currentPosition);
 
         telemetry.addData("Braking", brakeToggle);
+        telemetry.addData("Brake cooldown? ", countdown > 0 ? "Yep" : "Nope");
+        telemetry.addData("Wall on cooldown? ", wallCountdown > 0 ? "Yep" : "Nope");
         telemetry.update();
     }
 

@@ -22,7 +22,7 @@ public class LineupTest extends OpMode
     @Override
     public void init() {
         robot.init(hardwareMap);
-        robot.setupAuton(Position.LEFT);
+        robot.setupAuton(Position.RIGHT);
     }
 
     @Override

@@ -81,6 +81,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 if (timer.milliseconds() > 500){
                     timer.reset();
                     robot.jewelOuter();
+                    relicTrackables.deactivate();
                     vuforia.close();
                     command++;
                 }

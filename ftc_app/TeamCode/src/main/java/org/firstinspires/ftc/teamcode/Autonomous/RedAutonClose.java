@@ -140,7 +140,7 @@ public class RedAutonClose extends OpMode {
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(-90, false);
+                    robot.adjustHeading(-90, false, telemetry);
                 }
                 break;
 
@@ -157,7 +157,7 @@ public class RedAutonClose extends OpMode {
 
             case 7:
                 if (timer.milliseconds() < 4000) {
-                    robot.adjustHeading(0, false);
+                    robot.adjustHeading(0, false, telemetry);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     //robot.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -226,7 +226,7 @@ public class RedAutonClose extends OpMode {
 
             case 12:
                 if (timer.milliseconds() < 1000) {
-                    robot.adjustHeading(0, false);
+                    robot.adjustHeading(0, false, telemetry);
                     robot.backIntakeWallDown();
                 } else {
                     robot.drive(MovementEnum.STOP);

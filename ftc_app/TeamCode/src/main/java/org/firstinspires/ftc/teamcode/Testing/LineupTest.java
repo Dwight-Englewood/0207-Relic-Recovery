@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.Position;
@@ -52,11 +53,11 @@ public class LineupTest extends OpMode
         }
 
         if (gamepad1.b) {
-            robot.lineup(Position.RIGHT);
+            robot.lineup(RelicRecoveryVuMark.RIGHT, telemetry);
         } else if (gamepad1.a) {
-            robot.lineup(Position.MIDDLE);
+            robot.lineup(RelicRecoveryVuMark.CENTER, telemetry);
         } else if (gamepad1.x) {
-            robot.lineup(Position.LEFT);
+            robot.lineup(RelicRecoveryVuMark.LEFT, telemetry);
         } else {
             robot.drive(MovementEnum.STOP);
             timer.reset();

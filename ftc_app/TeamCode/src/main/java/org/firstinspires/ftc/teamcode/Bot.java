@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.Position;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
@@ -574,23 +575,36 @@ public class Bot {
         return (int) (gearMotorTickThing * (distance / wheelCirc));
     }
 
-    public void adjustHeading(int targetHeading, boolean slow) {
+    public void adjustHeading(int targetHeading, boolean slow, Telemetry telemetry) {
 
         float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        if (Math.abs(Math.abs(targetHeading) - Math.abs(curHeading)) <= 1) {
+        if (Math.abs(Math.abs(targetHeading) - Math.abs(curHeading)) < .5) {
             FL.setPower(0);
             BL.setPower(0);
             FR.setPower(0);
             BR.setPower(0);
         } else {
-            headingError = curHeading < 0 ? targetHeading + curHeading : Math.abs(targetHeading + curHeading);
+            if (targetHeading == 0) {
+                headingError = curHeading < 0 ? targetHeading + curHeading : Math.abs(targetHeading + curHeading);
+            } else {
+                headingError = targetHeading + curHeading;
+            }
             driveScale = headingError * powerModifier;
 
-            leftPower = 0 + driveScale;
-            rightPower = 0 - driveScale;
+            if (driveScale == 0) {
+                drive(MovementEnum.STOP);
+                return;
+            }
 
-            leftPower = Range.clip(leftPower, -1, 1);
-            rightPower = Range.clip(rightPower, -1, 1);
+            if (Math.abs(driveScale) < .06) {
+                driveScale = .06 * (driveScale < 0 ? -1 : 1);
+            }
+
+            leftPower = driveScale;
+            rightPower = -driveScale;
+
+            leftPower = Range.clip(leftPower, -.8, .8);
+            rightPower = Range.clip(rightPower, -.8, .8);
 
             if (slow) {
                 leftPower = Range.clip(leftPower, -.2, .2);
@@ -602,6 +616,7 @@ public class Bot {
             FR.setPower(rightPower);
             BR.setPower(rightPower);
         }
+        telemetry.addData("drive scale: ", driveScale);
 
     }
 
@@ -734,9 +749,9 @@ public class Bot {
      */
 
     //SETUP AUTON MUST BE CALLED FIRST
-    public boolean lineup(Position column) {
+    public boolean lineup(RelicRecoveryVuMark column, Telemetry telemetry) {
         if (Math.abs(imu.getAngularOrientation().firstAngle) > 2) {
-            adjustHeading(0, false);
+            adjustHeading(0, false, telemetry);
             return false;
         } else {
             curSideDistance = rangeSide.getDistance(DistanceUnit.CM);
@@ -749,7 +764,7 @@ public class Bot {
                     this.targetDistance = farrightDistance;
                     break;
 
-                case MIDDLE:
+                case CENTER:
                     this.targetDistance = farmidDistance;
                     break;
             }

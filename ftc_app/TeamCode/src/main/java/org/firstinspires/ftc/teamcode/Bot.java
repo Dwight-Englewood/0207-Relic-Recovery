@@ -132,7 +132,7 @@ public class Bot {
         intakeTwo.setPower(0);
         lift.setPower(0);
 
-        powerModifier = 0.0075; // 180 * .0055 ~= 1
+        powerModifier = 0.02; // 180 * .0055 ~= 1
         k = .6;
     }
 
@@ -583,7 +583,7 @@ public class Bot {
             FR.setPower(0);
             BR.setPower(0);
         } else {
-            headingError = targetHeading < 0 ? targetHeading + curHeading : Math.abs(targetHeading + curHeading);
+            headingError = curHeading < 0 ? targetHeading + curHeading : Math.abs(targetHeading + curHeading);
             driveScale = headingError * powerModifier;
 
             leftPower = 0 + driveScale;

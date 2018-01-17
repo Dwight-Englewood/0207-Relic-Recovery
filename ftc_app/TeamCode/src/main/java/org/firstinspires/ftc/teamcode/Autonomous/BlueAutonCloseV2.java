@@ -28,7 +28,6 @@ public class BlueAutonCloseV2 extends OpMode {
     private double power;
     private int generalTarget;
     private boolean hitjewel = false;
-    private boolean seeMark = false;
 
     @Override
     public void init() {
@@ -68,12 +67,10 @@ public class BlueAutonCloseV2 extends OpMode {
             case -1:
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-                    seeMark = true;
                     robot.jewelOut();
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 1000) {
-                    seeMark = false;
                     robot.jewelOut();
                     timer.reset();
                     command++;

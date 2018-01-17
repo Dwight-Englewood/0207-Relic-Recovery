@@ -47,7 +47,6 @@ public class Bot {
 
     private ModernRoboticsI2cRangeSensor rangeSide;
     private double curSideDistance;
-    private double curBackDistance;
     private Position sensorSide;
 
     //--------------------------------------------------------------------------------------------------------------------------
@@ -742,7 +741,6 @@ public class Bot {
             return false;
         } else {
             curSideDistance = rangeSide.getDistance(DistanceUnit.CM);
-            curBackDistance = rangeBack.getDistance(DistanceUnit.CM);
             switch (column) {
                 case LEFT:
                     this.targetDistance = leftDistance;

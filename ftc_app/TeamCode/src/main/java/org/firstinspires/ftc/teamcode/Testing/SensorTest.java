@@ -14,8 +14,6 @@ import org.firstinspires.ftc.teamcode.Bot;
 //@Disabled
 public class SensorTest extends OpMode {
 
-
-
     Bot robot = new Bot();
     public void init() {
         robot.init(hardwareMap);

@@ -32,18 +32,7 @@ public class HeadingTest extends OpMode {
 
     @Override
     public void loop() {
-        /*if (timer.milliseconds() < 5000)
-            robot.adjustHeading(180, false);
-        else if (timer.milliseconds() < 10000)
-            robot.adjustHeading(90, false);
-        else if (timer.milliseconds() < 15000)
-            robot.adjustHeading(-90, false);
-        else
-            robot.adjustHeading(0, false);
-
-        telemetry.addData("heading", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
-        telemetry.addData("time", timer.milliseconds());
-        telemetry.update();*/
+       robot.adjustHeading(0, false);
     }
 
 

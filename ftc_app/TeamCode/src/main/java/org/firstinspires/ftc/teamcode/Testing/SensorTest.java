@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Bot;
  * Created by aburur on 12/19/17.
  */
 
-@TeleOp(name = "Sensor Test", group = "Teleop")
+@TeleOp(name = "Sensor Test", group = "Testing")
 //@Disabled
 public class SensorTest extends OpMode {
 

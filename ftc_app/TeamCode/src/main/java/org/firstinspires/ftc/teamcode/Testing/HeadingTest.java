@@ -31,7 +31,7 @@ public class HeadingTest extends OpMode {
 
     @Override
     public void loop() {
-       robot.adjustHeading(0, false, telemetry);
+       robot.adjustHeading(0, true, telemetry);
     }
 
 

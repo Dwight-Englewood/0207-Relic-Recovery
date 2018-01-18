@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -272,6 +273,10 @@ public class Bot {
                 FR.setPower(0);
                 BL.setPower(0);
                 BR.setPower(0);
+                break;
+
+            default:
+                drive(movement, .5);
                 break;
         }
     }
@@ -584,6 +589,11 @@ public class Bot {
             FR.setPower(0);
             BR.setPower(0);
         } else {
+            if (slow) {
+                powerModifier = .005;
+            } else {
+                powerModifier = .02;
+            }
             if (targetHeading == 0) {
                 headingError = curHeading < 0 ? targetHeading + curHeading : Math.abs(targetHeading + curHeading);
             } else {
@@ -603,13 +613,8 @@ public class Bot {
             leftPower = driveScale;
             rightPower = -driveScale;
 
-            leftPower = Range.clip(leftPower, -.8, .8);
-            rightPower = Range.clip(rightPower, -.8, .8);
-
-            if (slow) {
-                leftPower = Range.clip(leftPower, -.2, .2);
-                rightPower = Range.clip(rightPower, -.2, .2 );
-            }
+            leftPower = Range.clip(leftPower, -1, 1);
+            rightPower = Range.clip(rightPower, -1, 1);
 
             FL.setPower(leftPower);
             BL.setPower(leftPower);
@@ -671,6 +676,26 @@ public class Bot {
         return scale;
     }
 
+    public double slowDownScale(int targetDistance, double curDistance, ElapsedTime timer) {
+        double scale = 1;
+        if (Math.abs(targetDistance - curDistance) < 2) {
+            scale = 0;
+        } else if (Math.abs(targetDistance - curDistance) < 15) {
+            scale = .1;
+        } else if (Math.abs(targetDistance - curDistance) < 30) {
+            scale = .2;
+        } else if (Math.abs(targetDistance - curDistance) < 60) {
+            scale = .3;
+        } else if (timer.milliseconds() < 750) {
+            scale = .1;
+        } else if (timer.milliseconds() < 1500) {
+            scale = .3;
+        } else {
+            scale = .5;
+        }
+        return scale;
+    }
+
     public double getDistance(Position sensorSide) {
         double distance = 0;
         switch (sensorSide) {
@@ -692,41 +717,79 @@ public class Bot {
     public void setupAuton(Position sensorSide) {
         switch (sensorSide) {
             case LEFT:
-                rangeSide = rangeLeft;
+                this.rangeSide = rangeLeft;
                 break;
 
             case RIGHT:
-                rangeSide = rangeRight;
+                this.rangeSide = rangeRight;
                 break;
         }
         this.sensorSide = sensorSide;
 
     }
 
-    public boolean moveToDistance(Position sensorSide, int targetDistance, double power) {
+    public boolean moveToDistance(Position sensorSide, int targetDistance) {
         double curDistance = getDistance(sensorSide);
         if (Math.abs(curDistance - targetDistance) > 2) {
             switch (sensorSide){
                 case RIGHT:
+                    jewelUp();
                     if (curDistance < targetDistance) {
-                        drive(MovementEnum.LEFTSTRAFE, power);
+                        drive(MovementEnum.LEFTSTRAFE, .3);
                     } else {
-                        drive(MovementEnum.RIGHTSTRAFE, power);
+                        drive(MovementEnum.RIGHTSTRAFE, .1);
                     } break;
 
                 case LEFT:
+                    jewelUp();
                     if (curDistance < targetDistance) {
-                        drive(MovementEnum.RIGHTSTRAFE, power);
+                        drive(MovementEnum.RIGHTSTRAFE, .1);
                     } else {
-                        drive(MovementEnum.LEFTSTRAFE, power);
+                        drive(MovementEnum.LEFTSTRAFE, .3);
                     } break;
 
                 case BACK:
                     jewelOut();
                     if (curDistance < targetDistance) {
-                        drive(MovementEnum.FORWARD, power);
+                        drive(MovementEnum.FORWARD, .1);
                     } else {
-                        drive(MovementEnum.BACKWARD, power);
+                        drive(MovementEnum.BACKWARD, .3);
+                    } break;
+            }
+            return false;
+        } else {
+            drive(MovementEnum.STOP);
+            jewelUp();
+            return true;
+        }
+    }
+
+    public boolean moveToDistance(Position sensorSide, int targetDistance, int targetHeading) {
+        double curDistance = getDistance(sensorSide);
+        if (Math.abs(curDistance - targetDistance) > 2) {
+            switch (sensorSide){
+                case RIGHT:
+                    jewelUp();
+                    if (curDistance < targetDistance) {
+                        drive(MovementEnum.LEFTSTRAFE, .1);
+                    } else {
+                        drive(MovementEnum.RIGHTSTRAFE, .3);
+                    } break;
+
+                case LEFT:
+                    jewelUp();
+                    if (curDistance < targetDistance) {
+                        drive(MovementEnum.RIGHTSTRAFE, .1);
+                    } else {
+                        drive(MovementEnum.LEFTSTRAFE, .3);
+                    } break;
+
+                case BACK:
+                    jewelOut();
+                    if (curDistance < targetDistance) {
+                        drive(MovementEnum.FORWARD, .1);
+                    } else {
+                        drive(MovementEnum.BACKWARD, .3);
                     } break;
             }
             return false;
@@ -738,9 +801,9 @@ public class Bot {
     }
 
     private final int farleftDistance = 100;
-    private final int farrightDistance = 100;
-    private final int farmidDistance = 100;
-    private final int cryptoDistance = 35;
+    private final int farrightDistance = 137;
+    private final int farmidDistance = 119;
+    private final int cryptoDistance = 37;
     private int targetDistance;
 
     /* crypto when looking from the field...
@@ -752,11 +815,10 @@ public class Bot {
 
     //SETUP AUTON MUST BE CALLED FIRST
     public boolean lineup(RelicRecoveryVuMark column, Telemetry telemetry) {
-        if (Math.abs(imu.getAngularOrientation().firstAngle) > 2) {
+        if (Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 5) {
             adjustHeading(0, false, telemetry);
             return false;
         } else {
-            curSideDistance = rangeSide.getDistance(DistanceUnit.CM);
             switch (column) {
                 case LEFT:
                     this.targetDistance = farleftDistance;
@@ -772,15 +834,27 @@ public class Bot {
             }
 
             //TODO: Add power speed up/down
-            if (Math.abs(curSideDistance - this.targetDistance) < 2) {
-                return moveToDistance(Position.BACK, cryptoDistance, .3);
-
+            if (Math.abs(this.rangeSide.getDistance(DistanceUnit.CM) - this.targetDistance) < 2) {
+                moveToDistance(Position.BACK, cryptoDistance);
+                return false;
             } else {
-                moveToDistance(this.sensorSide, farleftDistance, .5);
+                moveToDistance(this.sensorSide, targetDistance);
                 return false;
             }
 
         }
+    }
+
+    public void adjustPower(int targetHeading) {
+        double headingError = targetHeading - imu.getAngularOrientation().firstAngle;
+        double driveScale = headingError * .01;
+
+        FL.setPower(Range.clip(FL.getPower() + driveScale, -1, 1));
+        BL.setPower(Range.clip(BL.getPower() + driveScale, -1, 1));
+        FR.setPower(Range.clip(FR.getPower() - driveScale, -1, 1));
+        BR.setPower(Range.clip(BR.getPower() - driveScale, -1, 1));
+
+
     }
 
 }

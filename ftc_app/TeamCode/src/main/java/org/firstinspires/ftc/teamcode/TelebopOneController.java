@@ -27,7 +27,6 @@ public class TelebopOneController extends OpMode {
     boolean abnormalReleaseFlag = false;
     boolean i = false;
 
-    int releaseEncoderMax = 2000; //todo figure out real nuumber
 
     @Override
     public void init() {
@@ -57,7 +56,7 @@ public class TelebopOneController extends OpMode {
 
         if (gamepad1.left_bumper && countdown <= 0) {
             brakeToggle = !brakeToggle;
-            countdown = 50;
+            countdown = 30;
         }
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
         //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_trigger, gamepad1.right_trigger, brakeToggle);

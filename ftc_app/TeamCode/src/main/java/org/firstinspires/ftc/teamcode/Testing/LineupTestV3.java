@@ -11,7 +11,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Bot;
-import org.firstinspires.ftc.teamcode.Utility.Position;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 
 /**
@@ -62,10 +61,8 @@ public class LineupTestV3 extends OpMode
 
     @Override
     public void loop() {
-        if (timer.milliseconds() > 1000) {
-            robot.moveToDistance(Position.RIGHT, 119);
-            timer.reset();
-        } robot.adjustPower(0);
+
+
 
         telemetry.addData("heading", robot.imu.getAngularOrientation().firstAngle);
         telemetry.addData("right distance", robot.rangeRight.getDistance(DistanceUnit.CM));

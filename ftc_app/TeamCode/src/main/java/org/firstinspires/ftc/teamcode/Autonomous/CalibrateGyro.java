@@ -28,11 +28,8 @@ public class CalibrateGyro extends OpMode {
     public void init() {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled = true;
         parameters.loggingTag     = "IMU";
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         calib = true;
     }
 

@@ -163,6 +163,12 @@ public class Telebop extends OpMode {
     @Override
     public void stop() {
         robot.drive(MovementEnum.STOP, 0);
+        robot.releaseLeft.close();
+        robot.releaseRight.close();
+        robot.jewelServoBottom.close();
+        robot.jewelServoTop.close();
+        robot.flipper.close();
+        robot.backIntakeWall.close();
     }
 
 }

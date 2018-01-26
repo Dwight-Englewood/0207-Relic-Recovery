@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Utility.EnumController;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 
@@ -18,10 +19,10 @@ public class Telebop extends OpMode {
     int countdown = 0;
     int wallCountdown = 0;
 
-    ReleasePosition currentPosition = ReleasePosition.MIDDLE;
-    boolean abnormalReleaseFlag = false;
-    boolean i = false;
+    EnumController<ReleasePosition> controller = new EnumController<>(ReleasePosition.MIDDLE);
 
+    boolean invert = false;
+    
     double liftScaledown = .7;
     double liftScaleup = .4;
 
@@ -49,10 +50,8 @@ public class Telebop extends OpMode {
             countdown = 5;
         }
 
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
+        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle); // Tank drive???
 
-        abnormalReleaseFlag = false;
-        currentPosition = ReleasePosition.MIDDLE;
 
         //invert (durrently disabled)
         /*if (gamepad1.left_bumper && countdown <= 0) {
@@ -87,17 +86,15 @@ public class Telebop extends OpMode {
         }*/
         
         if (gamepad2.right_bumper) {
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.DOWN;
+            controller.addInstruction(ReleasePosition.DOWN, 1);
+
             robot.intake(1);
         } else if (gamepad2.right_trigger > .3) {
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.DOWN;
+            controller.addInstruction(ReleasePosition.DOWN, 1);
+
             robot.intake(-1);
         } else {
-            if (!abnormalReleaseFlag) {
-                currentPosition = ReleasePosition.MIDDLE;
-            }
+            controller.addInstruction(ReleasePosition.MIDDLE, 0); //this line is extraneous, im just ekeping it for clairty for me
             robot.intake(0);
         }
 
@@ -116,31 +113,25 @@ public class Telebop extends OpMode {
         }
 
         if (gamepad2.left_stick_y > .15) {
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.MIDDLEUP;
+            controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
+
             robot.lift.setPower(gamepad2.left_stick_y * liftScaleup);
         } else if (gamepad2.left_stick_y < -.15) {
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.MIDDLEUP;
+            controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
+
             robot.lift.setPower(gamepad2.left_stick_y * liftScaledown);
         } else {
-            if (!abnormalReleaseFlag) {
-                currentPosition = ReleasePosition.MIDDLE;
-            }
+            controller.addInstruction(ReleasePosition.MIDDLE, 0);
             robot.lift.setPower(0);
         }
 
-        if (!abnormalReleaseFlag) {
-            currentPosition = ReleasePosition.MIDDLE;
-        }
-
         if (gamepad2.y ) {
-            currentPosition = ReleasePosition.UP;
+            controller.addInstruction(ReleasePosition.UP, 5);
             robot.flipUp();
             robot.backIntakeWallDown();
             wallCountdown = 40;
-        } else if (wallCountdown <= 0 && !abnormalReleaseFlag) {
-            currentPosition = ReleasePosition.MIDDLE;
+        } else if (wallCountdown <= 0) {
+            controller.addInstruction(ReleasePosition.MIDDLE, 0);
             robot.backIntakeWallUp();
         }
 
@@ -152,7 +143,7 @@ public class Telebop extends OpMode {
 
         countdown--;
         wallCountdown--;
-        robot.releaseMove(currentPosition);
+        robot.releaseMove(controller.process());
 
         telemetry.addData("Braking", brakeToggle);
         telemetry.addData("Brake cooldown? ", countdown > 0 ? "Yep" : "Nope");

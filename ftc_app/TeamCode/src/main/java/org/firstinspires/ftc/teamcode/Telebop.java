@@ -104,7 +104,10 @@ public class Telebop extends OpMode {
         */
         //The bumper controls the intake of glyphs, as well as adjusts the angle of the flipper mechanism
         //For more documentation of the controller object which controls the position of the flipper, see Utilites/EnumController.java
+
         if (gamepad2.right_bumper) {
+            //Specific to the teleop, we have 3 levels of priority
+            //A regular change in the position is 1 - these are the standard change
             controller.addInstruction(ReleasePosition.DOWN, 1);
             robot.intake(1);
         } else {
@@ -115,6 +118,7 @@ public class Telebop extends OpMode {
                 robot.intakeTwo.setPower(-gamepad2.left_trigger);
             } else {
                 //This line is not needed, as this specific addition to the controller object will never change the output. However, it is included to keep clarity as to what will happen
+                //The zero priority will not change the result of process, as priority is seeded at 0 - and is strictly increasing. This is equivalent to a blank statement, which we use to keep code clarity
                 controller.addInstruction(ReleasePosition.MIDDLE, 0);
                 robot.intake(0);
             }
@@ -152,9 +156,11 @@ public class Telebop extends OpMode {
         //this is the actual flipping of the flipper
         //need some stuff here for wallCountdown
         if (gamepad1.right_bumper) {
-            controller.addInstruction(ReleasePosition.UP, 5); //The priority on this controller position is higher than all others, as it must take precedence (needs to be expanded, possibly in the better doc in object)
+            //This is priority 5 as we want the actual flipping (placing the glyph) to have precedence over other auto done positions, which only serve to aid in glyph movement.
+            controller.addInstruction(ReleasePosition.UP, 5);
             robot.flipUp();
-            robot.backIntakeWallDown(); //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
+            //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
+            robot.backIntakeWallDown();
             wallCountdown = 40;
         } else if (wallCountdown <= 0) {
             controller.addInstruction(ReleasePosition.MIDDLE, 0);

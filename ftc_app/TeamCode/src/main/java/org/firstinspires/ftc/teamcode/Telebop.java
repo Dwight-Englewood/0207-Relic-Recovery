@@ -170,6 +170,7 @@ public class Telebop extends OpMode {
         
         //process the values added to the controller - the controller doesnt help if we never get the values out of it
         robot.releaseMove(controller.process());
+        controller.reset();
 
         //Telemetry things, generally booleans that could be important for drivers to be able to tell are active, as well as cooldowns
         telemetry.addData("Braking", brakeToggle);

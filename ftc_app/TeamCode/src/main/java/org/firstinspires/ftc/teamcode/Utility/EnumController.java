@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 public class EnumController<T> {
 
-    public final T defaultVal;
-    public T currentVal;
-    public ArrayList<T> instruction;
-    public ArrayList<Integer> priorities;
+    private final T defaultVal;
+    private T currentVal;
+    private ArrayList<T> instruction;
+    private ArrayList<Integer> priorities;
 
     /**
      * Constructor

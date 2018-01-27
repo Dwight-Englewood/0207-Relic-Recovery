@@ -75,9 +75,9 @@ public class Bot {
         jewelServoBottom = hardwareMap.servo.get("brandon"); //servo which does servo things
         jewelServoTop = hardwareMap.servo.get("hahn"); //another servo which does servo things
 
-        relicArmServo = hardwareMap.crservo.get("relicS");
-        relicArmVex = hardwareMap.crservo.get("relicVM");
-        relicArmINNOUT = hardwareMap.crservo.get("relicINNOUT");
+        //relicArmServo = hardwareMap.crservo.get("relicS");
+        //relicArmVex = hardwareMap.crservo.get("relicVM");
+        //relicArmINNOUT = hardwareMap.crservo.get("relicINNOUT");
 
         FL = hardwareMap.dcMotor.get("fl");
         FR = hardwareMap.dcMotor.get("fr");
@@ -97,6 +97,7 @@ public class Bot {
         releaseLeft.scaleRange(.2, .8);
 
         flipper = hardwareMap.servo.get("flip");
+        flipper.scaleRange(.2, .8);
         backIntakeWall = hardwareMap.servo.get("backiw");
 
         //setting runmode

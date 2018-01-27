@@ -21,6 +21,7 @@ public class Telebop extends OpMode {
     ReleasePosition currentPosition = ReleasePosition.MIDDLE;
     boolean abnormalReleaseFlag = false;
     boolean i = false;
+    boolean outtake = false;
 
     double liftScaledown = .7;
     double liftScaleup = .4;
@@ -44,7 +45,7 @@ public class Telebop extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.right_bumper && countdown <= 0) {
+        if (gamepad1.left_bumper && countdown <= 0) {
             brakeToggle = !brakeToggle;
             countdown = 5;
         }
@@ -90,15 +91,19 @@ public class Telebop extends OpMode {
             abnormalReleaseFlag = true;
             currentPosition = ReleasePosition.DOWN;
             robot.intake(1);
-        } else if (gamepad2.right_trigger > .3) {
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.DOWN;
-            robot.intake(-1);
         } else {
-            if (!abnormalReleaseFlag) {
-                currentPosition = ReleasePosition.MIDDLE;
+            if (gamepad2.right_trigger > .2 || gamepad2.left_trigger > .2) {
+                abnormalReleaseFlag = true;
+                currentPosition = ReleasePosition.DOWN;
+                //robot.intake(-1);
+                robot.intakeOne.setPower(-gamepad2.right_trigger);
+                robot.intakeTwo.setPower(-gamepad2.left_trigger);
+            } else {
+                if (!abnormalReleaseFlag) {
+                    currentPosition = ReleasePosition.MIDDLE;
+                }
+                robot.intake(0);
             }
-            robot.intake(0);
         }
 
         if (gamepad2.right_stick_y > .3) {
@@ -111,7 +116,7 @@ public class Telebop extends OpMode {
 
         if (gamepad2.b) {
             robot.flipUp();
-        } else if (!gamepad2.y) {
+        } else if (!gamepad1.right_bumper) {
             robot.flipDown();
         }
 
@@ -134,7 +139,7 @@ public class Telebop extends OpMode {
             currentPosition = ReleasePosition.MIDDLE;
         }
 
-        if (gamepad2.y ) {
+        if (gamepad1.right_bumper ) {
             currentPosition = ReleasePosition.UP;
             robot.flipUp();
             robot.backIntakeWallDown();

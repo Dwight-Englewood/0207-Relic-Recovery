@@ -30,9 +30,9 @@ public class EnumController<T> {
      * Handles the addition of values and the associated priority
      * in EnumController#process, it is assumed the lists are the same length. Therefore, we only have one add method, which forces this to be true
      */
-    public void addInstruction(T newVal, int Flag) {
+    public void addInstruction(T newVal, int priority) {
         this.instruction.add(newVal);
-        this.priorities.add(Flag);
+        this.priorities.add(priority);
     }
 
     /** 
@@ -44,8 +44,6 @@ public class EnumController<T> {
         if (this.instruction.size() == 0) {
             return this.defaultVal;
         }
-
-        T thonking = defaultVal;
         Integer merp = 0;
 
         for (int i = 0; i < this.instruction.size(); i++) {
@@ -53,7 +51,7 @@ public class EnumController<T> {
             Integer tempI = this.priorities.get(i);
             if (tempI > merp) {
                 merp = tempI;
-                thonking = tempV;
+                this.currentVal = tempV;
             }
         }
 

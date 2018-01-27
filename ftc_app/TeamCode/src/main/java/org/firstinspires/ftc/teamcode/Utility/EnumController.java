@@ -49,6 +49,9 @@ public class EnumController<T> {
         for (int i = 0; i < this.instruction.size(); i++) {
             T tempV = this.instruction.get(i);
             Integer tempI = this.priorities.get(i);
+            if (tempI < 0) {
+                return tempV;
+            }
             if (tempI > merp) {
                 merp = tempI;
                 this.currentVal = tempV;

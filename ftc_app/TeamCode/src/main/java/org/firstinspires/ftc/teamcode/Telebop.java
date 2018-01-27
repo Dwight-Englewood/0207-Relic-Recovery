@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Utility.EnumController;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 
@@ -17,14 +18,16 @@ public class Telebop extends OpMode {
 
     int countdown = 0;
     int wallCountdown = 0;
+    EnumController<ReleasePosition> controller = new EnumController<>(ReleasePosition.MIDDLE);
 
-    ReleasePosition currentPosition = ReleasePosition.MIDDLE;
-    boolean abnormalReleaseFlag = false;
-    boolean i = false;
-    boolean outtake = false;
+    boolean invert = false;
 
     double liftScaledown = .7;
     double liftScaleup = .4;
+
+    /**
+     * The init function handles all initialization of our robot, including fetching robot elements from the hardware map, as well as setting motor runmodes and sensor options
+     */
 
     @Override
     public void init() {
@@ -36,30 +39,42 @@ public class Telebop extends OpMode {
     @Override
     public void init_loop() {}
 
+    /**
+     * During the start phase, we make sure the jewel servo has been moved back up, as it was moved down to knock the jewel during atuno
+     */
     @Override
     public void start() {
         telemetry.clear();
         robot.jewelUp();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
+    /**
+     * Main loop of the teleop - where all the driver control stuff happens
+     *
+     * alt: where the magic happens
+     */
     @Override
     public void loop() {
+
+        //Brake toggle. Th ebrake was implemented so the drivers could more easiyl get onto the balancing stone at the end of matches, as it will immediately halt movement of the bot
         if (gamepad1.left_bumper && countdown <= 0) {
             brakeToggle = !brakeToggle;
+            //The drivers will always end up holding the button for more than 1 cycle of the loop function. Therefore, it is important that it doesn't immediately revert the toggle. 
+            //Hence, the coutdown. It will prevent the toggle from accidentaly not being triggered due to the boolean being swapped twice
             countdown = 5;
         }
 
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
+        //Main driving function. See Bot.java for documentation
+        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle); // Tank drive???
 
-        abnormalReleaseFlag = false;
-        currentPosition = ReleasePosition.MIDDLE;
 
-        //invert (durrently disabled)
-        /*if (gamepad1.left_bumper && countdown <= 0) {
+        //invert (currently disabled)
+        /*
+        if (gamepad1.left_bumper && countdown <= 0) {
             //i = i ? false : true;
             countdown = 30;
-        }*/
+        }
+        */
 
         //relic stuff (currently disabled)
         /*
@@ -85,27 +100,27 @@ public class Telebop extends OpMode {
             robot.relicArmVex.setPower(-.5);
         } else {
             robot.relicArmVex.setPower(0);
-        }*/
-        
+        }
+        */
+        //The bumper controls the intake of glyphs, as well as adjusts the angle of the flipper mechanism
+        //For more documentation of the controller object which controls the position of the flipper, see Utilites/EnumController.java
         if (gamepad2.right_bumper) {
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.DOWN;
+            controller.addInstruction(ReleasePosition.DOWN, 1);
             robot.intake(1);
         } else {
             if (gamepad2.right_trigger > .2 || gamepad2.left_trigger > .2) {
-                abnormalReleaseFlag = true;
-                currentPosition = ReleasePosition.DOWN;
+                controller.addInstruction(ReleasePosition.DOWN, 1);
                 //robot.intake(-1);
                 robot.intakeOne.setPower(-gamepad2.right_trigger);
                 robot.intakeTwo.setPower(-gamepad2.left_trigger);
             } else {
-                if (!abnormalReleaseFlag) {
-                    currentPosition = ReleasePosition.MIDDLE;
-                }
+                //This line is not needed, as this specific addition to the controller object will never change the output. However, it is included to keep clarity as to what will happen
+                controller.addInstruction(ReleasePosition.MIDDLE, 0);
                 robot.intake(0);
             }
         }
-
+        
+        //Our intake is put on a motor which allows it to be raised or lowered. This section allows for the drivers to raise it during matches, to reach glyphs which are on top of other ones
         if (gamepad2.right_stick_y > .3) {
             robot.intakeDrop.setPower(-1);
         } else if (gamepad2.right_stick_y < -.3) {
@@ -113,39 +128,36 @@ public class Telebop extends OpMode {
         } else {
             robot.intakeDrop.setPower(0);
         }
-
+        
+        //mini flipper mechanism control. this mini flipper mechanism is used to make sure glyphs are properly aligned into the main flipper mechanism
         if (gamepad2.b) {
             robot.flipUp();
         } else if (!gamepad1.right_bumper) {
             robot.flipDown();
         }
 
+        //controls the linear slide mechanism, to allow for placing of glpyhs above row 2 
         if (gamepad2.left_stick_y > .15) {
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.MIDDLEUP;
+            controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
             robot.lift.setPower(gamepad2.left_stick_y * liftScaleup);
         } else if (gamepad2.left_stick_y < -.15) {
-            abnormalReleaseFlag = true;
-            currentPosition = ReleasePosition.MIDDLEUP;
+            controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
+
             robot.lift.setPower(gamepad2.left_stick_y * liftScaledown);
         } else {
-            if (!abnormalReleaseFlag) {
-                currentPosition = ReleasePosition.MIDDLE;
-            }
+            controller.addInstruction(ReleasePosition.MIDDLE, 0);
             robot.lift.setPower(0);
         }
-
-        if (!abnormalReleaseFlag) {
-            currentPosition = ReleasePosition.MIDDLE;
-        }
-
-        if (gamepad1.right_bumper ) {
-            currentPosition = ReleasePosition.UP;
+        
+        //this is the actual flipping of the flipper
+        //need some stuff here for wallCountdown
+        if (gamepad1.right_bumper) {
+            controller.addInstruction(ReleasePosition.UP, 5); //The priority on this controller position is higher than all others, as it must take precedence (needs to be expanded, possibly in the better doc in object)
             robot.flipUp();
-            robot.backIntakeWallDown();
+            robot.backIntakeWallDown(); //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
             wallCountdown = 40;
-        } else if (wallCountdown <= 0 && !abnormalReleaseFlag) {
-            currentPosition = ReleasePosition.MIDDLE;
+        } else if (wallCountdown <= 0) {
+            controller.addInstruction(ReleasePosition.MIDDLE, 0);
             robot.backIntakeWallUp();
         }
 
@@ -154,11 +166,16 @@ public class Telebop extends OpMode {
         } else {
             robot.jewelUp();
         }
-
+        
+        //Decrement the counters
         countdown--;
         wallCountdown--;
-        robot.releaseMove(currentPosition);
+        
+        //process the values added to the controller - the controller doesnt help if we never get the values out of it
+        robot.releaseMove(controller.process());
+        controller.reset();
 
+        //Telemetry things, generally booleans that could be important for drivers to be able to tell are active, as well as cooldowns
         telemetry.addData("Braking", brakeToggle);
         telemetry.addData("Brake cooldown? ", countdown > 0 ? "Yep" : "Nope");
         telemetry.addData("Wall on cooldown? ", wallCountdown > 0 ? "Yep" : "Nope");

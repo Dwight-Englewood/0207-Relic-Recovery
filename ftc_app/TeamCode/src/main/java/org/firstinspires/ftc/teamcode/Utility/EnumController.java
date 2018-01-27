@@ -3,80 +3,73 @@ package org.firstinspires.ftc.teamcode.Utility;
 import java.util.ArrayList;
 
 /**
+ * The EnumController is an object which allows for easier handling of state machines(?)
+ *
+ *
  * Created by weznon on 11/27/17.
  */
 
 public class EnumController<T> {
 
-    public boolean abnormalFlag;
-    public final T defaultVal;
-    public T currentVal;
-    public ArrayList<Tuple<T>> instructionList;
-    public String log;
+    private final T defaultVal;
+    private T currentVal;
+    private ArrayList<T> instruction;
+    private ArrayList<Integer> priorities;
 
+    /**
+     * Constructor
+     * Takes a defaultVal, which is what EnumController#process will return if nothing is added to its internal lists
+     */
     public EnumController(T defaultVal) {
-        this.abnormalFlag = false;
         this.defaultVal = defaultVal;
-        this.instructionList = new ArrayList<Tuple<T>>();
+        this.instruction = new ArrayList<>();
+        this.priorities = new ArrayList<>();
     }
 
-    public void addInstruction(T newVal, Flag Flag) {
-        this.instructionList.add(new Tuple<T>(newVal, Flag));
+    /**
+     * Handles the addition of values and the associated priority
+     * in EnumController#process, it is assumed the lists are the same length. Therefore, we only have one add method, which forces this to be true
+     */
+    public void addInstruction(T newVal, int priority) {
+        this.instruction.add(newVal);
+        this.priorities.add(priority);
     }
 
-    public T processAndGetCurrentVal() {
-        if (this.instructionList.size() == 0) {
+    /** 
+     * This function will iterate over the lists and take the object with the highest priority
+     * The exception is when the priority is negative, which will break the loop. This has applications in instances if we must be sure that something exits immedediately, as we an unsure what the largest priority passed in will be
+     *
+     */
+    public T process() {
+        if (this.instruction.size() == 0) {
             return this.defaultVal;
         }
+        Integer merp = 0;
 
-        for (int i = 0; i < this.instructionList.size(); i++) {
-            //MODIFY means it cannot be overriden afterwards, except by OVERRIDE
-            if (this.instructionList.get(i).flag == Flag.MODIFY || this.instructionList.get(i).flag == Flag.m) {
-                if (abnormalFlag) {
-                } else {
-                    abnormalFlag = true;
-                    this.currentVal = this.instructionList.get(i).value;
-                }
-                //NORMAL means it can be overriden by anything, including other normals
-            } else if (this.instructionList.get(i).flag == Flag.NORMAL || this.instructionList.get(i).flag == Flag.n) {
-                if (abnormalFlag) {
-                } else {
-                    this.currentVal = this.instructionList.get(i).value;
-                }
-                //OVERRIDE will break the loop - so using this means no matter what other stuff was, do this
-            } else if (this.instructionList.get(i).flag == Flag.OVERRIDE || this.instructionList.get(i).flag == Flag.o) {
-                this.currentVal = this.instructionList.get(i).value;
-                break;
+        for (int i = 0; i < this.instruction.size(); i++) {
+            T tempV = this.instruction.get(i);
+            Integer tempI = this.priorities.get(i);
+            if (tempI < 0) {
+                return tempV;
+            }
+            if (tempI > merp) {
+                merp = tempI;
+                this.currentVal = tempV;
             }
         }
+
         return (this.currentVal);
     }
-
-    /*
-    public void modifyVal(T newVal, Flag Flag) {
-
-        if (Flag == Flag.MODIFY) {
-            if (abnormalFlag) {
-                return;
-            } else {
-                abnormalFlag = true;
-                this.currentVal = newVal;
-            }
-        } else if (Flag == Flag.NORMAL) {
-            if (abnormalFlag) {
-                return;
-            } else {
-                this.currentVal = newVal;
-            }
-        } else if (Flag == Flag.OVERRIDE) {
-            this.currentVal = newVal;
-        }
-    }
-    */
-
+    
+    /**
+     * empties the lists, to avoid conflicts with future instances of process
+     */
     public void reset() {
-        this.abnormalFlag = false;
         this.currentVal = defaultVal;
+        for (int i = 0; i < this.instruction.size(); i++) {
+            this.instruction.remove(0);
+            this.priorities.remove(0);
+        }
     }
 
 }

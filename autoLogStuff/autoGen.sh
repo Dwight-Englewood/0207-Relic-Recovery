@@ -98,7 +98,9 @@ echo -e "  \e[32m=>\e[39m Processing log"
 echo -e "    \e[31m->\e[39m Changing usernames to real names"
 sed -i 's/weznon/Wen P/' temp.md
 sed -i 's/Wen/Wen P/' temp.md
+sed -i 's/Wen P P/Wen P/' temp.md
 sed -i 's/burtorustum/Rob A/' temp.md
+sed -i 's/Burtorustum/Rob A/' temp.md
 
 echo -e "    \e[31m->\e[39m Removing profanity"
 sed -i 's/shit/stuff/' temp.md

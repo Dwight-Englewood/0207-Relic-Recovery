@@ -13,15 +13,29 @@ import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
  */
 @TeleOp(name = "Telebop", group = "Teleop")
 public class Telebop extends OpMode {
+
+    //Creating a robot as an instance field - we need this to use later on for interacting with the robot
     Bot robot = new Bot();
+
+    //brakeToggle is a boolean which is toggled for whether the robot is in brake mode or not
     boolean brakeToggle = false;
 
-    int countdown = 0;
-    int wallCountdown = 0;
-    EnumController<ReleasePosition> controller = new EnumController<>(ReleasePosition.MIDDLE);
-
+    //invert is used as a toggle for whether to invert controls or not
     boolean invert = false;
 
+    //countdown is used for adding delays to the brake toggle
+    int countdown = 0;
+
+    //wallCountdown is used for adding timing to our glpyh wall
+    int wallCountdown = 0;
+
+    //controller is used for managing the position of the flipper mechanism
+    //for how it works, see the class, Utilities.EnumController
+    EnumController<ReleasePosition> controller = new EnumController<>(ReleasePosition.MIDDLE);
+
+
+    //These doubles determine the speed at which the lift will move
+    //As they are used in multiple places, rather than using "magic numbers" we define them as an instance field
     double liftScaledown = .7;
     double liftScaleup = .4;
 
@@ -31,8 +45,13 @@ public class Telebop extends OpMode {
 
     @Override
     public void init() {
+        //Setup  the robot so it will function
         robot.init(hardwareMap);
+
+        //Reset encoders for all the drive train motors. This is important for various processes which depend on encoder ticks
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Turn off the LED on the color sensor
         robot.colorSensor.enableLed(false);
     }
 
@@ -44,8 +63,14 @@ public class Telebop extends OpMode {
      */
     @Override
     public void start() {
+        //Clear the telemetry, to make sure there isn't random stuff that is not useful
         telemetry.clear();
+
+        //During autonomous, we move the jewel arm down. We now move it back up to avoid having it run into things
+        //By putting this in Telebop#start, the drivers are not required to manually do this each match
         robot.jewelUp();
+
+        //We now tell the drive train motors to use encoders
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     /**
@@ -58,6 +83,10 @@ public class Telebop extends OpMode {
 
         //Brake toggle. Th ebrake was implemented so the drivers could more easiyl get onto the balancing stone at the end of matches, as it will immediately halt movement of the bot
         if (gamepad1.left_bumper && countdown <= 0) {
+
+            //switches brakeToggle to which ever boolean it was not
+            //ie true -> false
+            //   false -> true
             brakeToggle = !brakeToggle;
             //The drivers will always end up holding the button for more than 1 cycle of the loop function. Therefore, it is important that it doesn't immediately revert the toggle. 
             //Hence, the coutdown. It will prevent the toggle from accidentaly not being triggered due to the boolean being swapped twice

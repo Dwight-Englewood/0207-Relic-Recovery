@@ -47,7 +47,7 @@ public class BlueAutonCloseV2 extends OpMode {
         relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
 
-        telemetry.addData(">", "Press Play to start");
+        telemetry.addLine("Ready.");
         telemetry.update();
     }
 

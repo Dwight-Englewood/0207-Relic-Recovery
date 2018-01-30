@@ -33,7 +33,10 @@ public class Telebop extends OpMode {
     public void init() {
         robot.init(hardwareMap);
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.colorSensor.enableLed(false);
+        telemetry.addLine("Ready.");
+        telemetry.update();
     }
 
     @Override
@@ -47,6 +50,7 @@ public class Telebop extends OpMode {
         telemetry.clear();
         robot.jewelUp();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     /**
      * Main loop of the teleop - where all the driver control stuff happens

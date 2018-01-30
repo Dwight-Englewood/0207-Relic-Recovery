@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Testing;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -17,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
  * Created by aburur on 1/16/18.
  */
 @TeleOp(name = "Lineup Test V3", group = "Testing")
-//@Disabled
+@Disabled
 public class LineupTestV3 extends OpMode
 {
     Bot robot = new Bot();

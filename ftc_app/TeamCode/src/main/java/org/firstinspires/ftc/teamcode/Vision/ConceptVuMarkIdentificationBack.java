@@ -66,7 +66,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * is explained in {@link ConceptVuforiaNavigation}.
  */
 
-@Autonomous(name="Concept: VuMark Id | Back", group ="Concept")
+@Autonomous(name="Concept: VuMark Id | Back", group ="Vision")
 @Disabled
 public class ConceptVuMarkIdentificationBack extends LinearOpMode {
 

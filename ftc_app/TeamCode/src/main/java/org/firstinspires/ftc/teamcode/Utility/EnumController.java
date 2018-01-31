@@ -65,10 +65,8 @@ public class EnumController<T> {
      */
     public void reset() {
         this.currentVal = defaultVal;
-        for (int i = 0; i < this.instruction.size(); i++) {
-            this.instruction.remove(0);
-            this.priorities.remove(0);
-        }
+        this.instruction.clear();
+        this.priorities.clear();
     }
 
 }

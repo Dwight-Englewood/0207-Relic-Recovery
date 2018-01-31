@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 /**
  * The EnumController is an object which allows for easier handling of state machines(?)
- *
- *
  * Created by weznon on 11/27/17.
  */
 
@@ -37,8 +35,9 @@ public class EnumController<T> {
 
     /** 
      * This function will iterate over the lists and take the object with the highest priority
-     * The exception is when the priority is negative, which will break the loop. This has applications in instances if we must be sure that something exits immedediately, as we an unsure what the largest priority passed in will be
-     *
+     * The exception is when the priority is negative, which will break the loop.
+     * This has applications in instances if we must be sure that something exits immedediately,
+     * as we an unsure what the largest priority passed in will be
      */
     public T process() {
         if (this.instruction.size() == 0) {
@@ -66,10 +65,8 @@ public class EnumController<T> {
      */
     public void reset() {
         this.currentVal = defaultVal;
-        for (int i = 0; i < this.instruction.size(); i++) {
-            this.instruction.remove(0);
-            this.priorities.remove(0);
-        }
+        this.instruction.clear();
+        this.priorities.clear();
     }
 
 }

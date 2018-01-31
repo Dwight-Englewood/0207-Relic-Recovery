@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.Testing;
+package org.firstinspires.ftc.teamcode.Deprecated;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
  * Created by aburur on 1/16/18.
  */
 @TeleOp(name = "Lineup Test V2", group = "Testing")
-//@Disabled
+@Disabled
 public class LineupTestV2 extends OpMode
 {
     Bot robot = new Bot();

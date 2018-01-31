@@ -52,7 +52,10 @@ public class Telebop extends OpMode {
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Turn off the LED on the color sensor
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.colorSensor.enableLed(false);
+        telemetry.addLine("Ready.");
+        telemetry.update();
     }
 
     @Override
@@ -72,6 +75,7 @@ public class Telebop extends OpMode {
 
         //We now tell the drive train motors to use encoders
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     /**
      * Main loop of the teleop - where all the driver control stuff happens

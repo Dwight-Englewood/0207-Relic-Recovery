@@ -9,8 +9,7 @@ import java.util.ArrayList;
 
 public class EnumController<T> {
 
-    private T defaultVal;
-    private T currentVal;
+    private final T defaultVal;
     private ArrayList<T> instruction;
     private ArrayList<Integer> priorities;
 
@@ -19,7 +18,6 @@ public class EnumController<T> {
      * Takes a defaultVal, which is what EnumController#process will return if nothing is added to its internal lists
      */
     public EnumController(T defaultVal) {
-        this.currentVal = defaultVal;
         this.defaultVal = defaultVal;
         this.instruction = new ArrayList<T>();
         this.priorities = new ArrayList<Integer>();
@@ -41,6 +39,7 @@ public class EnumController<T> {
      * as we an unsure what the largest priority passed in will be
      */
     public T process() {
+        T currentVal = defaultVal;
         if (this.instruction.size() == 0) {
             return this.defaultVal;
         }
@@ -54,18 +53,17 @@ public class EnumController<T> {
             }
             if (tempI > merp) {
                 merp = tempI;
-                this.currentVal = tempV;
+                currentVal = tempV;
             }
         }
 
-        return (this.currentVal);
+        return (currentVal);
     }
     
     /**
      * empties the lists, to avoid conflicts with future instances of process
      */
     public void reset() {
-        this.currentVal = defaultVal;
         this.instruction.clear();
         this.priorities.clear();
     }

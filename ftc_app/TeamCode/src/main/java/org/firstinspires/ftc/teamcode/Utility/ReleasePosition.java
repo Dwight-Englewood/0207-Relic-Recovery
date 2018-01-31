@@ -12,4 +12,5 @@ public enum ReleasePosition {
     UP,
     INIT,
     DROP
+
 }

@@ -31,7 +31,7 @@ public class Telebop extends OpMode {
 
     //controller is used for managing the position of the flipper mechanism
     //for how it works, see the class, Utilities.EnumController
-    EnumController<ReleasePosition> controller = new EnumController<>(ReleasePosition.MIDDLE);
+    EnumController<ReleasePosition> controller;
 
 
     //These doubles determine the speed at which the lift will move
@@ -45,6 +45,8 @@ public class Telebop extends OpMode {
 
     @Override
     public void init() {
+
+        controller = new EnumController<ReleasePosition>(ReleasePosition.MIDDLE);
         //Setup  the robot so it will function
         robot.init(hardwareMap);
 

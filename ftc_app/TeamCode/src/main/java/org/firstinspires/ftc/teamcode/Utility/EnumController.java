@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class EnumController<T> {
 
-    private final T defaultVal;
+    private T defaultVal;
     private T currentVal;
     private ArrayList<T> instruction;
     private ArrayList<Integer> priorities;
@@ -20,8 +20,8 @@ public class EnumController<T> {
      */
     public EnumController(T defaultVal) {
         this.defaultVal = defaultVal;
-        this.instruction = new ArrayList<>();
-        this.priorities = new ArrayList<>();
+        this.instruction = new ArrayList<T>();
+        this.priorities = new ArrayList<Integer>();
     }
 
     /**

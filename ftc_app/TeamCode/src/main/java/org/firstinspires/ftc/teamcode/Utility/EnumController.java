@@ -19,6 +19,7 @@ public class EnumController<T> {
      * Takes a defaultVal, which is what EnumController#process will return if nothing is added to its internal lists
      */
     public EnumController(T defaultVal) {
+        this.currentVal = defaultVal;
         this.defaultVal = defaultVal;
         this.instruction = new ArrayList<T>();
         this.priorities = new ArrayList<Integer>();

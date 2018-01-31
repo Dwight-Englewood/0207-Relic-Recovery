@@ -46,7 +46,7 @@ public class Telebop extends OpMode {
     @Override
     public void init() {
 
-        controller = new EnumController<ReleasePosition>(ReleasePosition.MIDDLE);
+        controller = new EnumController<>(ReleasePosition.MIDDLE);
         //Setup  the robot so it will function
         robot.init(hardwareMap);
 
@@ -69,7 +69,7 @@ public class Telebop extends OpMode {
     @Override
     public void start() {
         //Clear the telemetry, to make sure there isn't random stuff that is not useful
-        telemetry.clear();
+        //telemetry.clear();
 
         //During autonomous, we move the jewel arm down. We now move it back up to avoid having it run into things
         //By putting this in Telebop#start, the drivers are not required to manually do this each match

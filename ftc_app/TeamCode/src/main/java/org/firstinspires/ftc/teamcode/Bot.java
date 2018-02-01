@@ -857,7 +857,7 @@ public class Bot {
 
     }
 
-    public void strafeAdjusts(int targetHeading) {
+    public void strafeAdjusts(int targetHeading, MovementEnum direction) {
         double headingError = targetHeading + imu.getAngularOrientation().firstAngle;
         if (Math.abs(headingError) < 1) {
             FL.setPower(FR.getPower());
@@ -867,21 +867,19 @@ public class Bot {
             return;
         }
         double driveScale = Math.abs(headingError) * .0055;
-        double powfl,powfr,powbl,powbr;
+        double powbl,powbr, minbr, minbl;
 
-        powfl = FL.getPower();
-        powfr = FR.getPower();
+        minbl = direction == MovementEnum.LEFTSTRAFE ? 0 : -1;
+        minbr = direction == MovementEnum.LEFTSTRAFE ? -1 : 0;
 
         if (headingError < 0) {
-            powbl = Range.clip(BL.getPower() + driveScale, -1, 1);
-            powbr = Range.clip(BR.getPower() - driveScale, -1, 1);
+            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + 1);
+            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + 1);
         } else {
-            powbl = Range.clip(BL.getPower() + driveScale, -1, 1);
-            powbr = Range.clip(BR.getPower() - driveScale, -1, 1);
+            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + 1);
+            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + 1);
         }
 
-        FL.setPower(powfl);
-        FR.setPower(powfr);
         BL.setPower(powbl);
         BR.setPower(powbr);
     }

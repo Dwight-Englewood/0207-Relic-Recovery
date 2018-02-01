@@ -859,6 +859,13 @@ public class Bot {
 
     public void strafeAdjusts(int targetHeading) {
         double headingError = targetHeading + imu.getAngularOrientation().firstAngle;
+        if (Math.abs(headingError) < 1) {
+            FL.setPower(FR.getPower());
+            FR.setPower(FR.getPower());
+            BL.setPower(FR.getPower());
+            BR.setPower(FR.getPower());
+            return;
+        }
         double driveScale = Math.abs(headingError) * .0055;
         double powfl,powfr,powbl,powbr;
 

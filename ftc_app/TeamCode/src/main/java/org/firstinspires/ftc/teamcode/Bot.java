@@ -855,7 +855,28 @@ public class Bot {
         FR.setPower(Range.clip(FR.getPower() - driveScale, -1, 1));
         BR.setPower(Range.clip(BR.getPower() - driveScale, -1, 1));
 
+    }
 
+    public void strafeAdjusts(int targetHeading) {
+        double headingError = targetHeading + imu.getAngularOrientation().firstAngle;
+        double driveScale = Math.abs(headingError) * .0055;
+        double powfl,powfr,powbl,powbr;
+
+        powfl = FL.getPower();
+        powfr = FR.getPower();
+
+        if (headingError < 0) {
+            powbl = Range.clip(BL.getPower() + driveScale, -1, 1);
+            powbr = Range.clip(BR.getPower() - driveScale, -1, 1);
+        } else {
+            powbl = Range.clip(BL.getPower() + driveScale, -1, 1);
+            powbr = Range.clip(BR.getPower() - driveScale, -1, 1);
+        }
+
+        FL.setPower(powfl);
+        FR.setPower(powfr);
+        BL.setPower(powbl);
+        BR.setPower(powbr);
     }
 
 }

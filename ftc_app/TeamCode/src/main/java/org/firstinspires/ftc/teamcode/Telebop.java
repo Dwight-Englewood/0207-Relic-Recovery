@@ -175,7 +175,7 @@ public class Telebop extends OpMode {
             robot.flipDown();
         }
 
-        //controls the linear slide mechanism, to allow for placing of glpyhs above row 2 
+        //controls the linear slide mechanism, to allow for placing of glyphs above row 2
         if (gamepad2.left_stick_y > .15) {
             controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
             robot.lift.setPower(gamepad2.left_stick_y * liftScaleup);

@@ -79,7 +79,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 0:
-                if (timer.milliseconds() > 500){
+                if (timer.milliseconds() > 250){
                     timer.reset();
                     robot.jewelOuter();
                     relicTrackables.deactivate();

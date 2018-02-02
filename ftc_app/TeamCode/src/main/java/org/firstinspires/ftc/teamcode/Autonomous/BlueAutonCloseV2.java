@@ -28,6 +28,9 @@ public class BlueAutonCloseV2 extends OpMode {
     private double power;
     private int generalTarget;
     private boolean hitjewel = false;
+    private boolean firstTime = true;
+
+    private double headingRegister = 0;
 
     @Override
     public void init() {
@@ -116,8 +119,13 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 2:
+                if (firstTime) {
+                    firstTime = !firstTime;
+                    headingRegister = robot.imu.getAngularOrientation().firstAngle;
+                }
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
+                robot.strafeAdjusts(headingRegister, MovementEnum.FORWARD                     );
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -148,8 +156,13 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 5:
+                if (firstTime) {
+                    firstTime = !firstTime;
+                    headingRegister = robot.imu.getAngularOrientation().firstAngle;
+                }
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power * .4);
+                robot.strafeAdjusts(headingRegister, MovementEnum.FORWARD);
                 if (power == 0 || timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -201,8 +214,13 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 10:
+                if (!firstTime) {
+                    firstTime = !firstTime;
+                    headingRegister = robot.imu.getAngularOrientation().firstAngle;
+                }
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.BACKWARD, power);
+                robot.strafeAdjusts(headingRegister, MovementEnum.BACKWARD);
                 if (power == 0 || timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -235,8 +253,13 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 14:
+                if (firstTime) {
+                    firstTime = !firstTime;
+                    headingRegister = robot.imu.getAngularOrientation().firstAngle;
+                }
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
+                robot.strafeAdjusts(headingRegister, MovementEnum.FORWARD);
                 if (power == 0 || timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.releaseMove(ReleasePosition.MIDDLE);

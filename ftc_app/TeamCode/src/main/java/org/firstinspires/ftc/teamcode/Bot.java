@@ -857,7 +857,7 @@ public class Bot {
 
     }
 
-    public void strafeAdjusts(double targetHeading, MovementEnum direction) {
+    public void strafeAdjusts(int targetHeading, MovementEnum direction) {
         double headingError = targetHeading + imu.getAngularOrientation().firstAngle;
         if (Math.abs(headingError) < 1) {
             FL.setPower(FR.getPower());

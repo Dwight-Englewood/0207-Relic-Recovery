@@ -14,9 +14,9 @@ import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
 
-@Autonomous(name = "RealBlueAuton", group = "Auton")
+@Autonomous(name = "VuforiaBlueSG", group = "Auton")
 //@Disabled
-public class RealBlueAuton extends OpMode {
+public class VuforiaBlueSG extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();
 

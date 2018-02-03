@@ -56,7 +56,6 @@ public class Bot {
     public Bot() {}
 
     public void init(HardwareMap hardwareMap) {
-        //BNO055IMU related initialization code
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");

@@ -29,6 +29,7 @@ public class RealBlueAuton extends OpMode {
     private int generalTarget = 0;
     private boolean hitjewel = false;
     private int command = -1;
+    private String commandString = "";
 
     @Override
     public void init() {
@@ -65,6 +66,7 @@ public class RealBlueAuton extends OpMode {
     public void loop() {
         switch (command) {
             case -1:
+                commandString = "Find VuMark";
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     robot.jewelOut();
@@ -78,6 +80,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 0:
+                commandString = "Deactivate Vuforia";
                 if (timer.milliseconds() > 250){
                     timer.reset();
                     robot.jewelOuter();
@@ -88,6 +91,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 1:
+                commandString = "Hit Jewel";
                 if (hitjewel) {
                     robot.drive(MovementEnum.STOP);
                     robot.jewelUp();
@@ -115,6 +119,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 2:
+                commandString = "Set up RUN_TO_POSITION";
                 generalTarget = robot.distanceToRevs(50);
                 robot.runToPosition(generalTarget);
                 //Possibly turn off brake
@@ -123,6 +128,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 3:
+                commandString = "RUN_TO_POSITION";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
@@ -134,6 +140,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 4:
+                commandString = "Adjust heading to 90";
                 if (timer.milliseconds() > 1000 || robot.FR.getPower() == 0) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -145,6 +152,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 5:
+                commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
                         generalTarget = robot.distanceToRevs(27);
@@ -169,6 +177,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 6:
+                commandString = "Drive to column";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
@@ -180,6 +189,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 7:
+                commandString = "Adjust heading to 0";
                 if (timer.milliseconds() > 1500 || robot.FR.getPower() == 0) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -191,6 +201,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 8:
+                commandString = "Begin unfold";
                 robot.releaseMove(ReleasePosition.DROP);
                 robot.jewelOut();
                 robot.intakeDrop.setPower(-1);
@@ -199,6 +210,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 9:
+                commandString = "Unfold";
                 if (timer.milliseconds() > 1000) {
                     robot.flipDown();
                     timer.reset();
@@ -212,6 +224,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 10:
+                commandString = "Setup drive to box";
                 generalTarget = -1*robot.distanceToRevs(19);
                 robot.runToPosition(generalTarget);
                 timer.reset();
@@ -219,6 +232,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 11:
+                commandString = "Drive to box";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.BACKWARD, power);
                 if (power == 0) {
@@ -230,6 +244,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 12:
+                commandString = "Intake wall down";
                 robot.backIntakeWallDown();
                 robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 timer.reset();
@@ -237,6 +252,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 13:
+                commandString = "Release glyph";
                 if (timer.milliseconds() > 250) {
                     robot.releaseMove(ReleasePosition.UP);
                     timer.milliseconds();
@@ -245,6 +261,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 14:
+                commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
                     generalTarget = robot.distanceToRevs(15);
                     robot.runToPosition(generalTarget);
@@ -254,6 +271,7 @@ public class RealBlueAuton extends OpMode {
                 break;
 
             case 15:
+                commandString = "Drive away from box";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
@@ -266,6 +284,15 @@ public class RealBlueAuton extends OpMode {
 
 
         }
+
+        telemetry.addData("Command", command);
+        telemetry.addData("Column", vuMark);
+        telemetry.addData("Power", power);
+        telemetry.addData("Target", generalTarget);
+        telemetry.addLine(commandString);
+
+        telemetry.update();
+
     }
 
     @Override

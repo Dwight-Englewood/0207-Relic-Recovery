@@ -31,19 +31,17 @@ public class EncoderTest extends OpMode {
 
     @Override
     public void start() {
-        //robot.runToPosition(target);
+       robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override
     public void loop() {
-        //power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), target, target, target, target);
-        //robot.drive(MovementEnum.FORWARD, power);
 
-        telemetry.addData("power", power);
         telemetry.addData("FL Ticks", robot.FL.getCurrentPosition());
         telemetry.addData("BL Ticks", robot.BL.getCurrentPosition());
         telemetry.addData("FR Ticks", robot.FR.getCurrentPosition());
         telemetry.addData("BR Ticks", robot.BR.getCurrentPosition());
+        telemetry.addData("Lift Ticks", robot.lift.getCurrentPosition());
         telemetry.update();
     }
 

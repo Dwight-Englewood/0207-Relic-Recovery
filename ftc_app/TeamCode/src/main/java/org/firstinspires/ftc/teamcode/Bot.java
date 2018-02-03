@@ -57,10 +57,6 @@ public class Bot {
 
     public void init(HardwareMap hardwareMap) {
         //BNO055IMU related initialization code
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");

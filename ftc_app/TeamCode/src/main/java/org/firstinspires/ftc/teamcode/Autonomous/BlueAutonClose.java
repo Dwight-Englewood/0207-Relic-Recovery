@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 
 @Autonomous(name = "BlueAutonClose", group = "Auton")
-//@Disabled
+@Disabled
 public class BlueAutonClose extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer;

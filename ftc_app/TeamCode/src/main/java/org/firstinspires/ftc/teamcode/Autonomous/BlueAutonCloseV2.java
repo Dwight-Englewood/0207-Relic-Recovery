@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
 
 @Autonomous(name = "BlueAutonCloseV2", group = "Auton")
-//@Disabled
+@Disabled
 public class BlueAutonCloseV2 extends OpMode {
     private Bot robot = new Bot();
     private ElapsedTime timer;
@@ -78,7 +79,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 0:
-                if (timer.milliseconds() > 500){
+                if (timer.milliseconds() > 250){
                     timer.reset();
                     robot.jewelOuter();
                     relicTrackables.deactivate();

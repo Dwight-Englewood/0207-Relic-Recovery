@@ -132,7 +132,6 @@ public class BlueAutonCloseV2 extends OpMode {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
                     generalTarget = robot.distanceToRevs(27);
-                    robot.runToPosition(generalTarget);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     command++;
                 } else {
@@ -160,7 +159,7 @@ public class BlueAutonCloseV2 extends OpMode {
                 break;
 
             case 6:
-                if (robot.FR.getPower() == 0) {
+                if (robot.FR.getPower() != 0) {
                     robot.adjustHeading(0, false, telemetry);
                 } else {
                     robot.drive(MovementEnum.STOP);

@@ -19,16 +19,16 @@ import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
 public class RealBlueAuton extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();
-    private int command = -1;
 
     private ClosableVuforiaLocalizer vuforia;
     private VuforiaTrackables relicTrackables;
     private VuforiaTrackable relicTemplate;
     private RelicRecoveryVuMark vuMark;
 
-    private double power;
-    private int generalTarget;
+    private double power = 0;
+    private int generalTarget = 0;
     private boolean hitjewel = false;
+    private int command = -1;
 
     @Override
     public void init() {
@@ -92,8 +92,6 @@ public class RealBlueAuton extends OpMode {
                     robot.drive(MovementEnum.STOP);
                     robot.jewelUp();
                     timer.reset();
-                    generalTarget = robot.distanceToRevs(50);
-                    robot.runToPosition(generalTarget);
                     command++;
 
                 } else if (timer.milliseconds() > 1500) {
@@ -115,6 +113,158 @@ public class RealBlueAuton extends OpMode {
                     robot.jewelKnockforward();
                 }
                 break;
+
+            case 2:
+                generalTarget = robot.distanceToRevs(50);
+                robot.runToPosition(generalTarget);
+                //Possibly turn off brake
+                timer.reset();
+                command++;
+                break;
+
+            case 3:
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 4:
+                if (timer.milliseconds() > 1000 || robot.FR.getPower() == 0) {
+                    robot.drive(MovementEnum.STOP);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    timer.reset();
+                    command++;
+                } else {
+                    robot.adjustHeading(90, false, telemetry);
+                }
+                break;
+
+            case 5:
+                switch (vuMark) {
+                    case LEFT:
+                        generalTarget = robot.distanceToRevs(27);
+                        break;
+
+                    case CENTER:
+                        generalTarget = robot.distanceToRevs(36);
+                        break;
+
+                    case RIGHT:
+                        generalTarget = robot.distanceToRevs(45);
+                        break;
+
+                    case UNKNOWN:
+                        generalTarget = robot.distanceToRevs(36);
+                        break;
+                }
+                try {Thread.sleep(300);} catch (Exception e) {}
+                robot.runToPosition(generalTarget);
+                timer.reset();
+                command++;
+                break;
+
+            case 6:
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 7:
+                if (timer.milliseconds() > 1500 || robot.FR.getPower() == 0) {
+                    robot.drive(MovementEnum.STOP);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    timer.reset();
+                    command++;
+                } else {
+                    robot.adjustHeading(0, false, telemetry);
+                }
+                break;
+
+            case 8:
+                robot.releaseMove(ReleasePosition.DROP);
+                robot.jewelOut();
+                robot.intakeDrop.setPower(-1);
+                timer.reset();
+                command++;
+                break;
+
+            case 9:
+                if (timer.milliseconds() > 1000) {
+                    robot.flipDown();
+                    timer.reset();
+                    command++;
+                } else if (timer.milliseconds() > 750) {
+                    robot.intakeDrop.setPower(0);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    robot.flipUp();
+                    robot.jewelUp();
+                }
+                break;
+
+            case 10:
+                generalTarget = -1*robot.distanceToRevs(19);
+                robot.runToPosition(generalTarget);
+                timer.reset();
+                command++;
+                break;
+
+            case 11:
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.BACKWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 12:
+                robot.backIntakeWallDown();
+                robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                timer.reset();
+                command++;
+                break;
+
+            case 13:
+                if (timer.milliseconds() > 250) {
+                    robot.releaseMove(ReleasePosition.UP);
+                    timer.milliseconds();
+                    command++;
+                }
+                break;
+
+            case 14:
+                if (timer.milliseconds() > 250) {
+                    generalTarget = robot.distanceToRevs(15);
+                    robot.runToPosition(generalTarget);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 15:
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+
         }
     }
 

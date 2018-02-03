@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Bot;
+import org.firstinspires.ftc.teamcode.Utility.Bot;
 
 @TeleOp(name = "Encoder Test", group = "Teleop")
 @Disabled

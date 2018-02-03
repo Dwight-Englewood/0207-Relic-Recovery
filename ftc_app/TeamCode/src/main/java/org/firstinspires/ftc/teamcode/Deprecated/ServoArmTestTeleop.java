@@ -6,7 +6,7 @@ package org.firstinspires.ftc.teamcode.Deprecated;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Bot;
+import org.firstinspires.ftc.teamcode.Utility.Bot;
 
 
 /**

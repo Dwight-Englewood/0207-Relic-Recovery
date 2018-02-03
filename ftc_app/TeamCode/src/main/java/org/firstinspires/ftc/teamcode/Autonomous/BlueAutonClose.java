@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Bot;
+import org.firstinspires.ftc.teamcode.Utility.Bot;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 

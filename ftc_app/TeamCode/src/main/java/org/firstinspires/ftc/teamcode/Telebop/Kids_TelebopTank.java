@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.Kids;
+package org.firstinspires.ftc.teamcode.Telebop;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Bot;
+import org.firstinspires.ftc.teamcode.Utility.Bot;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 
 /**

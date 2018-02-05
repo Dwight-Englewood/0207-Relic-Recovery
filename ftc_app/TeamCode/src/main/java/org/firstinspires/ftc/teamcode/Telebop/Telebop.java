@@ -204,7 +204,7 @@ public class Telebop extends OpMode {
         }
 
         if (gamepad2.x) {
-            robot.jewelServoBottom.setPosition(.3);
+            robot.jewelOuter();
         } else {
             robot.jewelUp();
         }

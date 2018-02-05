@@ -108,11 +108,11 @@ public class VuforiaBlueSG extends OpMode {
                     timer.reset();
                     command++;
 
-                } else if (robot.colorSensor.blue() >= 1) {
+                } else if (robot.colorSensor.blue() >= 2) {
                     hitjewel = true;
                     robot.jewelKnockback();
 
-                } else if (robot.colorSensor.red() >= 1) {
+                } else if (robot.colorSensor.red() >= 2) {
                     hitjewel = true;
                     robot.jewelKnockforward();
                 }
@@ -141,7 +141,7 @@ public class VuforiaBlueSG extends OpMode {
 
             case 4:
                 commandString = "Adjust heading to 90";
-                if (timer.milliseconds() > 1000 || robot.FR.getPower() == 0) {
+                if (timer.milliseconds() > 1500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -190,7 +190,7 @@ public class VuforiaBlueSG extends OpMode {
 
             case 7:
                 commandString = "Adjust heading to 0";
-                if (timer.milliseconds() > 1500 || robot.FR.getPower() == 0) {
+                if (timer.milliseconds() > 1500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -289,6 +289,7 @@ public class VuforiaBlueSG extends OpMode {
         telemetry.addData("Column", vuMark);
         telemetry.addData("Power", power);
         telemetry.addData("Target", generalTarget);
+        telemetry.addData("Color Blue", robot.colorSensor.blue());
         telemetry.addLine(commandString);
 
         telemetry.update();

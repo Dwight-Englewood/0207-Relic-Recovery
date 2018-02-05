@@ -108,11 +108,11 @@ public class VuforiaRedSG extends OpMode {
                     timer.reset();
                     command++;
 
-                } else if (robot.colorSensor.blue() >= 1) {
+                } else if (robot.colorSensor.blue() >= 2) {
                     hitjewel = true;
                     robot.jewelKnockback();
 
-                } else if (robot.colorSensor.red() >= 1) {
+                } else if (robot.colorSensor.red() >= 2) {
                     hitjewel = true;
                     robot.jewelKnockforward();
                 }

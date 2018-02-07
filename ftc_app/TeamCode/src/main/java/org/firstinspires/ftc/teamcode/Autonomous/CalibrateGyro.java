@@ -29,8 +29,11 @@ public class CalibrateGyro extends OpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         parameters = new BNO055IMU.Parameters();
         parameters.loggingEnabled = true;
-        parameters.loggingTag     = "IMU";
+        parameters.loggingTag = "IMU";
         calib = true;
+
+        telemetry.addLine("Ready.");
+        telemetry.update();
     }
 
     @Override

@@ -621,10 +621,10 @@ public class Bot {
     public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
         double scale = 1;
         if (
-                (Math.abs(tickFL - targetTickFL) < 50) &&
-                        (Math.abs(tickFR - targetTickFR) < 50) &&
-                        (Math.abs(tickBL - targetTickBL) < 50) &&
-                        (Math.abs(tickBR - targetTickBR) < 50)
+                (Math.abs(tickFL - targetTickFL) < 25) &&
+                        (Math.abs(tickFR - targetTickFR) < 25) &&
+                        (Math.abs(tickBL - targetTickBL) < 25) &&
+                        (Math.abs(tickBR - targetTickBR) < 25)
                 ) {
             scale = 0;
             //stopped, can be changed

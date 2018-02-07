@@ -155,19 +155,19 @@ public class VuforiaRedSG extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = robot.distanceToRevs(27);
+                        generalTarget = robot.distanceToRevs(52);
                         break;
 
                     case CENTER:
-                        generalTarget = robot.distanceToRevs(36);
+                        generalTarget = robot.distanceToRevs(34);
                         break;
 
                     case RIGHT:
-                        generalTarget = robot.distanceToRevs(45);
+                        generalTarget = robot.distanceToRevs(16);
                         break;
 
                     case UNKNOWN:
-                        generalTarget = robot.distanceToRevs(36);
+                        generalTarget = robot.distanceToRevs(34);
                         break;
                 }
                 try {Thread.sleep(300);} catch (Exception e) {}

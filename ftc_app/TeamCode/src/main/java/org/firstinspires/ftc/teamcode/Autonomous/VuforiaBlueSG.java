@@ -27,7 +27,7 @@ public class VuforiaBlueSG extends OpMode {
 
     private double power = 0;
     private int generalTarget = 0;
-    private boolean hitjewel = false;
+    private boolean hitjewel = false, done=false;
     private int command = -1;
     private String commandString = "";
 
@@ -186,19 +186,25 @@ public class VuforiaBlueSG extends OpMode {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
                     timer.reset();
+                    done = false;
                     command++;
                 }
                 break;
 
             case 7:
                 commandString = "Adjust heading to 0";
-                if (timer.milliseconds() > 3500) {
+
+                if (timer.milliseconds() > 3500 && !done) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
+                    done = false;
                     command++;
-                } else if (timer.milliseconds() > 500){
+                } else if (timer.milliseconds() > 500) {
                     robot.adjustHeading(0, false, telemetry);
+                    if (robot.FL.getPower() == 0) {
+                        done = true;
+                    }
                 }
                 break;
 

@@ -42,10 +42,7 @@ public class Bot {
     private boolean isStrafing;
     private float heading;
 
-    private ReleasePosition currentPosition = ReleasePosition.DOWN;
-
     private ModernRoboticsI2cRangeSensor rangeSide;
-    private double curSideDistance;
     private Position sensorSide;
 
     //--------------------------------------------------------------------------------------------------------------------------
@@ -537,11 +534,6 @@ public class Bot {
     }
 
     public void intake(double power) {
-        if (power == 0) {
-            currentPosition = ReleasePosition.MIDDLE;
-        } else {
-            currentPosition = ReleasePosition.DOWN;
-        }
         intakeOne.setPower(power);
         intakeTwo.setPower(power);
     }

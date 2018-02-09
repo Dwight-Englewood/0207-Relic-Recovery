@@ -102,33 +102,6 @@ public class Telebop extends OpMode {
         }
         */
 
-        //relic stuff (currently disabled)
-        /*
-        if (gamepad2.dpad_up) {
-            robot.relicArmServo.setPower(.5);
-        } else if (gamepad2.dpad_down) {
-            robot.relicArmServo.setPower(-.5);
-        } else {
-            robot.relicArmServo.setPower(0);
-        }
-
-        if (gamepad2.dpad_right) {
-            robot.relicArmINNOUT.setPower(.5);
-        } else if (gamepad2.dpad_left) {
-            robot.relicArmINNOUT.setPower(-.5);
-        } else {
-            robot.relicArmINNOUT.setPower(0);
-        }
-
-        if (gamepad1.right_trigger > .3) {
-            robot.relicArmVex.setPower(.5);
-        } else if (gamepad1.left_trigger > .3) {
-            robot.relicArmVex.setPower(-.5);
-        } else {
-            robot.relicArmVex.setPower(0);
-        }
-
-        */
         //The bumper controls the intake of glyphs, as well as adjusts the angle of the flipper mechanism
         //For more documentation of the controller object which controls the position of the flipper, see Utilites/EnumController.java
 

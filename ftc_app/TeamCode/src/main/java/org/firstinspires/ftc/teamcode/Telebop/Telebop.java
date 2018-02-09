@@ -40,6 +40,11 @@ public class Telebop extends OpMode {
     double liftScaledown = .7;
     double liftScaleup = .4;
 
+    double relicArmPos1 = .5;
+    double relicArmPos2 = .5;
+
+    boolean relicMode = false;
+
     /**
      * The init function handles all initialization of our robot, including fetching robot elements from the hardware map, as well as setting motor runmodes and sensor options
      */
@@ -62,7 +67,8 @@ public class Telebop extends OpMode {
     }
 
     @Override
-    public void init_loop() {}
+    public void init_loop() {
+    }
 
     /**
      * During the start phase, we make sure the jewel servo has been moved back up, as it was moved down to knock the jewel during atuno
@@ -80,30 +86,14 @@ public class Telebop extends OpMode {
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     /**
      * Main loop of the teleop - where all the driver control stuff happens
-     *
+     * <p>
      * alt: where the magic happens
      */
     @Override
     public void loop() {
-
-        //Brake toggle. Th ebrake was implemented so the drivers could more easiyl get onto the balancing stone at the end of matches, as it will immediately halt movement of the bot
-        if (gamepad1.left_bumper && countdown <= 0) {
-
-            //switches brakeToggle to which ever boolean it was not
-            //ie true -> false
-            //   false -> true
-            brakeToggle = !brakeToggle;
-            //The drivers will always end up holding the button for more than 1 cycle of the loop function. Therefore, it is important that it doesn't immediately revert the toggle. 
-            //Hence, the coutdown. It will prevent the toggle from accidentaly not being triggered due to the boolean being swapped twice
-            countdown = 5;
-        }
-
-        //Main driving function. See Bot.java for documentation
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle); // Tank drive???
-
-
         //invert (currently disabled)
         /*
         if (gamepad1.left_bumper && countdown <= 0) {
@@ -137,10 +127,42 @@ public class Telebop extends OpMode {
         } else {
             robot.relicArmVex.setPower(0);
         }
+
         */
         //The bumper controls the intake of glyphs, as well as adjusts the angle of the flipper mechanism
         //For more documentation of the controller object which controls the position of the flipper, see Utilites/EnumController.java
 
+        //Gamepad 1 Stuff
+        //Brake toggle. Th ebrake was implemented so the drivers could more easiyl get onto the balancing stone at the end of matches, as it will immediately halt movement of the bot
+        if (gamepad1.left_bumper && countdown <= 0) {
+
+            //switches brakeToggle to which ever boolean it was not
+            //ie true -> false
+            //   false -> true
+            brakeToggle = !brakeToggle;
+            //The drivers will always end up holding the button for more than 1 cycle of the loop function. Therefore, it is important that it doesn't immediately revert the toggle.
+            //Hence, the coutdown. It will prevent the toggle from accidentaly not being triggered due to the boolean being swapped twice
+            countdown = 5;
+        }
+
+        //this is the actual flipping of the flipper
+        //need some stuff here for wallCountdown
+        if (gamepad1.right_bumper) {
+            //This is priority 5 as we want the actual flipping (placing the glyph) to have precedence over other auto done positions, which only serve to aid in glyph movement.
+            controller.addInstruction(ReleasePosition.UP, 5);
+            robot.flipUp();
+            //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
+            robot.backIntakeWallDown();
+            wallCountdown = 55;
+        } else if (wallCountdown <= 0) {
+            controller.addInstruction(ReleasePosition.MIDDLE, 0);
+            robot.backIntakeWallUp();
+        }
+
+        //Main driving function. See Bot.java for documentation
+        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle); // Tank drive???
+
+        //Gamepad 2 Stuff
         if (gamepad2.right_bumper) {
             //Specific to the teleop, we have 3 levels of priority
             //A regular change in the position is 1 - these are the standard change
@@ -159,7 +181,7 @@ public class Telebop extends OpMode {
                 robot.intake(0);
             }
         }
-        
+
         //Our intake is put on a motor which allows it to be raised or lowered. This section allows for the drivers to raise it during matches, to reach glyphs which are on top of other ones
         if (gamepad2.right_stick_y > .3) {
             robot.intakeDrop.setPower(-1);
@@ -168,7 +190,7 @@ public class Telebop extends OpMode {
         } else {
             robot.intakeDrop.setPower(0);
         }
-        
+
         //mini flipper mechanism control. this mini flipper mechanism is used to make sure glyphs are properly aligned into the main flipper mechanism
         if (gamepad2.b) {
             robot.flipUp();
@@ -188,33 +210,43 @@ public class Telebop extends OpMode {
             controller.addInstruction(ReleasePosition.MIDDLE, 0);
             robot.lift.setPower(0);
         }
-        
-        //this is the actual flipping of the flipper
-        //need some stuff here for wallCountdown
-        if (gamepad1.right_bumper) {
-            //This is priority 5 as we want the actual flipping (placing the glyph) to have precedence over other auto done positions, which only serve to aid in glyph movement.
-            controller.addInstruction(ReleasePosition.UP, 5);
-            robot.flipUp();
-            //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
-            robot.backIntakeWallDown();
-            wallCountdown = 55;
-        } else if (wallCountdown <= 0) {
-            controller.addInstruction(ReleasePosition.MIDDLE, 0);
-            robot.backIntakeWallUp();
+
+
+        if (gamepad2.a) {
+            robot.relicArmVexControl(1);
+        } else if (gamepad2.y) {
+            robot.relicArmVexControl(-1);
+        } else {
+            robot.relicArmVexControl(0);
         }
+
+        if (gamepad2.dpad_up) {
+            relicArmPos1 = relicArmPos1 + .05;
+        } else if (gamepad2.dpad_down) {
+            relicArmPos1 = relicArmPos1 - .05;
+        }
+
+        if (gamepad2.dpad_left) {
+            relicArmPos2 = relicArmPos2 + .05;
+        } else if (gamepad2.dpad_right) {
+            relicArmPos2 = relicArmPos2 - .05;
+        }
+
 
         if (gamepad2.x) {
             robot.jewelOuter();
         } else {
             robot.jewelUp();
         }
-        
+
         //Decrement the counters
         countdown--;
         wallCountdown--;
-        
+
         //process the values added to the controller - the controller doesnt help if we never get the values out of it
         robot.releaseMove(controller.process());
+        robot.relicArmServo1.setPosition(relicArmPos1);
+        robot.relicArmServo2.setPosition(relicArmPos2);
         controller.reset();
 
         //Telemetry things, generally booleans that could be important for drivers to be able to tell are active, as well as cooldowns

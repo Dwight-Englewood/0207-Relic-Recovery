@@ -534,8 +534,8 @@ public class Bot {
     }
 
     public void intake(double power) {
-        intakeOne.setPower(power);
-        intakeTwo.setPower(power);
+        intakeOne.setPower(.8*power);
+        intakeTwo.setPower(.8*power);
     }
 
     public void backIntakeWallUp() {

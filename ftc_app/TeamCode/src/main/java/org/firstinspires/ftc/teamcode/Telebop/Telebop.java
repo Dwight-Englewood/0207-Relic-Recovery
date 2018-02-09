@@ -150,8 +150,8 @@ public class Telebop extends OpMode {
             if (gamepad2.right_trigger > .2 || gamepad2.left_trigger > .2) {
                 controller.addInstruction(ReleasePosition.DOWN, 1);
                 //robot.intake(-1);
-                robot.intakeOne.setPower(-gamepad2.right_trigger);
-                robot.intakeTwo.setPower(-gamepad2.left_trigger);
+                robot.intakeOne.setPower(-.8*gamepad2.right_trigger);
+                robot.intakeTwo.setPower(-.8*gamepad2.left_trigger);
             } else {
                 //This line is not needed, as this specific addition to the controller object will never change the output. However, it is included to keep clarity as to what will happen
                 //The zero priority will not change the result of process, as priority is seeded at 0 - and is strictly increasing. This is equivalent to a blank statement, which we use to keep code clarity
@@ -177,10 +177,10 @@ public class Telebop extends OpMode {
         }
 
         //controls the linear slide mechanism, to allow for placing of glyphs above row 2
-        if (gamepad2.left_stick_y > .15) {
+        if (gamepad2.left_stick_y < -.15) {
             controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
             robot.lift.setPower(gamepad2.left_stick_y * liftScaleup);
-        } else if (gamepad2.left_stick_y < -.15) {
+        } else if (gamepad2.left_stick_y > .15) {
             controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
 
             robot.lift.setPower(gamepad2.left_stick_y * liftScaledown);
@@ -197,7 +197,7 @@ public class Telebop extends OpMode {
             robot.flipUp();
             //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
             robot.backIntakeWallDown();
-            wallCountdown = 40;
+            wallCountdown = 55;
         } else if (wallCountdown <= 0) {
             controller.addInstruction(ReleasePosition.MIDDLE, 0);
             robot.backIntakeWallUp();

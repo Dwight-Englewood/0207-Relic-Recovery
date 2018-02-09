@@ -28,7 +28,10 @@ public class Bot {
 
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
     public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, backIntakeWall, jewelServoTop;
-    public CRServo relicArmServo, relicArmVex, relicArmINNOUT;
+
+    //temp names
+    public Servo relicArmServo1, relicArmServo2;
+    public CRServo relicArmVex2, relicArmVex1;
 
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor, intakeColor;
@@ -51,6 +54,14 @@ public class Bot {
 
     public void init(HardwareMap hardwareMap) {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        relicArmServo1 = hardwareMap.get(Servo.class, "ras1");
+        relicArmServo2 = hardwareMap.get(Servo.class, "ras2");
+
+        relicArmVex1 = hardwareMap.get(CRServo.class, "rav1");
+        relicArmVex2 = hardwareMap.get(CRServo.class, "rav2");
+        relicArmVex2.setDirection(DcMotorSimple.Direction.FORWARD);
+        relicArmVex1.setDirection(DcMotorSimple.Direction.FORWARD);
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
         colorSensor.enableLed(true);
@@ -130,6 +141,10 @@ public class Bot {
 
     //--------------------------------------------------------------------------------------------------------------------------
 
+    public void relicArmVexControl(double power) {
+        relicArmVex1.setPower(power);
+        relicArmVex2.setPower(power);
+    }
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
         int i = invert ? -1 : 1;
 

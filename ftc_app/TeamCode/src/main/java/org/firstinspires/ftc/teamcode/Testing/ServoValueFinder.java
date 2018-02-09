@@ -44,6 +44,8 @@ public class ServoValueFinder extends OpMode {
     double frontIntakeWallVal = .5;
     double backIntakeWallVal = .5;
     double hahnVal = .5;
+    double relicArmServo1 = .5;
+    double relicArmServo2 = .5;
 
 
     int cooldown = 0;
@@ -68,20 +70,20 @@ public class ServoValueFinder extends OpMode {
     public void loop() {
         if (cooldown == 0) {
             if (gamepad2.dpad_right) {
-                flipperVal = flipperVal + .01;
+                relicArmServo1 = relicArmServo1 + .01;
                 cooldown = cooldownTime;
             }
             if (gamepad2.dpad_left) {
-                flipperVal = flipperVal - .01;
+                relicArmServo1 = relicArmServo1 - .01;
                 cooldown = cooldownTime;
             }
 
             if (gamepad1.dpad_up) {
-                brandonVal = brandonVal + .01;
+                relicArmServo2 = relicArmServo2 + .01;
                 cooldown = cooldownTime;
             }
             if (gamepad1.dpad_down) {
-                brandonVal = brandonVal - .01;
+                relicArmServo2 = relicArmServo2 - .01;
                 cooldown = cooldownTime;
             }
             if (gamepad1.dpad_left) {
@@ -133,6 +135,8 @@ public class ServoValueFinder extends OpMode {
         releaseRightVal = Range.clip(releaseRightVal, 0, 1.0);
         frontIntakeWallVal = Range.clip(frontIntakeWallVal, 0, 1.0);
         backIntakeWallVal = Range.clip(backIntakeWallVal, 0, 1.0);
+        relicArmServo1 = Range.clip(relicArmServo1, 0, 1.0);
+        relicArmServo2 = Range.clip(relicArmServo2, 0, 1.0);
 
         //Setting servo values
         robot.flipper.setPosition(flipperVal);
@@ -141,6 +145,8 @@ public class ServoValueFinder extends OpMode {
         robot.releaseRight.setPosition(releaseRightVal);
         robot.backIntakeWall.setPosition(backIntakeWallVal);
         robot.jewelServoTop.setPosition(hahnVal);
+        robot.relicArmServo1.setPosition(relicArmServo1);
+        robot.relicArmServo2.setPosition(relicArmServo2);
 
         //Telemetry
         telemetry.addData("flipperVal", flipperVal);
@@ -150,6 +156,8 @@ public class ServoValueFinder extends OpMode {
         telemetry.addData("releaseRightVal", releaseRightVal);
         telemetry.addData("frontIntakeWallVal", frontIntakeWallVal);
         telemetry.addData("backIntakeWallVal", backIntakeWallVal);
+        telemetry.addData("relicArmServo1", relicArmServo1);
+        telemetry.addData("relicArmServo2", relicArmServo2);
 
 
         telemetry.addData("cooldown", cooldown);

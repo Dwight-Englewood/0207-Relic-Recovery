@@ -75,10 +75,6 @@ public class Bot {
         jewelServoBottom = hardwareMap.servo.get("brandon"); //servo which does servo things
         jewelServoTop = hardwareMap.servo.get("hahn"); //another servo which does servo things
 
-        //relicArmServo = hardwareMap.crservo.get("relicS");
-        //relicArmVex = hardwareMap.crservo.get("relicVM");
-        //relicArmINNOUT = hardwareMap.crservo.get("relicINNOUT");
-
         FL = hardwareMap.dcMotor.get("fl");
         FR = hardwareMap.dcMotor.get("fr");
         BL = hardwareMap.dcMotor.get("bl");
@@ -122,8 +118,8 @@ public class Bot {
 
         // TODO: Test different zeropower behaviors (BRAKE, FLOAT, etc)
         intakeDrop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        intakeTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FL.setPower(0);

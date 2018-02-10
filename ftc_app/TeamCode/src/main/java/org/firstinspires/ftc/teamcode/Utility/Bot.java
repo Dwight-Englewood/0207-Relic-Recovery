@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -57,7 +56,8 @@ public class Bot {
 
         relicArmServo1 = hardwareMap.get(Servo.class, "ras1");
         relicArmServo2 = hardwareMap.get(Servo.class, "ras2");
-
+        relicArmServo1.scaleRange(.2, .8);
+        relicArmServo2.scaleRange(.2, .8);
         relicArmVex1 = hardwareMap.get(CRServo.class, "rav1");
         relicArmVex2 = hardwareMap.get(CRServo.class, "rav2");
         relicArmVex2.setDirection(CRServo.Direction.FORWARD);
@@ -138,10 +138,15 @@ public class Bot {
 
     //--------------------------------------------------------------------------------------------------------------------------
 
-    public void relicArmVexControl(double power) {
+    public void relicArmVexControl(double power, DcMotorSimple.Direction d) {
+        power = Range.clip(power, 0, .99);
+
+        relicArmVex2.setDirection(d);
+        relicArmVex1.setDirection(d);
         relicArmVex1.setPower(power);
         relicArmVex2.setPower(power);
     }
+
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
         int i = invert ? -1 : 1;
 
@@ -431,22 +436,22 @@ public class Bot {
     //--------------------------------------------------------------------------------------------------------------------------
 
     public void jewelUp() {
-        jewelServoBottom.setPosition(.155);
-        jewelServoTop.setPosition(.73);
+        jewelServoBottom.setPosition(1);
+        jewelServoTop.setPosition(.2);
     }
 
     public void jewelOut() {
         jewelServoBottom.setPosition(.5);
-        jewelServoTop.setPosition(.38);
+        jewelServoTop.setPosition(.5);
     }
 
     public void jewelOuter() {
-        jewelServoBottom.setPosition(0.86);
+        jewelServoBottom.setPosition(0);
     }
 
     public void jewelKnockback() { jewelServoTop.setPosition(0.24); }
 
-    public void jewelKnockforward() { jewelServoTop.setPosition(.54); }
+    public void jewelKnockforward() { jewelServoTop.setPosition(.74); }
 
     //--------------------------------------------------------------------------------------------------------------------------
 

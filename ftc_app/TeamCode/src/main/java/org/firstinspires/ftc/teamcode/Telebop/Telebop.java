@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Telebop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Utility.Bot;
 import org.firstinspires.ftc.teamcode.Utility.EnumController;
@@ -172,10 +173,10 @@ public class Telebop extends OpMode {
         }
 
         //controls the linear slide mechanism, to allow for placing of glyphs above row 2
-        if (gamepad2.left_stick_y < -.15) {
+        if (gamepad2.left_stick_y > .15) {
             controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
             robot.lift.setPower(gamepad2.left_stick_y * liftScaleup);
-        } else if (gamepad2.left_stick_y > .15) {
+        } else if (gamepad2.left_stick_y < -.15) {
             controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
 
             robot.lift.setPower(gamepad2.left_stick_y * liftScaledown);
@@ -186,11 +187,15 @@ public class Telebop extends OpMode {
 
 
         if (gamepad2.a) {
-            robot.relicArmVexControl(1);
+            robot.relicArmVexControl(.5);
+            telemetry.addData("vexmotor power", 1);
         } else if (gamepad2.y) {
-            robot.relicArmVexControl(-1);
+            robot.relicArmVexControl(-.5);
+            telemetry.addData("vexmotor power", -1);
         } else {
             robot.relicArmVexControl(0);
+            telemetry.addData("vexmotor power", 0);
+
         }
 
         if (gamepad2.dpad_up) {
@@ -217,6 +222,9 @@ public class Telebop extends OpMode {
         wallCountdown--;
 
         //process the values added to the controller - the controller doesnt help if we never get the values out of it
+
+        relicArmPos1 = Range.clip(relicArmPos1, -1, 1);
+        relicArmPos2 = Range.clip(relicArmPos2, -1, 1);
         robot.releaseMove(controller.process());
         robot.relicArmServo1.setPosition(relicArmPos1);
         robot.relicArmServo2.setPosition(relicArmPos2);
@@ -226,6 +234,8 @@ public class Telebop extends OpMode {
         telemetry.addData("Braking", brakeToggle);
         telemetry.addData("Brake cooldown? ", countdown > 0 ? "Yep" : "Nope");
         telemetry.addData("Wall on cooldown? ", wallCountdown > 0 ? "Yep" : "Nope");
+        telemetry.addData("relicArmPos1", relicArmPos1);
+        telemetry.addData("relicArmPos2", relicArmPos2);
         telemetry.update();
     }
 

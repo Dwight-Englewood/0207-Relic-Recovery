@@ -35,7 +35,7 @@ public class Bot {
 
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor, intakeColor;
-    public OpticalDistanceSensor ods;
+    //public OpticalDistanceSensor ods;
     public ModernRoboticsI2cRangeSensor rangeBack, rangeLeft, rangeRight;
 
     private Orientation angles;
@@ -60,20 +60,20 @@ public class Bot {
 
         relicArmVex1 = hardwareMap.get(CRServo.class, "rav1");
         relicArmVex2 = hardwareMap.get(CRServo.class, "rav2");
-        relicArmVex2.setDirection(DcMotorSimple.Direction.FORWARD);
-        relicArmVex1.setDirection(DcMotorSimple.Direction.FORWARD);
+        relicArmVex2.setDirection(CRServo.Direction.FORWARD);
+        relicArmVex1.setDirection(CRServo.Direction.FORWARD);
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
         colorSensor.enableLed(true);
-        intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
-        intakeColor.enableLed(true);
-        ods = hardwareMap.opticalDistanceSensor.get("iods");
-        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
-        rangeLeft = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangel");
-        rangeRight = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "ranger");
+        //intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
+        //intakeColor.enableLed(true);
+        //ods = hardwareMap.opticalDistanceSensor.get("iods");
+        //rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
+        //rangeLeft = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangel");
+        //rangeRight = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "ranger");
 
-        jewelServoBottom = hardwareMap.servo.get("brandon"); //servo which does servo things
-        jewelServoTop = hardwareMap.servo.get("hahn"); //another servo which does servo things
+        jewelServoBottom = hardwareMap.servo.get("jewelbot"); //servo which does servo things\
+        jewelServoTop = hardwareMap.servo.get("jeweltop"); //another servo which does servo things
 
         FL = hardwareMap.dcMotor.get("fl");
         FR = hardwareMap.dcMotor.get("fr");
@@ -94,6 +94,7 @@ public class Bot {
 
         flipper = hardwareMap.servo.get("flip");
         flipper.scaleRange(.2, .8);
+
         backIntakeWall = hardwareMap.servo.get("backiw");
 
         //setting runmode

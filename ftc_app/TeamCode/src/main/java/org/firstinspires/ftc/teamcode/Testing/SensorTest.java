@@ -37,8 +37,8 @@ public class SensorTest extends OpMode {
         telemetry.addData("RangeRight: ", robot.rangeRight.getDistance(DistanceUnit.CM));
         telemetry.addData("intakeColor: ", robot.intakeColor.alpha());
         telemetry.addData("jewelColor: ", robot.colorSensor.alpha());
-        telemetry.addData("ods light: ", robot.ods.getLightDetected());
-        telemetry.addData("ods raw: ", robot.ods.getRawLightDetected());
+        //telemetry.addData("ods light: ", robot.ods.getLightDetected());
+        //telemetry.addData("ods raw: ", robot.ods.getRawLightDetected());
         telemetry.update();
     }
 

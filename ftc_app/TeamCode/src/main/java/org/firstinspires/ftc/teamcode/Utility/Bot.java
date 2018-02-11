@@ -139,7 +139,7 @@ public class Bot {
     //--------------------------------------------------------------------------------------------------------------------------
 
     public void relicArmVexControl(double power, DcMotorSimple.Direction d) {
-        power = Range.clip(power, 0, .99);
+        power = Range.clip(power, 0, 1);
 
         relicArmVex2.setDirection(d);
         relicArmVex1.setDirection(d);
@@ -156,11 +156,11 @@ public class Bot {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
-        if (leftTrigger > .3) {
+        if (leftTrigger > .15) {
             drive(MovementEnum.LEFTSTRAFE, leftTrigger * i);
             return;
         }
-        if (rightTrigger > .3) {
+        if (rightTrigger > .15) {
             drive(MovementEnum.RIGHTSTRAFE, rightTrigger * i);
             return;
         }
@@ -219,7 +219,6 @@ public class Bot {
         }
     }
 
-    //TODO: DIAGONALS
     public void drive(MovementEnum movement, double power) {
         switch (movement) {
             case FORWARD:
@@ -262,6 +261,34 @@ public class Bot {
                 FR.setPower(-power);
                 BL.setPower(power);
                 BR.setPower(-power);
+                break;
+
+            case RIGHTDOWN:
+                FL.setPower(-power);
+                FR.setPower(0);
+                BL.setPower(0);
+                BR.setPower(-power);
+                break;
+
+            case RIGHTUP:
+                FL.setPower(power);
+                FR.setPower(0);
+                BL.setPower(0);
+                BR.setPower(power);
+                break;
+
+            case LEFTDOWN:
+                FL.setPower(0);
+                FR.setPower(-power);
+                BL.setPower(-power);
+                BR.setPower(0);
+                break;
+
+            case LEFTUP:
+                FL.setPower(0);
+                FR.setPower(power);
+                BL.setPower(power);
+                BR.setPower(0);
                 break;
 
             case STOP:

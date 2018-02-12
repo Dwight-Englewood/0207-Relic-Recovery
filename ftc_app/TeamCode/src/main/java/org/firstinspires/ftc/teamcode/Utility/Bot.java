@@ -147,8 +147,7 @@ public class Bot {
         relicArmVex2.setPower(power);
     }
 
-    public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
-        int i = invert ? -1 : 1;
+    public void tankDrive(double leftStick , double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
 
         if (brake) {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -157,21 +156,24 @@ public class Bot {
         }
 
         if (leftTrigger > .15) {
-            drive(MovementEnum.LEFTSTRAFE, leftTrigger * i);
+            MovementEnum d = invert ? MovementEnum.RIGHTSTRAFE : MovementEnum.LEFTSTRAFE;
+            drive(d, leftTrigger);
             return;
         }
         if (rightTrigger > .15) {
-            drive(MovementEnum.RIGHTSTRAFE, rightTrigger * i);
+            MovementEnum d = invert ? MovementEnum.LEFTSTRAFE : MovementEnum.RIGHTSTRAFE;
+            drive(d, rightTrigger);
             return;
         }
 
-        leftStick *= i;
-        rightStick *= i;
 
-        FL.setPower(-leftStick);
-        BL.setPower(-leftStick);
-        FR.setPower(-rightStick);
-        BR.setPower(-rightStick);
+        leftStick *= -1;
+        rightStick *= -1;
+
+        FL.setPower(leftStick);
+        BL.setPower(leftStick);
+        FR.setPower(rightStick);
+        BR.setPower(rightStick);
     }
 
     public void tankDriveSafeStrafe(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {

@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Testing;
  * Created by weznon on 11/15/17.
  */
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -33,11 +32,11 @@ import org.firstinspires.ftc.teamcode.Utility.Bot;
  */
 
 @TeleOp(name = "ServoValueFinder", group = "Teleop")
-@Disabled
+//@Disabled
 public class ServoValueFinder extends OpMode {
     Bot robot = new Bot();
 
-    double flipperVal = .5;
+    /*double flipperVal = .5;
     double brandonVal = .5;
     double releaseLeftVal = .5;
     double releaseRightVal = .5;
@@ -46,11 +45,14 @@ public class ServoValueFinder extends OpMode {
     double hahnVal = .5;
     double relicArmServo1 = .5;
     double relicArmServo2 = .5;
-
+    */
 
     int cooldown = 0;
 
-    int cooldownTime = 50;
+    final int cooldownTime = 30;
+
+    double bottomVal = .5;
+    double topVal = .5;
 
     @Override
     public void init() {
@@ -68,7 +70,7 @@ public class ServoValueFinder extends OpMode {
 
     @Override
     public void loop() {
-        if (cooldown == 0) {
+        /*if (cooldown == 0) {
             if (gamepad2.dpad_right) {
                 relicArmServo1 = relicArmServo1 + .01;
                 cooldown = cooldownTime;
@@ -162,7 +164,41 @@ public class ServoValueFinder extends OpMode {
 
         telemetry.addData("cooldown", cooldown);
         telemetry.addData("cooldownTime", cooldownTime);
+        telemetry.update();*/
+
+        if (cooldown < 0) {
+            if (gamepad1.a) {
+                topVal += .01;
+                cooldown = cooldownTime;
+            }
+            if (gamepad1.b) {
+                topVal -= .01;
+                cooldown = cooldownTime;
+            }
+            if (gamepad1.x) {
+                bottomVal += .01;
+                cooldown = cooldownTime;
+            }
+            if (gamepad1.y) {
+                bottomVal -= .01;
+                cooldown = cooldownTime;
+            }
+        } else {
+            cooldown --;
+        }
+
+        topVal = Range.clip(topVal, 0, 1);
+        bottomVal = Range.clip(bottomVal, 0, 1);
+
+        robot.jewelServoBottom.setPosition(bottomVal);
+        robot.jewelServoTop.setPosition(topVal);
+
+        telemetry.addData("topval", topVal);
+        telemetry.addData("botval", bottomVal);
+        telemetry.addData("cooldown", cooldown);
         telemetry.update();
+
+
 
     }
 

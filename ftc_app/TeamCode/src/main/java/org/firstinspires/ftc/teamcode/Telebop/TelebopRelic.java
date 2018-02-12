@@ -52,20 +52,20 @@ public class TelebopRelic extends OpMode {
     @Override
     public void loop() {
 
-        if (gamepad2.dpad_down && cooldown <= 0) {
+        if (gamepad2.left_trigger > .15 && cooldown <= 0) {
             cooldown = cooldownTime;
-            val1 -= .05;
-        } else if (gamepad2.dpad_up && cooldown <= 0) {
+            val1 += .01;
+        } else if (gamepad2.left_bumper && cooldown <= 0) {
             cooldown = cooldownTime;
-            val1 += .05;
+            val1 -= .01;
         }
 
-        if (gamepad2.dpad_left && cooldown <= 0) {
+        if (gamepad2.right_trigger > .15 && cooldown <= 0) {
             cooldown = cooldownTime;
-            val2 -= .05;
-        } else if (gamepad2.dpad_right && cooldown <= 0) {
+            val2 += .03;
+        } else if (gamepad2.right_bumper && cooldown <= 0) {
             cooldown = cooldownTime;
-            val2 += .05;
+            val2 -= .03;
         }
 
         if (gamepad2.a) {

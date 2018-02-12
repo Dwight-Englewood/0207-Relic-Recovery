@@ -199,7 +199,6 @@ public class Telebop extends OpMode {
                 robot.lift.setPower(0);
             }
         } else {
-
             if (gamepad2.a) {
                 robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
             } else if (gamepad2.y) {
@@ -216,11 +215,11 @@ public class Telebop extends OpMode {
                 cooldownServo1 = cooldown;
             }
 
-            if ((gamepad2.right_trigger > .15)  && cooldownServo2 <= 0) {
+            if (gamepad2.right_trigger > .15  && cooldownServo2 <= 0) {
                 relicArmPos2 += .03;
                 cooldownServo2 = cooldown;
 
-            } else if ((gamepad2.right_bumper) && cooldownServo2 <= 0) {
+            } else if (gamepad2.right_bumper && cooldownServo2 <= 0) {
                 relicArmPos2 -= .03;
                 cooldownServo2 = cooldown;
             }
@@ -266,12 +265,6 @@ public class Telebop extends OpMode {
     @Override
     public void stop() {
         robot.drive(MovementEnum.STOP, 0);
-        //robot.releaseLeft.close();
-        //robot.releaseRight.close();
-        //robot.jewelServoBottom.close();
-        //robot.jewelServoTop.close();
-        //robot.flipper.close();
-        //robot.backIntakeWall.close();
     }
 
 }

@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Utility.Bot;
 
 /**
@@ -32,9 +31,6 @@ public class SensorTest extends OpMode {
     @Override
     public void loop() {
         robot.jewelOut();
-        telemetry.addData("RangeBack: ", robot.rangeBack.getDistance(DistanceUnit.CM));
-        telemetry.addData("RangeLeft: ", robot.rangeLeft.getDistance(DistanceUnit.CM));
-        telemetry.addData("RangeRight: ", robot.rangeRight.getDistance(DistanceUnit.CM));
         telemetry.addData("intakeColor: ", robot.intakeColor.alpha());
         telemetry.addData("jewelColor: ", robot.colorSensor.alpha());
         //telemetry.addData("ods light: ", robot.ods.getLightDetected());

@@ -1,24 +1,16 @@
 package org.firstinspires.ftc.teamcode.Deprecated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Utility.Bot;
-import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
-import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 
 /**
  * Created by aburur on 1/16/18.
  */
 @TeleOp(name = "Lineup Test V2", group = "Testing")
 @Disabled
-public class LineupTestV2 extends OpMode
+public class LineupTestV2 //extends OpMode
 {
-    Bot robot = new Bot();
+    /*Bot robot = new Bot();
     boolean aligned = false;
     int command = 0;
     ElapsedTime timer = new ElapsedTime();
@@ -141,7 +133,7 @@ public class LineupTestV2 extends OpMode
                         }
                         adjustPower(0, true);
                     }
-                }*/
+                }
                 break;
 
             case 4:
@@ -190,6 +182,6 @@ public class LineupTestV2 extends OpMode
             robot.BR.setPower(Range.clip(robot.BR.getPower() - driveScale, -1, 1));
         }
 
-    }
+    }*/
 
 }

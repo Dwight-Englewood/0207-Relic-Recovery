@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Utility;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -15,9 +16,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 /**
  * Created by aburur on 8/6/17.
@@ -34,8 +33,8 @@ public class Bot {
 
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor, intakeColor;
-    //public OpticalDistanceSensor ods;
-    public ModernRoboticsI2cRangeSensor rangeBack, rangeLeft, rangeRight;
+    public ModernRoboticsAnalogOpticalDistanceSensor ods;
+    public ModernRoboticsI2cRangeSensor rangeFront;
 
     private Orientation angles;
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
@@ -44,9 +43,6 @@ public class Bot {
     private boolean isStrafing;
     private float heading;
 
-    private ModernRoboticsI2cRangeSensor rangeSide;
-    private Position sensorSide;
-
     //--------------------------------------------------------------------------------------------------------------------------
 
     public Bot() {}
@@ -54,6 +50,7 @@ public class Bot {
     public void init(HardwareMap hardwareMap) {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
+        //Relic Arm Initialization
         relicArmServo1 = hardwareMap.get(Servo.class, "ras1");
         relicArmServo2 = hardwareMap.get(Servo.class, "ras2");
         relicArmServo1.scaleRange(.2, .8);
@@ -65,12 +62,10 @@ public class Bot {
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
         colorSensor.enableLed(true);
-        //intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
-        //intakeColor.enableLed(true);
-        //ods = hardwareMap.opticalDistanceSensor.get("iods");
-        //rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
-        //rangeLeft = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangel");
-        //rangeRight = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "ranger");
+        intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
+        intakeColor.enableLed(true);
+        ods = hardwareMap.get(ModernRoboticsAnalogOpticalDistanceSensor.class,"iods");
+        rangeFront = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangef");
 
         jewelServoBottom = hardwareMap.servo.get("jewelbot"); //servo which does servo things\
         jewelServoTop = hardwareMap.servo.get("jeweltop"); //another servo which does servo things
@@ -133,7 +128,7 @@ public class Bot {
         lift.setPower(0);
 
         powerModifier = 0.02; // 180 * .0055 ~= 1
-        k = .6;
+        k = .5;
     }
 
     //--------------------------------------------------------------------------------------------------------------------------
@@ -727,7 +722,7 @@ public class Bot {
         return scale;
     }
 
-    public double getDistance(Position sensorSide) {
+    /*public double getDistance(Position sensorSide) {
         double distance = 0;
         switch (sensorSide) {
             case BACK:
@@ -743,9 +738,9 @@ public class Bot {
                 break;
         }
         return distance;
-    }
+    }*/
 
-    public void setupAuton(Position sensorSide) {
+    /*public void setupAuton(Position sensorSide) {
         switch (sensorSide) {
             case LEFT:
                 this.rangeSide = rangeLeft;
@@ -757,9 +752,9 @@ public class Bot {
         }
         this.sensorSide = sensorSide;
 
-    }
+    }*/
 
-    public boolean moveToDistance(Position sensorSide, int targetDistance) {
+    /*public boolean moveToDistance(Position sensorSide, int targetDistance) {
         double curDistance = getDistance(sensorSide);
         if (Math.abs(curDistance - targetDistance) > 2) {
             switch (sensorSide){
@@ -793,9 +788,9 @@ public class Bot {
             jewelUp();
             return true;
         }
-    }
+    }*/
 
-    public boolean moveToDistance(Position sensorSide, int targetDistance, int targetHeading) {
+    /*public boolean moveToDistance(Position sensorSide, int targetDistance, int targetHeading) {
         double curDistance = getDistance(sensorSide);
         if (Math.abs(curDistance - targetDistance) > 2) {
             switch (sensorSide){
@@ -829,13 +824,13 @@ public class Bot {
             jewelUp();
             return true;
         }
-    }
+    }*/
 
-    private final int farleftDistance = 100;
+    /*private final int farleftDistance = 100;
     private final int farrightDistance = 137;
     private final int farmidDistance = 119;
     private final int cryptoDistance = 37;
-    private int targetDistance;
+    private int targetDistance;*/
 
     /* crypto when looking from the field...
      *  |L|M|R|
@@ -845,7 +840,7 @@ public class Bot {
      */
 
     //SETUP AUTON MUST BE CALLED FIRST
-    public boolean lineup(RelicRecoveryVuMark column, Telemetry telemetry) {
+    /*public boolean lineup(RelicRecoveryVuMark column, Telemetry telemetry) {
         if (Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 5) {
             adjustHeading(0, false, telemetry);
             return false;
@@ -874,7 +869,7 @@ public class Bot {
             }
 
         }
-    }
+    }*/
 
     public void adjustPower(int targetHeading) {
         double headingError = targetHeading - imu.getAngularOrientation().firstAngle;

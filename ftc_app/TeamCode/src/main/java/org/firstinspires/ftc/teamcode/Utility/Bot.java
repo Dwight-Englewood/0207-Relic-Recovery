@@ -50,7 +50,7 @@ public class Bot {
     public void init(HardwareMap hardwareMap) {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        //Relic Arm Initialization
+        //Relic Arm Initializationgi
         relicArmServo1 = hardwareMap.get(Servo.class, "ras1");
         relicArmServo2 = hardwareMap.get(Servo.class, "ras2");
         relicArmServo1.scaleRange(.2, .8);

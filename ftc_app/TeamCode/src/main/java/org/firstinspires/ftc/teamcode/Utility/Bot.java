@@ -165,10 +165,10 @@ public class Bot {
         leftStick *= -1;
         rightStick *= -1;
 
-        FL.setPower(leftStick);
-        BL.setPower(leftStick);
-        FR.setPower(rightStick);
-        BR.setPower(rightStick);
+        FL.setPower(invert ? leftStick : rightStick * -1);
+        BL.setPower(invert ? leftStick : rightStick * -1);
+        FR.setPower(invert ? rightStick : leftStick * -1);
+        BR.setPower(invert ? rightStick : leftStick * -1);
     }
 
     public void tankDriveSafeStrafe(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {

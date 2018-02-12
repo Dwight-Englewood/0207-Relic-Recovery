@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.Testing;
  * Created by weznon on 2/2/18.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 
 @TeleOp(name = "RelicArmTest", group = "Teleop")
+@Disabled
 public class RelicArmTest extends OpMode {
     private CRServo motor1, motor2;
     @Override

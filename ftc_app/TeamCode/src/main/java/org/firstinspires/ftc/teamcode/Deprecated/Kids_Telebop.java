@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Telebop;
+package org.firstinspires.ftc.teamcode.Deprecated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -11,9 +11,9 @@ import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 /**
  * Created by aburur on 12/12/17.
  */
-@TeleOp(name = "KIDS TANK", group = "Teleop")
+@TeleOp(name = "KIDS FIELD", group = "Teleop")
 @Disabled
-public class Kids_TelebopTank extends OpMode
+public class Kids_Telebop extends OpMode
 {
     Bot robot = new Bot();
     boolean brakeToggle = false;
@@ -47,9 +47,8 @@ public class Kids_TelebopTank extends OpMode
     public void loop() {
 
 
-        //robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_trigger, gamepad1.right_trigger, false); // Field centric????
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle);
-
+        robot.fieldCentricDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_trigger, gamepad1.right_trigger, false); // Field centric????
+        //robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, i, brakeToggle); // Tank drive???
 
         abnormalReleaseFlag = false;
         currentPosition = ReleasePosition.MIDDLE;

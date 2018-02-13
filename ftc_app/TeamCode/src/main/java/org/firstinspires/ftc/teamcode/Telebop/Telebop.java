@@ -35,7 +35,7 @@ public class Telebop extends OpMode {
     int wallCountdown = 0;
 
     //controller is used for managing the position of the flipper mechanism
-    //for how it works, see the class, Utilities.EnumController
+    //for how it works, see the class, Utility.EnumController
     EnumController<ReleasePosition> controller;
 
 

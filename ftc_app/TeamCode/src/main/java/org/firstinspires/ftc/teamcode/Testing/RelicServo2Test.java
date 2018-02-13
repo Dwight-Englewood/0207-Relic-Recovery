@@ -34,11 +34,11 @@ public class RelicServo2Test extends OpMode {
     public void loop() {
         if (cooldown < 0) {
             if (gamepad1.x) {
-                val += .01;
-                cooldown = 20;
+                val += .03;
+                cooldown = 10;
             } else if (gamepad1.b) {
-                val -= .01;
-                cooldown = 20;
+                val -= .03;
+                cooldown = 10;
             }
         } else {
             cooldown--;

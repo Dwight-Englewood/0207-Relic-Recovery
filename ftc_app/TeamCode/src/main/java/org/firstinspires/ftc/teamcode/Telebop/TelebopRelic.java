@@ -22,7 +22,7 @@ public class TelebopRelic extends OpMode {
     double val1 = .5;
     double val2 = .5;
 
-    int cooldown = 0;
+    int cooldown1 = 0, cooldown2 = 0;
 
     final int cooldownTime = 10;
 
@@ -52,20 +52,23 @@ public class TelebopRelic extends OpMode {
     @Override
     public void loop() {
 
-        if (gamepad2.left_trigger > .15 && cooldown <= 0) {
-            cooldown = cooldownTime;
-            val1 += .01;
-        } else if (gamepad2.left_bumper && cooldown <= 0) {
-            cooldown = cooldownTime;
-            val1 -= .01;
+        if (cooldown1 <= 0) {
+            if (gamepad2.left_trigger > .1) {
+                cooldown1 = cooldownTime;
+                val1 += .02;
+            } else if (gamepad2.left_bumper) {
+                cooldown1 = cooldownTime;
+                val1 -= .02;
+            }
         }
-
-        if (gamepad2.right_trigger > .15 && cooldown <= 0) {
-            cooldown = cooldownTime;
-            val2 += .03;
-        } else if (gamepad2.right_bumper && cooldown <= 0) {
-            cooldown = cooldownTime;
-            val2 -= .03;
+        if (cooldown2 <= 0) {
+            if (gamepad2.right_trigger > .1) {
+                cooldown2 = cooldownTime;
+                val2 += .04;
+            } else if (gamepad2.right_bumper) {
+                cooldown2 = cooldownTime;
+                val2 -= .04;
+            }
         }
 
         if (gamepad2.a) {
@@ -73,17 +76,14 @@ public class TelebopRelic extends OpMode {
             vexMotor1.setDirection(CRServo.Direction.FORWARD);
             vexMotor1.setPower(.5);
             vexMotor2.setPower(.5);
-            telemetry.addData("power", 1);
         } else if (gamepad2.y) {
             vexMotor1.setDirection(CRServo.Direction.REVERSE);
             vexMotor1.setDirection(CRServo.Direction.REVERSE);
             vexMotor1.setPower(.5);
             vexMotor2.setPower(.5);
-            telemetry.addData("power", -1);
         } else {
             vexMotor1.setPower(0);
             vexMotor2.setPower(0);
-            telemetry.addData("power", 0);
         }
 
         val1 = Range.clip(val1, 0, 1);
@@ -92,11 +92,13 @@ public class TelebopRelic extends OpMode {
         servo1.setPosition(val1);
         servo2.setPosition(val2);
 
-        cooldown--;
+        cooldown1--;
+        cooldown2--;
 
         telemetry.addData("servo 1", val1);
         telemetry.addData("servo 2", val2);
-        telemetry.addData("cooldown", cooldown);
+        telemetry.addData("cooldown1", cooldown1);
+        telemetry.addData("cooldown2", cooldown2);
         telemetry.update();
     }
 

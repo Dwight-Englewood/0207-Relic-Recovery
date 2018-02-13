@@ -49,7 +49,7 @@ public class ServoValueFinder extends OpMode {
 
     int cooldown = 0;
 
-    final int cooldownTime = 30;
+    final int cooldownTime = 10;
 
     double bottomVal = .5;
     double topVal = .5;
@@ -196,6 +196,8 @@ public class ServoValueFinder extends OpMode {
         telemetry.addData("topval", topVal);
         telemetry.addData("botval", bottomVal);
         telemetry.addData("cooldown", cooldown);
+        telemetry.addData("red", robot.colorSensor.red());
+        telemetry.addData("blue", robot.colorSensor.blue());
         telemetry.update();
 
 

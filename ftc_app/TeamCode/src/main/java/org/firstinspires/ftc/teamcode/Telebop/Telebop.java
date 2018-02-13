@@ -26,6 +26,7 @@ public class Telebop extends OpMode {
     //invert is used as a toggle for whether to invert controls or not
     boolean invert = false;
     boolean normalMode = true;
+    boolean movingInt = false;
 
     //countdown is used for adding delays to the brake toggle
     int countdown = 0;
@@ -43,8 +44,8 @@ public class Telebop extends OpMode {
     double liftScaledown = .7;
     double liftScaleup = .4;
 
-    double relicArmPos1 = .5;
-    double relicArmPos2 = .5;
+    double relicArmPos1 = 1;
+    double relicArmPos2 = 1;
 
     boolean relicMode = false;
 
@@ -104,12 +105,11 @@ public class Telebop extends OpMode {
     @Override
     public void loop() {
         //invert (currently disabled)
-        /*
-        if (gamepad1.left_bumper && countdown <= 0) {
-            //i = i ? false : true;
-            countdown = 30;
-        }
-        */
+        /*if (gamepad1.start) {
+            invert = !invert;
+            countdown = 15;
+        }*/
+
 
         //The bumper controls the intake of glyphs, as well as adjusts the angle of the flipper mechanism
         //For more documentation of the controller object which controls the position of the flipper, see Utilites/EnumController.java
@@ -124,12 +124,12 @@ public class Telebop extends OpMode {
             brakeToggle = !brakeToggle;
             //The drivers will always end up holding the button for more than 1 cycle of the loop function. Therefore, it is important that it doesn't immediately revert the toggle.
             //Hence, the coutdown. It will prevent the toggle from accidentaly not being triggered due to the boolean being swapped twice
-            countdown = 10;
+            countdown = 15;
         }
 
         if (gamepad2.start && countdown <= 0) {
             normalMode = !normalMode;
-            countdown = 10;
+            countdown = 30;
         }
 
         //Main driving function. See Bot.java for documentation
@@ -173,9 +173,18 @@ public class Telebop extends OpMode {
             //Our intake is put on a motor which allows it to be raised or lowered. This section allows for the drivers to raise it during matches, to reach glyphs which are on top of other ones
             if (gamepad2.right_stick_y > .3) {
                 robot.intakeDrop.setPower(-1);
+                robot.jewelOut();
+                movingInt = true;
             } else if (gamepad2.right_stick_y < -.3) {
                 robot.intakeDrop.setPower(1);
+                robot.jewelOut();
+                movingInt = true;
+            } else if (!gamepad2.x){
+                robot.intakeDrop.setPower(0);
+                robot.jewelUp();
+                movingInt = false;
             } else {
+                movingInt = false;
                 robot.intakeDrop.setPower(0);
             }
 
@@ -187,10 +196,10 @@ public class Telebop extends OpMode {
             }
 
             //controls the linear slide mechanism, to allow for placing of glyphs above row 2
-            if (gamepad2.left_stick_y > .15) {
+            if (gamepad2.left_stick_y < -.15) {
                 controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
                 robot.lift.setPower(gamepad2.left_stick_y * liftScaleup);
-            } else if (gamepad2.left_stick_y < -.15) {
+            } else if (gamepad2.left_stick_y > .15) {
                 controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
 
                 robot.lift.setPower(gamepad2.left_stick_y * liftScaledown);
@@ -207,29 +216,33 @@ public class Telebop extends OpMode {
                 robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
             }
 
-            if (gamepad2.left_trigger > 0.15 && cooldownServo1 <= 0) {
-                relicArmPos1 += .03;
-                cooldownServo1 = cooldown;
-            } else if (gamepad2.left_bumper && cooldownServo1 <= 0) {
-                relicArmPos1 -= .03;
-                cooldownServo1 = cooldown;
+            if (cooldownServo1 <= 0) {
+                if (gamepad2.left_trigger > 0.1) {
+                    relicArmPos1 += .02;
+                    cooldownServo1 = cooldown;
+                } else if (gamepad2.left_bumper) {
+                    relicArmPos1 -= .02;
+                    cooldownServo1 = cooldown;
+                }
             }
 
-            if (gamepad2.right_trigger > .15  && cooldownServo2 <= 0) {
-                relicArmPos2 += .03;
-                cooldownServo2 = cooldown;
+            if (cooldownServo2 <= 0) {
+                if (gamepad2.right_trigger > .1) {
+                    relicArmPos2 += .05;
+                    cooldownServo2 = cooldown;
 
-            } else if (gamepad2.right_bumper && cooldownServo2 <= 0) {
-                relicArmPos2 -= .03;
-                cooldownServo2 = cooldown;
+                } else if (gamepad2.right_bumper) {
+                    relicArmPos2 -= .05;
+                    cooldownServo2 = cooldown;
+                }
             }
         }
 
 
 
         if (gamepad2.x) {
-            robot.jewelOuter();
-        } else {
+            robot.jewelOut();
+        } else if (!movingInt){
             robot.jewelUp();
         }
 
@@ -259,6 +272,7 @@ public class Telebop extends OpMode {
         //Telemetry things, generally booleans that could be important for drivers to be able to tell are active, as well as cooldowns
         telemetry.addData("Braking", brakeToggle);
         telemetry.addData("Alt Mode?", !normalMode ? "Yep" : "Nope");
+        telemetry.addData("Invert?", invert ? "Yep": "Nope");
         telemetry.update();
     }
 

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Utility;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -33,7 +32,6 @@ public class Bot {
 
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor, intakeColor;
-    public ModernRoboticsAnalogOpticalDistanceSensor ods;
     public ModernRoboticsI2cRangeSensor rangeFront;
 
     private Orientation angles;
@@ -64,7 +62,6 @@ public class Bot {
         colorSensor.enableLed(true);
         intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
         intakeColor.enableLed(true);
-        ods = hardwareMap.get(ModernRoboticsAnalogOpticalDistanceSensor.class,"iods");
         rangeFront = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangef");
 
         jewelServoBottom = hardwareMap.servo.get("jewelbot"); //servo which does servo things\
@@ -606,6 +603,7 @@ public class Bot {
         return (int) (gearMotorTickThing * (distance / wheelCirc));
     }
 
+    //Runs a P-loop --> notebook
     public void adjustHeading(int targetHeading, boolean slow, Telemetry telemetry) {
 
         float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;

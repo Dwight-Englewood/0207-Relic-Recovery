@@ -35,6 +35,7 @@ sed -i 's/weznon/Wen P/' temp.md
 echo -e "    \e[31m->\e[39m Removing profanity"
 # remove profanity
 sed -i 's/shit/stuff/' temp.md
+sed -i 's/fuck/poop/' temp.md
 
 echo -e "    \e[31m->\e[39m Shortening long lines, so the formatting isn't messed up"
 # fix formatting of really long lines
@@ -102,8 +103,13 @@ sed -i 's/Wen P P/Wen P/' temp.md
 sed -i 's/burtorustum/Rob A/' temp.md
 sed -i 's/Burtorustum/Rob A/' temp.md
 
+# this has side effect of mucking up robs email, so we fix it
+# sed doesnt have look ahead so we do that bad method
+sed -i 's/Rob A@gmail.com/burtorustum@gmail.com/' temp.md
+
 echo -e "    \e[31m->\e[39m Removing profanity"
 sed -i 's/shit/stuff/' temp.md
+sed -i 's/fuck/poop/' temp.md
 
 echo -e "  \e[32m=>\e[39m Appending temp to log"
 cat temp.md > log.txt

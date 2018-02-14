@@ -13,7 +13,6 @@ header-includes:
     - \setlength{\parskip}{0em}
 ---
 
-\begin{spacing}{0}
 " > log.md
 echo -e "  \e[32m=>\e[39m Added yaml header"
 
@@ -79,12 +78,11 @@ rm temp.md
 
 echo -e "  \e[32m=>\e[39m Finalizing latex"
 # append the closing spacing tag
-echo "\end{spacing}" >> log.md
 
 
 echo -e "  \e[32m=>\e[39m Generating pdf"
 # finally, run pandoc. writes the pdf to output.pdf
-pandoc log.md -o outputForest.pdf --latex-engine xelatex --variable mainfont="Hack"
+pandoc log.md -o outputForest.pdf --pdf-engine xelatex --variable mainfont="Hack"
 
 echo -e "  \e[32m=>\e[39m Cleanup"
 rm log.md

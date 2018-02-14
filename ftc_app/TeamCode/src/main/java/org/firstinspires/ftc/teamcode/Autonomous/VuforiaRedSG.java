@@ -287,8 +287,6 @@ public class VuforiaRedSG extends OpMode {
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);
-        telemetry.addData("Power", power);
-        telemetry.addData("Target", generalTarget);
         telemetry.addLine(commandString);
 
         telemetry.update();

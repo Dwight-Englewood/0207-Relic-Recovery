@@ -25,13 +25,13 @@ public class Telebop extends OpMode {
 
     //invert is used as a toggle for whether to invert controls or not
     boolean invert = false;
-    boolean normalMode = true;
+    boolean glyphMode = true;
     boolean movingInt = false;
 
     //countdown is used for adding delays to the brake toggle
     int countdown = 0;
 
-    //wallCountdown is used for adding timing to our glpyh wall
+    //wallCountdown is used for adding timing to our glyph wall
     int wallCountdown = 0;
 
     //controller is used for managing the position of the flipper mechanism
@@ -46,8 +46,6 @@ public class Telebop extends OpMode {
 
     double relicArmPos1 = 1;
     double relicArmPos2 = 1;
-
-    boolean relicMode = false;
 
     int cooldownServo1 = 0;
     int cooldownServo2 = 0;
@@ -128,14 +126,14 @@ public class Telebop extends OpMode {
         }
 
         if (gamepad2.start && countdown <= 0) {
-            normalMode = !normalMode;
+            glyphMode = !glyphMode;
             countdown = 30;
         }
 
         //Main driving function. See Bot.java for documentation
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle); // Tank drive???
 
-        if (normalMode) {
+        if (glyphMode) {
             //this is the actual flipping of the flipper
             //need some stuff here for wallCountdown
             if (gamepad1.right_bumper) {
@@ -271,8 +269,8 @@ public class Telebop extends OpMode {
 
         //Telemetry things, generally booleans that could be important for drivers to be able to tell are active, as well as cooldowns
         telemetry.addData("Braking", brakeToggle);
-        telemetry.addData("Alt Mode?", !normalMode ? "Yep" : "Nope");
-        telemetry.addData("Invert?", invert ? "Yep": "Nope");
+        telemetry.addData("Alt Mode?", !glyphMode);
+        telemetry.addData("Invert?", invert);
         telemetry.update();
     }
 

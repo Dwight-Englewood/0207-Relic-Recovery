@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Utility.Bot;
  * Created by aburur on 12/19/17.
  */
 
-@TeleOp(name = "Relic Servo 2 Test", group = "Testing")
+@TeleOp(name = "Relic Servo 1 Test", group = "Testing")
 //@Disabled
 public class RelicServo1Test extends OpMode {
     Bot robot = new Bot();
@@ -34,11 +34,11 @@ public class RelicServo1Test extends OpMode {
     public void loop() {
         if (cooldown < 0) {
             if (gamepad1.x) {
-                val += .01;
-                cooldown = 20;
+                val += .02;
+                cooldown = 10;
             } else if (gamepad1.b) {
-                val -= .01;
-                cooldown = 20;
+                val -= .02;
+                cooldown = 10;
             }
         } else {
             cooldown--;

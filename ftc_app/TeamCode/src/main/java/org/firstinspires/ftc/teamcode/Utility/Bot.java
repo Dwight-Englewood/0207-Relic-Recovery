@@ -150,13 +150,13 @@ public class Bot {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
-        if (leftTrigger > .15) {
-            MovementEnum d = invert ? MovementEnum.RIGHTSTRAFE : MovementEnum.LEFTSTRAFE;
+        if (leftTrigger > .1) {
+            MovementEnum d = !invert ? MovementEnum.LEFTSTRAFE : MovementEnum.RIGHTSTRAFE;
             drive(d, leftTrigger);
             return;
         }
-        if (rightTrigger > .15) {
-            MovementEnum d = invert ? MovementEnum.LEFTSTRAFE : MovementEnum.RIGHTSTRAFE;
+        if (rightTrigger > .1) {
+            MovementEnum d = !invert ? MovementEnum.RIGHTSTRAFE : MovementEnum.LEFTSTRAFE;
             drive(d, rightTrigger);
             return;
         }
@@ -165,10 +165,10 @@ public class Bot {
         leftStick *= -1;
         rightStick *= -1;
 
-        FL.setPower(invert ? leftStick : rightStick * -1);
-        BL.setPower(invert ? leftStick : rightStick * -1);
-        FR.setPower(invert ? rightStick : leftStick * -1);
-        BR.setPower(invert ? rightStick : leftStick * -1);
+        FL.setPower(!invert ? leftStick : rightStick * -1);
+        BL.setPower(!invert ? leftStick : rightStick * -1);
+        FR.setPower(!invert ? rightStick : leftStick * -1);
+        BR.setPower(!invert ? rightStick : leftStick * -1);
     }
 
     public void tankDriveSafeStrafe(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {
@@ -460,22 +460,22 @@ public class Bot {
     //--------------------------------------------------------------------------------------------------------------------------
 
     public void jewelUp() {
-        jewelServoBottom.setPosition(1);
-        jewelServoTop.setPosition(.2);
+        jewelServoBottom.setPosition(.6);
+        jewelServoTop.setPosition(0);
     }
 
     public void jewelOut() {
-        jewelServoBottom.setPosition(.5);
-        jewelServoTop.setPosition(.5);
+        jewelServoBottom.setPosition(.36);
+        jewelServoTop.setPosition(.4);
     }
 
     public void jewelOuter() {
-        jewelServoBottom.setPosition(0);
+        jewelServoBottom.setPosition(.19);
     }
 
-    public void jewelKnockback() { jewelServoTop.setPosition(0.24); }
+    public void jewelKnockback() { jewelServoTop.setPosition(0.58); }
 
-    public void jewelKnockforward() { jewelServoTop.setPosition(.74); }
+    public void jewelKnockforward() { jewelServoTop.setPosition(.26); }
 
     //--------------------------------------------------------------------------------------------------------------------------
 
@@ -525,13 +525,13 @@ public class Bot {
         releaseRight.setPosition(relDowner);
     }
 
-    private void relRInit(){releaseRight.setPosition(.699);}
+    private void relRInit() {releaseRight.setPosition(.699);}
 
-    private void relLInit(){releaseLeft.setPosition(.699);}
+    private void relLInit() {releaseLeft.setPosition(.699);}
 
-    private void relLDrop(){releaseLeft.setPosition(.73);}
+    private void relLDrop() {releaseLeft.setPosition(.73);}
 
-    private void relRDrop(){releaseRight.setPosition(.73);}
+    private void relRDrop() {releaseRight.setPosition(.73);}
 
     public void flipUp() {
         flipper.setPosition(1);
@@ -575,8 +575,8 @@ public class Bot {
     }
 
     public void intake(double power) {
-        intakeOne.setPower(.8*power);
-        intakeTwo.setPower(.8*power);
+        intakeOne.setPower(.85*power);
+        intakeTwo.setPower(.85*power);
     }
 
     public void backIntakeWallUp() {

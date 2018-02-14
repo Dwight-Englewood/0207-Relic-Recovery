@@ -354,9 +354,6 @@ public class VuforiaBlueSG extends OpMode {
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);
-        telemetry.addData("Power", power);
-        telemetry.addData("Target", generalTarget);
-        telemetry.addData("Color Blue", robot.colorSensor.blue());
         telemetry.addLine(commandString);
 
         telemetry.update();

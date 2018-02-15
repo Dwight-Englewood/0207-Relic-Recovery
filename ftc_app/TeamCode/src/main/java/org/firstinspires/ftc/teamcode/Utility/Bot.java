@@ -467,7 +467,13 @@ public class Bot {
     }
 
     public void jewelOuter() {
+        jewelServoBottom.setPosition(.1);
+        jewelServoTop.setPosition(.4);
+    }
+
+    public void jewelTeleop(){
         jewelServoBottom.setPosition(.19);
+        jewelServoTop.setPosition(.4);
     }
 
     public void jewelKnockback() { jewelServoTop.setPosition(0.58); }

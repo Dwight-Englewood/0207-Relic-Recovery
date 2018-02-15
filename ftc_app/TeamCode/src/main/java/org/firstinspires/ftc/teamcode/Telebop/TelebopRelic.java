@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Telebop;
  * Created by weznon on 2/10/18.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name = "TelebopRelic", group = "Teleop")
+@Disabled
 public class TelebopRelic extends OpMode {
 
     CRServo vexMotor1;

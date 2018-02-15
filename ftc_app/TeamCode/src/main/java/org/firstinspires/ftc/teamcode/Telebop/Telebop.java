@@ -216,10 +216,10 @@ public class Telebop extends OpMode {
 
             if (cooldownServo1 <= 0) {
                 if (gamepad2.left_trigger > 0.1) {
-                    relicArmPos1 += .02;
+                    relicArmPos1 += .03;
                     cooldownServo1 = cooldown;
                 } else if (gamepad2.left_bumper) {
-                    relicArmPos1 -= .02;
+                    relicArmPos1 -= .03;
                     cooldownServo1 = cooldown;
                 }
             }
@@ -239,7 +239,7 @@ public class Telebop extends OpMode {
 
 
         if (gamepad2.x) {
-            robot.jewelOut();
+            robot.jewelTeleop();
         } else if (!movingInt){
             robot.jewelUp();
         }

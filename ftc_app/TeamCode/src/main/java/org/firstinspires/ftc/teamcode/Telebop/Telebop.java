@@ -172,9 +172,13 @@ public class Telebop extends OpMode {
             if (gamepad2.right_stick_y > .3) {
                 robot.intakeDrop.setPower(-1);
                 robot.jewelOut();
+                //priority 6 since if this doesnt happen the robot goes boom
+                controller.addInstruction(ReleasePosition.INIT, 10);
                 movingInt = true;
             } else if (gamepad2.right_stick_y < -.3) {
                 robot.intakeDrop.setPower(1);
+                //priority 6 since if this doesnt happen the robot goes boom
+                controller.addInstruction(ReleasePosition.INIT, 10);
                 robot.jewelOut();
                 movingInt = true;
             } else if (!gamepad2.x){
@@ -277,6 +281,7 @@ public class Telebop extends OpMode {
     @Override
     public void stop() {
         robot.drive(MovementEnum.STOP, 0);
+        robot.jewelUp();
     }
 
 }

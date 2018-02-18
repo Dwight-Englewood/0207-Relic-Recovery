@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Testing;
  * Created by weznon on 11/5/17.
  */
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Utility.Bot;
 
 @TeleOp(name = "Encoder Test", group = "Teleop")
-@Disabled
+//@Disabled
 public class EncoderTest extends OpMode {
     Bot robot = new Bot();
     int target = robot.distanceToRevs(30);

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -69,10 +70,12 @@ public class VuforiaRedSG extends OpMode {
                 commandString = "Find VuMark";
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                    robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
                     robot.jewelOut();
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 1000) {
+                    robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
                     robot.jewelOut();
                     timer.reset();
                     command++;
@@ -81,7 +84,8 @@ public class VuforiaRedSG extends OpMode {
 
             case 0:
                 commandString = "Deactivate Vuforia";
-                if (timer.milliseconds() > 250){
+                if (timer.milliseconds() > 750){
+                    robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
                     timer.reset();
                     robot.jewelOuter();
                     relicTrackables.deactivate();
@@ -111,16 +115,18 @@ public class VuforiaRedSG extends OpMode {
                 } else if (robot.colorSensor.blue() >= 2) {
                     hitjewel = true;
                     robot.jewelKnockback();
+                    timer.reset();
 
                 } else if (robot.colorSensor.red() >= 2) {
                     hitjewel = true;
                     robot.jewelKnockforward();
+                    timer.reset();
                 }
                 break;
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = robot.distanceToRevs(50);
+                generalTarget = -1 * robot.distanceToRevs(51);
                 robot.runToPosition(generalTarget);
                 //Possibly turn off brake
                 timer.reset();
@@ -130,7 +136,7 @@ public class VuforiaRedSG extends OpMode {
             case 3:
                 commandString = "RUN_TO_POSITION";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.FORWARD, power);
+                robot.drive(MovementEnum.BACKWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);

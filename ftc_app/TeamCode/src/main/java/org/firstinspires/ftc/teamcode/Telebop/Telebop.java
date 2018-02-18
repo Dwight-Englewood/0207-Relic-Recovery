@@ -50,7 +50,7 @@ public class Telebop extends OpMode {
     int cooldownServo1 = 0;
     int cooldownServo2 = 0;
 
-    final int cooldown = 10;
+    final int cooldown = 5;
 
     /**
      * The init function handles all initialization of our robot, including fetching robot elements from the hardware map, as well as setting motor runmodes and sensor options
@@ -121,7 +121,7 @@ public class Telebop extends OpMode {
             //   false -> true
             brakeToggle = !brakeToggle;
             //The drivers will always end up holding the button for more than 1 cycle of the loop function. Therefore, it is important that it doesn't immediately revert the toggle.
-            //Hence, the coutdown. It will prevent the toggle from accidentaly not being triggered due to the boolean being swapped twice
+            //Hence, the countdown. It will prevent the toggle from accidentally not being triggered due to the boolean being swapped twice
             countdown = 15;
         }
 
@@ -220,10 +220,10 @@ public class Telebop extends OpMode {
 
             if (cooldownServo1 <= 0) {
                 if (gamepad2.left_trigger > 0.1) {
-                    relicArmPos1 += .03;
+                    relicArmPos1 += .02;
                     cooldownServo1 = cooldown;
                 } else if (gamepad2.left_bumper) {
-                    relicArmPos1 -= .03;
+                    relicArmPos1 -= .02;
                     cooldownServo1 = cooldown;
                 }
             }

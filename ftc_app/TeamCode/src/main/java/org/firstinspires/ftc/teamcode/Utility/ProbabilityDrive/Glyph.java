@@ -9,6 +9,8 @@ public enum Glyph {
     GRAY,
     EMPTY;
 
+    //this doesnt work - doesnt check for inverse patterns
+    //make it do two checks, one for not equals for all, that should garuntee
     public boolean isLegal(Glyph background) {
         if (this.equals(EMPTY)) {
             return true;

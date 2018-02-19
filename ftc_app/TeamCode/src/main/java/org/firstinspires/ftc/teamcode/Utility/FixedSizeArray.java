@@ -6,8 +6,11 @@ import java.util.ArrayList;
  * Created by weznon on 2/19/18.
  */
 
-public class FixedSizeArray extends ArrayList {
+public class FixedSizeArray<T> extends ArrayList {
 
+    public FixedSizeArray (int i) {
+
+    }
     @Deprecated
     @Override
     public boolean add(Object object) {

@@ -1,18 +1,13 @@
 package org.firstinspires.ftc.teamcode.Utility;
 
 //im a little tuple, short and stout
-public class Tuple<T> {
-    public T value;
-    public T value2;
-    public org.firstinspires.ftc.teamcode.Utility.Flag flag;
+public class Tuple<T,G> {
+    public T fst;
+    public G snd;
 
-    public Tuple(T value, org.firstinspires.ftc.teamcode.Utility.Flag flag) {
-        this.value = value;
-        this.flag = flag;
-    }
-    public Tuple(T value, T value2) {
-        this.value = value;
-        this.value2 = value2;
+    public Tuple(T value, G value2) {
+        this.fst = value;
+        this.snd = value2;
     }
 
 }

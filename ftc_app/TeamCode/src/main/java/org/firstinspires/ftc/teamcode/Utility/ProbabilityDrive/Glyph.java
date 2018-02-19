@@ -9,11 +9,21 @@ public enum Glyph {
     GRAY,
     EMPTY;
 
-    public boolean isLegal(Glyph background) {
-        if (this.equals(EMPTY)) {
-            return true;
+
+    public boolean isLegal(Glyph background, boolean inverse) {
+        if (!inverse) {
+            if (this.equals(EMPTY)) {
+                return true;
+            } else {
+                return (this.equals(background));
+            }
         } else {
-            return (this.equals(background));
-        }
+            if (this.equals(EMPTY)) {
+                return true;
+            } else {
+                return (!this.equals(background));
+            }
+
     }
+}
 }

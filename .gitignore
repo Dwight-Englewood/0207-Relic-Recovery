@@ -5,3 +5,7 @@ autoLogStuff/outputForest.pdf
 autoLogStuff/outputLog.pdf
 
 *.iml
+
+*.o
+*.hi
+

@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 
 @TeleOp(name = "single user mode", group = "Teleop")
 //@Disabled
-public class TelebopOneController extends OpMode {
+public class TelebopSingleDriver extends OpMode {
     Bot robot = new Bot();
 
     EnumController<ReleasePosition> controller;

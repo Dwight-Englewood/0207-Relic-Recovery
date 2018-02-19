@@ -77,10 +77,13 @@ public class TelebopOneController extends OpMode {
         if (glyphMode) {
 
             if (gamepad1.y ) {
-                placing = true;
-            } else if (wallCountdown <= 0 ) {
-                placing = false;
+                placing = !placing;
+                if (!placing) {
+                    wallCountdown = 55;
+                }
             }
+
+
 
             if (placing) {
                 controller.addInstruction(ReleasePosition.UP, 5);
@@ -88,7 +91,9 @@ public class TelebopOneController extends OpMode {
                 robot.backIntakeWallDown();
             } else {
                 controller.addInstruction(ReleasePosition.MIDDLE, 0);
-                robot.backIntakeWallUp();
+                if (wallCountdown <= 0) {
+                    robot.backIntakeWallUp();
+                }
             }
 
             if (gamepad1.left_bumper) {
@@ -108,6 +113,12 @@ public class TelebopOneController extends OpMode {
                 robot.flipUp();
             } else if (!gamepad1.right_bumper) {
                 robot.flipDown();
+            }
+
+            if (gamepad1.x) {
+                robot.jewelTeleop();
+            } else {
+                robot.jewelUp();
             }
 
             if (gamepad1.dpad_up) {

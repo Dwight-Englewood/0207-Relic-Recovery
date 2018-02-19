@@ -7,5 +7,7 @@ package org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive;
 public enum Cipher {
     Birb,
     Snek,
-    Pepe
+    Freg
+
+
 }

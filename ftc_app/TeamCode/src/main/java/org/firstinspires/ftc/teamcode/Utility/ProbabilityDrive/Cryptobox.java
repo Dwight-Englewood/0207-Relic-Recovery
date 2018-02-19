@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive;
 
-import org.firstinspires.ftc.teamcode.Utility.FixedSizeArray;
 import org.firstinspires.ftc.teamcode.Utility.Tuple;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
+import static org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive.LegalityChecker.isCipher;
 
 /**
  * Created by weznon on 2/16/18.
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class Cryptobox {
 
-    private Glyph[][] boz = new Glyph[4][3];
+    private Glyph[][] boz = new Glyph[3][4];
 
 
     //yes i know this is sideways - it makes more sense to have a column as a single array since that is how
@@ -23,10 +22,20 @@ public class Cryptobox {
         this.boz = boz;
     }
 
-    public  boolean isLegal(Cryptobox in) {
+    public boolean isLegalSub(Cryptobox in) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; i < 4; i++) {
-                if (this.boz[i][j].isLegal(in.boz[i][j])) {
+                if (this.boz[i][j].isLegal(in.boz[i][j], false)) {
+                    ;
+                } else {
+                    return false;
+                }
+            }
+
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; i < 4; i++) {
+                if (this.boz[i][j].isLegal(in.boz[i][j], true)) {
                     ;
                 } else {
                     return false;
@@ -51,11 +60,23 @@ public class Cryptobox {
         return out;
     }
 
-    public Cryptobox placeGlyphNewBox(Glyph in, int col) {
-        Glyph[][] mutate = new Glyph[4][3];
-        if ()
+    public Cryptobox placeGlyphNewBox(Glyph in, int col) throws ProbabilityDriveError{
+        Glyph[][] mutate = new Glyph[3][4];
+        int row = howFull(this.boz[col]);
+        if (row > 3) {
+            throw new ProbabilityDriveError("column no free space msg msg msg rhing");
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (i == col && j == row) {
+                    mutate[i][j] = in;
+                } else {
+                    mutate[i][j] = this.boz[i][j];
+                }
+            }
+        }
 
-        return new Cryptobox()
+        return new Cryptobox(mutate);
     }
 
 
@@ -79,18 +100,30 @@ public class Cryptobox {
     //cipher is the cipher that is still legal - if multiple it will be a list though i might remove that later cuz after 3 glyphs its always gonna be length 1 i think
     //hi i removed the list inside and added to outside cuz theyres a chance of multiple possile ways to place the glyph
     //need to make a analysis function for that later
-    public Tuple<Tuple<Integer,Integer>, Cipher>[] canPlaceAndNotMessUpCipher(Glyph first, Glyph second) {
+    public ArrayList<Tuple<Tuple<Integer,Integer>, Cipher>> canPlaceAndNotMessUpCipher(Glyph first, Glyph second) {
         //first off we need to know all the ways we can place the glyphs
+        ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> ret = new ArrayList<>();
         ArrayList<Cryptobox> possibilities = new ArrayList<>();
         for (int f = 0; f < 3; f++) {
             //first we get all the ways to place the first glyph
             try {
-                possibilities.add(this.placeGlyphNewBox(first, f));
+                Cryptobox merp = this.placeGlyphNewBox(first, f);
+
+                for (int s = 0; s < 3; s++) {
+                    Cryptobox merp1 = this.placeGlyphNewBox(second, s);
+                    try {
+                        Cipher mee = isCipher(merp1);
+                        ret.add(new Tuple<Tuple<Integer, Integer>, Cipher>(new Tuple<Integer, Integer>(f, s), mee));
+                    } catch (LegalityChecker.NoCipherMatch e) {
+
+                    }
+                }
             } catch (ProbabilityDriveError e) {
-
+                System.out.println("gonna assume that this meant no spots left");
             }
-
         }
+
+        return ret;
     }
 
     public class ProbabilityDriveError extends Exception{

@@ -123,7 +123,7 @@ public class TelebopSingleDriver extends OpMode {
 
             if (gamepad1.dpad_up) {
                 controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
-                robot.lift.setPower(liftScaleup);
+                robot.lift.setPower(-liftScaleup);
             } else if (gamepad1.dpad_down) {
                 controller.addInstruction(ReleasePosition.MIDDLEUP, 1);
                 robot.lift.setPower(liftScaledown);

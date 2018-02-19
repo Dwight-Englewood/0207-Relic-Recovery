@@ -457,7 +457,7 @@ public class Bot {
     //--------------------------------------------------------------------------------------------------------------------------
 
     public void jewelUp() {
-        jewelServoBottom.setPosition(.6);
+        jewelServoBottom.setPosition(.63);
         jewelServoTop.setPosition(0);
     }
 
@@ -528,13 +528,13 @@ public class Bot {
         releaseRight.setPosition(relDowner);
     }
 
-    private void relRInit() {releaseRight.setPosition(.699);}
+    private void relRInit() {releaseRight.setPosition(.76);}
 
-    private void relLInit() {releaseLeft.setPosition(.699);}
+    private void relLInit() {releaseLeft.setPosition(.76);}
 
-    private void relLDrop() {releaseLeft.setPosition(.73);}
+    private void relLDrop() {releaseLeft.setPosition(.8);}
 
-    private void relRDrop() {releaseRight.setPosition(.73);}
+    private void relRDrop() {releaseRight.setPosition(.8);}
 
     public void flipUp() {
         flipper.setPosition(1);

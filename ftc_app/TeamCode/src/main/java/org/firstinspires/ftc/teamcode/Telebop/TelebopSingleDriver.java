@@ -37,6 +37,7 @@ public class TelebopSingleDriver extends OpMode {
     boolean placing = false;
     int countdown = 0;
     int wallCountdown = 0;
+    int placingCooldown = 0;
 
     @Override
     public void init() {
@@ -76,8 +77,9 @@ public class TelebopSingleDriver extends OpMode {
 
         if (glyphMode) {
 
-            if (gamepad1.y ) {
+            if (gamepad1.y && placingCooldown <= 0) {
                 placing = !placing;
+               placingCooldown = 15;
                 if (!placing) {
                     wallCountdown = 55;
                 }
@@ -111,7 +113,7 @@ public class TelebopSingleDriver extends OpMode {
 
             if (gamepad1.b) {
                 robot.flipUp();
-            } else if (!gamepad1.right_bumper) {
+            } else if (!placing) {
                 robot.flipDown();
             }
 
@@ -166,8 +168,9 @@ public class TelebopSingleDriver extends OpMode {
         cooldownServo1--;
         cooldownServo2--;
         wallCountdown--;
+        placingCooldown--;
 
-        if (cooldownServo1 == Integer.MIN_VALUE) {
+        /*if (cooldownServo1 == Integer.MIN_VALUE) {
             cooldownServo1 = 0;
         }
         if (cooldownServo2 == Integer.MIN_VALUE) {
@@ -179,6 +182,9 @@ public class TelebopSingleDriver extends OpMode {
         if (wallCountdown == Integer.MIN_VALUE) {
             wallCountdown = 0;
         }
+        if (placingCooldown == Integer.MIN_VALUE) {
+            placingCooldown = 0;
+        }*/
 
         relicArmPos1 = Range.clip(relicArmPos1, 0, 1);
         relicArmPos2 = Range.clip(relicArmPos2, 0, 1);

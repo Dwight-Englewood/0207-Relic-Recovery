@@ -100,7 +100,6 @@ public class VuforiaBlueSG extends OpMode {
                     robot.jewelUp();
                     timer.reset();
                     command++;
-
                 } else if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP);
                     robot.jewelKnockforward();
@@ -110,12 +109,10 @@ public class VuforiaBlueSG extends OpMode {
                     robot.jewelUp();
                     timer.reset();
                     command++;
-
                 } else if (robot.colorSensor.blue() >= 1) {
                     hitjewel = true;
                     robot.jewelKnockforward();
                     timer.reset();
-
                 } else if (robot.colorSensor.red() >= 1) {
                     hitjewel = true;
                     robot.jewelKnockback();
@@ -125,7 +122,7 @@ public class VuforiaBlueSG extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = -1 * robot.distanceToRevs(51);
+                generalTarget = -1 * robot.distanceToRevs(50);
                 robot.runToPosition(generalTarget);
                 //Possibly turn off brake
                 timer.reset();
@@ -154,6 +151,7 @@ public class VuforiaBlueSG extends OpMode {
                 } else {
                     robot.adjustHeading(-90, false, telemetry);
                 }*/
+                robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 try{Thread.sleep(500);} catch (Exception e) {}
                 command++;
                 break;
@@ -198,7 +196,7 @@ public class VuforiaBlueSG extends OpMode {
 
             case 7:
                 commandString = "Adjust heading to 0";
-                if (timer.milliseconds() > 3000 || done) {
+                if (timer.milliseconds() > 3000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -206,9 +204,6 @@ public class VuforiaBlueSG extends OpMode {
                     command++;
                 } else if (timer.milliseconds() > 250) {
                     robot.adjustHeading(0, false, telemetry);
-                    if (robot.FL.getPower() == 0) {
-                        done = true;
-                    }
                 }
                 break;
 
@@ -237,7 +232,7 @@ public class VuforiaBlueSG extends OpMode {
 
             case 10:
                 commandString = "Adjust heading to 0";
-                if (timer.milliseconds() > 1000) {
+                if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -250,7 +245,7 @@ public class VuforiaBlueSG extends OpMode {
             case 11:
                 if (timer.milliseconds() > 500) {
                     commandString = "Setup drive to box";
-                    generalTarget = -1*robot.distanceToRevs(19);
+                    generalTarget = -1*robot.distanceToRevs(17);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -333,7 +328,7 @@ public class VuforiaBlueSG extends OpMode {
             case 19:
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = robot.distanceToRevs(10);
+                    generalTarget = robot.distanceToRevs(15);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;

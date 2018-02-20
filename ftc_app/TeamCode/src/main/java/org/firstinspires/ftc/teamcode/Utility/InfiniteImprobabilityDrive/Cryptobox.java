@@ -55,17 +55,23 @@ public class Cryptobox {
 
     //Finds the probability of the next glyphs not being able to be placed while preserving
     //a cipher pattern
+
     public double improbabilityDrive() {
+        return improbabilityDrive(.5, .5);
+    }
+    public double improbabilityDrive(double grayChance, double brownChance) {
         //System.out.println("Finding Probability\n----------");
+        //gonna assume the chances of each color are equal
+
         double gg;
         double gb;
         double bg;
         double bb;
 
-        gg = probabilityWeighted(this.findPlacements(GRAY, GRAY, true));
-        gb = probabilityWeighted(this.findPlacements(GRAY, BROWN, true));
-        bg = probabilityWeighted(this.findPlacements(BROWN, GRAY, true));
-        bb = probabilityWeighted(this.findPlacements(BROWN, BROWN, true));
+        gg = grayChance * grayChance * probabilityWeighted(this.findPlacements(GRAY, GRAY, true));
+        gb = grayChance * brownChance * probabilityWeighted(this.findPlacements(GRAY, BROWN, true));
+        bg = brownChance * grayChance * probabilityWeighted(this.findPlacements(BROWN, GRAY, true));
+        bb = brownChance * brownChance * probabilityWeighted(this.findPlacements(BROWN, BROWN, true));
 
         //Averaging the values
         return (1 - (gg + gb + bg + bb)/(double) 4);

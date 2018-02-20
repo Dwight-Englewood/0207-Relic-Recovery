@@ -18,6 +18,7 @@ public enum Glyph {
             return EMPTY;
         }
     }
+
     @Override
     public String toString() {
         if (this.equals(BROWN)) {

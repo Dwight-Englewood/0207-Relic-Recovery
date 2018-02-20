@@ -31,7 +31,7 @@ public class Cryptobox {
         */
         Cryptobox test = new Cryptobox(new Glyph[][]{{BROWN, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}});
         System.out.println(test);
-        ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> merp = test.canPlaceAndNotMessUpCipher(GRAY, GRAY);
+        ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> merp = test.canPlaceAndNotMessUpCipher(GRAY, GRAY, true);
         for (int i = 0; i < merp.size(); i++) {
             System.out.print(merp.get(i).fst.fst);
             System.out.print(", ");
@@ -137,7 +137,7 @@ public class Cryptobox {
     //cipher is the cipher that is still legal - if multiple it will be a list though i might remove that later cuz after 3 glyphs its always gonna be length 1 i think
     //hi i removed the list inside and added to outside cuz theyres a chance of multiple possile ways to place the glyph
     //need to make a analysis function for that later
-    public ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> canPlaceAndNotMessUpCipher(Glyph first, Glyph second) {
+    public ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> canPlaceAndNotMessUpCipher(Glyph first, Glyph second, boolean debug) {
         //first off we need to know all the ways we can place the glyphs
         ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> ret = new ArrayList<>();
         for (int f = 0; f < 3; f++) {
@@ -147,8 +147,12 @@ public class Cryptobox {
 
                 for (int s = 0; s < 3; s++) {
                     Cryptobox merp1 = merp.placeGlyphNewBox(second, s);
+
                     try {
                         Cipher mee = isCipher(merp1);
+                        if (debug) {
+                            System.out.println(merp1);
+                        }
                         ret.add(new Tuple<Tuple<Integer, Integer>, Cipher>(new Tuple<Integer, Integer>(f, s), mee));
                     } catch (LegalityChecker.NoCipherMatch e) {
                     }

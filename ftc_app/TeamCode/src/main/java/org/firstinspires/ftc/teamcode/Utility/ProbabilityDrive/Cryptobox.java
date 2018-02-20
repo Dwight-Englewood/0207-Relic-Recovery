@@ -21,6 +21,37 @@ public class Cryptobox {
         this.boz = boz;
     }
 
+    public double findProbabilityOfImpossibleCipher() {
+        double gg;
+        double gb;
+        double bg;
+        double bb;
+
+        gg = weightTheCrap(this.canPlaceAndNotMessUpCipher(GRAY, GRAY, false));
+        gb = weightTheCrap(this.canPlaceAndNotMessUpCipher(GRAY, BROWN, false));
+        bg = weightTheCrap(this.canPlaceAndNotMessUpCipher(BROWN, GRAY, false));
+        bb = weightTheCrap(this.canPlaceAndNotMessUpCipher(BROWN, BROWN, false));
+
+
+
+        return (1 - (gg + gb + bg + bb)/(double) 4);
+    }
+
+    public double weightTheCrap(ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> in) {
+        if (in.size() == 0) {
+            return 0;
+        }
+        for (int i = 0; i < in.size(); i++) {
+            if (in.get(i).fst.fst.intValue() == in.get(i).fst.snd.intValue()) {
+                return 1;
+            } else {
+                ;
+            }
+        }
+        return .25;
+        //this value is how much undervalued a split glyph placement is
+    }
+
     public static void main(String[] args) {
         /*
         System.out.println(LegalityChecker.birb);
@@ -29,7 +60,7 @@ public class Cryptobox {
         System.out.println("-----");
         System.out.println(LegalityChecker.freg);
         */
-        Cryptobox test = new Cryptobox(new Glyph[][]{{BROWN, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}});
+        Cryptobox test = new Cryptobox(new Glyph[][]{{GRAY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}});
         System.out.println(test);
         ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> merp = test.canPlaceAndNotMessUpCipher(GRAY, GRAY, true);
         for (int i = 0; i < merp.size(); i++) {
@@ -38,9 +69,9 @@ public class Cryptobox {
             System.out.print(merp.get(i).fst.snd);
             System.out.print(", ");
             System.out.println(merp.get(i).snd);
-
-
         }
+
+        System.out.println(test.findProbabilityOfImpossibleCipher());
     }
 
     //gives the number of glyphs already in column
@@ -146,6 +177,7 @@ public class Cryptobox {
                 Cryptobox merp = this.placeGlyphNewBox(first, f);
 
                 for (int s = 0; s < 3; s++) {
+                    //int s=f;
                     Cryptobox merp1 = merp.placeGlyphNewBox(second, s);
 
                     try {

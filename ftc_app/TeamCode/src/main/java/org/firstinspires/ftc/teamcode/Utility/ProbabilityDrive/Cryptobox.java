@@ -15,6 +15,9 @@ import static org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive.LegalityCh
 
 public class Cryptobox {
 
+    //Matrix to represent the cryptobox
+    //Stored as a 3x4, where each sub array is a column
+    //makes working with it easier
     private Glyph[][] boz = new Glyph[3][4];
 
     public static void main(String[] args) {
@@ -47,12 +50,15 @@ public class Cryptobox {
         System.out.println(test.whichColumnToPlaceAndNotMessUp(GRAY, BROWN));
     }
 
+    //Simple Constructor - Nothing fancy here
     public Cryptobox(Glyph[][] boz) {
         this.boz = boz;
     }
 
+    //Finds the probability of the next glyphs not being able to be placed while preserving
+    //a cipher pattern
     public double findProbabilityOfImpossibleCipher() {
-        System.out.println("Finding Probability\n----------");
+        //System.out.println("Finding Probability\n----------");
         double gg;
         double gb;
         double bg;
@@ -63,28 +69,34 @@ public class Cryptobox {
         bg = weightTheCrap(this.canPlaceAndNotMessUpCipher(BROWN, GRAY, true));
         bb = weightTheCrap(this.canPlaceAndNotMessUpCipher(BROWN, BROWN, true));
 
-
-
+        //Averaging the values
         return (1 - (gg + gb + bg + bb)/(double) 4);
     }
 
     public double weightTheCrap(ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> in) {
         if (in.size() == 0) {
+            //If there was no possible placement, return 0
             return 0;
         }
         for (int i = 0; i < in.size(); i++) {
             if (in.get(i).fst.fst.fst.intValue() == in.get(i).fst.fst.snd.intValue()) {
+                //if there was a placement with both glyphs in same column, weight with probability 1
+                //
                 return 1;
             } else {
                 ;
             }
         }
+        //We reach this return iff there was a possible placement(s), but the glyphs must be split
         return .25;
         //this value is how much undervalued a split glyph placement is
+        //splitting the placement of a glyph is more time consuming - thus, we underweight it since we want to avoid
+        //placing glyphs that lead to this as much as possible, while also not ignoring the possibility
+
     }
 
 
-    //gives the number of glyphs already in column
+    //Returns the number of glyphs already in a column
     public static int howFull(Glyph[] in) {
         int out = 0;
         for (int i = 0; i < in.length; i++) {
@@ -98,7 +110,9 @@ public class Cryptobox {
         return out;
     }
 
-    //returns -1 if there isnt a strict single column to place in
+    //Returns the first column in which you can place the glyphs simultaneously and maintain cipher pattern
+    //if no such column exsists, ie you must split the glyphs or it is impossible to maintain the pattern,
+    //this method will return -1
     public int whichColumnToPlaceAndNotMessUp(Glyph first, Glyph second) {
         ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> annoyingSignature = this.canPlaceAndNotMessUpCipher(first, second, false);
         for (int i = 0; i < annoyingSignature.size(); i++) {
@@ -109,9 +123,15 @@ public class Cryptobox {
         return -1;
 
     }
+
+    //Fancy toString method
+    //traverses the cryptobox in a slightly odd fashion, to make the printing easier
     @Override
     public String toString() {
         String built = "";
+        //to print this nicely, for each row, we o across the columns and print
+        //however, since we store the transpose of a cryptobox, in the code we
+        //go along each column and print the value in each row
         for (int i = 3; i >= 0; i--) {
             for (int j = 0; j < 3; j++) {
                 built = built.concat(this.boz[j][i].toString());
@@ -125,6 +145,8 @@ public class Cryptobox {
         return built;
     }
 
+    //Checks if the cryptobox is a legal sub cipher pattern
+    //Returns true if glyphs can be placed to make the input pattern
     public boolean isLegalSub(Cryptobox in) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
@@ -148,6 +170,10 @@ public class Cryptobox {
         return true;
     }
 
+    //Adds a glyph to a specific column
+    //Throws a ProbabilityDriveError with a message to let us know that the issue was because
+    //the column was already full
+    //This version returns a new Cryptobox reference, to avoid reference issues in java
     public Cryptobox placeGlyphNewBox(Glyph in, int col) throws ProbabilityDriveError {
         Glyph[][] mutate = new Glyph[3][4];
         int row = howFull(this.boz[col]);
@@ -168,6 +194,7 @@ public class Cryptobox {
     }
 
 
+    //Same as placeGlyphNewBox, but mutates the object reference instead of making a new object
     public void placeGlyph(Glyph in, int col) throws ProbabilityDriveError {
         //note:col must be either 0,1,2
         //will crash oterhwise - be careful
@@ -187,8 +214,8 @@ public class Cryptobox {
     //returns a tuple<Tuple, Cipher>
     //tuple is the columnn the first glyph needs to go in, and column second glyph needs to go into
     //cipher is the cipher that is still legal - if multiple it will be a list though i might remove that later cuz after 3 glyphs its always gonna be length 1 i think
-    //hi i removed the list inside and added to outside cuz theyres a chance of multiple possile ways to place the glyph
-    //need to make a analysis function for that later
+
+    //TODO: Comment this and explain how it works - its fairly wonky
     public ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> canPlaceAndNotMessUpCipher(Glyph first, Glyph second, boolean debug) {
         //first off we need to know all the ways we can place the glyphs
         ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> ret = new ArrayList<>();
@@ -226,6 +253,7 @@ public class Cryptobox {
         return ret;
     }
 
+    //Custom Exception, to organize debugging
     public class ProbabilityDriveError extends Exception {
         String msg;
 

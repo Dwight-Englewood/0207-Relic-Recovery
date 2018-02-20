@@ -22,24 +22,12 @@ public class Cryptobox {
         System.out.println(LegalityChecker.freg);
     }
 
-
-    public static Glyph[][] transposeMatrix(Glyph [][] m){
-        Glyph[][] temp = new Glyph[m[0].length][m.length];
-        for (int i = 0; i < m.length; i++)
-            for (int j = 0; j < m[0].length; j++)
-                temp[j][i] = m[i][j];
-        return temp;
-    }
-    //yes i know this is sideways - it makes more sense to have a column as a single array since that is how
-    //columnes work
-
-
     @Override
     public String toString() {
         String built = "";
         for (int i = 3; i >= 0; i--) {
             for (int j = 0; j < 3; j++) {
-                built = built.concat(this.boz[i][j].toString());
+                built = built.concat(this.boz[j][i].toString());
                 if (j != 2) {
                     built = built + "|";
                 }

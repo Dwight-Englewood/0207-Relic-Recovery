@@ -20,20 +20,11 @@ public enum Glyph {
         }
     }
 
-    public boolean isLegal(Glyph background, boolean inverse) {
-        if (!inverse) {
-            if (this.equals(EMPTY)) {
-                return true;
-            } else {
-                return (this.equals(background));
-            }
+    public boolean isMatch(Glyph background, boolean inverse) {
+        if (this.equals(EMPTY)) {
+            return true;
         } else {
-            if (this.equals(EMPTY)) {
-                return true;
-            } else {
-                return (!this.equals(background));
-            }
-
+            return (this.equals(background));
+        }
     }
-}
 }

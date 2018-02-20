@@ -9,11 +9,11 @@ import static org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive.Glyph.GRAY
 
 public class LegalityChecker {
 
-    public static Cryptobox birb = new Cryptobox((new Glyph[][] {{GRAY, BROWN, BROWN, GRAY}, {BROWN, GRAY, GRAY, BROWN}, {GRAY, BROWN, BROWN, GRAY}}));
+    public static Cryptobox birb = new Cryptobox((new Glyph[][]{{GRAY, BROWN, BROWN, GRAY}, {BROWN, GRAY, GRAY, BROWN}, {GRAY, BROWN, BROWN, GRAY}}));
 
-    public static Cryptobox snek = new Cryptobox((new Glyph[][] {{GRAY, GRAY, BROWN, BROWN}, {GRAY, BROWN, BROWN, GRAY}, {BROWN, BROWN, GRAY, GRAY}}));
+    public static Cryptobox snek = new Cryptobox((new Glyph[][]{{GRAY, GRAY, BROWN, BROWN}, {GRAY, BROWN, BROWN, GRAY}, {BROWN, BROWN, GRAY, GRAY}}));
 
-    public static Cryptobox freg = new Cryptobox((new Glyph[][] {{BROWN, GRAY, BROWN, GRAY}, {GRAY, BROWN, GRAY, BROWN}, {BROWN, GRAY, BROWN, GRAY}}));
+    public static Cryptobox freg = new Cryptobox((new Glyph[][]{{BROWN, GRAY, BROWN, GRAY}, {GRAY, BROWN, GRAY, BROWN}, {BROWN, GRAY, BROWN, GRAY}}));
 
     public static Cipher isCipher(Cryptobox in) throws NoCipherMatch {
         if (in.isLegalSub(birb)) {

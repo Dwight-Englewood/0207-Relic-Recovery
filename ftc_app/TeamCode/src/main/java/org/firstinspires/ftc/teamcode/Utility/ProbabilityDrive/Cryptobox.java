@@ -22,27 +22,28 @@ public class Cryptobox {
     }
 
     public double findProbabilityOfImpossibleCipher() {
+        System.out.println("Finding Probability\n----------");
         double gg;
         double gb;
         double bg;
         double bb;
 
-        gg = weightTheCrap(this.canPlaceAndNotMessUpCipher(GRAY, GRAY, false));
-        gb = weightTheCrap(this.canPlaceAndNotMessUpCipher(GRAY, BROWN, false));
-        bg = weightTheCrap(this.canPlaceAndNotMessUpCipher(BROWN, GRAY, false));
-        bb = weightTheCrap(this.canPlaceAndNotMessUpCipher(BROWN, BROWN, false));
+        gg = weightTheCrap(this.canPlaceAndNotMessUpCipher(GRAY, GRAY, true));
+        gb = weightTheCrap(this.canPlaceAndNotMessUpCipher(GRAY, BROWN, true));
+        bg = weightTheCrap(this.canPlaceAndNotMessUpCipher(BROWN, GRAY, true));
+        bb = weightTheCrap(this.canPlaceAndNotMessUpCipher(BROWN, BROWN, true));
 
 
 
         return (1 - (gg + gb + bg + bb)/(double) 4);
     }
 
-    public double weightTheCrap(ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> in) {
+    public double weightTheCrap(ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> in) {
         if (in.size() == 0) {
             return 0;
         }
         for (int i = 0; i < in.size(); i++) {
-            if (in.get(i).fst.fst.intValue() == in.get(i).fst.snd.intValue()) {
+            if (in.get(i).fst.fst.fst.intValue() == in.get(i).fst.fst.snd.intValue()) {
                 return 1;
             } else {
                 ;
@@ -62,15 +63,21 @@ public class Cryptobox {
         */
         Cryptobox test = new Cryptobox(new Glyph[][]{{GRAY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}});
         System.out.println(test);
-        ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> merp = test.canPlaceAndNotMessUpCipher(GRAY, GRAY, true);
+        /*
+        ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> merp = test.canPlaceAndNotMessUpCipher(BROWN, BROWN, true);
+        
         for (int i = 0; i < merp.size(); i++) {
-            System.out.print(merp.get(i).fst.fst);
+            System.out.print(merp.get(i).fst.fst.fst);
             System.out.print(", ");
-            System.out.print(merp.get(i).fst.snd);
+            System.out.print(merp.get(i).fst.fst.snd);
             System.out.print(", ");
+            System.out.println(merp.get(i).fst.snd);
+            System.out.println("-----------");
             System.out.println(merp.get(i).snd);
-        }
+            System.out.println("-----------");
 
+        }
+        */
         System.out.println(test.findProbabilityOfImpossibleCipher());
     }
 
@@ -168,9 +175,9 @@ public class Cryptobox {
     //cipher is the cipher that is still legal - if multiple it will be a list though i might remove that later cuz after 3 glyphs its always gonna be length 1 i think
     //hi i removed the list inside and added to outside cuz theyres a chance of multiple possile ways to place the glyph
     //need to make a analysis function for that later
-    public ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> canPlaceAndNotMessUpCipher(Glyph first, Glyph second, boolean debug) {
+    public ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> canPlaceAndNotMessUpCipher(Glyph first, Glyph second, boolean debug) {
         //first off we need to know all the ways we can place the glyphs
-        ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> ret = new ArrayList<>();
+        ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> ret = new ArrayList<>();
         for (int f = 0; f < 3; f++) {
             //first we get all the ways to place the first glyph
             try {
@@ -185,7 +192,15 @@ public class Cryptobox {
                         if (debug) {
                             System.out.println(merp1);
                         }
-                        ret.add(new Tuple<Tuple<Integer, Integer>, Cipher>(new Tuple<Integer, Integer>(f, s), mee));
+                        ret.add(new Tuple<>(new Tuple<>(new Tuple<>(f, s), mee), merp1));
+                        System.out.print(ret.get(ret.size() - 1).fst.fst.fst);
+                        System.out.print(", ");
+                        System.out.print(ret.get(ret.size() - 1).fst.fst.snd);
+                        System.out.print(", ");
+                        System.out.println(ret.get(ret.size() - 1).fst.snd);
+                        System.out.println("-----------");
+                        System.out.println(ret.get(ret.size() - 1).snd);
+                        System.out.println("-----------");
                     } catch (LegalityChecker.NoCipherMatch e) {
                     }
                 }

@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph;
 
 /**
  * Created by aburur on 8/6/17.
@@ -168,6 +169,24 @@ public class Bot {
         BR.setPower(!invert ? rightStick : leftStick * -1);
     }
 
+    public Glyph findGlyphType() {
+        int red, blue, green, alpha;
+        red = this.intakeColor.red();
+        blue = this.intakeColor.blue();
+        green = this.intakeColor.green();
+        alpha = this.intakeColor.alpha();
+
+        double average;
+        average = (red + blue + green + alpha) / (double ) 4;
+
+        if (average > 12) {
+            return Glyph.GRAY;
+        } else if (average < 12 && average > 3) {
+            return Glyph.BROWN;
+        } else {
+            return Glyph.EMPTY;
+        }
+    }
     public void tankDriveSafeStrafe(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {
         int i = invert ? -1 : 1;
 

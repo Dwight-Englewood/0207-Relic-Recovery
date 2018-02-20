@@ -19,7 +19,7 @@ background = white
 drawing :: Picture
 drawing = circle 80
 
-data Glyph = Brown | Gray | Empty
+data Glyph = Brown | Gray | Empty derives (Show, Eq)
 
 colorGlyph ::  Glyph -> Picture -> Picture
 colorGlyph Brown p = color (makeColorI 86 46 0 255) p 
@@ -46,7 +46,7 @@ addGlyph Empty Gray = Gray
 addGlyph Brown Empty = Brown
 addGlyph Gray Empty = Gray
 addGlyph Empty Empty = Empty
-addGlyph _ _ = error "laslderljgslululululululul"
+addGlyph a b = error "i cant add a " + (show a) + " to a " + (show b)
 
 addCryptobox :: Cryptobox -> Cryptobox -> [([Glyph], [Glyph])]
 addCryptobox a b = zip a b 

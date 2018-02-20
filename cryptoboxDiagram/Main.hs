@@ -57,8 +57,8 @@ unzipPart (a, b) = zip a b
 merp2 :: [(Glyph, Glyph)] -> [Glyph]
 merp2 = map (\(f, s) -> addGlyph f s)
 
-endMyLife :: Cryptobox -> Cryptobox -> Cryptobox
-endMyLife a b = map (\x -> merp2 (unzipPart x)) (addCryptobox a b)  
+cryptoboxTest :: Cryptobox -> Cryptobox -> Cryptobox
+cryptoboxTest a b = map (\x -> merp2 (unzipPart x)) (addCryptobox a b)  
 
 
 renderColumns :: Picture
@@ -72,41 +72,41 @@ renderGlyphColumn :: [Glyph] -> Picture
 renderGlyphColumn test = pictures [(translate (0) ((1.1 * glyphSize * (fromIntegral z))) (glyphCreate (test !! z))) | z <- [0..((length test) - 1)]]
 
 main :: IO ()
---main = display window (makeColorI 0 0 0 255) (pictures [renderCryptobox (endMyLife vufCol1 endMyLife2)])
+--main = display window (makeColorI 0 0 0 255) (pictures [renderCryptobox (cryptoboxTest vufCol1 cryptoboxTest2)])
 main = animate window (makeColorI 0 0 0 255) animateTest
 
 
 animateTest :: Float -> Picture
 animateTest b
     | b < 5 = renderCryptobox vufCol1
-    | b < 10 = renderCryptobox (endMyLife vufCol1 endMyLife2)
-    | b < 15 = renderCryptobox (endMyLife (endMyLife vufCol1 endMyLife2) endMyLife3)
-    | b < 20 = renderCryptobox (endMyLife (endMyLife (endMyLife vufCol1 endMyLife2) endMyLife3) endMyLife4)
-    | b < 25 = renderCryptobox (endMyLife (endMyLife (endMyLife (endMyLife vufCol1 endMyLife2) endMyLife3) endMyLife4) endMyLife5)
-    | b < 30 = renderCryptobox (endMyLife (endMyLife (endMyLife (endMyLife (endMyLife vufCol1 endMyLife2) endMyLife3) endMyLife4) endMyLife5) endMyLife6)
-    | otherwise = renderCryptobox (endMyLife (endMyLife (endMyLife (endMyLife (endMyLife (endMyLife vufCol1 endMyLife2) endMyLife3) endMyLife4) endMyLife5) endMyLife6) endMyLife7)
+    | b < 10 = renderCryptobox (cryptoboxTest vufCol1 cryptoboxTest2)
+    | b < 15 = renderCryptobox (cryptoboxTest (cryptoboxTest vufCol1 cryptoboxTest2) cryptoboxTest3)
+    | b < 20 = renderCryptobox (cryptoboxTest (cryptoboxTest (cryptoboxTest vufCol1 cryptoboxTest2) cryptoboxTest3) cryptoboxTest4)
+    | b < 25 = renderCryptobox (cryptoboxTest (cryptoboxTest (cryptoboxTest (cryptoboxTest vufCol1 cryptoboxTest2) cryptoboxTest3) cryptoboxTest4) cryptoboxTest5)
+    | b < 30 = renderCryptobox (cryptoboxTest (cryptoboxTest (cryptoboxTest (cryptoboxTest (cryptoboxTest vufCol1 cryptoboxTest2) cryptoboxTest3) cryptoboxTest4) cryptoboxTest5) cryptoboxTest6)
+    | otherwise = renderCryptobox (cryptoboxTest (cryptoboxTest (cryptoboxTest (cryptoboxTest (cryptoboxTest (cryptoboxTest vufCol1 cryptoboxTest2) cryptoboxTest3) cryptoboxTest4) cryptoboxTest5) cryptoboxTest6) cryptoboxTest7)
 
 
 vufCol1 :: Cryptobox
 vufCol1 = transpose [[Gray, Empty, Empty], [Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Empty, Empty]]
 
-endMyLife2 :: Cryptobox
-endMyLife2 = transpose [[Empty, Empty, Empty], [Brown, Empty, Empty], [Brown, Empty, Empty], [Empty, Empty, Empty]]
+cryptoboxTest2 :: Cryptobox
+cryptoboxTest2 = transpose [[Empty, Empty, Empty], [Brown, Empty, Empty], [Brown, Empty, Empty], [Empty, Empty, Empty]]
 
-endMyLife3 :: Cryptobox
-endMyLife3 = transpose [[Empty, Brown, Gray], [Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Empty, Empty]]
+cryptoboxTest3 :: Cryptobox
+cryptoboxTest3 = transpose [[Empty, Brown, Gray], [Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Empty, Empty]]
 
-endMyLife4 :: Cryptobox
-endMyLife4 = transpose [[Empty, Empty, Empty], [Empty, Gray, Brown], [Empty, Empty, Empty], [Empty, Empty, Empty]]
+cryptoboxTest4 :: Cryptobox
+cryptoboxTest4 = transpose [[Empty, Empty, Empty], [Empty, Gray, Brown], [Empty, Empty, Empty], [Empty, Empty, Empty]]
 
-endMyLife5 :: Cryptobox
-endMyLife5 = transpose [[Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Gray, Brown], [Empty, Empty, Empty]]
+cryptoboxTest5 :: Cryptobox
+cryptoboxTest5 = transpose [[Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Gray, Brown], [Empty, Empty, Empty]]
 
-endMyLife6 :: Cryptobox
-endMyLife6 = transpose [[Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Brown, Gray]]
+cryptoboxTest6 :: Cryptobox
+cryptoboxTest6 = transpose [[Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Brown, Gray]]
 
-endMyLife7 :: Cryptobox
-endMyLife7 = transpose[[Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Empty, Empty], [Gray, Empty, Empty]]
+cryptoboxTest7 :: Cryptobox
+cryptoboxTest7 = transpose[[Empty, Empty, Empty], [Empty, Empty, Empty], [Empty, Empty, Empty], [Gray, Empty, Empty]]
 
 bird :: [[Glyph]]
 bird = transpose [[Gray, Brown, Gray], [Brown, Gray, Brown], [Brown, Gray, Brown], [Gray, Brown, Gray]]

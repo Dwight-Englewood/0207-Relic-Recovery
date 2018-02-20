@@ -29,9 +29,9 @@ public class Cryptobox {
         System.out.println("-----");
         System.out.println(LegalityChecker.freg);
         */
-        Cryptobox test = new Cryptobox(new Glyph[][]{{GRAY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}});
+        Cryptobox test = new Cryptobox(new Glyph[][]{{BROWN, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}});
         System.out.println(test);
-        ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> merp = test.canPlaceAndNotMessUpCipher(BROWN, BROWN);
+        ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> merp = test.canPlaceAndNotMessUpCipher(GRAY, GRAY);
         for (int i = 0; i < merp.size(); i++) {
             System.out.print(merp.get(i).fst.fst);
             System.out.print(", ");
@@ -79,11 +79,20 @@ public class Cryptobox {
                 if (this.boz[i][j].isMatch(in.boz[i][j], false)) {
                     ;
                 } else {
-                    return false;
+                    for (int i2 = 0; i2 < 3; i2++) {
+                        for (int j2 = 0; j2 < 4; j2++) {
+                            if (this.boz[i2][j2].isMatch(in.boz[i2][j2], true)) {
+                                ;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
                 }
             }
-
         }
+
+
         return true;
     }
 
@@ -131,7 +140,6 @@ public class Cryptobox {
     public ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> canPlaceAndNotMessUpCipher(Glyph first, Glyph second) {
         //first off we need to know all the ways we can place the glyphs
         ArrayList<Tuple<Tuple<Integer, Integer>, Cipher>> ret = new ArrayList<>();
-        ArrayList<Cryptobox> possibilities = new ArrayList<>();
         for (int f = 0; f < 3; f++) {
             //first we get all the ways to place the first glyph
             try {

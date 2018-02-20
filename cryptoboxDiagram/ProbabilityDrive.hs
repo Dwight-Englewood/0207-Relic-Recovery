@@ -24,9 +24,6 @@ printP merp = concat $ map (\x -> (formatRow x) ++ "\n") merp
 formatRow :: [Glyph] -> String
 formatRow a = concat $ map (\x -> ((show x) ++ "|")) a
 
-
-
-
 main :: IO()
 main = do
         putStrLn $ printP $ bird

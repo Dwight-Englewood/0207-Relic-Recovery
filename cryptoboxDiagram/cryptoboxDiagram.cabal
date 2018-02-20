@@ -21,10 +21,9 @@ executable cryptoboxDiagram
   other-modules:       
 
 
-  build-depends:       base
-                     , filepath
-                     , diagrams
-
+  build-depends:       base,
+                       gloss
+                            
   default-language:    Haskell2010
 
   ghc-options:         -Wall -threaded

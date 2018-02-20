@@ -29,7 +29,7 @@ public class Cryptobox {
         Cryptobox test = new Cryptobox(new Glyph[][]{{GRAY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}});
         System.out.println(test);
         /*
-        ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> merp = test.canPlaceAndNotMessUpCipher(BROWN, BROWN, true);
+        ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> merp = test.findPlacements(BROWN, BROWN, true);
 
         for (int i = 0; i < merp.size(); i++) {
             System.out.print(merp.get(i).fst.fst.fst);
@@ -43,9 +43,9 @@ public class Cryptobox {
 
         }
         */
-        System.out.println(test.findProbabilityOfImpossibleCipher());
+        System.out.println(test.improbabilityDrive());
 
-        System.out.println(test.whichColumnToPlaceAndNotMessUp(GRAY, BROWN));
+        System.out.println(test.findColumnPlacement(GRAY, BROWN));
     }
 
     //Simple Constructor - Nothing fancy here
@@ -55,23 +55,23 @@ public class Cryptobox {
 
     //Finds the probability of the next glyphs not being able to be placed while preserving
     //a cipher pattern
-    public double findProbabilityOfImpossibleCipher() {
+    public double improbabilityDrive() {
         //System.out.println("Finding Probability\n----------");
         double gg;
         double gb;
         double bg;
         double bb;
 
-        gg = weightTheCrap(this.canPlaceAndNotMessUpCipher(GRAY, GRAY, true));
-        gb = weightTheCrap(this.canPlaceAndNotMessUpCipher(GRAY, BROWN, true));
-        bg = weightTheCrap(this.canPlaceAndNotMessUpCipher(BROWN, GRAY, true));
-        bb = weightTheCrap(this.canPlaceAndNotMessUpCipher(BROWN, BROWN, true));
+        gg = probabilityWeighted(this.findPlacements(GRAY, GRAY, true));
+        gb = probabilityWeighted(this.findPlacements(GRAY, BROWN, true));
+        bg = probabilityWeighted(this.findPlacements(BROWN, GRAY, true));
+        bb = probabilityWeighted(this.findPlacements(BROWN, BROWN, true));
 
         //Averaging the values
         return (1 - (gg + gb + bg + bb)/(double) 4);
     }
 
-    public double weightTheCrap(ArrayList<GlyphPlace> in) {
+    public double probabilityWeighted(ArrayList<GlyphPlace> in) {
         if (in.size() == 0) {
             //If there was no possible placement, return 0
             return 0;
@@ -95,7 +95,7 @@ public class Cryptobox {
 
 
     //Returns the number of glyphs already in a column
-    public static int howFull(Glyph[] in) {
+    public static int columnFilled(Glyph[] in) {
         int out = 0;
         for (int i = 0; i < in.length; i++) {
             if (in[i].equals(Glyph.EMPTY)) {
@@ -111,8 +111,8 @@ public class Cryptobox {
     //Returns the first column in which you can place the glyphs simultaneously and maintain cipher pattern
     //if no such column exsists, ie you must split the glyphs or it is impossible to maintain the pattern,
     //this method will return -1
-    public int whichColumnToPlaceAndNotMessUp(Glyph first, Glyph second) {
-        ArrayList<GlyphPlace> possibilityList = this.canPlaceAndNotMessUpCipher(first, second, false);
+    public int findColumnPlacement(Glyph first, Glyph second) {
+        ArrayList<GlyphPlace> possibilityList = this.findPlacements(first, second, false);
         for (int i = 0; i < possibilityList.size(); i++) {
             if (possibilityList.get(i).column1 == possibilityList.get(i).column2) {
                 return possibilityList.get(i).column1;
@@ -172,9 +172,9 @@ public class Cryptobox {
     //Throws a ProbabilityDriveError with a message to let us know that the issue was because
     //the column was already full
     //This version returns a new Cryptobox reference, to avoid reference issues in java
-    public Cryptobox placeGlyphNewBox(Glyph in, int col) throws ProbabilityDriveError {
+    public Cryptobox placeGlyphClone(Glyph in, int col) throws ProbabilityDriveError {
         Glyph[][] mutate = new Glyph[3][4];
-        int row = howFull(this.boz[col]);
+        int row = columnFilled(this.boz[col]);
         if (row > 3) {
             throw new ProbabilityDriveError("column no free space msg msg msg rhing");
         }
@@ -192,12 +192,12 @@ public class Cryptobox {
     }
 
 
-    //Same as placeGlyphNewBox, but mutates the object reference instead of making a new object
-    public void placeGlyph(Glyph in, int col) throws ProbabilityDriveError {
+    //Same as placeGlyphClone, but mutates the object reference instead of making a new object
+    public void placeGlyphMutate(Glyph in, int col) throws ProbabilityDriveError {
         //note:col must be either 0,1,2
         //will crash oterhwise - be careful
         try {
-            this.boz[col][howFull(this.boz[col])] = in;
+            this.boz[col][columnFilled(this.boz[col])] = in;
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new ProbabilityDriveError("column i wanted to add to was full! or some other array index wonkiness: " + e.toString());
 
@@ -213,17 +213,17 @@ public class Cryptobox {
     //Cipher for which pattern is being completed
     //Cryptobox for the actual final placement of the glyphs
     //TODO: Comment this and explain how it works - its fairly wonky
-    public ArrayList<GlyphPlace> canPlaceAndNotMessUpCipher(Glyph first, Glyph second, boolean debug) {
+    public ArrayList<GlyphPlace> findPlacements(Glyph first, Glyph second, boolean debug) {
         //first off we need to know all the ways we can place the glyphs
         ArrayList<GlyphPlace> ret = new ArrayList<>();
         for (int f = 0; f < 3; f++) {
             //For each column, we add the first glyph
             try {
-                Cryptobox merp = this.placeGlyphNewBox(first, f);
+                Cryptobox merp = this.placeGlyphClone(first, f);
                 //Then, after adding the first glyph, we attempt to place the second
                 for (int s = 0; s < 3; s++) {
-                    
-                    Cryptobox merp1 = merp.placeGlyphNewBox(second, s);
+
+                    Cryptobox merp1 = merp.placeGlyphClone(second, s);
 
                     try {
                         Cipher mee = isCipher(merp1);

@@ -31,7 +31,10 @@ public class SensorTest extends OpMode {
     @Override
     public void loop() {
         robot.jewelOut();
-        telemetry.addData("intakeColor: ", robot.intakeColor.alpha());
+        telemetry.addData("intakeColorAlpha: ", robot.intakeColor.alpha());
+        telemetry.addData("intakeColorRed", robot.intakeColor.red());
+        telemetry.addData("intakeColorBlue", robot.intakeColor.blue());
+        telemetry.addData("intakeColorGreen", robot.intakeColor.green());
         telemetry.addData("jewel red: ", robot.colorSensor.red());
         telemetry.addData("jewel blue", robot.colorSensor.blue());
         telemetry.addData("front range", robot.rangeFront.getDistance(DistanceUnit.CM));

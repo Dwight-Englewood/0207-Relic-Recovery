@@ -9,6 +9,16 @@ public enum Glyph {
     GRAY,
     EMPTY;
 
+    @Override
+    public String toString() {
+        if (this.equals(BROWN)) {
+            return "B";
+        } else if (this.equals(GRAY)) {
+            return "G";
+        } else {
+            return " ";
+        }
+    }
 
     public boolean isLegal(Glyph background, boolean inverse) {
         if (!inverse) {

@@ -169,14 +169,14 @@ public class Cryptobox {
     }
 
     //Adds a glyph to a specific column
-    //Throws a ProbabilityDriveError with a message to let us know that the issue was because
+    //Throws a ImprobabilityDriveError with a message to let us know that the issue was because
     //the column was already full
     //This version returns a new Cryptobox reference, to avoid reference issues in java
-    public Cryptobox placeGlyphClone(Glyph in, int col) throws ProbabilityDriveError {
+    public Cryptobox placeGlyphClone(Glyph in, int col) throws ImprobabilityDriveError {
         Glyph[][] mutate = new Glyph[3][4];
         int row = columnFilled(this.boz[col]);
         if (row > 3) {
-            throw new ProbabilityDriveError("column no free space msg msg msg rhing");
+            throw new ImprobabilityDriveError("column no free space msg msg msg rhing");
         }
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
@@ -193,13 +193,13 @@ public class Cryptobox {
 
 
     //Same as placeGlyphClone, but mutates the object reference instead of making a new object
-    public void placeGlyphMutate(Glyph in, int col) throws ProbabilityDriveError {
+    public void placeGlyphMutate(Glyph in, int col) throws ImprobabilityDriveError {
         //note:col must be either 0,1,2
         //will crash oterhwise - be careful
         try {
             this.boz[col][columnFilled(this.boz[col])] = in;
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new ProbabilityDriveError("column i wanted to add to was full! or some other array index wonkiness: " + e.toString());
+            throw new ImprobabilityDriveError("column i wanted to add to was full! or some other array index wonkiness: " + e.toString());
 
         }
 
@@ -244,7 +244,7 @@ public class Cryptobox {
                     } catch (LegalityChecker.NoCipherMatch e) {
                     }
                 }
-            } catch (ProbabilityDriveError e) {
+            } catch (ImprobabilityDriveError e) {
                 System.out.println("gonna assume that this meant no spots left");
             }
         }
@@ -253,14 +253,14 @@ public class Cryptobox {
     }
 
     //Custom Exception, to organize debugging
-    public class ProbabilityDriveError extends Exception {
+    public class ImprobabilityDriveError extends Exception {
         String msg;
 
-        public ProbabilityDriveError() {
+        public ImprobabilityDriveError() {
             msg = "";
         }
 
-        public ProbabilityDriveError(String msg) {
+        public ImprobabilityDriveError(String msg) {
             this.msg = msg;
         }
     }

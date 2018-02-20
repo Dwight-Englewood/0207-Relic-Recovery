@@ -1,13 +1,11 @@
-package org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive;
-
-import org.firstinspires.ftc.teamcode.Utility.Tuple;
+package org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive;
 
 import java.util.ArrayList;
 
-import static org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive.Glyph.BROWN;
-import static org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive.Glyph.EMPTY;
-import static org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive.Glyph.GRAY;
-import static org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive.LegalityChecker.isCipher;
+import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.BROWN;
+import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.EMPTY;
+import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.GRAY;
+import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.LegalityChecker.isCipher;
 
 /**
  * Created by weznon on 2/16/18.
@@ -73,15 +71,15 @@ public class Cryptobox {
         return (1 - (gg + gb + bg + bb)/(double) 4);
     }
 
-    public double weightTheCrap(ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> in) {
+    public double weightTheCrap(ArrayList<GlyphPlace> in) {
         if (in.size() == 0) {
             //If there was no possible placement, return 0
             return 0;
         }
         for (int i = 0; i < in.size(); i++) {
-            if (in.get(i).fst.fst.fst.intValue() == in.get(i).fst.fst.snd.intValue()) {
+            if (in.get(i).column1 == in.get(i).column2) {
                 //if there was a placement with both glyphs in same column, weight with probability 1
-                //
+
                 return 1;
             } else {
                 ;
@@ -114,10 +112,10 @@ public class Cryptobox {
     //if no such column exsists, ie you must split the glyphs or it is impossible to maintain the pattern,
     //this method will return -1
     public int whichColumnToPlaceAndNotMessUp(Glyph first, Glyph second) {
-        ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> annoyingSignature = this.canPlaceAndNotMessUpCipher(first, second, false);
-        for (int i = 0; i < annoyingSignature.size(); i++) {
-            if (annoyingSignature.get(i).fst.fst.fst.intValue() == annoyingSignature.get(i).fst.fst.snd.intValue()) {
-                return annoyingSignature.get(i).fst.fst.fst.intValue();
+        ArrayList<GlyphPlace> possibilityList = this.canPlaceAndNotMessUpCipher(first, second, false);
+        for (int i = 0; i < possibilityList.size(); i++) {
+            if (possibilityList.get(i).column1 == possibilityList.get(i).column2) {
+                return possibilityList.get(i).column1;
             }
         }
         return -1;
@@ -216,9 +214,9 @@ public class Cryptobox {
     //cipher is the cipher that is still legal - if multiple it will be a list though i might remove that later cuz after 3 glyphs its always gonna be length 1 i think
 
     //TODO: Comment this and explain how it works - its fairly wonky
-    public ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> canPlaceAndNotMessUpCipher(Glyph first, Glyph second, boolean debug) {
+    public ArrayList<GlyphPlace> canPlaceAndNotMessUpCipher(Glyph first, Glyph second, boolean debug) {
         //first off we need to know all the ways we can place the glyphs
-        ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> ret = new ArrayList<>();
+        ArrayList<GlyphPlace> ret = new ArrayList<>();
         for (int f = 0; f < 3; f++) {
             //first we get all the ways to place the first glyph
             try {
@@ -233,7 +231,7 @@ public class Cryptobox {
                         if (debug) {
                             System.out.println(merp1);
                         }
-                        ret.add(new Tuple<>(new Tuple<>(new Tuple<>(f, s), mee), merp1));
+                        ret.add(new GlyphPlace(f, s, mee, merp1));
                         /*
                         System.out.print(ret.get(ret.size() - 1).fst.fst.fst);
                         System.out.print(", ");

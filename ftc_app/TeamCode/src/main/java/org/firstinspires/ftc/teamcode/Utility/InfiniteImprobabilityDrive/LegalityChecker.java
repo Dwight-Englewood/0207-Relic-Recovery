@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive;
+package org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive;
 
-import static org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive.Glyph.BROWN;
-import static org.firstinspires.ftc.teamcode.Utility.ProbabilityDrive.Glyph.GRAY;
+import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.BROWN;
+import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.GRAY;
 
 /**
  * Created by weznon on 2/19/18.

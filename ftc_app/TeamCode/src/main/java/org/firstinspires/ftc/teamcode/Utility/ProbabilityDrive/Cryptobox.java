@@ -17,6 +17,36 @@ public class Cryptobox {
 
     private Glyph[][] boz = new Glyph[3][4];
 
+    public static void main(String[] args) {
+        /*
+        System.out.println(LegalityChecker.birb);
+        System.out.println("-----");
+        System.out.println(LegalityChecker.snek);
+        System.out.println("-----");
+        System.out.println(LegalityChecker.freg);
+        */
+        Cryptobox test = new Cryptobox(new Glyph[][]{{GRAY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}});
+        System.out.println(test);
+        /*
+        ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> merp = test.canPlaceAndNotMessUpCipher(BROWN, BROWN, true);
+
+        for (int i = 0; i < merp.size(); i++) {
+            System.out.print(merp.get(i).fst.fst.fst);
+            System.out.print(", ");
+            System.out.print(merp.get(i).fst.fst.snd);
+            System.out.print(", ");
+            System.out.println(merp.get(i).fst.snd);
+            System.out.println("-----------");
+            System.out.println(merp.get(i).snd);
+            System.out.println("-----------");
+
+        }
+        */
+        System.out.println(test.findProbabilityOfImpossibleCipher());
+
+        System.out.println(test.whichColumnToPlaceAndNotMessUp(GRAY, BROWN));
+    }
+
     public Cryptobox(Glyph[][] boz) {
         this.boz = boz;
     }
@@ -53,33 +83,6 @@ public class Cryptobox {
         //this value is how much undervalued a split glyph placement is
     }
 
-    public static void main(String[] args) {
-        /*
-        System.out.println(LegalityChecker.birb);
-        System.out.println("-----");
-        System.out.println(LegalityChecker.snek);
-        System.out.println("-----");
-        System.out.println(LegalityChecker.freg);
-        */
-        Cryptobox test = new Cryptobox(new Glyph[][]{{GRAY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY, EMPTY}});
-        System.out.println(test);
-        /*
-        ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> merp = test.canPlaceAndNotMessUpCipher(BROWN, BROWN, true);
-        
-        for (int i = 0; i < merp.size(); i++) {
-            System.out.print(merp.get(i).fst.fst.fst);
-            System.out.print(", ");
-            System.out.print(merp.get(i).fst.fst.snd);
-            System.out.print(", ");
-            System.out.println(merp.get(i).fst.snd);
-            System.out.println("-----------");
-            System.out.println(merp.get(i).snd);
-            System.out.println("-----------");
-
-        }
-        */
-        System.out.println(test.findProbabilityOfImpossibleCipher());
-    }
 
     //gives the number of glyphs already in column
     public static int howFull(Glyph[] in) {
@@ -95,6 +98,17 @@ public class Cryptobox {
         return out;
     }
 
+    //returns -1 if there isnt a strict single column to place in
+    public int whichColumnToPlaceAndNotMessUp(Glyph first, Glyph second) {
+        ArrayList<Tuple<Tuple<Tuple<Integer, Integer>, Cipher>, Cryptobox>> annoyingSignature = this.canPlaceAndNotMessUpCipher(first, second, false);
+        for (int i = 0; i < annoyingSignature.size(); i++) {
+            if (annoyingSignature.get(i).fst.fst.fst.intValue() == annoyingSignature.get(i).fst.fst.snd.intValue()) {
+                return annoyingSignature.get(i).fst.fst.fst.intValue();
+            }
+        }
+        return -1;
+
+    }
     @Override
     public String toString() {
         String built = "";

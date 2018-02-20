@@ -97,11 +97,9 @@ public class VuforiaBlueSG extends OpMode {
             case 1:
                 commandString = "Hit Jewel";
                 if (hitjewel && timer.milliseconds() > 300) {
-                    robot.drive(MovementEnum.STOP);
                     robot.jewelUp();
                     timer.reset();
                     command++;
-
                 } else if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP);
                     robot.jewelKnockforward();
@@ -111,12 +109,10 @@ public class VuforiaBlueSG extends OpMode {
                     robot.jewelUp();
                     timer.reset();
                     command++;
-
                 } else if (robot.colorSensor.blue() >= 1) {
                     hitjewel = true;
                     robot.jewelKnockforward();
                     timer.reset();
-
                 } else if (robot.colorSensor.red() >= 1) {
                     hitjewel = true;
                     robot.jewelKnockback();
@@ -126,7 +122,7 @@ public class VuforiaBlueSG extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = -1 * robot.distanceToRevs(51);
+                generalTarget = -1 * robot.distanceToRevs(50);
                 robot.runToPosition(generalTarget);
                 //Possibly turn off brake
                 timer.reset();
@@ -146,38 +142,40 @@ public class VuforiaBlueSG extends OpMode {
                 break;
 
             case 4:
-                commandString = "Adjust heading to -90";
+                /*commandString = "Adjust heading to -90";
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(-90, true, telemetry);
-                }
+                    robot.adjustHeading(-90, false, telemetry);
+                }*/
+                robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                try{Thread.sleep(500);} catch (Exception e) {}
+                command++;
                 break;
 
             case 5:
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = robot.distanceToRevs(16);
+                        generalTarget = -1 * robot.distanceToRevs(16);
                         break;
 
                     case CENTER:
-                        generalTarget = robot.distanceToRevs(34);
+                        generalTarget = -1 * robot.distanceToRevs(34);
                         break;
 
                     case RIGHT:
-                        generalTarget = robot.distanceToRevs(52);
+                        generalTarget = -1 * robot.distanceToRevs(52);
                         break;
 
                     case UNKNOWN:
-                        generalTarget = robot.distanceToRevs(34);
+                        generalTarget = -1 * robot.distanceToRevs(34);
                         break;
                 }
-                generalTarget *= -1;
-                try {Thread.sleep(300);} catch (Exception e) {}
+                try {Thread.sleep(500);} catch (Exception e) {}
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -206,9 +204,6 @@ public class VuforiaBlueSG extends OpMode {
                     command++;
                 } else if (timer.milliseconds() > 250) {
                     robot.adjustHeading(0, false, telemetry);
-                    if (robot.FL.getPower() == 0) {
-                        done = true;
-                    }
                 }
                 break;
 
@@ -227,7 +222,7 @@ public class VuforiaBlueSG extends OpMode {
                     robot.flipDown();
                     timer.reset();
                     command++;
-                } else if (timer.milliseconds() > 750) {
+                } else if (timer.milliseconds() > 650) {
                     robot.intakeDrop.setPower(0);
                     robot.releaseMove(ReleasePosition.MIDDLE);
                     robot.flipUp();
@@ -237,7 +232,7 @@ public class VuforiaBlueSG extends OpMode {
 
             case 10:
                 commandString = "Adjust heading to 0";
-                if (timer.milliseconds() > 1000) {
+                if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -250,7 +245,7 @@ public class VuforiaBlueSG extends OpMode {
             case 11:
                 if (timer.milliseconds() > 500) {
                     commandString = "Setup drive to box";
-                    generalTarget = -1*robot.distanceToRevs(19);
+                    generalTarget = -1*robot.distanceToRevs(17);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -333,7 +328,7 @@ public class VuforiaBlueSG extends OpMode {
             case 19:
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = robot.distanceToRevs(10);
+                    generalTarget = robot.distanceToRevs(15);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -358,6 +353,8 @@ public class VuforiaBlueSG extends OpMode {
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);
+        telemetry.addData("FL Encoder", robot.FL.getCurrentPosition());
+        telemetry.addData("target", generalTarget);
         telemetry.addLine(commandString);
 
         telemetry.update();

@@ -158,8 +158,8 @@ public class Telebop extends OpMode {
                 if (gamepad2.right_trigger > .2 || gamepad2.left_trigger > .2) {
                     controller.addInstruction(ReleasePosition.DOWN, 1);
                     //robot.intake(-1);
-                    robot.intakeOne.setPower(-.8 * gamepad2.right_trigger);
-                    robot.intakeTwo.setPower(-.8 * gamepad2.left_trigger);
+                    robot.intakeOne.setPower(-.9 * gamepad2.right_trigger);
+                    robot.intakeTwo.setPower(-.9 * gamepad2.left_trigger);
                 } else {
                     //This line is not needed, as this specific addition to the controller object will never change the output. However, it is included to keep clarity as to what will happen
                     //The zero priority will not change the result of process, as priority is seeded at 0 - and is strictly increasing. This is equivalent to a blank statement, which we use to keep code clarity

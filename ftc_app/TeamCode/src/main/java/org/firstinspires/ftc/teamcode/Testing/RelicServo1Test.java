@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Testing;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Utility.Bot;
  */
 
 @TeleOp(name = "Relic Servo 1 Test", group = "Testing")
-//@Disabled
+@Disabled
 public class RelicServo1Test extends OpMode {
     Bot robot = new Bot();
     double val = .5;

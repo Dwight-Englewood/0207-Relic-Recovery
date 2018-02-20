@@ -613,7 +613,7 @@ public class Bot {
     public void adjustHeading(int targetHeading, boolean slow, Telemetry telemetry) {
 
         float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        if (Math.abs(Math.abs(targetHeading) - Math.abs(curHeading)) < .5) {
+        if (Math.abs(targetHeading - curHeading) < .5) {
             FL.setPower(0);
             BL.setPower(0);
             FR.setPower(0);
@@ -624,11 +624,7 @@ public class Bot {
             } else {
                 powerModifier = .02;
             }
-            if (targetHeading == 0) {
-                headingError = curHeading < 0 ? targetHeading + curHeading : Math.abs(targetHeading + curHeading);
-            } else {
-                headingError = targetHeading + curHeading;
-            }
+            headingError = curHeading < targetHeading ? targetHeading + curHeading : Math.abs(targetHeading + curHeading);
             driveScale = headingError * powerModifier;
 
             if (driveScale == 0) {

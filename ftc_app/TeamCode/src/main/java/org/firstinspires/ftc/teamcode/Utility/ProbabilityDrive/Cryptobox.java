@@ -234,6 +234,7 @@ public class Cryptobox {
                             System.out.println(merp1);
                         }
                         ret.add(new Tuple<>(new Tuple<>(new Tuple<>(f, s), mee), merp1));
+                        /*
                         System.out.print(ret.get(ret.size() - 1).fst.fst.fst);
                         System.out.print(", ");
                         System.out.print(ret.get(ret.size() - 1).fst.fst.snd);
@@ -242,6 +243,7 @@ public class Cryptobox {
                         System.out.println("-----------");
                         System.out.println(ret.get(ret.size() - 1).snd);
                         System.out.println("-----------");
+                        */
                     } catch (LegalityChecker.NoCipherMatch e) {
                     }
                 }

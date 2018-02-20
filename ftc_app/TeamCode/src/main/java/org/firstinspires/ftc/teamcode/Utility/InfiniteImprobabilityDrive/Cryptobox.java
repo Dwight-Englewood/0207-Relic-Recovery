@@ -196,8 +196,6 @@ public class Cryptobox {
     public void placeGlyph(Glyph in, int col) throws ProbabilityDriveError {
         //note:col must be either 0,1,2
         //will crash oterhwise - be careful
-        //if no free space, will not do anything - silent fail might be bad idea?
-        //actually it will throw out of bounds error
         try {
             this.boz[col][howFull(this.boz[col])] = in;
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -209,21 +207,22 @@ public class Cryptobox {
     }
 
     //first is the glyph that will be on the bottom ie the first one out of the bot
-    //returns a tuple<Tuple, Cipher>
-    //tuple is the columnn the first glyph needs to go in, and column second glyph needs to go into
-    //cipher is the cipher that is still legal - if multiple it will be a list though i might remove that later cuz after 3 glyphs its always gonna be length 1 i think
-
+    //Returns an object with 4 values:
+    //Column for the first glyph placement
+    //Column for the second glyph placement
+    //Cipher for which pattern is being completed
+    //Cryptobox for the actual final placement of the glyphs
     //TODO: Comment this and explain how it works - its fairly wonky
     public ArrayList<GlyphPlace> canPlaceAndNotMessUpCipher(Glyph first, Glyph second, boolean debug) {
         //first off we need to know all the ways we can place the glyphs
         ArrayList<GlyphPlace> ret = new ArrayList<>();
         for (int f = 0; f < 3; f++) {
-            //first we get all the ways to place the first glyph
+            //For each column, we add the first glyph
             try {
                 Cryptobox merp = this.placeGlyphNewBox(first, f);
-
+                //Then, after adding the first glyph, we attempt to place the second
                 for (int s = 0; s < 3; s++) {
-                    //int s=f;
+                    
                     Cryptobox merp1 = merp.placeGlyphNewBox(second, s);
 
                     try {

@@ -233,21 +233,28 @@ public class Cryptobox {
 
                     try {
                         Cipher mee = isCipher(merp1);
+
+                        //isCipher will throw an exception if the passed cryptobox doesn't return a correct cipher
+                        //therefore, if we reach this line, we know the placement leads to a cipher
+                        //and we add it to the final list of all possible positions
+                        ret.add(new GlyphPlace(f, s, mee, merp1));
+
+                        //if passed the debug boolean as true, then we also print the values to STDOUT
                         if (debug) {
                             System.out.println(merp1);
+                            System.out.print(ret.get(ret.size() - 1).column1);
+                            System.out.print(", ");
+                            System.out.print(ret.get(ret.size() - 1).column2);
+                            System.out.print(", ");
+                            System.out.println(ret.get(ret.size() - 1).pattern);
+                            System.out.println("-----------");
+                            System.out.println(ret.get(ret.size() - 1).cryptobox);
+                            System.out.println("-----------");
                         }
-                        ret.add(new GlyphPlace(f, s, mee, merp1));
-                        /*
-                        System.out.print(ret.get(ret.size() - 1).fst.fst.fst);
-                        System.out.print(", ");
-                        System.out.print(ret.get(ret.size() - 1).fst.fst.snd);
-                        System.out.print(", ");
-                        System.out.println(ret.get(ret.size() - 1).fst.snd);
-                        System.out.println("-----------");
-                        System.out.println(ret.get(ret.size() - 1).snd);
-                        System.out.println("-----------");
-                        */
+
                     } catch (LegalityChecker.NoCipherMatch e) {
+                        //The only way this is thrown is if there was not a matching cipher
+                        //In which case we just procede onwards in the loops
                     }
                 }
             } catch (ImprobabilityDriveError e) {

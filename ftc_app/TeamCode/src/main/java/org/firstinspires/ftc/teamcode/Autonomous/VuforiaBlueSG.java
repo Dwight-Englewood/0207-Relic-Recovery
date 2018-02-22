@@ -61,6 +61,7 @@ public class VuforiaBlueSG extends OpMode {
         timer.reset();
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         relicTrackables.activate();
+        robot.relicArmServo1.setPosition(0);
     }
 
     @Override
@@ -100,7 +101,7 @@ public class VuforiaBlueSG extends OpMode {
                     robot.jewelUp();
                     timer.reset();
                     command++;
-                } else if (timer.milliseconds() > 2000) {
+                } else if (timer.milliseconds() > 1500) {
                     robot.drive(MovementEnum.STOP);
                     robot.jewelKnockforward();
                     try {Thread.sleep(300);}catch(Exception e){}
@@ -109,11 +110,11 @@ public class VuforiaBlueSG extends OpMode {
                     robot.jewelUp();
                     timer.reset();
                     command++;
-                } else if (robot.colorSensor.blue() >= 1) {
+                } else if (robot.colorSensor.blue() >= 1 && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockforward();
                     timer.reset();
-                } else if (robot.colorSensor.red() >= 1) {
+                } else if (robot.colorSensor.red() >= 1 && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockback();
                     timer.reset();
@@ -175,7 +176,7 @@ public class VuforiaBlueSG extends OpMode {
                         generalTarget = -1 * robot.distanceToRevs(34);
                         break;
                 }
-                try {Thread.sleep(500);} catch (Exception e) {}
+                try {Thread.sleep(300);} catch (Exception e) {}
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -219,7 +220,6 @@ public class VuforiaBlueSG extends OpMode {
             case 9:
                 commandString = "Unfold";
                 if (timer.milliseconds() > 1000) {
-                    robot.flipDown();
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 650) {
@@ -235,6 +235,7 @@ public class VuforiaBlueSG extends OpMode {
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.flipDown();
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
@@ -317,7 +318,7 @@ public class VuforiaBlueSG extends OpMode {
                 commandString = "Knock glyph back";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.BACKWARD, power);
-                if (power == 0) {
+                if (power == 0 || timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -348,13 +349,12 @@ public class VuforiaBlueSG extends OpMode {
                 }
                 break;
 
-
         }
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);
-        telemetry.addData("FL Encoder", robot.FL.getCurrentPosition());
-        telemetry.addData("target", generalTarget);
+        telemetry.addData("red val", robot.colorSensor.red());
+        telemetry.addData("blue val", robot.colorSensor.blue());
         telemetry.addLine(commandString);
 
         telemetry.update();

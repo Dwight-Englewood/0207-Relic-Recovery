@@ -149,7 +149,7 @@ public class BlueAutonClose extends OpMode {
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(90, false, telemetry);
+                    robot.adjustHeading(90, false);
                 }
                 break;
 
@@ -166,7 +166,7 @@ public class BlueAutonClose extends OpMode {
 
             case 7:
                 if (timer.milliseconds() < 4000) {
-                    robot.adjustHeading(0, false, telemetry);
+                    robot.adjustHeading(0, false);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     //robot.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -225,7 +225,7 @@ public class BlueAutonClose extends OpMode {
 
             case 12:
                 if (timer.milliseconds() < 1000) {
-                    robot.adjustHeading(0, false, telemetry);
+                    robot.adjustHeading(0, false);
                     robot.backIntakeWallDown();
                 } else {
                     robot.drive(MovementEnum.STOP);

@@ -487,7 +487,7 @@ public class Bot {
 
     public void jewelOuter() {
         jewelServoBottom.setPosition(.1);
-        jewelServoTop.setPosition(.4);
+        jewelServoTop.setPosition(.43);
     }
 
     public void jewelTeleop(){
@@ -630,10 +630,35 @@ public class Bot {
 
     //Runs a P-loop --> notebook
     public void adjustHeading(int targetHeading, boolean slow) {
-
+        boolean turnLeft = false;
         float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        float powFactor = Math.abs(targetHeading - curHeading) * (float)(slow ? .0055 : .02);
 
-        
+        switch(targetHeading) {
+            case 0:
+                turnLeft = curHeading <= 0 ? true:false;
+                break;
+
+            case 90:
+                turnLeft = curHeading <= -90 || curHeading >= 90 ? false:true;
+                break;
+
+            case 180:
+                turnLeft = curHeading <= 0 ? false:true;
+                break;
+
+            case -90:
+                turnLeft = curHeading <= -90 || curHeading >= 90 ? true:false;
+                break;
+        }
+
+        leftPower = Range.clip((turnLeft ? -1 : 1) * powFactor, -1, 1);
+        rightPower = Range.clip((turnLeft ? 1 : -1) * powFactor, -1, 1);
+        FL.setPower(leftPower);
+        BL.setPower(leftPower);
+        FR.setPower(rightPower);
+        BR.setPower(rightPower);
+
 
         /*if (Math.abs(targetHeading - curHeading) < .5) {
             FL.setPower(0);

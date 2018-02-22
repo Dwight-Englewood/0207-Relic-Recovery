@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Utility.Bot;
@@ -95,6 +96,7 @@ public class Telebop extends OpMode {
         //We now tell the drive train motors to use encoders
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
     /**
@@ -124,12 +126,12 @@ public class Telebop extends OpMode {
             brakeToggle = !brakeToggle;
             //The drivers will always end up holding the button for more than 1 cycle of the loop function. Therefore, it is important that it doesn't immediately revert the toggle.
             //Hence, the brakeCountdown. It will prevent the toggle from accidentally not being triggered due to the boolean being swapped twice
-            brakeCountdown = 15;
+            brakeCountdown = 30;
         }
 
         if (gamepad2.start && relicCountdown <= 0) {
             glyphMode = !glyphMode;
-            relicCountdown = 30;
+            relicCountdown = 50;
         }
 
         //Main driving function. See Bot.java for documentation

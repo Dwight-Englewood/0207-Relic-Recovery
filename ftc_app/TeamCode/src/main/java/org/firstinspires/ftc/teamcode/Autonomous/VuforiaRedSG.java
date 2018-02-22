@@ -153,7 +153,7 @@ public class VuforiaRedSG extends OpMode {
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(-90, false, telemetry);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
@@ -202,7 +202,7 @@ public class VuforiaRedSG extends OpMode {
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(0, false, telemetry);
+                    robot.adjustHeading(0, false);
                 }
                 break;
 
@@ -217,10 +217,14 @@ public class VuforiaRedSG extends OpMode {
 
             case 9:
                 commandString = "Unfold";
-                if (timer.milliseconds() > 1000) {
-                    robot.flipDown();
+                if (timer.milliseconds() > 1500) {
+                    robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
+
                     timer.reset();
                     command++;
+                } else if (timer.milliseconds() > 1000) {
+                    robot.flipDown();
+                    robot.relicArmVexControl(.5, DcMotorSimple.Direction.FORWARD);
                 } else if (timer.milliseconds() > 750) {
                     robot.intakeDrop.setPower(0);
                     robot.releaseMove(ReleasePosition.MIDDLE);

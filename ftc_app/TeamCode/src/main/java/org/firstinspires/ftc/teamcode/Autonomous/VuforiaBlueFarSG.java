@@ -153,7 +153,7 @@ public class VuforiaBlueFarSG extends OpMode {
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(-90, true, telemetry);
+                    robot.adjustHeading(-90, true);
                 }
                 break;
 
@@ -205,7 +205,7 @@ public class VuforiaBlueFarSG extends OpMode {
                     done = false;
                     command++;
                 } else if (timer.milliseconds() > 250) {
-                    robot.adjustHeading(0, false, telemetry);
+                    robot.adjustHeading(0, false);
                     if (robot.FL.getPower() == 0) {
                         done = true;
                     }
@@ -243,7 +243,7 @@ public class VuforiaBlueFarSG extends OpMode {
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
-                    robot.adjustHeading(0, true, telemetry);
+                    robot.adjustHeading(0, true);
                 }
                 break;
 

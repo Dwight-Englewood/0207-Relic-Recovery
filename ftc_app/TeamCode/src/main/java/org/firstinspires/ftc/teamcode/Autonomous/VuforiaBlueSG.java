@@ -61,7 +61,8 @@ public class VuforiaBlueSG extends OpMode {
         timer.reset();
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         relicTrackables.activate();
-        robot.relicArmServo1.setPosition(0);
+        robot.relicArmServo1.setPosition(1);
+        robot.jewelOut();
     }
 
     @Override
@@ -70,16 +71,17 @@ public class VuforiaBlueSG extends OpMode {
             case -1:
                 commandString = "Find VuMark";
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
-                if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-                    robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
-                    robot.jewelOut();
-                    timer.reset();
-                    command++;
-                } else if (timer.milliseconds() > 1000) {
-                    robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
-                    robot.jewelOut();
-                    timer.reset();
-                    command++;
+                if (timer.milliseconds() > 600) {
+                    robot.jewelOuter();
+                    if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                        robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
+                        timer.reset();
+                        command++;
+                    } else if (timer.milliseconds() > 1600) {
+                        robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
+                        timer.reset();
+                        command++;
+                    }
                 }
                 break;
 
@@ -138,23 +140,21 @@ public class VuforiaBlueSG extends OpMode {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
                     timer.reset();
+                    robot.relicArmServo1.setPosition(0);
                     command++;
                 }
                 break;
 
             case 4:
-                /*commandString = "Adjust heading to -90";
+                commandString = "Adjust heading to -90";
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(-90, false, telemetry);
-                }*/
-                robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                try{Thread.sleep(500);} catch (Exception e) {}
-                command++;
+                    robot.adjustHeading(-90, false);
+                }
                 break;
 
             case 5:
@@ -202,7 +202,7 @@ public class VuforiaBlueSG extends OpMode {
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250) {
-                    robot.adjustHeading(0, false, telemetry);
+                    robot.adjustHeading(0, false);
                 }
                 break;
 
@@ -217,9 +217,14 @@ public class VuforiaBlueSG extends OpMode {
 
             case 9:
                 commandString = "Unfold";
-                if (timer.milliseconds() > 1000) {
+                if (timer.milliseconds() > 1500) {
+                    robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
+                    robot.relicArmServo1.setPosition(1);
                     timer.reset();
                     command++;
+                } else if (timer.milliseconds() > 1000) {
+                    robot.flipDown();
+                    robot.relicArmVexControl(.5, DcMotorSimple.Direction.FORWARD);
                 } else if (timer.milliseconds() > 650) {
                     robot.intakeDrop.setPower(0);
                     robot.releaseMove(ReleasePosition.MIDDLE);
@@ -237,7 +242,7 @@ public class VuforiaBlueSG extends OpMode {
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
-                    robot.adjustHeading(0, true, telemetry);
+                    robot.adjustHeading(0, true);
                 }
                 break;
 

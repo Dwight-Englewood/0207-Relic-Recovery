@@ -26,9 +26,25 @@ if (gamepad1.right_bumper) {
     controller.addInstruction(ReleasePosition.MIDDLE, 0);
     robot.backIntakeWallUp();
 }
+
+wallCountdown--;
 ```
 
-The back wall is tied to the same control as the glyph placer. Whenever, the glyph placer is in the up position, we set the cooldown to 55 teleop loops. 
+The back wall is tied to the same control as the glyph placer. When we place glyphs, we also lower the intake wall. Whenever, the glyph placer is in the up position, we set the cooldown to 55 teleop loops. 
 
-If the dirvers are not placing a glyph, then we 
+If the dirvers are not placing a glyph, then we test for the cooldown being less than 0; has 55 iterations of the teleop loop occured? If so, then the robot will raise the intake wall automatically.
 
+### Driver Mode Cooldowns
+
+```
+if (gamepad1.start && relicCountdown <= 0) {
+    glyphMode = !glyphMode;
+    relicCountdown = 30;
+}
+
+relicCountdown--;
+```
+
+This functions similarly. To swap modes, the cooldown must be less than 0, to indiate that at least 30 loops have passed since the last mode swap.
+
+## Results

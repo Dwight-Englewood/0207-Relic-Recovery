@@ -106,5 +106,5 @@ if (gamepad2.y) {
 }
 ```
 
-These are much clearer code, as all instances of modifying the position of the glyph placer are identical in form, as well as being more effective.
+This code is much clearer than the original version, and is also more robust - instead of just having 3 priorities, one of which was hard to use, we now have essentially unlimited priorities, allowing for much greater fleixbility when adding additional glyph placer states later
 

@@ -17,16 +17,18 @@ Each cooldown has an associated `int` that stores the current cooldown value, wh
 ### Intake Wall
 
 ```
-   f (gamepad1.right_bumper) {
-                //This is priority 5 as we want the actual flipping (placing the glyph) to have precedence over other auto done positions, which only serve to aid in glyph movement.
-                controller.addInstruction(ReleasePosition.UP, 5);
-                robot.flipUp();
-                //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
-                robot.backIntakeWallDown();
-                wallCountdown = 55;
-            } else if (wallCountdown <= 0) {
-                controller.addInstruction(ReleasePosition.MIDDLE, 0);
-                robot.backIntakeWallUp();
-            }
-            ```
+if (gamepad1.right_bumper) {
+    controller.addInstruction(ReleasePosition.UP, 5);
+    robot.flipUp();
+    robot.backIntakeWallDown();
+    wallCountdown = 55;
+} else if (wallCountdown <= 0) {
+    controller.addInstruction(ReleasePosition.MIDDLE, 0);
+    robot.backIntakeWallUp();
+}
+```
+
+The back wall is tied to the same control as the glyph placer. Whenever, the glyph placer is in the up position, we set the cooldown to 55 teleop loops. 
+
+If the dirvers are not placing a glyph, then we 
 

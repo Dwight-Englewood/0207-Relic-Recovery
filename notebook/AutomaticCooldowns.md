@@ -48,3 +48,5 @@ relicCountdown--;
 This functions similarly. To swap modes, the cooldown must be less than 0, to indiate that at least 30 loops have passed since the last mode swap.
 
 ## Results
+
+The automatic cooldowns on various functions of the robot allow the drivers to concentrate less on micro managing the robot's functions and focus more on placing glyphs.

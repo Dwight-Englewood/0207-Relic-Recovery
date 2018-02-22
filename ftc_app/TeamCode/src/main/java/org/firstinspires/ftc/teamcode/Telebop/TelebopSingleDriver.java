@@ -36,6 +36,7 @@ public class TelebopSingleDriver extends OpMode {
     boolean glyphMode = true;
     boolean placing = false;
     int countdown = 0;
+    int relicCountdown = 0;
     int wallCountdown = 0;
     int placingCooldown = 0;
 
@@ -64,9 +65,9 @@ public class TelebopSingleDriver extends OpMode {
     @Override
     public void loop()
     {
-        if (gamepad1.start && countdown <= 0) {
+        if (gamepad1.start && relicCountdown <= 0) {
             glyphMode = !glyphMode;
-            countdown = 30;
+            relicCountdown = 30;
         }
         if (gamepad1.back && countdown <= 0) {
             brakeToggle = !brakeToggle;
@@ -165,6 +166,7 @@ public class TelebopSingleDriver extends OpMode {
         }
 
         countdown--;
+        relicCountdown--;
         cooldownServo1--;
         cooldownServo2--;
         wallCountdown--;
@@ -176,8 +178,8 @@ public class TelebopSingleDriver extends OpMode {
         if (cooldownServo2 == Integer.MIN_VALUE) {
             cooldownServo2 = 0;
         }
-        if (countdown == Integer.MIN_VALUE) {
-            countdown = 0;
+        if (brakeCountdown == Integer.MIN_VALUE) {
+            brakeCountdown = 0;
         }
         if (wallCountdown == Integer.MIN_VALUE) {
             wallCountdown = 0;

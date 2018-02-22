@@ -28,8 +28,10 @@ public class Telebop extends OpMode {
     boolean glyphMode = true;
     boolean movingInt = false;
 
-    //countdown is used for adding delays to the brake toggle
-    int countdown = 0;
+    //brakeCountdown is used for adding delays to the brake toggle
+    int brakeCountdown = 0;
+
+    int relicCountdown = 0;
 
     //wallCountdown is used for adding timing to our glyph wall
     int wallCountdown = 0;
@@ -105,7 +107,7 @@ public class Telebop extends OpMode {
         //invert (currently disabled)
         /*if (gamepad1.start) {
             invert = !invert;
-            countdown = 15;
+            brakeCountdown = 15;
         }*/
 
 
@@ -114,20 +116,20 @@ public class Telebop extends OpMode {
 
         //Gamepad 1 Stuff
         //Brake toggle. Th ebrake was implemented so the drivers could more easiyl get onto the balancing stone at the end of matches, as it will immediately halt movement of the bot
-        if (gamepad1.left_bumper && countdown <= 0) {
+        if (gamepad1.left_bumper && brakeCountdown <= 0) {
 
             //switches brakeToggle to which ever boolean it was not
             //ie true -> false
             //   false -> true
             brakeToggle = !brakeToggle;
             //The drivers will always end up holding the button for more than 1 cycle of the loop function. Therefore, it is important that it doesn't immediately revert the toggle.
-            //Hence, the countdown. It will prevent the toggle from accidentally not being triggered due to the boolean being swapped twice
-            countdown = 15;
+            //Hence, the brakeCountdown. It will prevent the toggle from accidentally not being triggered due to the boolean being swapped twice
+            brakeCountdown = 15;
         }
 
-        if (gamepad2.start && countdown <= 0) {
+        if (gamepad2.start && relicCountdown <= 0) {
             glyphMode = !glyphMode;
-            countdown = 30;
+            relicCountdown = 30;
         }
 
         //Main driving function. See Bot.java for documentation
@@ -247,7 +249,8 @@ public class Telebop extends OpMode {
         }
 
         //Decrement the counters
-        countdown--;
+        brakeCountdown--;
+        relicCountdown--;
         wallCountdown--;
         cooldownServo1--;
         cooldownServo2--;

@@ -240,8 +240,6 @@ public class Telebop extends OpMode {
             }
         }
 
-
-
         if (gamepad2.x) {
             robot.jewelTeleop();
         } else if (!movingInt){

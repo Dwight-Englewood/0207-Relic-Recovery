@@ -629,10 +629,13 @@ public class Bot {
     }
 
     //Runs a P-loop --> notebook
-    public void adjustHeading(int targetHeading, boolean slow, Telemetry telemetry) {
+    public void adjustHeading(int targetHeading, boolean slow) {
 
         float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        if (Math.abs(targetHeading - curHeading) < .5) {
+
+        
+
+        /*if (Math.abs(targetHeading - curHeading) < .5) {
             FL.setPower(0);
             BL.setPower(0);
             FR.setPower(0);
@@ -666,7 +669,7 @@ public class Bot {
             FR.setPower(rightPower);
             BR.setPower(rightPower);
         }
-        telemetry.addData("drive scale: ", driveScale);
+        telemetry.addData("drive scale: ", driveScale);*/
 
     }
 

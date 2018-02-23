@@ -53,6 +53,10 @@ public class Cryptobox {
         System.out.println(test.improbabilityDrive());
 
         System.out.println(test.findColumnPlacement(GRAY, BROWN));
+
+        GlyphPlace goodMeme = test.whatGlyphsToGoFor(.5, .5);
+
+        goodMeme.print();
     }
 
     //Finds the probability of the next glyphs not being able to be placed while preserving
@@ -80,12 +84,17 @@ public class Cryptobox {
 
     public GlyphPlace findBestPlacement(ArrayList<GlyphPlace> in) {
         try {
-            GlyphPlace best = in.get(0);
-            double bestProb = best.cryptobox.improbabilityDrive();
-            for (int i = 1; i < in.size(); i++) {
+            GlyphPlace best = null;
+            double bestProb = -1;
+            for (int i = 0; i < in.size(); i++) {
                 GlyphPlace temp = in.get(i);
                 double newProb = temp.cryptobox.improbabilityDrive();
-                if (bestProb > newProb) {
+                if (temp.column1 == temp.column2) {
+                    ;
+                } else {
+                    newProb = newProb * .5;
+                }
+                if (newProb > bestProb) {
                     best = temp;
                     bestProb = newProb;
                 }
@@ -117,6 +126,7 @@ public class Cryptobox {
 
         try {
             bbChance = new Tuple<>(this.probabilityWeighted(bbList) * bb.cryptobox.improbabilityDrive(), bb);
+
         } catch (NullPointerException e) {
             bbChance = new Tuple<>((double) 0, bb);
         }
@@ -136,35 +146,51 @@ public class Cryptobox {
             ggChance = new Tuple<>((double) 0, gg);
         }
 
-        return (findMin(bbChance, bgChance, gbChance, ggChance)).snd;
+        System.out.println(bbChance.fst);
+        bbChance.snd.print();
+
+        System.out.println(bgChance.fst);
+        bgChance.snd.print();
+
+        System.out.println(gbChance.fst);
+        gbChance.snd.print();
+
+        System.out.println(ggChance.fst);
+        ggChance.snd.print();
+
+        System.out.println("------------------------------------------------------------------------------------------------------------");
+        System.out.println(findMax(bbChance, bgChance, gbChance, ggChance).fst);
+        findMax(bbChance, bgChance, gbChance, ggChance).snd.print();
+
+        return (findMax(bbChance, bgChance, gbChance, ggChance)).snd;
 
 
     }
 
-    public Tuple<Double, GlyphPlace> findMin(Tuple<Double, GlyphPlace> in1, Tuple<Double, GlyphPlace> in2, Tuple<Double, GlyphPlace> in3, Tuple<Double, GlyphPlace> in4) {
+    public Tuple<Double, GlyphPlace> findMax(Tuple<Double, GlyphPlace> in1, Tuple<Double, GlyphPlace> in2, Tuple<Double, GlyphPlace> in3, Tuple<Double, GlyphPlace> in4) {
         ArrayList<Tuple<Double, GlyphPlace>> input = new ArrayList<>();
         input.add(in1);
         input.add(in2);
         input.add(in3);
         input.add(in4);
 
-        Tuple<Double, GlyphPlace> tempMin = input.get(0);
+        Tuple<Double, GlyphPlace> tempMax = input.get(0);
         for (int i = 1; i < input.size(); i++) {
-            if (tempMin.fst < input.get(i).fst) {
-                tempMin = input.get(i);
+            if (tempMax.fst < input.get(i).fst) {
+                tempMax = input.get(i);
             }
         }
 
-        return tempMin;
+        return tempMax;
 
     }
 
     public double improbabilityDrive() {
-        return improbabilityDrive(.5, .5);
+        return improbabilityDrive(.5, .5, false);
     }
 
 
-    public double improbabilityDrive(double grayChance, double brownChance) {
+    public double improbabilityDrive(double grayChance, double brownChance, boolean debug) {
         //System.out.println("Finding Probability\n----------");
         //gonna assume the chances of each color are equal
 
@@ -173,13 +199,17 @@ public class Cryptobox {
         double bg;
         double bb;
 
-        gg = grayChance * grayChance * probabilityWeighted(this.findPlacements(GRAY, GRAY, true));
-        gb = grayChance * brownChance * probabilityWeighted(this.findPlacements(GRAY, BROWN, true));
-        bg = brownChance * grayChance * probabilityWeighted(this.findPlacements(BROWN, GRAY, true));
-        bb = brownChance * brownChance * probabilityWeighted(this.findPlacements(BROWN, BROWN, true));
+
+        gg = grayChance * grayChance * probabilityWeighted(this.findPlacements(GRAY, GRAY, debug));
+        gb = grayChance * brownChance * probabilityWeighted(this.findPlacements(GRAY, BROWN, debug));
+        bg = brownChance * grayChance * probabilityWeighted(this.findPlacements(BROWN, GRAY, debug));
+        bb = brownChance * brownChance * probabilityWeighted(this.findPlacements(BROWN, BROWN, debug));
+
+
+
 
         //Averaging the values
-        return (1 - (gg + gb + bg + bb) / (double) 4);
+        return (gg + gb + bg + bb);
     }
 
     public double probabilityWeighted(ArrayList<GlyphPlace> in) {

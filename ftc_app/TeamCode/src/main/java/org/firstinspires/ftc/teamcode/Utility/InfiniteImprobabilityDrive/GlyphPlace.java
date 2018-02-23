@@ -21,4 +21,15 @@ public class GlyphPlace {
         this.pattern = pattern;
         this.cryptobox = cryptobox;
     }
+
+    public void print() {
+        System.out.println(this.column1);
+        System.out.println(this.column2);
+        System.out.println(glyph1);
+        System.out.println(glyph2);
+        System.out.println(pattern);
+        System.out.println(cryptobox);
+
+
+    }
 }

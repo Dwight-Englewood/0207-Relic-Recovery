@@ -526,12 +526,17 @@ public class Bot {
         jewelServoTop.setPosition(.4);
     }
 
-    public void jewelOuter() {
+    public void jewelOuterBlue() {
         jewelServoBottom.setPosition(.1);
         jewelServoTop.setPosition(.43);
     }
 
-    public void jewelTeleop() {
+    public void jewelOuterRed() {
+        jewelServoBottom.setPosition(.1);
+        jewelServoTop.setPosition(.37);
+    }
+
+    public void jewelTeleop(){
         jewelServoBottom.setPosition(.19);
         jewelServoTop.setPosition(.4);
     }
@@ -665,6 +670,24 @@ public class Bot {
         BR.setTargetPosition(target);
     }
 
+    public void runRightToPosition(int target) {
+        this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FL.setTargetPosition(target);
+        FR.setTargetPosition(-target);
+        BL.setTargetPosition(-target);
+        BR.setTargetPosition(target);
+    }
+
+    public void runLeftToPosition(int target) {
+        this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FL.setTargetPosition(-target);
+        FR.setTargetPosition(target);
+        BL.setTargetPosition(target);
+        BR.setTargetPosition(-target);
+    }
+
     public int distanceToRevs(double distance) {
         final double wheelCirc = 31.9185813;
 
@@ -681,19 +704,20 @@ public class Bot {
 
         switch (targetHeading) {
             case 0:
-                turnLeft = curHeading <= 0 ? true : false;
+
+                turnLeft = curHeading <= 0;
                 break;
 
             case 90:
-                turnLeft = curHeading <= -90 || curHeading >= 90 ? false : true;
+                turnLeft = !(curHeading <= -90 || curHeading >= 90);
                 break;
 
             case 180:
-                turnLeft = curHeading <= 0 ? false : true;
+                turnLeft = !(curHeading <= 0);
                 break;
 
             case -90:
-                turnLeft = curHeading <= -90 || curHeading >= 90 ? true : false;
+                turnLeft = curHeading <= -90 || curHeading >= 90;
                 break;
         }
 
@@ -986,15 +1010,15 @@ public class Bot {
         double driveScale = Math.abs(headingError) * .0055;
         double powbl, powbr, minbr, minbl;
 
-        minbl = direction == MovementEnum.LEFTSTRAFE ? 0 : -1;
-        minbr = direction == MovementEnum.LEFTSTRAFE ? -1 : 0;
+        minbl = direction == MovementEnum.LEFTSTRAFE ? 0 : -.8;
+        minbr = direction == MovementEnum.LEFTSTRAFE ? -.8 : 0;
 
         if (headingError < 0) {
-            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + 1);
-            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + 1);
+            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + .8);
+            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + .8);
         } else {
-            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + 1);
-            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + 1);
+            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + .8);
+            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + .8);
         }
 
         BL.setPower(powbl);

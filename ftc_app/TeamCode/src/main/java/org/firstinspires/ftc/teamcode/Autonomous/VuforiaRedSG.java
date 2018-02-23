@@ -72,7 +72,7 @@ public class VuforiaRedSG extends OpMode {
                 commandString = "Find VuMark";
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (timer.milliseconds() > 600) {
-                    robot.jewelOuter();
+                    robot.jewelOuterRed();
                     if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                         robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
                         timer.reset();
@@ -90,7 +90,6 @@ public class VuforiaRedSG extends OpMode {
                 if (timer.milliseconds() > 500){
                     robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
                     timer.reset();
-                    robot.jewelOuter();
                     relicTrackables.deactivate();
                     vuforia.close();
                     command++;

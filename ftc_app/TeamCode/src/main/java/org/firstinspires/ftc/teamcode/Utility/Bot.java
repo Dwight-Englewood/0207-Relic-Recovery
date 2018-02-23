@@ -547,13 +547,13 @@ public class Bot {
         releaseRight.setPosition(relDowner);
     }
 
-    private void relRInit() {releaseRight.setPosition(.76);}
+    private void relRInit() {releaseRight.setPosition(.72);}
 
-    private void relLInit() {releaseLeft.setPosition(.76);}
+    private void relLInit() {releaseLeft.setPosition(.72);}
 
-    private void relLDrop() {releaseLeft.setPosition(.8);}
+    private void relLDrop() {releaseLeft.setPosition(.77);}
 
-    private void relRDrop() {releaseRight.setPosition(.8);}
+    private void relRDrop() {releaseRight.setPosition(.77);}
 
     public void flipUp() {
         flipper.setPosition(1);

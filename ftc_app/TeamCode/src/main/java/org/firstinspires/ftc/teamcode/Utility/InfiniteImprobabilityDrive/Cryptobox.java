@@ -54,9 +54,10 @@ public class Cryptobox {
 
         System.out.println(test.findColumnPlacement(GRAY, BROWN));
 
-        GlyphPlace goodMeme = test.whatGlyphsToGoFor(.5, .5);
+        Tuple<Double, GlyphPlace> goodMeme = test.whatGlyphsToGoFor(.5, .5);
 
-        goodMeme.print();
+        System.out.println(goodMeme.fst);
+        goodMeme.snd.print();
     }
 
     //Finds the probability of the next glyphs not being able to be placed while preserving
@@ -106,7 +107,7 @@ public class Cryptobox {
         }
     }
 
-    public GlyphPlace whatGlyphsToGoFor(double grayChance, double brownChance) {
+    public Tuple<Double, GlyphPlace> whatGlyphsToGoFor(double grayChance, double brownChance) {
 
         ArrayList<GlyphPlace> bbList = this.findPlacements(BROWN, BROWN);
         ArrayList<GlyphPlace> bgList = this.findPlacements(BROWN, GRAY);
@@ -162,7 +163,7 @@ public class Cryptobox {
         System.out.println(findMax(bbChance, bgChance, gbChance, ggChance).fst);
         findMax(bbChance, bgChance, gbChance, ggChance).snd.print();
 
-        return (findMax(bbChance, bgChance, gbChance, ggChance)).snd;
+        return (findMax(bbChance, bgChance, gbChance, ggChance));
 
 
     }
@@ -206,8 +207,6 @@ public class Cryptobox {
         bb = brownChance * brownChance * probabilityWeighted(this.findPlacements(BROWN, BROWN, debug));
 
 
-
-
         //Averaging the values
         return (gg + gb + bg + bb);
     }
@@ -220,7 +219,6 @@ public class Cryptobox {
         for (int i = 0; i < in.size(); i++) {
             if (in.get(i).column1 == in.get(i).column2) {
                 //if there was a placement with both glyphs in same column, weight with probability 1
-
                 return 1;
             } else {
                 ;

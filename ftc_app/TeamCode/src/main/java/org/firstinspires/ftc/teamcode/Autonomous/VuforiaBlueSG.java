@@ -127,7 +127,6 @@ public class VuforiaBlueSG extends OpMode {
                 commandString = "Set up RUN_TO_POSITION";
                 generalTarget = -1 * robot.distanceToRevs(50);
                 robot.runToPosition(generalTarget);
-                //Possibly turn off brake
                 timer.reset();
                 command++;
                 break;
@@ -307,6 +306,7 @@ public class VuforiaBlueSG extends OpMode {
                 break;
 
             case 17:
+
                 commandString = "Setup knock glyph back";
                 if (timer.milliseconds() > 250) {
                     generalTarget = -robot.distanceToRevs(20);

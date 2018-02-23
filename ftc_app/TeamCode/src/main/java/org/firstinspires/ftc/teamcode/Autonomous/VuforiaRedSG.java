@@ -125,9 +125,8 @@ public class VuforiaRedSG extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = -1 * robot.distanceToRevs(50);
+                generalTarget = robot.distanceToRevs(50);
                 robot.runToPosition(generalTarget);
-                //Possibly turn off brake
                 timer.reset();
                 command++;
                 break;
@@ -135,7 +134,7 @@ public class VuforiaRedSG extends OpMode {
             case 3:
                 commandString = "RUN_TO_POSITION";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.BACKWARD, power);
+                robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);

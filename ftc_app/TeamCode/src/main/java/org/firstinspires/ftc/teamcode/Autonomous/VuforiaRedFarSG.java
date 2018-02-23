@@ -70,7 +70,7 @@ public class VuforiaRedFarSG extends OpMode {
                 commandString = "Find VuMark";
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (timer.milliseconds() > 600) {
-                    robot.jewelOuter();
+                    robot.jewelOuterRed();
                     if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                         robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
                         timer.reset();
@@ -88,7 +88,6 @@ public class VuforiaRedFarSG extends OpMode {
                 if (timer.milliseconds() > 500){
                     robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
                     timer.reset();
-                    robot.jewelOuter();
                     relicTrackables.deactivate();
                     vuforia.close();
                     command++;
@@ -128,6 +127,229 @@ public class VuforiaRedFarSG extends OpMode {
                 timer.reset();
                 command++;
                 break;
+
+            case 3:
+                commandString = "RUN_TO_POSITION";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.relicArmServo1.setPosition(0);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 4:
+                commandString = "Adjust heading to -90";
+                if (timer.milliseconds() > 750) {
+                    robot.drive(MovementEnum.STOP);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    timer.reset();
+                    command++;
+                } else {
+                    robot.adjustHeading(-90, true);
+                }
+                break;
+
+            case 5:
+                commandString = "Set up RUN_TO_POSITION";
+                generalTarget = robot.distanceToRevs(15);
+                robot.runToPosition(generalTarget);
+                timer.reset();
+                command++;
+                break;
+
+            case 6:
+                commandString = "RUN_TO_POSITION";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.relicArmServo1.setPosition(0);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 7:
+                commandString = "Adjust heading to 90";
+                if (timer.milliseconds() > 1500) {
+                    robot.drive(MovementEnum.STOP);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    timer.reset();
+                    command++;
+                } else {
+                    robot.adjustHeading(90, false);
+                }
+                break;
+
+            case 8:
+                commandString = "Choose column";
+                switch (vuMark) {
+                    case LEFT:
+                        generalTarget = robot.distanceToRevs(46);
+                        break;
+
+                    case CENTER:
+                        generalTarget = robot.distanceToRevs(28);
+                        break;
+
+                    case RIGHT:
+                        generalTarget = robot.distanceToRevs(10);
+                        break;
+
+                    case UNKNOWN:
+                        generalTarget = robot.distanceToRevs(28);
+                        break;
+                }
+                try {Thread.sleep(300);} catch (Exception e) {}
+                robot.runRightToPosition(generalTarget);
+                timer.reset();
+                command++;
+                break;
+
+            case 9:
+                commandString = "Strafe w/ adjusts";
+                robot.strafeAdjusts(90, MovementEnum.RIGHTSTRAFE);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.relicArmServo1.setPosition(0);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 10:
+                commandString = "Begin unfold";
+                robot.releaseMove(ReleasePosition.DROP);
+                robot.jewelOut();
+                robot.intakeDrop.setPower(-1);
+                timer.reset();
+                command++;
+                break;
+
+            case 11:
+                commandString = "Unfold";
+                if (timer.milliseconds() > 1500) {
+                    robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
+                    robot.relicArmServo1.setPosition(1);
+                    robot.flipDown();
+                    timer.reset();
+                    command++;
+                } else if (timer.milliseconds() > 1000) {
+                    robot.relicArmVexControl(.5, DcMotorSimple.Direction.FORWARD);
+                } else if (timer.milliseconds() > 650) {
+                    robot.intakeDrop.setPower(0);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    robot.flipUp();
+                    robot.jewelUp();
+                }
+                break;
+
+            case 12:
+                commandString = "Adjust heading to 90";
+                if (timer.milliseconds() > 750) {
+                    robot.drive(MovementEnum.STOP);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    timer.reset();
+                    command++;
+                } else if (timer.milliseconds() > 250){
+                    robot.adjustHeading(0, true);
+                }
+                break;
+
+            case 13:
+                commandString = "Intake wall down";
+                robot.backIntakeWallDown();
+                timer.reset();
+                command++;
+                break;
+
+            case 14:
+                commandString = "Release glyph";
+                if (timer.milliseconds() > 250) {
+                    robot.releaseMove(ReleasePosition.UP);
+                    timer.milliseconds();
+                    command++;
+                }
+                break;
+
+            case 15:
+                commandString = "Setup drive away from box";
+                if (timer.milliseconds() > 250) {
+                    generalTarget = robot.distanceToRevs(15);
+                    robot.runToPosition(generalTarget);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 16:
+                commandString = "Drive away from box";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 17:
+                commandString = "Setup knock glyph back";
+                if (timer.milliseconds() > 250) {
+                    generalTarget = -robot.distanceToRevs(20);
+                    robot.runToPosition(generalTarget);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 18:
+                commandString = "Knock glyph back";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.BACKWARD, power);
+                if (power == 0 || timer.milliseconds() > 2000) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 19:
+                commandString = "Setup drive away from box";
+                if (timer.milliseconds() > 250) {
+                    generalTarget = robot.distanceToRevs(15);
+                    robot.runToPosition(generalTarget);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 20:
+                commandString = "Drive away from box";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 21:
+                stop();
+                break;
+
 
 
         }

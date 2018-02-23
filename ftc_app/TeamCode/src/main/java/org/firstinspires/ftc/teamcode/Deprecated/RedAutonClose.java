@@ -77,7 +77,7 @@ public class RedAutonClose extends OpMode {
             case 0:
                 if (timer.milliseconds() > 750){
                     timer.reset();
-                    robot.jewelOuter();
+                    robot.jewelOuterRed();
                     command++;
                 }
                 break;

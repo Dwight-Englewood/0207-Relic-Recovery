@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Utility;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -34,6 +36,7 @@ public class Bot {
     public BNO055IMU imu;
     public ModernRoboticsI2cColorSensor colorSensor, intakeColor;
     public ModernRoboticsI2cRangeSensor rangeFront;
+    public ModernRoboticsAnalogOpticalDistanceSensor odsFront;
 
     private Orientation angles;
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
@@ -64,6 +67,8 @@ public class Bot {
         intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
         intakeColor.enableLed(true);
         rangeFront = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangef");
+        odsFront = hardwareMap.get(ModernRoboticsAnalogOpticalDistanceSensor.class, "odsf");
+        odsFront.enableLed(true);
 
         jewelServoBottom = hardwareMap.servo.get("jewelbot"); //servo which does servo things\
         jewelServoTop = hardwareMap.servo.get("jeweltop"); //another servo which does servo things
@@ -187,6 +192,20 @@ public class Bot {
             return Glyph.EMPTY;
         }
     }
+
+
+    //whenevr teh combo of ODS/Color change drastically we can assume that the glyph has changed, and thus will want to add another
+    //in teleop/auton put this in the main loop with the past returned values that were confirmed glyph, see if it changes to detect a new glyph
+    public Glyph testInput() {
+        double threshold = 1;
+        if (this.odsFront.getLightDetected() > threshold) {
+            return findGlyphType();
+        } else {
+            return Glyph.EMPTY;
+        }
+    }
+
+
     public void tankDriveSafeStrafe(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {
         int i = invert ? -1 : 1;
 

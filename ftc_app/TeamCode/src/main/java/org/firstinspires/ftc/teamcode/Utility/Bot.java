@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -16,8 +17,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph;
+
+import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.GRAY;
 
 /**
  * Created by aburur on 8/6/17.
@@ -25,28 +29,33 @@ import org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph;
 
 public class Bot {
 
+    private final double relDowner = 0;
+    private final double relDown = 0;
+    private final double relMid = .50;
+    private final double relMidWhileUp = .52;
+    private final double relUp = 1;
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
     public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, backIntakeWall, jewelServoTop;
-
     //temp names
     public Servo relicArmServo1, relicArmServo2;
     public CRServo relicArmVex2, relicArmVex1;
-
     public BNO055IMU imu;
     public ColorSensor intakeColor;
+    public DistanceSensor intakeDistance;
     public ModernRoboticsI2cColorSensor colorSensor;
-    public ModernRoboticsI2cRangeSensor rangeFront;
 
+    //--------------------------------------------------------------------------------------------------------------------------
+    public ModernRoboticsI2cRangeSensor rangeFront;
     private Orientation angles;
+
+    //--------------------------------------------------------------------------------------------------------------------------
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
             leftPower, rightPower;
-
     private boolean isStrafing;
     private float heading;
 
-    //--------------------------------------------------------------------------------------------------------------------------
-
-    public Bot() {}
+    public Bot() {
+    }
 
     public void init(HardwareMap hardwareMap) {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -63,8 +72,10 @@ public class Bot {
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
         colorSensor.enableLed(true);
-        intakeColor = hardwareMap.get(ColorSensor.class,"ics");
-        intakeColor.enableLed(true);
+        intakeDistance = hardwareMap.get(DistanceSensor.class, "ics");
+
+        intakeColor = hardwareMap.get(ColorSensor.class, "ics");
+
         rangeFront = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangef");
 
         jewelServoBottom = hardwareMap.servo.get("jewelbot"); //servo which does servo things\
@@ -131,8 +142,6 @@ public class Bot {
         k = .5;
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------
-
     public void relicArmVexControl(double power, DcMotorSimple.Direction d) {
         power = Range.clip(power, 0, 1);
 
@@ -142,7 +151,7 @@ public class Bot {
         relicArmVex2.setPower(power);
     }
 
-    public void tankDrive(double leftStick , double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
+    public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
 
         if (brake) {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -191,16 +200,32 @@ public class Bot {
         }
         */
 
-        int grayThreshold = 100;
-        int brownThreshold = 10;
-        if (this.colorSensor.alpha() > grayThreshold) {
-            return Glyph.GRAY;
-        } else if (this.colorSensor.alpha() > brownThreshold) {
-            return  Glyph.BROWN;
-        } else {
+        double distanceCM = this.intakeDistance.getDistance(DistanceUnit.CM);
+        if (Double.isNaN(distanceCM)) {
             return Glyph.EMPTY;
+            //only happens with open air - and thus no glyph is present
         }
+
+        if (intakeDistance.getDistance(DistanceUnit.CM) < 6) {
+            //for this distance the distance censor is unreliable - however, the color comparisons are more limited so we can use that
+        }
+
+
+        double compAlphaVal = -10 * distanceCM + 150;
+
+        if (compAlphaVal < 0) {
+            return GRAY;
+        }
+
+        if (this.colorSensor.alpha() > compAlphaVal) {
+            return GRAY;
+        } else {
+            return Glyph.BROWN;
+        }
+
+        //needs some actualy testing on the robot
     }
+
     public void tankDriveSafeStrafe(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {
         int i = invert ? -1 : 1;
 
@@ -245,6 +270,8 @@ public class Bot {
             BR.setPower(-rightStick);
         }
     }
+
+    //--------------------------------------------------------------------------------------------------------------------------
 
     public void drive(MovementEnum movement, double power) {
         switch (movement) {
@@ -327,7 +354,7 @@ public class Bot {
         }
     }
 
-    public void drive(MovementEnum movement){
+    public void drive(MovementEnum movement) {
         switch (movement) {
             case STOP:
                 FL.setPower(0);
@@ -341,6 +368,8 @@ public class Bot {
                 break;
         }
     }
+
+    //--------------------------------------------------------------------------------------------------------------------------
 
     //TODO: Test different k values
     public void fieldCentricDrive(double lStickX, double lStickY, double rStickX, double leftTrigger, double rightTrigger, boolean brake) {
@@ -471,8 +500,6 @@ public class Bot {
         telemetry.addData("rightPower", rightPower);
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------
-
     public void setDriveMotorModes(DcMotor.RunMode mode) {
         FL.setMode(mode);
         FR.setMode(mode);
@@ -487,12 +514,12 @@ public class Bot {
         BR.setZeroPowerBehavior(behavior);
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------
-
     public void jewelUp() {
         jewelServoBottom.setPosition(.63);
         jewelServoTop.setPosition(0);
     }
+
+    //--------------------------------------------------------------------------------------------------------------------------
 
     public void jewelOut() {
         jewelServoBottom.setPosition(.36);
@@ -504,22 +531,18 @@ public class Bot {
         jewelServoTop.setPosition(.43);
     }
 
-    public void jewelTeleop(){
+    public void jewelTeleop() {
         jewelServoBottom.setPosition(.19);
         jewelServoTop.setPosition(.4);
     }
 
-    public void jewelKnockback() { jewelServoTop.setPosition(0.58); }
+    public void jewelKnockback() {
+        jewelServoTop.setPosition(0.58);
+    }
 
-    public void jewelKnockforward() { jewelServoTop.setPosition(.26); }
-
-    //--------------------------------------------------------------------------------------------------------------------------
-
-    private final double relDowner = 0;
-    private final double relDown = 0;
-    private final double relMid = .50;
-    private final double relMidWhileUp = .52;
-    private final double relUp = 1;
+    public void jewelKnockforward() {
+        jewelServoTop.setPosition(.26);
+    }
 
     private void relLUp() {
         releaseLeft.setPosition(relUp);
@@ -561,13 +584,21 @@ public class Bot {
         releaseRight.setPosition(relDowner);
     }
 
-    private void relRInit() {releaseRight.setPosition(.72);}
+    private void relRInit() {
+        releaseRight.setPosition(.72);
+    }
 
-    private void relLInit() {releaseLeft.setPosition(.72);}
+    private void relLInit() {
+        releaseLeft.setPosition(.72);
+    }
 
-    private void relLDrop() {releaseLeft.setPosition(.77);}
+    private void relLDrop() {
+        releaseLeft.setPosition(.77);
+    }
 
-    private void relRDrop() {releaseRight.setPosition(.77);}
+    private void relRDrop() {
+        releaseRight.setPosition(.77);
+    }
 
     public void flipUp() {
         flipper.setPosition(1);
@@ -611,8 +642,8 @@ public class Bot {
     }
 
     public void intake(double power) {
-        intakeOne.setPower(.85*power);
-        intakeTwo.setPower(.85*power);
+        intakeOne.setPower(.85 * power);
+        intakeTwo.setPower(.85 * power);
     }
 
     public void backIntakeWallUp() {
@@ -646,23 +677,23 @@ public class Bot {
     public void adjustHeading(int targetHeading, boolean slow) {
         boolean turnLeft = false;
         float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        float powFactor = Math.abs(targetHeading - curHeading) * (float)(slow ? .0055 : .02);
+        float powFactor = Math.abs(targetHeading - curHeading) * (float) (slow ? .0055 : .02);
 
-        switch(targetHeading) {
+        switch (targetHeading) {
             case 0:
-                turnLeft = curHeading <= 0 ? true:false;
+                turnLeft = curHeading <= 0 ? true : false;
                 break;
 
             case 90:
-                turnLeft = curHeading <= -90 || curHeading >= 90 ? false:true;
+                turnLeft = curHeading <= -90 || curHeading >= 90 ? false : true;
                 break;
 
             case 180:
-                turnLeft = curHeading <= 0 ? false:true;
+                turnLeft = curHeading <= 0 ? false : true;
                 break;
 
             case -90:
-                turnLeft = curHeading <= -90 || curHeading >= 90 ? true:false;
+                turnLeft = curHeading <= -90 || curHeading >= 90 ? true : false;
                 break;
         }
 
@@ -953,7 +984,7 @@ public class Bot {
             return;
         }
         double driveScale = Math.abs(headingError) * .0055;
-        double powbl,powbr, minbr, minbl;
+        double powbl, powbr, minbr, minbl;
 
         minbl = direction == MovementEnum.LEFTSTRAFE ? 0 : -1;
         minbr = direction == MovementEnum.LEFTSTRAFE ? -1 : 0;

@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -32,7 +33,8 @@ public class Bot {
     public CRServo relicArmVex2, relicArmVex1;
 
     public BNO055IMU imu;
-    public ModernRoboticsI2cColorSensor colorSensor, intakeColor;
+    public ColorSensor intakeColor;
+    public ModernRoboticsI2cColorSensor colorSensor;
     public ModernRoboticsI2cRangeSensor rangeFront;
 
     private Orientation angles;
@@ -61,7 +63,7 @@ public class Bot {
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
         colorSensor.enableLed(true);
-        intakeColor = hardwareMap.get(ModernRoboticsI2cColorSensor.class,"ics");
+        intakeColor = hardwareMap.get(ColorSensor.class,"ics");
         intakeColor.enableLed(true);
         rangeFront = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangef");
 
@@ -170,6 +172,7 @@ public class Bot {
     }
 
     public Glyph findGlyphType() {
+        /*
         int red, blue, green, alpha;
         red = this.intakeColor.red();
         blue = this.intakeColor.blue();
@@ -179,10 +182,21 @@ public class Bot {
         double average;
         average = (red + blue + green + alpha) / (double ) 4;
 
-        if (average > 12) {
+        if (average > 3) {
             return Glyph.GRAY;
-        } else if (average < 12 && average > 3) {
+        } else if (average < 2.5 && average > 1) {
             return Glyph.BROWN;
+        } else {
+            return Glyph.EMPTY;
+        }
+        */
+
+        int grayThreshold = 100;
+        int brownThreshold = 10;
+        if (this.colorSensor.alpha() > grayThreshold) {
+            return Glyph.GRAY;
+        } else if (this.colorSensor.alpha() > brownThreshold) {
+            return  Glyph.BROWN;
         } else {
             return Glyph.EMPTY;
         }

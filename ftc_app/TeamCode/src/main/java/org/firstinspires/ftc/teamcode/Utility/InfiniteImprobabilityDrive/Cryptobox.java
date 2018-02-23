@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive;
 
+import org.firstinspires.ftc.teamcode.Utility.Tuple;
+
 import java.util.ArrayList;
 
 import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.BROWN;
@@ -17,6 +19,11 @@ public class Cryptobox {
     //Stored as a 3x4, where each sub array is a column
     //makes working with it easier
     private Glyph[][] boz = new Glyph[3][4];
+
+    //Simple Constructor - Nothing fancy here
+    public Cryptobox(Glyph[][] boz) {
+        this.boz = boz;
+    }
 
     public static void main(String[] args) {
         /*
@@ -48,17 +55,115 @@ public class Cryptobox {
         System.out.println(test.findColumnPlacement(GRAY, BROWN));
     }
 
-    //Simple Constructor - Nothing fancy here
-    public Cryptobox(Glyph[][] boz) {
-        this.boz = boz;
-    }
-
     //Finds the probability of the next glyphs not being able to be placed while preserving
     //a cipher pattern
+
+    //Returns the number of glyphs already in a column
+
+    //From a list of possible placements of a glyph, will find the best placement - the one with the lowest probability of forcing a messed up cipher, without
+    //Do not pass this to things with a chacne of having a list of size 0 - having it function doesn't make sense, so it will throw a IID error
+
+    public static int columnFilled(Glyph[] in) {
+        int out = 0;
+        for (int i = 0; i < in.length; i++) {
+            if (in[i].equals(Glyph.EMPTY)) {
+
+            } else {
+                out = out + 1;
+            }
+        }
+
+        return out;
+    }
+
+    //For a cryptobox object, returns the pair of glyphs which has the best possible outcome, including looking after the placement of the returned pair of glyphs
+
+    public GlyphPlace findBestPlacement(ArrayList<GlyphPlace> in) {
+        try {
+            GlyphPlace best = in.get(0);
+            double bestProb = best.cryptobox.improbabilityDrive();
+            for (int i = 1; i < in.size(); i++) {
+                GlyphPlace temp = in.get(i);
+                double newProb = temp.cryptobox.improbabilityDrive();
+                if (bestProb > newProb) {
+                    best = temp;
+                    bestProb = newProb;
+                }
+            }
+
+            return best;
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
+    public GlyphPlace whatGlyphsToGoFor(double grayChance, double brownChance) {
+
+        ArrayList<GlyphPlace> bbList = this.findPlacements(BROWN, BROWN);
+        ArrayList<GlyphPlace> bgList = this.findPlacements(BROWN, GRAY);
+        ArrayList<GlyphPlace> gbList = this.findPlacements(GRAY, BROWN);
+        ArrayList<GlyphPlace> ggList = this.findPlacements(GRAY, GRAY);
+
+
+        GlyphPlace bb = this.findBestPlacement(bbList);
+        GlyphPlace bg = this.findBestPlacement(bgList);
+        GlyphPlace gb = this.findBestPlacement(gbList);
+        GlyphPlace gg = this.findBestPlacement(ggList);
+
+        Tuple<Double, GlyphPlace> bbChance;
+        Tuple<Double, GlyphPlace> bgChance;
+        Tuple<Double, GlyphPlace> gbChance;
+        Tuple<Double, GlyphPlace> ggChance;
+
+        try {
+            bbChance = new Tuple<>(this.probabilityWeighted(bbList) * bb.cryptobox.improbabilityDrive(), bb);
+        } catch (NullPointerException e) {
+            bbChance = new Tuple<>((double) 0, bb);
+        }
+        try {
+            bgChance = new Tuple<>(this.probabilityWeighted(bgList) * bg.cryptobox.improbabilityDrive(), bg);
+        } catch (NullPointerException e) {
+            bgChance = new Tuple<>((double) 0, bg);
+        }
+        try {
+            gbChance = new Tuple<>(this.probabilityWeighted(gbList) * gb.cryptobox.improbabilityDrive(), gb);
+        } catch (NullPointerException e) {
+            gbChance = new Tuple<>((double) 0, gb);
+        }
+        try {
+            ggChance = new Tuple<>(this.probabilityWeighted(ggList) * gg.cryptobox.improbabilityDrive(), gg);
+        } catch (NullPointerException e) {
+            ggChance = new Tuple<>((double) 0, gg);
+        }
+
+        return (findMin(bbChance, bgChance, gbChance, ggChance)).snd;
+
+
+    }
+
+    public Tuple<Double, GlyphPlace> findMin(Tuple<Double, GlyphPlace> in1, Tuple<Double, GlyphPlace> in2, Tuple<Double, GlyphPlace> in3, Tuple<Double, GlyphPlace> in4) {
+        ArrayList<Tuple<Double, GlyphPlace>> input = new ArrayList<>();
+        input.add(in1);
+        input.add(in2);
+        input.add(in3);
+        input.add(in4);
+
+        Tuple<Double, GlyphPlace> tempMin = input.get(0);
+        for (int i = 1; i < input.size(); i++) {
+            if (tempMin.fst < input.get(i).fst) {
+                tempMin = input.get(i);
+            }
+        }
+
+        return tempMin;
+
+    }
 
     public double improbabilityDrive() {
         return improbabilityDrive(.5, .5);
     }
+
+
     public double improbabilityDrive(double grayChance, double brownChance) {
         //System.out.println("Finding Probability\n----------");
         //gonna assume the chances of each color are equal
@@ -74,7 +179,7 @@ public class Cryptobox {
         bb = brownChance * brownChance * probabilityWeighted(this.findPlacements(BROWN, BROWN, true));
 
         //Averaging the values
-        return (1 - (gg + gb + bg + bb)/(double) 4);
+        return (1 - (gg + gb + bg + bb) / (double) 4);
     }
 
     public double probabilityWeighted(ArrayList<GlyphPlace> in) {
@@ -97,21 +202,6 @@ public class Cryptobox {
         //splitting the placement of a glyph is more time consuming - thus, we underweight it since we want to avoid
         //placing glyphs that lead to this as much as possible, while also not ignoring the possibility
 
-    }
-
-
-    //Returns the number of glyphs already in a column
-    public static int columnFilled(Glyph[] in) {
-        int out = 0;
-        for (int i = 0; i < in.length; i++) {
-            if (in[i].equals(Glyph.EMPTY)) {
-
-            } else {
-                out = out + 1;
-            }
-        }
-
-        return out;
     }
 
     //Returns the first column in which you can place the glyphs simultaneously and maintain cipher pattern
@@ -219,6 +309,10 @@ public class Cryptobox {
     //Cipher for which pattern is being completed
     //Cryptobox for the actual final placement of the glyphs
     //TODO: Comment this and explain how it works - its fairly wonky
+    public ArrayList<GlyphPlace> findPlacements(Glyph first, Glyph second) {
+        return this.findPlacements(first, second, false);
+    }
+
     public ArrayList<GlyphPlace> findPlacements(Glyph first, Glyph second, boolean debug) {
         //first off we need to know all the ways we can place the glyphs
         ArrayList<GlyphPlace> ret = new ArrayList<>();
@@ -237,7 +331,7 @@ public class Cryptobox {
                         //isCipher will throw an exception if the passed cryptobox doesn't return a correct cipher
                         //therefore, if we reach this line, we know the placement leads to a cipher
                         //and we add it to the final list of all possible positions
-                        ret.add(new GlyphPlace(f, s, mee, merp1));
+                        ret.add(new GlyphPlace(f, s, first, second, mee, merp1));
 
                         //if passed the debug boolean as true, then we also print the values to STDOUT
                         if (debug) {

@@ -54,19 +54,11 @@ public class Cryptobox {
 
         System.out.println(test.findColumnPlacement(GRAY, BROWN));
 
-        Tuple<Double, GlyphPlace> goodMeme = test.whatGlyphsToGoFor(.5, .5);
+        Tuple<Double, GlyphPlace> goodMeme = test.whatGlyphsToGoFor(.5, .5, false);
 
         System.out.println(goodMeme.fst);
         goodMeme.snd.print();
     }
-
-    //Finds the probability of the next glyphs not being able to be placed while preserving
-    //a cipher pattern
-
-    //Returns the number of glyphs already in a column
-
-    //From a list of possible placements of a glyph, will find the best placement - the one with the lowest probability of forcing a messed up cipher, without
-    //Do not pass this to things with a chacne of having a list of size 0 - having it function doesn't make sense, so it will throw a IID error
 
     public static int columnFilled(Glyph[] in) {
         int out = 0;
@@ -79,6 +71,18 @@ public class Cryptobox {
         }
 
         return out;
+    }
+
+    //Finds the probability of the next glyphs not being able to be placed while preserving
+    //a cipher pattern
+
+    //Returns the number of glyphs already in a column
+
+    //From a list of possible placements of a glyph, will find the best placement - the one with the lowest probability of forcing a messed up cipher, without
+    //Do not pass this to things with a chacne of having a list of size 0 - having it function doesn't make sense, so it will throw a IID error
+
+    public void placeGlyphPlace(GlyphPlace in) {
+        this.boz = in.cryptobox.boz;
     }
 
     //For a cryptobox object, returns the pair of glyphs which has the best possible outcome, including looking after the placement of the returned pair of glyphs
@@ -107,7 +111,7 @@ public class Cryptobox {
         }
     }
 
-    public Tuple<Double, GlyphPlace> whatGlyphsToGoFor(double grayChance, double brownChance) {
+    public Tuple<Double, GlyphPlace> whatGlyphsToGoFor(double grayChance, double brownChance, boolean debug) {
 
         ArrayList<GlyphPlace> bbList = this.findPlacements(BROWN, BROWN);
         ArrayList<GlyphPlace> bgList = this.findPlacements(BROWN, GRAY);
@@ -146,21 +150,23 @@ public class Cryptobox {
         } catch (NullPointerException e) {
             ggChance = new Tuple<>((double) 0, gg);
         }
+        if (debug) {
+            System.out.println(bbChance.fst);
+            bbChance.snd.print();
 
-        System.out.println(bbChance.fst);
-        bbChance.snd.print();
+            System.out.println(bgChance.fst);
+            bgChance.snd.print();
 
-        System.out.println(bgChance.fst);
-        bgChance.snd.print();
+            System.out.println(gbChance.fst);
+            gbChance.snd.print();
 
-        System.out.println(gbChance.fst);
-        gbChance.snd.print();
+            System.out.println(ggChance.fst);
+            ggChance.snd.print();
 
-        System.out.println(ggChance.fst);
-        ggChance.snd.print();
+            System.out.println("------------------------------------------------------------------------------------------------------------");
+            System.out.println(findMax(bbChance, bgChance, gbChance, ggChance).fst);
+        }
 
-        System.out.println("------------------------------------------------------------------------------------------------------------");
-        System.out.println(findMax(bbChance, bgChance, gbChance, ggChance).fst);
         findMax(bbChance, bgChance, gbChance, ggChance).snd.print();
 
         return (findMax(bbChance, bgChance, gbChance, ggChance));

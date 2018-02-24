@@ -71,8 +71,6 @@ The `EnumController` greatly simplified managing the glyph placer position durin
        currentPosition = ReleasePosition.DOWN;
        robot.intake(-1);
    } else {
-
-
 ```
 to 
 

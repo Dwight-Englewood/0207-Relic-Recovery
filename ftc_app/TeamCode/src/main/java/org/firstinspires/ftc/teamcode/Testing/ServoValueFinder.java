@@ -196,8 +196,7 @@ public class ServoValueFinder extends OpMode {
         telemetry.addData("topval", topVal);
         telemetry.addData("botval", bottomVal);
         telemetry.addData("cooldown", cooldown);
-        telemetry.addData("red", robot.colorSensor.red());
-        telemetry.addData("blue", robot.colorSensor.blue());
+
         telemetry.update();
 
 

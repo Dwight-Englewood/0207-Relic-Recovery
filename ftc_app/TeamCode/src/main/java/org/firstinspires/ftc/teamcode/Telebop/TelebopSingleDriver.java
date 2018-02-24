@@ -46,7 +46,7 @@ public class TelebopSingleDriver extends OpMode {
         robot.init(hardwareMap);
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.colorSensor.enableLed(false);
+        robot.jewelColorBack.enableLed(false);
         telemetry.addLine("Ready.");
         telemetry.update();
     }
@@ -136,9 +136,9 @@ public class TelebopSingleDriver extends OpMode {
             }
         } else {
             if (gamepad1.a) {
-                robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
+                robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
             } else if (gamepad1.y) {
-                robot.relicArmVexControl(.5, DcMotorSimple.Direction.FORWARD);
+                robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
             } else {
                 robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
             }

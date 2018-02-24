@@ -43,8 +43,7 @@ public class Bot {
     public BNO055IMU imu;
     public ColorSensor intakeColor;
     public DistanceSensor intakeDistance;
-    public ModernRoboticsI2cColorSensor colorSensor;
-
+    public ModernRoboticsI2cColorSensor jewelColorBack, jewelColorForward;
     //--------------------------------------------------------------------------------------------------------------------------
     public ModernRoboticsI2cRangeSensor rangeFront;
     private Orientation angles;
@@ -71,8 +70,11 @@ public class Bot {
         relicArmVex2.setDirection(CRServo.Direction.FORWARD);
         relicArmVex1.setDirection(CRServo.Direction.FORWARD);
 
-        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
-        colorSensor.enableLed(true);
+        jewelColorBack = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs");
+        jewelColorBack.enableLed(true);
+        jewelColorForward = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs2");
+        jewelColorForward.enableLed(true);
+
         intakeDistance = hardwareMap.get(DistanceSensor.class, "ics");
 
         intakeColor = hardwareMap.get(ColorSensor.class, "ics");
@@ -701,11 +703,14 @@ public class Bot {
     public void adjustHeading(int targetHeading, boolean slow) {
         boolean turnLeft = false;
         float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        if (Math.abs(curHeading - targetHeading) <= .5) {
+            drive(MovementEnum.STOP);
+            return;
+        }
         float powFactor = Math.abs(targetHeading - curHeading) * (float) (slow ? .0055 : .02);
 
         switch (targetHeading) {
             case 0:
-
                 turnLeft = curHeading <= 0;
                 break;
 
@@ -720,6 +725,11 @@ public class Bot {
             case -90:
                 turnLeft = curHeading <= -90 || curHeading >= 90;
                 break;
+
+            case 45:
+                turnLeft = !(curHeading <= -90 || curHeading >= 90);
+                break;
+
         }
 
         leftPower = Range.clip((turnLeft ? -1 : 1) * powFactor, -1, 1);
@@ -1011,15 +1021,15 @@ public class Bot {
         double driveScale = Math.abs(headingError) * .0055;
         double powbl, powbr, minbr, minbl;
 
-        minbl = direction == MovementEnum.LEFTSTRAFE ? 0 : -.8;
-        minbr = direction == MovementEnum.LEFTSTRAFE ? -.8 : 0;
+        minbl = direction == MovementEnum.LEFTSTRAFE ? 0 : -.6;
+        minbr = direction == MovementEnum.LEFTSTRAFE ? -.6 : 0;
 
         if (headingError < 0) {
-            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + .8);
-            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + .8);
+            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + .6);
+            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + .6);
         } else {
-            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + .8);
-            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + .8);
+            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + .6);
+            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + .6);
         }
 
         BL.setPower(powbl);

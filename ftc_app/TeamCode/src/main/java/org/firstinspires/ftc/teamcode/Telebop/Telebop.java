@@ -6,15 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Utility.Bot;
 import org.firstinspires.ftc.teamcode.Utility.EnumController;
-import org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
-import org.firstinspires.ftc.teamcode.Utility.Tuple;
-
-import java.util.ArrayList;
 
 /**
  * Created by aburur on 9/10/17.
@@ -31,6 +26,8 @@ public class Telebop extends OpMode {
     boolean invert = false;
     boolean glyphMode = true;
     boolean movingInt = false;
+    boolean placing = false;
+    boolean holdPlace = false;
     //brakeCountdown is used for adding delays to the brake toggle
     int brakeCountdown = 0;
     int relicCountdown = 0;
@@ -65,7 +62,8 @@ public class Telebop extends OpMode {
 
         //Turn off the LED on the color sensor
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.colorSensor.enableLed(false);
+        robot.jewelColorBack.enableLed(false);
+        robot.jewelColorForward.enableLed(false);
         telemetry.addLine("Ready.");
         telemetry.update();
 
@@ -120,12 +118,12 @@ public class Telebop extends OpMode {
             brakeToggle = !brakeToggle;
             //The drivers will always end up holding the button for more than 1 cycle of the loop function. Therefore, it is important that it doesn't immediately revert the toggle.
             //Hence, the brakeCountdown. It will prevent the toggle from accidentally not being triggered due to the boolean being swapped twice
-            brakeCountdown = 40;
+            brakeCountdown = 50;
         }
 
-        if (gamepad2.start && relicCountdown <= 0) {
+        if ((gamepad2.start) && relicCountdown <= 0) {
             glyphMode = !glyphMode;
-            relicCountdown = 60;
+            relicCountdown = 80;
         }
 
         //Main driving function. See Bot.java for documentation
@@ -134,16 +132,26 @@ public class Telebop extends OpMode {
         if (glyphMode) {
             //this is the actual flipping of the flipper
             //need some stuff here for wallCountdown
-            if (gamepad1.right_bumper) {
-                //This is priority 5 as we want the actual flipping (placing the glyph) to have precedence over other auto done positions, which only serve to aid in glyph movement.
-                controller.addInstruction(ReleasePosition.UP, 5);
-                robot.flipUp();
-                //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
+            if (gamepad1.right_bumper && !placing && !holdPlace) {
+                placing = true;
                 robot.backIntakeWallDown();
-                wallCountdown = 55;
-            } else if (wallCountdown <= 0) {
+                wallCountdown = 25;
+            } else if (wallCountdown <= 0 && !placing) {
                 controller.addInstruction(ReleasePosition.MIDDLE, 0);
                 robot.backIntakeWallUp();
+                holdPlace = false;
+            }
+
+            if ((placing && wallCountdown <= 0) || holdPlace) {
+                if (gamepad1.right_bumper) {
+                    //This is priority 5 as we want the actual flipping (placing the glyph) to have precedence over other auto done positions, which only serve to aid in glyph movement.
+                    //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
+                    controller.addInstruction(ReleasePosition.UP, 5);
+                    robot.flipUp();
+                    wallCountdown = 55;
+                    holdPlace = true;
+                }
+                placing = false;
             }
 
             //Gamepad 2 Stuff
@@ -151,13 +159,12 @@ public class Telebop extends OpMode {
                 //Specific to the teleop, we have 3 levels of priority
                 //A regular change in the position is 1 - these are the standard change
                 controller.addInstruction(ReleasePosition.DOWN, 1);
-                robot.intake(1);
+                robot.intake(.7);
             } else {
                 if (gamepad2.right_trigger > .2 || gamepad2.left_trigger > .2) {
                     controller.addInstruction(ReleasePosition.DOWN, 1);
                     //robot.intake(-1);
-                    robot.intakeOne.setPower(-.9 * gamepad2.right_trigger);
-                    robot.intakeTwo.setPower(-.9 * gamepad2.left_trigger);
+                    robot.intake(-.95);
                 } else {
                     //This line is not needed, as this specific addition to the controller object will never change the output. However, it is included to keep clarity as to what will happen
                     //The zero priority will not change the result of process, as priority is seeded at 0 - and is strictly increasing. This is equivalent to a blank statement, which we use to keep code clarity
@@ -209,9 +216,9 @@ public class Telebop extends OpMode {
             }
         } else {
             if (gamepad2.a) {
-                robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
+                robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
             } else if (gamepad2.y) {
-                robot.relicArmVexControl(.5, DcMotorSimple.Direction.FORWARD);
+                robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
             } else {
                 robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
             }

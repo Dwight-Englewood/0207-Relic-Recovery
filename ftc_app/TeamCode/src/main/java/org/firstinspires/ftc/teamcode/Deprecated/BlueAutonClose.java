@@ -109,13 +109,13 @@ public class BlueAutonClose extends OpMode {
                     generalTarget = robot.distanceToRevs(50);
                     robot.runToPosition(generalTarget);
                     command++;
-                } else if (robot.colorSensor.blue() >= 1) {
+                } /*else if (robot.colorSensor.blue() >= 1) {
                     hitjewel = true;
                     robot.jewelKnockback();
                 } else if (robot.colorSensor.red() >= 1) {
                     hitjewel = true;
                     robot.jewelKnockforward();
-                }
+                }*/
                 break;
 
             case 2:
@@ -305,8 +305,8 @@ public class BlueAutonClose extends OpMode {
 
         }
 
-        telemetry.addData("red", robot.colorSensor.red());
-        telemetry.addData("blue", robot.colorSensor.blue());
+        //telemetry.addData("red", robot.colorSensor.red());
+        //telemetry.addData("blue", robot.colorSensor.blue());
         telemetry.addData("time", timer.seconds());
         telemetry.addData("command", command);
         telemetry.update();

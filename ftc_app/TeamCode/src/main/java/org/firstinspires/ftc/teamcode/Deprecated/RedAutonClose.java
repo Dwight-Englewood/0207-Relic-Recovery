@@ -101,13 +101,13 @@ public class RedAutonClose extends OpMode {
                     generalTarget = -1*robot.distanceToRevs(50);
                     robot.runToPosition(generalTarget);
                     command++;
-                } else if (robot.colorSensor.red() >= 1) {
+                } /*else if (robot.colorSensor.red() >= 1) {
                     robot.jewelKnockback();
                     hitjewel = true;
                 } else if (robot.colorSensor.blue() >= 1) {
                     robot.jewelKnockforward();
                     hitjewel = true;
-                }
+                }*/
                 break;
 
             case 2:
@@ -304,8 +304,8 @@ public class RedAutonClose extends OpMode {
                 break;
 
         }
-        telemetry.addData("red", robot.colorSensor.red());
-        telemetry.addData("blue", robot.colorSensor.blue());
+        //telemetry.addData("red", robot.colorSensor.red());
+        //telemetry.addData("blue", robot.colorSensor.blue());
         telemetry.addData("time", timer.seconds());
         telemetry.addData("command", command);
         telemetry.update();

@@ -77,7 +77,7 @@ public class VuforiaBlueSG extends OpMode {
                         robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
                         timer.reset();
                         command++;
-                    } else if (timer.milliseconds() > 1600) {
+                    } else if (timer.milliseconds() > 2600) {
                         robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
                         timer.reset();
                         command++;
@@ -89,9 +89,9 @@ public class VuforiaBlueSG extends OpMode {
                 commandString = "Deactivate Vuforia";
                 if (timer.milliseconds() > 500){
                     robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
-                    timer.reset();
                     relicTrackables.deactivate();
                     vuforia.close();
+                    timer.reset();
                     command++;
                 }
                 break;
@@ -111,11 +111,11 @@ public class VuforiaBlueSG extends OpMode {
                     robot.jewelUp();
                     timer.reset();
                     command++;
-                } else if (robot.colorSensor.blue() >= 1 && !hitjewel) {
+                } else if ((robot.jewelColorForward.red() >=3 || robot.jewelColorBack.blue() >=3) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockforward();
                     timer.reset();
-                } else if (robot.colorSensor.red() >= 1 && !hitjewel) {
+                } else if ((robot.jewelColorBack.red() >=3 || robot.jewelColorForward.blue() >=3) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockback();
                     timer.reset();
@@ -358,8 +358,6 @@ public class VuforiaBlueSG extends OpMode {
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);
-        telemetry.addData("red val", robot.colorSensor.red());
-        telemetry.addData("blue val", robot.colorSensor.blue());
         telemetry.addLine(commandString);
 
         telemetry.update();

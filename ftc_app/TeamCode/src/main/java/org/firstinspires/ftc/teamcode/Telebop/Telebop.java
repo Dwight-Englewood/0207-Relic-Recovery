@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Utility.Bot;
 import org.firstinspires.ftc.teamcode.Utility.EnumController;
 import org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph;
@@ -21,48 +22,32 @@ import java.util.ArrayList;
 @TeleOp(name = "Telebop", group = "Teleop")
 public class Telebop extends OpMode {
 
+    final int cooldown = 5;
     //Creating a robot as an instance field - we need this to use later on for interacting with the robot
     Bot robot = new Bot();
-
     //brakeToggle is a boolean which is toggled for whether the robot is in brake mode or not
     boolean brakeToggle = false;
-
     //invert is used as a toggle for whether to invert controls or not
     boolean invert = false;
     boolean glyphMode = true;
     boolean movingInt = false;
-
     //brakeCountdown is used for adding delays to the brake toggle
     int brakeCountdown = 0;
-
     int relicCountdown = 0;
-
     //wallCountdown is used for adding timing to our glyph wall
     int wallCountdown = 0;
-
     //controller is used for managing the position of the flipper mechanism
     //for how it works, see the class, Utility.EnumController
     EnumController<ReleasePosition> controller;
-
-
     //These doubles determine the speed at which the lift will move
     //As they are used in multiple places, rather than using "magic numbers" we define them as an instance field
     double liftScaledown = .7;
     double liftScaleup = .4;
-
     double relicArmPos1 = 1;
     double relicArmPos2 = 1;
-
     int cooldownServo1 = 0;
     int cooldownServo2 = 0;
 
-    boolean intaking = false;
-
-    final int cooldown = 5;
-
-    int timingColor = 0;
-
-    ArrayList<Tuple<Integer, Glyph>> shit = new ArrayList<>();
 
     /**
      * The init function handles all initialization of our robot, including fetching robot elements from the hardware map, as well as setting motor runmodes and sensor options
@@ -173,13 +158,11 @@ public class Telebop extends OpMode {
                     //robot.intake(-1);
                     robot.intakeOne.setPower(-.9 * gamepad2.right_trigger);
                     robot.intakeTwo.setPower(-.9 * gamepad2.left_trigger);
-                    intaking = true;
                 } else {
                     //This line is not needed, as this specific addition to the controller object will never change the output. However, it is included to keep clarity as to what will happen
                     //The zero priority will not change the result of process, as priority is seeded at 0 - and is strictly increasing. This is equivalent to a blank statement, which we use to keep code clarity
                     controller.addInstruction(ReleasePosition.MIDDLE, 0);
                     robot.intake(0);
-                    intaking = false;
                 }
             }
 
@@ -196,7 +179,7 @@ public class Telebop extends OpMode {
                 controller.addInstruction(ReleasePosition.INIT, 10);
                 robot.jewelOut();
                 movingInt = true;
-            } else if (!gamepad2.x){
+            } else if (!gamepad2.x) {
                 robot.intakeDrop.setPower(0);
                 robot.jewelUp();
                 movingInt = false;
@@ -257,7 +240,7 @@ public class Telebop extends OpMode {
 
         if (gamepad2.x) {
             robot.jewelTeleop();
-        } else if (!movingInt){
+        } else if (!movingInt) {
             robot.jewelUp();
         }
 
@@ -285,28 +268,12 @@ public class Telebop extends OpMode {
         robot.relicArmServo2.setPosition(relicArmPos2);
         controller.reset();
 
-
-        if (intaking) {
-            timingColor++;
-            if (timingColor % 20 == 0) {
-                shit.add(new Tuple<Integer, Glyph> (timingColor, robot.findGlyphType()));
-            }
-        }
-
-        if (gamepad1.a) {
-            timingColor = 0;
-            shit.clear();
-        }
-
         //Telemetry things, generally booleans that could be important for drivers to be able to tell are active, as well as cooldowns
         telemetry.addData("Braking", brakeToggle);
         telemetry.addData("Alt Mode?", !glyphMode);
         telemetry.addData("Invert?", invert);
-        telemetry.addData("glypType", robot.findGlyphType());
-        for (int i = 0; i < shit.size(); i++) {
-            telemetry.addData("shit".concat(Integer.toString(shit.get(i).fst)), shit.get(i).snd);
-        }
-        telemetry.update();
+
+
     }
 
     @Override

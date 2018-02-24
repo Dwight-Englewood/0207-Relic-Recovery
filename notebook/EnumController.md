@@ -18,8 +18,6 @@ It is a very poor solution, and hard to decipher.
        }
        robot.intake(-1);
    } else {
-
-
 ```
 This is a snippet of the code used. The way this algorithm worked relied on a boolean, `abnormalReleaseFlag`. It served as a mini priority flag - if it was true, it indicated that the value should not be changed from whatever it was set to. For example, the above snippet controlled the movement of the glyph when the intake was being raised or lowered; keeping the glyph placer in the sqame position would result in the robot breaking itself, from a motor fighting against a strong servo to both be in the same spot. However, later in the code, the portion which controls the placement of the glyphs, and moving the glyph placer into an upwards position, looked like this:
 

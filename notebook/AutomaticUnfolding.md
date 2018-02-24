@@ -7,3 +7,9 @@ As part of our robot's design, it is highly compact at the beginning of the matc
 ## Implementation
 
 The method
+
+
+## Results
+Ultimately, this method did not prove as useful as we had hoped. During our autonomous rountine, we end up unfolding the robot so we can read Vuforia, and place the glyph into the column. The drivers do not need this function, as the bot is already unfolded at the start of Teleop period. Additionally, the unfolding of the robot during auton happens gradually - we do not unfold all at once, instead unfolding parts as they are needed.
+
+We did however, create mini-unfold functions that we can use in other code locations. For example, we have a method that will move the jewel knocker to a folded position, and another which moves it to a down position. While we no longer have a single unfold method, we ultimately have more modular control over the unfolding and folding of the many inter woven parts of the robot

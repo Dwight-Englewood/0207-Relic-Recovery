@@ -67,7 +67,7 @@ Additionally, a negative priority will instantly exit the loop and return the ne
 
 The `EnumController` greatly simplified managing the glyph placer position during Teleop. The examples given at the start change from
 
- ```
+```
    } else if (gamepad2.right_trigger > .3) {
        abnormalReleaseFlag = true;
        currentPosition = ReleasePosition.DOWN;

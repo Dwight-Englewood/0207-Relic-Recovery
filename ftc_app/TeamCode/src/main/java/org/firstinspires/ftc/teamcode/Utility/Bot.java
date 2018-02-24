@@ -21,6 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph;
 
+import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.EMPTY;
 import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.GRAY;
 
 /**
@@ -214,10 +215,10 @@ public class Bot {
         double compAlphaVal = -10 * distanceCM + 150;
 
         if (compAlphaVal < 0) {
-            return GRAY;
+            return EMPTY;
         }
 
-        if (this.colorSensor.alpha() > compAlphaVal) {
+        if (this.intakeColor.alpha() > compAlphaVal) {
             return GRAY;
         } else {
             return Glyph.BROWN;

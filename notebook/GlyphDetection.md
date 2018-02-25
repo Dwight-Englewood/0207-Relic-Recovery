@@ -5,4 +5,6 @@ Being able to find the color of an intaked glyph is immensly useful ability, as 
 
 ## Implementation
 
-The detection function 
+The detection function has had a couple of attempts 
+### Attempt 1
+The first attempt at writing this function was based on a limited set of data collected from the sensors. We hoped that there would be a relationship between the alpha channel from a color sensor mounted in the intake and the distance  recorded by the 

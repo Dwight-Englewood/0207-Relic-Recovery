@@ -453,17 +453,13 @@ public class VuforiaRedMG extends OpMode {
 
             case 31:
                 stop();
+                command++;
                 break;
 
         }
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);
-        telemetry.addData("forward red", robot.jewelColorForward.red());
-        telemetry.addData("forward blue", robot.jewelColorForward.blue());
-        telemetry.addData("back red", robot.jewelColorForward.red());
-        telemetry.addData("back blue", robot.jewelColorForward.blue());
-
         telemetry.addLine(commandString);
 
         telemetry.update();

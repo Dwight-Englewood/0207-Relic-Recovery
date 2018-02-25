@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by aburur on 9/10/17.
  */
-@TeleOp(name = "Telebop", group = "Teleop")
+@TeleOp(name = "TelebopGlyphTest", group = "Teleop")
 public class TelebopGlyphTest extends OpMode {
 
     final int cooldown = 5;
@@ -160,7 +160,7 @@ public class TelebopGlyphTest extends OpMode {
 
         //Turn off the LED on the color sensor
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.colorSensor.enableLed(true);
+        robot.jewelColorBack.enableLed(true);
         telemetry.addLine("Ready.");
         telemetry.update();
 

@@ -75,7 +75,7 @@ public class VuforiaRedFarSG extends OpMode {
                         robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
                         timer.reset();
                         command++;
-                    } else if (timer.milliseconds() > 1600) {
+                    } else if (timer.milliseconds() > 2600) {
                         robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
                         timer.reset();
                         command++;
@@ -96,7 +96,7 @@ public class VuforiaRedFarSG extends OpMode {
 
             case 1:
                 commandString = "Hit Jewel";
-                if (hitjewel) {
+                if (hitjewel && timer.milliseconds() > 300) {
                     robot.jewelUp();
                     timer.reset();
                     command++;
@@ -109,11 +109,11 @@ public class VuforiaRedFarSG extends OpMode {
                     robot.jewelUp();
                     timer.reset();
                     command++;
-                } else if (robot.colorSensor.blue() >= 1 && !hitjewel) {
+                } else if ((robot.jewelColorForward.red() >=3 || robot.jewelColorBack.blue() >=3) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockback();
                     timer.reset();
-                } else if (robot.colorSensor.red() >= 1 && !hitjewel) {
+                } else if ((robot.jewelColorBack.red() >= 3|| robot.jewelColorForward.blue() >=3) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockforward();
                     timer.reset();
@@ -208,12 +208,15 @@ public class VuforiaRedFarSG extends OpMode {
                 try {Thread.sleep(300);} catch (Exception e) {}
                 robot.runRightToPosition(generalTarget);
                 timer.reset();
+                robot.drive(MovementEnum.RIGHTSTRAFE, .5);
                 command++;
                 break;
 
             case 9:
                 commandString = "Strafe w/ adjusts";
-                robot.strafeAdjusts(90, MovementEnum.RIGHTSTRAFE);
+                //robot.strafeAdjusts(90, MovementEnum.RIGHTSTRAFE);
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), -robot.FR.getCurrentPosition(), -robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -258,7 +261,7 @@ public class VuforiaRedFarSG extends OpMode {
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
-                    robot.adjustHeading(0, true);
+                    robot.adjustHeading(90, true);
                 }
                 break;
 

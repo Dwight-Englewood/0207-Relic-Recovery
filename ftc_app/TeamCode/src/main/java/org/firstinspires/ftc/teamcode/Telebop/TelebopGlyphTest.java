@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
+import com.sun.source.tree.EmptyStatementTree;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Utility.Bot;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 @TeleOp(name = "TelebopGlyphTest", group = "Teleop")
 public class TelebopGlyphTest extends OpMode {
 
+    static final int doubleGlyphReading = 20;
+    static ArrayList<Glyph> intakeReadings = new ArrayList<>();
     final int cooldown = 5;
     //Creating a robot as an instance field - we need this to use later on for interacting with the robot
     Bot robot = new Bot();
@@ -49,19 +52,12 @@ public class TelebopGlyphTest extends OpMode {
     double relicArmPos2 = 1;
     int cooldownServo1 = 0;
     int cooldownServo2 = 0;
-
-
     boolean intaking = false;
-
     Cryptobox pattern;
-
     GlyphPlace currentPlace;
     GlyphPlace nextPlace;
     private double average;
     private int loops;
-
-    static final int doubleGlyphReading = 20;
-    static ArrayList<Glyph>  intakeReadings = new ArrayList<>();
 
     /**
      * The init function handles all initialization of our robot, including fetching robot elements from the hardware map, as well as setting motor runmodes and sensor options
@@ -71,83 +67,15 @@ public class TelebopGlyphTest extends OpMode {
         for (int i = 0; i < 11; i++) {
             intakeReadings.add(Glyph.BROWN);
         }
+        for (int i = 0; i < 14; i++) {
+            intakeReadings.add(Glyph.EMPTY);
+        }
         for (int i = 0; i < 11; i++) {
             intakeReadings.add(Glyph.GRAY);
         }
-        for (int i = 0; i < intakeReadings.size(); i++) {
-            if (intakeReadings.get(i).equals(Glyph.EMPTY)) {
-                intakeReadings.remove(i);
-                i--;
-            } else {
-                break;
-            }
-        }
-        for (int i = intakeReadings.size() - 1; i > 0; i--) {
-            if (intakeReadings.get(i).equals(Glyph.EMPTY)) {
-                intakeReadings.remove(i);
-                i++;
-            } else {
-                break;
-            }
-        }
-
-        double amountBrown = 0;
-        double amountGray = 0;
-
-        double frontBrown = 0;
-        double frontGray = 0;
-
-        int nonEmpty = 0;
-
-        int midPoint = intakeReadings.size() / 2;
-        for (int i = 0; i < intakeReadings.size(); i++) {
-            if (intakeReadings.get(i).equals(Glyph.BROWN)) {
-                amountBrown++;
-                nonEmpty++;
-                if (i < midPoint) {
-                    frontBrown = frontBrown + 1;
-                }
-            } else if (intakeReadings.get(i).equals(Glyph.GRAY)) {
-                amountGray++;
-                nonEmpty++;
-                if (i < midPoint) {
-                    frontGray = frontGray + 1;
-                }
-            }
-        }
-        Glyph glyph1;
-        Glyph glyph2;
-        if (Math.abs(frontBrown / nonEmpty - .5) < Math.abs(frontBrown - 1) && Math.abs(frontBrown / nonEmpty - .5) < Math.abs(frontBrown - 0)) {
-            //this means even distribution of brown over all readings, aka we got only a brown one
-            if (intakeReadings.size() > doubleGlyphReading) {
-                glyph1 = Glyph.BROWN;
-                glyph2 = Glyph.BROWN;
-            }
-        } else if (Math.abs(frontGray / nonEmpty - .5) < Math.abs(frontGray - 1) && Math.abs(frontGray / nonEmpty - .5) < Math.abs(frontGray - 0)) {
-            //this means even distribution of brown over all readings, aka we got only a gray one
-            if (intakeReadings.size() > doubleGlyphReading) {
-                glyph1 = Glyph.GRAY;
-                glyph2 = Glyph.GRAY;
-            }
-        } else {
-            glyph1 = Glyph.EMPTY;
-            glyph2 = Glyph.EMPTY;
-        }
-
-        if (Math.abs(frontBrown / nonEmpty - 1) > Math.abs(frontGray / nonEmpty - 1)) {
-            glyph1 = Glyph.BROWN;
-            glyph2 = Glyph.GRAY;
-        } else if ((Math.abs(frontBrown / nonEmpty - 1) <= Math.abs(frontGray / nonEmpty - 1))) {
-            glyph1 = Glyph.GRAY;
-            glyph2 = Glyph.BROWN;
-        } else {
-            glyph1 = Glyph.EMPTY;
-            glyph2 = Glyph.EMPTY;
-        }
-
-        System.out.println(glyph1);
-        System.out.println(glyph2);
+        givenSomeStuffFindTheGlyphTypes();
     }
+
     @Override
     public void init() {
 
@@ -370,7 +298,9 @@ public class TelebopGlyphTest extends OpMode {
 
         //this can be written to remove the extra loops to get rid of the empties
 
-        //TODO
+        //TODO do that stuff in comment above
+        //WOULD BE DONE IN MAIN LOGIC OF TELEOP
+        //DEPENDING ON HOW LARGE LIST MIGHT NOT BE WORTH
         if (intaking) {
             Glyph merp = robot.findGlyphType();
             intakeReadings.add(merp);
@@ -455,7 +385,6 @@ public class TelebopGlyphTest extends OpMode {
         }
 
 
-
         double distanceCM = robot.intakeDistance.getDistance(DistanceUnit.CM);
 
         double compAlphaVal = -10 * distanceCM + 150;
@@ -485,7 +414,7 @@ public class TelebopGlyphTest extends OpMode {
 
         //telemetry.addData("productAlphaDistance", robot.intakeColor.alpha() * robot.intakeDistance.getDistance(DistanceUnit.CM));
         //for (int i = 0; i < shit.size(); i++) {
-            //telemetry.addData("shit".concat(Integer.toString(shit.get(i).fst)), shit.get(i).snd);
+        //telemetry.addData("shit".concat(Integer.toString(shit.get(i).fst)), shit.get(i).snd);
         //}
         //telemetry.update();
     }
@@ -494,6 +423,132 @@ public class TelebopGlyphTest extends OpMode {
     public void stop() {
         robot.drive(MovementEnum.STOP, 0);
         robot.jewelUp();
+    }
+
+    public static Tuple<Glyph, Glyph> givenSomeStuffFindTheGlyphTypes() {
+        for (int i = 0; i < intakeReadings.size(); i++) {
+            if (intakeReadings.get(i).equals(Glyph.EMPTY)) {
+                intakeReadings.remove(i);
+                i--;
+            } else {
+                break;
+            }
+        }
+        for (int i = intakeReadings.size() - 1; i > 0; i--) {
+            if (intakeReadings.get(i).equals(Glyph.EMPTY)) {
+                intakeReadings.remove(i);
+                i++;
+            } else {
+                break;
+            }
+        }
+
+        double amountBrown = 0;
+        double amountGray = 0;
+
+        double frontBrown = 0;
+        double frontGray = 0;
+
+        int nonEmpty = 0;
+
+        int midPoint = intakeReadings.size() / 2;
+
+        Glyph glyph1 = Glyph.EMPTY;
+
+        Glyph glyph2 = Glyph.EMPTY;
+
+        if (intakeReadings.size() < doubleGlyphReading) {
+            for (int i = 0; i < intakeReadings.size(); i++) {
+                if (intakeReadings.get(i).equals(Glyph.BROWN)) {
+                    amountBrown++;
+                } else if (intakeReadings.get(i).equals(Glyph.GRAY)) {
+                    amountGray++;
+                }
+            }
+
+            if (amountBrown > amountGray && amountBrown > doubleGlyphReading / 2.2 ) {
+                glyph1 = Glyph.BROWN;
+            } else if (amountGray > amountBrown && amountGray > doubleGlyphReading / 2.2) {
+                glyph2 = Glyph.GRAY;
+            }
+
+            System.out.println(glyph1);
+            System.out.println(glyph2);
+
+            return new Tuple<>(glyph1, glyph2);
+
+
+        } else {
+            for (int i = 0; i < intakeReadings.size(); i++) {
+                if (intakeReadings.get(i).equals(Glyph.BROWN)) {
+                    amountBrown++;
+                    nonEmpty++;
+                    if (i < midPoint) {
+                        frontBrown = frontBrown + 1;
+                    } else {
+                        frontBrown = frontBrown - 1;
+                    }
+                } else if (intakeReadings.get(i).equals(Glyph.GRAY)) {
+                    amountGray++;
+                    nonEmpty++;
+                    if (i < midPoint) {
+                        frontGray = frontGray + 1;
+                    } else {
+                        frontGray = frontGray - 1;
+                    }
+                }
+            }
+            System.out.println(amountBrown);
+            System.out.println(amountGray);
+            System.out.println(frontBrown);
+            System.out.println(frontGray);
+            System.out.println(nonEmpty);
+            System.out.println();
+            System.out.println();
+
+
+            System.out.println(frontBrown / nonEmpty);
+            System.out.println(frontGray / nonEmpty);
+            System.out.println(intakeReadings.size());
+            boolean yee = false;
+            if (Math.abs(frontBrown / amountBrown - 0) < Math.abs(frontBrown / amountBrown - 1) && Math.abs(frontBrown / amountBrown - 0) < Math.abs(frontBrown / amountBrown - -1)) {
+                System.out.println(1);
+                //this means even distribution of brown over all readings, aka we got only a brown one
+                if (intakeReadings.size() > doubleGlyphReading) {
+                    System.out.println(99);
+                    glyph1 = Glyph.BROWN;
+                    glyph2 = Glyph.BROWN;
+                    yee = true;
+                }
+            } else if (Math.abs(frontGray / amountGray - 0) < Math.abs(frontGray / amountGray - 1) && Math.abs(frontGray / amountGray - .5) < Math.abs(frontGray / amountGray - -1)) {
+                System.out.println(2);
+                //this means even distribution of brown over all readings, aka we got only a gray one
+                if (intakeReadings.size() > doubleGlyphReading) {
+                    System.out.println(99);
+                    glyph1 = Glyph.GRAY;
+                    glyph2 = Glyph.GRAY;
+                    yee = true;
+                }
+            }
+            if (!yee) {
+
+
+                if (Math.abs(frontBrown / amountBrown - 1) > Math.abs(frontGray / amountGray - 1)) {
+                    System.out.println(89);
+                    glyph1 = Glyph.GRAY;
+                    glyph2 = Glyph.BROWN;
+                } else {
+                    System.out.println(88);
+                    glyph1 = Glyph.BROWN;
+                    glyph2 = Glyph.GRAY;
+                }
+            }
+
+
+            System.out.println(glyph1);
+            System.out.println(glyph2);
+            return new Tuple<>(glyph1, glyph2);
+        }
     }
 
 }

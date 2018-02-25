@@ -61,8 +61,9 @@ public class VuforiaBlueSG extends OpMode {
         timer.reset();
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         relicTrackables.activate();
-        robot.relicArmServo1.setPosition(1);
+        robot.relicArmServo1.setPosition(0);
         robot.jewelOut();
+        robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -71,14 +72,10 @@ public class VuforiaBlueSG extends OpMode {
             case -1:
                 commandString = "Find VuMark";
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
-                if (timer.milliseconds() > 600) {
-                    robot.jewelOuterBlue();
-                    if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-                        robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
-                        timer.reset();
-                        command++;
-                    } else if (timer.milliseconds() > 2600) {
-                        robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
+                if (timer.milliseconds() > 250) {
+                    robot.jewelOuterRed();
+                    if (timer.milliseconds() > 1750) {
+                        robot.relicArmVexControl(0, DcMotorSimple.Direction.REVERSE);
                         timer.reset();
                         command++;
                     }
@@ -87,13 +84,10 @@ public class VuforiaBlueSG extends OpMode {
 
             case 0:
                 commandString = "Deactivate Vuforia";
-                if (timer.milliseconds() > 500){
-                    robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
-                    relicTrackables.deactivate();
-                    vuforia.close();
-                    timer.reset();
-                    command++;
-                }
+                relicTrackables.deactivate();
+                vuforia.close();
+                timer.reset();
+                command++;
                 break;
 
             case 1:
@@ -222,7 +216,7 @@ public class VuforiaBlueSG extends OpMode {
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 1000) {
-                    robot.relicArmVexControl(.5, DcMotorSimple.Direction.FORWARD);
+                    robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
                 } else if (timer.milliseconds() > 650) {
                     robot.intakeDrop.setPower(0);
                     robot.releaseMove(ReleasePosition.MIDDLE);

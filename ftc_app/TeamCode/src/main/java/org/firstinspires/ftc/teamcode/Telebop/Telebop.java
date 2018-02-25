@@ -62,6 +62,7 @@ public class Telebop extends OpMode {
 
         //Turn off the LED on the color sensor
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.jewelColorBack.enableLed(false);
         robot.jewelColorForward.enableLed(false);
         telemetry.addLine("Ready.");
@@ -215,6 +216,7 @@ public class Telebop extends OpMode {
                 robot.lift.setPower(0);
             }
         } else {
+            robot.lift.setPower(0);
             if (gamepad2.a) {
                 robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
             } else if (gamepad2.y) {

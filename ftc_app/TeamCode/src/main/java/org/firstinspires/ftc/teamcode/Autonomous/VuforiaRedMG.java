@@ -62,7 +62,8 @@ public class VuforiaRedMG extends OpMode {
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         relicTrackables.activate();
         robot.jewelOut();
-        robot.relicArmServo1.setPosition(1);
+        robot.relicArmServo1.setPosition(0);
+        robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -73,12 +74,8 @@ public class VuforiaRedMG extends OpMode {
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (timer.milliseconds() > 250) {
                     robot.jewelOuterRed();
-                    if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-                        robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
-                        timer.reset();
-                        command++;
-                    } else if (timer.milliseconds() > 2250) {
-                        robot.relicArmVexControl(.5, DcMotorSimple.Direction.REVERSE);
+                    if (timer.milliseconds() > 1750) {
+                        robot.relicArmVexControl(0, DcMotorSimple.Direction.REVERSE);
                         timer.reset();
                         command++;
                     }
@@ -87,13 +84,11 @@ public class VuforiaRedMG extends OpMode {
 
             case 0:
                 commandString = "Deactivate Vuforia";
-                if (timer.milliseconds() > 500){
-                    robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
-                    relicTrackables.deactivate();
-                    vuforia.close();
-                    timer.reset();
-                    command++;
-                }
+                relicTrackables.deactivate();
+                vuforia.close();
+                timer.reset();
+                command++;
+
                 break;
 
             case 1:
@@ -222,7 +217,7 @@ public class VuforiaRedMG extends OpMode {
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 1000) {
-                    robot.relicArmVexControl(.5, DcMotorSimple.Direction.FORWARD);
+                    robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
                 } else if (timer.milliseconds() > 650) {
                     robot.intakeDrop.setPower(0);
                     robot.releaseMove(ReleasePosition.MIDDLE);
@@ -328,7 +323,7 @@ public class VuforiaRedMG extends OpMode {
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
                     generalTarget = robot.distanceToRevs(50);
-                    robot.intake(.9);
+                    robot.intake(-.9);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;

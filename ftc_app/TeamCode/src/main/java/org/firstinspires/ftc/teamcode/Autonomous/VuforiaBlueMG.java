@@ -347,9 +347,117 @@ public class VuforiaBlueMG extends OpMode {
                 break;
 
             case 21:
-                stop();
+                commandString = "Setup drive to box";
+                if (timer.milliseconds() > 250) {
+                    generalTarget = -1 * robot.distanceToRevs(40);
+                    robot.intake(0);
+                    robot.runToPosition(generalTarget);
+                    timer.reset();
+                    command++;
+                }
                 break;
 
+            case 22:
+                commandString = "Drive to box";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.BACKWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 23:
+                commandString = "Intake wall down";
+                robot.backIntakeWallDown();
+                timer.reset();
+                command++;
+                break;
+
+            case 24:
+                commandString = "Release glyph";
+                if (timer.milliseconds() > 250) {
+                    robot.releaseMove(ReleasePosition.UP);
+                    timer.milliseconds();
+                    command++;
+                }
+                break;
+
+            case 25:
+                commandString = "Setup drive away from box";
+                if (timer.milliseconds() > 250) {
+                    generalTarget = robot.distanceToRevs(15);
+                    robot.runToPosition(generalTarget);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 26:
+                commandString = "Drive away from box";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 27:
+                commandString = "Setup knock glyph back";
+                if (timer.milliseconds() > 250) {
+                    generalTarget = -robot.distanceToRevs(20);
+                    robot.runToPosition(generalTarget);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 28:
+                commandString = "Knock glyph back";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.BACKWARD, power);
+                if (power == 0 || timer.milliseconds() > 2000) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 29:
+                commandString = "Setup drive away from box";
+                if (timer.milliseconds() > 250) {
+                    generalTarget = robot.distanceToRevs(10);
+                    robot.runToPosition(generalTarget);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 30:
+                commandString = "Drive away from box";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 31:
+                stop();
+                command++;
+                break;
         }
 
         telemetry.addData("Command", command);

@@ -146,7 +146,7 @@ public class VuforiaBlueFarSG extends OpMode {
 
             case 4:
                 commandString = "Adjust heading to 0";
-                if (timer.milliseconds() > 2000) {
+                if (timer.milliseconds() > 2500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -199,13 +199,13 @@ public class VuforiaBlueFarSG extends OpMode {
 
             case 7:
                 commandString = "Adjust heading to -90";
-                if (timer.milliseconds() > 1200) {
+                if (timer.milliseconds() > 2500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(-90, true);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
@@ -238,13 +238,13 @@ public class VuforiaBlueFarSG extends OpMode {
 
             case 10:
                 commandString = "Adjust heading to -90";
-                if (timer.milliseconds() > 750) {
+                if (timer.milliseconds() > 1250) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
-                    robot.adjustHeading(-90, true);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 

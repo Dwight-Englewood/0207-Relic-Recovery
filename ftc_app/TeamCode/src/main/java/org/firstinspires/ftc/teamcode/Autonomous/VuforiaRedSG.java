@@ -157,7 +157,7 @@ public class VuforiaRedSG extends OpMode {
                         break;
 
                     case CENTER:
-                        generalTarget = robot.distanceToRevs(35);
+                        generalTarget = robot.distanceToRevs(36);
                         break;
 
                     case RIGHT:
@@ -165,7 +165,7 @@ public class VuforiaRedSG extends OpMode {
                         break;
 
                     case UNKNOWN:
-                        generalTarget = robot.distanceToRevs(35);
+                        generalTarget = robot.distanceToRevs(36);
                         break;
                 }
                 try {Thread.sleep(300);} catch (Exception e) {}
@@ -349,10 +349,6 @@ public class VuforiaRedSG extends OpMode {
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);
-        telemetry.addData("forward red", robot.jewelColorForward.red());
-        telemetry.addData("forward blue", robot.jewelColorForward.blue());
-        telemetry.addData("back red", robot.jewelColorForward.red());
-        telemetry.addData("back blue", robot.jewelColorForward.blue());
 
         telemetry.addLine(commandString);
 

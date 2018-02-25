@@ -102,11 +102,11 @@ public class VuforiaRedFarSG extends OpMode {
                     robot.jewelUp();
                     timer.reset();
                     command++;
-                } else if ((robot.jewelColorForward.red() >= 3 || robot.jewelColorBack.blue() >=3) && !hitjewel) {
+                } else if ((robot.jewelColorForward.red() >= 2 || robot.jewelColorBack.blue() >=2 ) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockback();
                     timer.reset();
-                } else if ((robot.jewelColorBack.red() >= 3 || robot.jewelColorForward.blue() >= 3) && !hitjewel) {
+                } else if ((robot.jewelColorBack.red() >= 2 || robot.jewelColorForward.blue() >= 2) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockforward();
                     timer.reset();
@@ -115,7 +115,7 @@ public class VuforiaRedFarSG extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = robot.distanceToRevs(65);
+                generalTarget = robot.distanceToRevs(72);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -135,14 +135,14 @@ public class VuforiaRedFarSG extends OpMode {
                 break;
 
             case 4:
-                commandString = "Adjust heading to -90";
-                if (timer.milliseconds() > 750) {
+                commandString = "Adjust heading to 0";
+                if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(-90, true);
+                    robot.adjustHeading(0, false);
                 }
                 break;
 
@@ -150,7 +150,7 @@ public class VuforiaRedFarSG extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = robot.distanceToRevs(46);
+                        generalTarget = robot.distanceToRevs(43);
                         break;
 
                     case CENTER:
@@ -158,7 +158,7 @@ public class VuforiaRedFarSG extends OpMode {
                         break;
 
                     case RIGHT:
-                        generalTarget = robot.distanceToRevs(10);
+                        generalTarget = robot.distanceToRevs(13);
                         break;
 
                     case UNKNOWN:
@@ -166,17 +166,16 @@ public class VuforiaRedFarSG extends OpMode {
                         break;
                 }
                 try {Thread.sleep(300);} catch (Exception e) {}
-                robot.runRightToPosition(generalTarget);
+                robot.runToPosition(generalTarget);
                 timer.reset();
-                robot.drive(MovementEnum.RIGHTSTRAFE, .5);
                 command++;
                 break;
 
             case 6:
-                commandString = "Strafe w/ adjusts";
-                //robot.strafeAdjusts(90, MovementEnum.RIGHTSTRAFE);
-                power = robot.slowDownScale(robot.FL.getCurrentPosition(), -robot.FR.getCurrentPosition(), -robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.RIGHTSTRAFE, power);
+                //move in front of box
+                commandString = "RUN_TO_POSITION";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -188,7 +187,7 @@ public class VuforiaRedFarSG extends OpMode {
 
             case 7:
                 commandString = "Adjust heading to 90";
-                if (timer.milliseconds() > 1500) {
+                if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -303,7 +302,6 @@ public class VuforiaRedFarSG extends OpMode {
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
                     generalTarget = robot.distanceToRevs(15);
-                    robot.intake(-.9);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;

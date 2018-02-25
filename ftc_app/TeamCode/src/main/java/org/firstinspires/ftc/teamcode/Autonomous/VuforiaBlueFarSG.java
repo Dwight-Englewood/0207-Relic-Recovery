@@ -15,6 +15,13 @@ import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
 
+
+/*
+
+
+
+
+ */
 @Autonomous(name = "VuforiaBlueFarSG", group = "Auton")
 //@Disabled
 public class VuforiaBlueFarSG extends OpMode {
@@ -105,11 +112,11 @@ public class VuforiaBlueFarSG extends OpMode {
                     robot.jewelUp();
                     timer.reset();
                     command++;
-                } else if ((robot.jewelColorForward.red() >=3 || robot.jewelColorBack.blue() >=3) && !hitjewel) {
+                } else if ((robot.jewelColorForward.red() >=2 || robot.jewelColorBack.blue() >=2) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockforward();
                     timer.reset();
-                } else if ((robot.jewelColorBack.red() >=3 || robot.jewelColorForward.blue() >=3) && !hitjewel) {
+                } else if ((robot.jewelColorBack.red() >=2 || robot.jewelColorForward.blue() >=2) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockback();
                     timer.reset();
@@ -118,7 +125,7 @@ public class VuforiaBlueFarSG extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = -1 * robot.distanceToRevs(65);
+                generalTarget = -1 * robot.distanceToRevs(72);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -138,14 +145,14 @@ public class VuforiaBlueFarSG extends OpMode {
                 break;
 
             case 4:
-                commandString = "Adjust heading to -90";
-                if (timer.milliseconds() > 750) {
+                commandString = "Adjust heading to 0";
+                if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(-90, true);
+                    robot.adjustHeading(0, false);
                 }
                 break;
 
@@ -153,7 +160,7 @@ public class VuforiaBlueFarSG extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = robot.distanceToRevs(10);
+                        generalTarget = robot.distanceToRevs(43);
                         break;
 
                     case CENTER:
@@ -161,7 +168,7 @@ public class VuforiaBlueFarSG extends OpMode {
                         break;
 
                     case RIGHT:
-                        generalTarget = robot.distanceToRevs(46);
+                        generalTarget = robot.distanceToRevs(13);
                         break;
 
                     case UNKNOWN:
@@ -172,16 +179,15 @@ public class VuforiaBlueFarSG extends OpMode {
                     Thread.sleep(300);
                 } catch (Exception e) {
                 }
-                robot.runLeftToPosition(generalTarget);
+                robot.runToPosition(generalTarget);
                 timer.reset();
-                robot.drive(MovementEnum.LEFTSTRAFE, .5);
                 command++;
                 break;
 
             case 6:
-                commandString = "Strafe w/ adjusts";
-                power = robot.slowDownScale(-robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), -robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.LEFTSTRAFE, power);
+                commandString = "RUN to position";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);

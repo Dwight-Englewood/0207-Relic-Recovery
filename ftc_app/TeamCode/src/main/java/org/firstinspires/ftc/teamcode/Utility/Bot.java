@@ -411,12 +411,12 @@ public class Bot {
         double sin = Math.sin(orient);
         double cos = Math.cos(orient);
 
-        // Do Math
+        // Apply the rotation matrix
         temp = forward * cos - right * sin;
         right = forward * sin + right * cos;
         forward = temp;
 
-        // Set power values using Math -- could be optimized
+        // Set power values
         frontLeft = forward + clockwise + right;
         frontRight = forward - clockwise - right;
         rearLeft = forward + clockwise - right;
@@ -699,16 +699,22 @@ public class Bot {
         return (int) (gearMotorTickThing * (distance / wheelCirc));
     }
 
-    //Runs a P-loop --> notebook
     public void adjustHeading(int targetHeading, boolean slow) {
+        //Initialize the turnleft boolean.
         boolean turnLeft = false;
+
+        //Get the current heading from the imu.
         float curHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+
+        //If within a reasonable degree of error of the target heading, set power to zero on all motors.
         if (Math.abs(curHeading - targetHeading) <= .5) {
             drive(MovementEnum.STOP);
             return;
         }
+        //Generate our proportional term
         float powFactor = Math.abs(targetHeading - curHeading) * (float) (slow ? .0055 : .02);
 
+        //Choose how to turn based on given target
         switch (targetHeading) {
             case 0:
                 turnLeft = curHeading <= 0;
@@ -732,49 +738,15 @@ public class Bot {
 
         }
 
+        //Clip the powers to within an acceptable range for the motors and apply the proportional factor.
         leftPower = Range.clip((turnLeft ? -1 : 1) * powFactor, -1, 1);
         rightPower = Range.clip((turnLeft ? 1 : -1) * powFactor, -1, 1);
+
+        //Set power to all motors
         FL.setPower(leftPower);
         BL.setPower(leftPower);
         FR.setPower(rightPower);
         BR.setPower(rightPower);
-
-
-        /*if (Math.abs(targetHeading - curHeading) < .5) {
-            FL.setPower(0);
-            BL.setPower(0);
-            FR.setPower(0);
-            BR.setPower(0);
-        } else {
-            if (slow) {
-                powerModifier = .005;
-            } else {
-                powerModifier = .02;
-            }
-            headingError = curHeading < targetHeading ? targetHeading + curHeading : Math.abs(targetHeading + curHeading);
-            driveScale = headingError * powerModifier;
-
-            if (driveScale == 0) {
-                drive(MovementEnum.STOP);
-                return;
-            }
-
-            if (Math.abs(driveScale) < .06) {
-                driveScale = .06 * (driveScale < 0 ? -1 : 1);
-            }
-
-            leftPower = driveScale;
-            rightPower = -driveScale;
-
-            leftPower = Range.clip(leftPower, -1, 1);
-            rightPower = Range.clip(rightPower, -1, 1);
-
-            FL.setPower(leftPower);
-            BL.setPower(leftPower);
-            FR.setPower(rightPower);
-            BR.setPower(rightPower);
-        }
-        telemetry.addData("drive scale: ", driveScale);*/
 
     }
 
@@ -825,26 +797,6 @@ public class Bot {
             scale = .5;
         } else {
             scale = .7;
-        }
-        return scale;
-    }
-
-    public double slowDownScale(int targetDistance, double curDistance, ElapsedTime timer) {
-        double scale = 1;
-        if (Math.abs(targetDistance - curDistance) < 2) {
-            scale = 0;
-        } else if (Math.abs(targetDistance - curDistance) < 15) {
-            scale = .1;
-        } else if (Math.abs(targetDistance - curDistance) < 30) {
-            scale = .2;
-        } else if (Math.abs(targetDistance - curDistance) < 60) {
-            scale = .3;
-        } else if (timer.milliseconds() < 750) {
-            scale = .1;
-        } else if (timer.milliseconds() < 1500) {
-            scale = .3;
-        } else {
-            scale = .5;
         }
         return scale;
     }

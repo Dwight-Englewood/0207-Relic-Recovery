@@ -260,14 +260,6 @@ public class Telebop extends OpMode {
         cooldownServo1--;
         cooldownServo2--;
 
-        if (cooldownServo1 == Integer.MIN_VALUE) {
-            cooldownServo1 = 0;
-        }
-
-        if (cooldownServo2 == Integer.MIN_VALUE) {
-            cooldownServo2 = 0;
-        }
-
         //process the values added to the controller - the controller doesnt help if we never get the values out of it
 
         relicArmPos1 = Range.clip(relicArmPos1, 0, 1);
@@ -280,8 +272,7 @@ public class Telebop extends OpMode {
         //Telemetry things, generally booleans that could be important for drivers to be able to tell are active, as well as cooldowns
         telemetry.addData("Braking", brakeToggle);
         telemetry.addData("Alt Mode?", !glyphMode);
-        telemetry.addData("Invert?", invert);
-
+        telemetry.update();
 
     }
 

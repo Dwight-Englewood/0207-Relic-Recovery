@@ -298,7 +298,9 @@ public class TelebopGlyphTest extends OpMode {
 
         //this can be written to remove the extra loops to get rid of the empties
 
-        //TODO
+        //TODO do that stuff in comment above
+        //WOULD BE DONE IN MAIN LOGIC OF TELEOP
+        //DEPENDING ON HOW LARGE LIST MIGHT NOT BE WORTH
         if (intaking) {
             Glyph merp = robot.findGlyphType();
             intakeReadings.add(merp);

@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -177,10 +176,13 @@ public class Bot {
         leftStick *= -1;
         rightStick *= -1;
 
-        FL.setPower(!invert ? leftStick : rightStick * -1);
-        BL.setPower(!invert ? leftStick : rightStick * -1);
-        FR.setPower(!invert ? rightStick : leftStick * -1);
-        BR.setPower(!invert ? rightStick : leftStick * -1);
+        leftPower = Range.clip(!invert ? leftStick : rightStick * -1, brake ? -.4 : -1, brake ? .4 : 1);
+        rightPower = Range.clip(!invert ? rightStick : leftStick * -1, brake ? -.4 : -1, brake ? .4 : 1);
+
+        FL.setPower(leftPower);
+        BL.setPower(leftPower);
+        FR.setPower(rightPower);
+        BR.setPower(rightPower);
     }
 
     public Glyph findGlyphType() {

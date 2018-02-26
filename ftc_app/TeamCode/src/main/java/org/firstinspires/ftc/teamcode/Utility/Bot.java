@@ -176,8 +176,8 @@ public class Bot {
         leftStick *= -1;
         rightStick *= -1;
 
-        leftPower = Range.clip(!invert ? leftStick : rightStick * -1, brake ? -.4 : -1, brake ? .4 : 1);
-        rightPower = Range.clip(!invert ? rightStick : leftStick * -1, brake ? -.4 : -1, brake ? .4 : 1);
+        leftPower = Range.clip((!invert ? leftStick : rightStick * -1) * (brake ? .4 : 1), -1, 1);
+        rightPower = Range.clip((!invert ? rightStick : leftStick * -1) * (brake ? .4 : 1), -1, 1);
 
         FL.setPower(leftPower);
         BL.setPower(leftPower);

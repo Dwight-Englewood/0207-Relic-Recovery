@@ -9,3 +9,4 @@ autoLogStuff/outputLog.pdf
 *.o
 *.hi
 
+*.DS_Store

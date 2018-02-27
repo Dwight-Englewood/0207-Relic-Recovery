@@ -35,7 +35,7 @@ public class VuforiaBlueFarSG extends OpMode {
 
     private double power = 0;
     private int generalTarget = 0;
-    private boolean hitjewel = false, done=false;
+    private boolean hitjewel = false;
     private int command = -1;
     private String commandString = "";
 

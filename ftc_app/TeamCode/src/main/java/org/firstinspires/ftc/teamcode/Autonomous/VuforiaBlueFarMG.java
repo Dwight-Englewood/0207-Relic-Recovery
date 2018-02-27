@@ -64,7 +64,7 @@ public class VuforiaBlueFarMG extends OpMode {
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
         relicTrackables.activate();
     }
-gi
+
     @Override
     public void loop() {
         switch (command) {

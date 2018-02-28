@@ -63,11 +63,12 @@ public class Bot {
     public void init(HardwareMap hardwareMap) {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        //Relic Arm Initializationgi
+        //Relic Arm Initialization
         relicArmServo1 = hardwareMap.get(Servo.class, "ras1");
         relicArmServo2 = hardwareMap.get(Servo.class, "ras2");
         relicArmServo1.scaleRange(.2, .8);
         relicArmServo2.scaleRange(.2, .8);
+
         relicArmVex1 = hardwareMap.get(CRServo.class, "rav1");
         relicArmVex2 = hardwareMap.get(CRServo.class, "rav2");
         relicArmVex2.setDirection(CRServo.Direction.FORWARD);
@@ -82,7 +83,9 @@ public class Bot {
 
         intakeColorBottom = hardwareMap.get(ColorSensor.class, "ics");
 
-        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangef");
+        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
+        rangeLeft = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangel");
+        rangeRight = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "ranger");
 
         jewelServoBottom = hardwareMap.servo.get("jewelbot"); //servo which does servo things\
         jewelServoTop = hardwareMap.servo.get("jeweltop"); //another servo which does servo things

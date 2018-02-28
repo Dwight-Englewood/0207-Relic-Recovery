@@ -29,10 +29,10 @@ public class SensorTest extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("intakeColorAlpha: ", robot.intakeColor.alpha());
-        telemetry.addData("intakeColorRed", robot.intakeColor.red());
-        telemetry.addData("intakeColorBlue", robot.intakeColor.blue());
-        telemetry.addData("intakeColorGreen", robot.intakeColor.green());
+        telemetry.addData("intakeColorAlpha: ", robot.intakeColorBottom.alpha());
+        telemetry.addData("intakeColorRed", robot.intakeColorBottom.red());
+        telemetry.addData("intakeColorBlue", robot.intakeColorBottom.blue());
+        telemetry.addData("intakeColorGreen", robot.intakeColorBottom.green());
         telemetry.addData("forward red", robot.jewelColorForward.red());
         telemetry.addData("forward blue", robot.jewelColorForward.blue());
         telemetry.addData("back red", robot.jewelColorForward.red());

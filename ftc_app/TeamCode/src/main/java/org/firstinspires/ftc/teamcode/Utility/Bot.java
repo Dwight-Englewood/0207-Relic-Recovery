@@ -34,17 +34,21 @@ public class Bot {
     private final double relMid = .50;
     private final double relMidWhileUp = .52;
     private final double relUp = 1;
+
+    //--------------------------------------------------------------------------------------------------------------------------
+
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
     public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, backIntakeWall, jewelServoTop;
-    //temp names
     public Servo relicArmServo1, relicArmServo2;
     public CRServo relicArmVex2, relicArmVex1;
     public BNO055IMU imu;
-    public ColorSensor intakeColor;
+
+    //--------------------------------------------------------------------------------------------------------------------------
+
+    public ColorSensor intakeColorBottom;
     public DistanceSensor intakeDistance;
     public ModernRoboticsI2cColorSensor jewelColorBack, jewelColorForward;
-    //--------------------------------------------------------------------------------------------------------------------------
-    public ModernRoboticsI2cRangeSensor rangeFront;
+    public ModernRoboticsI2cRangeSensor rangeBack, rangeLeft, rangeRight;
     private Orientation angles;
 
     //--------------------------------------------------------------------------------------------------------------------------
@@ -76,9 +80,9 @@ public class Bot {
 
         intakeDistance = hardwareMap.get(DistanceSensor.class, "ics");
 
-        intakeColor = hardwareMap.get(ColorSensor.class, "ics");
+        intakeColorBottom = hardwareMap.get(ColorSensor.class, "ics");
 
-        rangeFront = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangef");
+        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangef");
 
         jewelServoBottom = hardwareMap.servo.get("jewelbot"); //servo which does servo things\
         jewelServoTop = hardwareMap.servo.get("jeweltop"); //another servo which does servo things
@@ -188,10 +192,10 @@ public class Bot {
     public Glyph findGlyphType() {
         /*
         int red, blue, green, alpha;
-        red = this.intakeColor.red();
-        blue = this.intakeColor.blue();
-        green = this.intakeColor.green();
-        alpha = this.intakeColor.alpha();
+        red = this.intakeColorBottom.red();
+        blue = this.intakeColorBottom.blue();
+        green = this.intakeColorBottom.green();
+        alpha = this.intakeColorBottom.alpha();
 
         double average;
         average = (red + blue + green + alpha) / (double ) 4;
@@ -222,7 +226,7 @@ public class Bot {
             return EMPTY;
         }
 
-        if (this.intakeColor.alpha() > compAlphaVal) {
+        if (this.intakeColorBottom.alpha() > compAlphaVal) {
             return GRAY;
         } else {
             return Glyph.BROWN;
@@ -376,7 +380,6 @@ public class Bot {
 
     //--------------------------------------------------------------------------------------------------------------------------
 
-    //TODO: Test different k values
     public void fieldCentricDrive(double lStickX, double lStickY, double rStickX, double leftTrigger, double rightTrigger, boolean brake) {
 
         if (brake) {
@@ -803,7 +806,7 @@ public class Bot {
         return scale;
     }
 
-    /*public double getDistance(Position sensorSide) {
+    public double getDistance(Position sensorSide) {
         double distance = 0;
         switch (sensorSide) {
             case BACK:
@@ -819,148 +822,6 @@ public class Bot {
                 break;
         }
         return distance;
-    }*/
-
-    /*public void setupAuton(Position sensorSide) {
-        switch (sensorSide) {
-            case LEFT:
-                this.rangeSide = rangeLeft;
-                break;
-
-            case RIGHT:
-                this.rangeSide = rangeRight;
-                break;
-        }
-        this.sensorSide = sensorSide;
-
-    }*/
-
-    /*public boolean moveToDistance(Position sensorSide, int targetDistance) {
-        double curDistance = getDistance(sensorSide);
-        if (Math.abs(curDistance - targetDistance) > 2) {
-            switch (sensorSide){
-                case RIGHT:
-                    jewelUp();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.LEFTSTRAFE, .3);
-                    } else {
-                        drive(MovementEnum.RIGHTSTRAFE, .1);
-                    } break;
-
-                case LEFT:
-                    jewelUp();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.RIGHTSTRAFE, .1);
-                    } else {
-                        drive(MovementEnum.LEFTSTRAFE, .3);
-                    } break;
-
-                case BACK:
-                    jewelOut();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.FORWARD, .1);
-                    } else {
-                        drive(MovementEnum.BACKWARD, .3);
-                    } break;
-            }
-            return false;
-        } else {
-            drive(MovementEnum.STOP);
-            jewelUp();
-            return true;
-        }
-    }*/
-
-    /*public boolean moveToDistance(Position sensorSide, int targetDistance, int targetHeading) {
-        double curDistance = getDistance(sensorSide);
-        if (Math.abs(curDistance - targetDistance) > 2) {
-            switch (sensorSide){
-                case RIGHT:
-                    jewelUp();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.LEFTSTRAFE, .1);
-                    } else {
-                        drive(MovementEnum.RIGHTSTRAFE, .3);
-                    } break;
-
-                case LEFT:
-                    jewelUp();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.RIGHTSTRAFE, .1);
-                    } else {
-                        drive(MovementEnum.LEFTSTRAFE, .3);
-                    } break;
-
-                case BACK:
-                    jewelOut();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.FORWARD, .1);
-                    } else {
-                        drive(MovementEnum.BACKWARD, .3);
-                    } break;
-            }
-            return false;
-        } else {
-            drive(MovementEnum.STOP);
-            jewelUp();
-            return true;
-        }
-    }*/
-
-    /*private final int farleftDistance = 100;
-    private final int farrightDistance = 137;
-    private final int farmidDistance = 119;
-    private final int cryptoDistance = 37;
-    private int targetDistance;*/
-
-    /* crypto when looking from the field...
-     *  |L|M|R|
-     *  |E|I|I|
-     *  |F|D|G|
-     *  |T|D|H|
-     */
-
-    //SETUP AUTON MUST BE CALLED FIRST
-    /*public boolean lineup(RelicRecoveryVuMark column, Telemetry telemetry) {
-        if (Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 5) {
-            adjustHeading(0, false, telemetry);
-            return false;
-        } else {
-            switch (column) {
-                case LEFT:
-                    this.targetDistance = farleftDistance;
-                    break;
-
-                case RIGHT:
-                    this.targetDistance = farrightDistance;
-                    break;
-
-                case CENTER:
-                    this.targetDistance = farmidDistance;
-                    break;
-            }
-
-            //TODO: Add power speed up/down
-            if (Math.abs(this.rangeSide.getDistance(DistanceUnit.CM) - this.targetDistance) < 2) {
-                moveToDistance(Position.BACK, cryptoDistance);
-                return false;
-            } else {
-                moveToDistance(this.sensorSide, targetDistance);
-                return false;
-            }
-
-        }
-    }*/
-
-    public void adjustPower(int targetHeading) {
-        double headingError = targetHeading - imu.getAngularOrientation().firstAngle;
-        double driveScale = headingError * .01;
-
-        FL.setPower(Range.clip(FL.getPower() + driveScale, -1, 1));
-        BL.setPower(Range.clip(BL.getPower() + driveScale, -1, 1));
-        FR.setPower(Range.clip(FR.getPower() - driveScale, -1, 1));
-        BR.setPower(Range.clip(BR.getPower() - driveScale, -1, 1));
-
     }
 
     public void strafeAdjusts(int targetHeading, MovementEnum direction) {

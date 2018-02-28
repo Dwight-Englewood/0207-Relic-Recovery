@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
-import com.sun.source.tree.EmptyStatementTree;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Utility.Bot;
@@ -399,10 +398,10 @@ public class TelebopGlyphTest extends OpMode {
             loops++;
 
 
-            telemetry.addData("csalpha", robot.intakeColor.alpha());
-            telemetry.addData("csred", robot.intakeColor.red());
-            telemetry.addData("csgreen", robot.intakeColor.green());
-            telemetry.addData("csblue", robot.intakeColor.blue());
+            telemetry.addData("csalpha", robot.intakeColorBottom.alpha());
+            telemetry.addData("csred", robot.intakeColorBottom.red());
+            telemetry.addData("csgreen", robot.intakeColorBottom.green());
+            telemetry.addData("csblue", robot.intakeColorBottom.blue());
             telemetry.addData("ds", robot.intakeDistance.getDistance(DistanceUnit.CM));
             telemetry.addData("average distance", average / loops);
             telemetry.addData("averageCompVal", compAlphaVal);
@@ -412,7 +411,7 @@ public class TelebopGlyphTest extends OpMode {
         }
 
 
-        //telemetry.addData("productAlphaDistance", robot.intakeColor.alpha() * robot.intakeDistance.getDistance(DistanceUnit.CM));
+        //telemetry.addData("productAlphaDistance", robot.intakeColorBottom.alpha() * robot.intakeDistance.getDistance(DistanceUnit.CM));
         //for (int i = 0; i < shit.size(); i++) {
         //telemetry.addData("shit".concat(Integer.toString(shit.get(i).fst)), shit.get(i).snd);
         //}

@@ -119,7 +119,7 @@ public class VuforiaBlueMG extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = -1 * robot.distanceToRevs(50);
+                generalTarget = -1 * robot.distanceToRevsNR40(50);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -154,19 +154,19 @@ public class VuforiaBlueMG extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = -1 * robot.distanceToRevs(16);
+                        generalTarget = -1 * robot.distanceToRevsNR40(16);
                         break;
 
                     case CENTER:
-                        generalTarget = -1 * robot.distanceToRevs(35);
+                        generalTarget = -1 * robot.distanceToRevsNR40(35);
                         break;
 
                     case RIGHT:
-                        generalTarget = -1 * robot.distanceToRevs(51);
+                        generalTarget = -1 * robot.distanceToRevsNR40(51);
                         break;
 
                     case UNKNOWN:
-                        generalTarget = -1 * robot.distanceToRevs(35);
+                        generalTarget = -1 * robot.distanceToRevsNR40(35);
                         break;
                 }
                 try {Thread.sleep(300);} catch (Exception e) {}
@@ -241,7 +241,7 @@ public class VuforiaBlueMG extends OpMode {
             case 11:
                 if (timer.milliseconds() > 250) {
                     commandString = "Setup drive to box";
-                    generalTarget = -1*robot.distanceToRevs(17);
+                    generalTarget = -1*robot.distanceToRevsNR40(17);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -279,7 +279,7 @@ public class VuforiaBlueMG extends OpMode {
             case 15:
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = robot.distanceToRevs(15);
+                    generalTarget = robot.distanceToRevsNR40(15);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -303,7 +303,7 @@ public class VuforiaBlueMG extends OpMode {
 
                 commandString = "Setup knock glyph back";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = -robot.distanceToRevs(20);
+                    generalTarget = -robot.distanceToRevsNR40(20);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -325,7 +325,7 @@ public class VuforiaBlueMG extends OpMode {
             case 19:
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = robot.distanceToRevs(55);
+                    generalTarget = robot.distanceToRevsNR40(55);
                     robot.intake(-.9);
                     robot.runToPosition(generalTarget);
                     timer.reset();
@@ -349,7 +349,7 @@ public class VuforiaBlueMG extends OpMode {
             case 21:
                 commandString = "Setup drive to box";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = -1 * robot.distanceToRevs(30);
+                    generalTarget = -1 * robot.distanceToRevsNR40(30);
                     robot.intake(0);
                     robot.runToPosition(generalTarget);
                     timer.reset();

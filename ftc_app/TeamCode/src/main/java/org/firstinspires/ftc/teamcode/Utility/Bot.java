@@ -34,17 +34,21 @@ public class Bot {
     private final double relMid = .50;
     private final double relMidWhileUp = .52;
     private final double relUp = 1;
+
+    //--------------------------------------------------------------------------------------------------------------------------
+
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
     public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, backIntakeWall, jewelServoTop;
-    //temp names
     public Servo relicArmServo1, relicArmServo2;
     public CRServo relicArmVex2, relicArmVex1;
     public BNO055IMU imu;
-    public ColorSensor intakeColor;
+
+    //--------------------------------------------------------------------------------------------------------------------------
+
+    public ColorSensor intakeColorBottom;
     public DistanceSensor intakeDistance;
     public ModernRoboticsI2cColorSensor jewelColorBack, jewelColorForward;
-    //--------------------------------------------------------------------------------------------------------------------------
-    public ModernRoboticsI2cRangeSensor rangeFront;
+    public ModernRoboticsI2cRangeSensor rangeBack, rangeLeft, rangeRight;
     private Orientation angles;
 
     //--------------------------------------------------------------------------------------------------------------------------
@@ -59,11 +63,12 @@ public class Bot {
     public void init(HardwareMap hardwareMap) {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        //Relic Arm Initializationgi
+        //Relic Arm Initialization
         relicArmServo1 = hardwareMap.get(Servo.class, "ras1");
         relicArmServo2 = hardwareMap.get(Servo.class, "ras2");
         relicArmServo1.scaleRange(.2, .8);
         relicArmServo2.scaleRange(.2, .8);
+
         relicArmVex1 = hardwareMap.get(CRServo.class, "rav1");
         relicArmVex2 = hardwareMap.get(CRServo.class, "rav2");
         relicArmVex2.setDirection(CRServo.Direction.FORWARD);
@@ -76,9 +81,11 @@ public class Bot {
 
         intakeDistance = hardwareMap.get(DistanceSensor.class, "ics");
 
-        intakeColor = hardwareMap.get(ColorSensor.class, "ics");
+        intakeColorBottom = hardwareMap.get(ColorSensor.class, "ics");
 
-        rangeFront = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangef");
+        rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
+        rangeLeft = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangel");
+        rangeRight = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "ranger");
 
         jewelServoBottom = hardwareMap.servo.get("jewelbot"); //servo which does servo things\
         jewelServoTop = hardwareMap.servo.get("jeweltop"); //another servo which does servo things
@@ -188,10 +195,10 @@ public class Bot {
     public Glyph findGlyphType() {
         /*
         int red, blue, green, alpha;
-        red = this.intakeColor.red();
-        blue = this.intakeColor.blue();
-        green = this.intakeColor.green();
-        alpha = this.intakeColor.alpha();
+        red = this.intakeColorBottom.red();
+        blue = this.intakeColorBottom.blue();
+        green = this.intakeColorBottom.green();
+        alpha = this.intakeColorBottom.alpha();
 
         double average;
         average = (red + blue + green + alpha) / (double ) 4;
@@ -222,7 +229,7 @@ public class Bot {
             return EMPTY;
         }
 
-        if (this.intakeColor.alpha() > compAlphaVal) {
+        if (this.intakeColorBottom.alpha() > compAlphaVal) {
             return GRAY;
         } else {
             return Glyph.BROWN;
@@ -376,7 +383,6 @@ public class Bot {
 
     //--------------------------------------------------------------------------------------------------------------------------
 
-    //TODO: Test different k values
     public void fieldCentricDrive(double lStickX, double lStickY, double rStickX, double leftTrigger, double rightTrigger, boolean brake) {
 
         if (brake) {
@@ -693,10 +699,16 @@ public class Bot {
         BR.setTargetPosition(-target);
     }
 
-    public int distanceToRevs(double distance) {
+    public int distanceToRevsNR40(double distance) {
         final double wheelCirc = 31.9185813;
+        final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120 counts per revolution
 
-        final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120,
+        return (int) (gearMotorTickThing * (distance / wheelCirc));
+    }
+
+    public int distanceToRevsNRO20(double distance) {
+        final double wheelCirc = 31.9185813;
+        final double gearMotorTickThing = .5 * 537.6; //neverrest orbital 20 = 537.6 counts per revolution
 
         return (int) (gearMotorTickThing * (distance / wheelCirc));
     }
@@ -753,7 +765,7 @@ public class Bot {
     }
 
     public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
-        double scale = 1;
+        double scale;
         if (
                 (Math.abs(tickFL - targetTickFL) < 25) &&
                         (Math.abs(tickFR - targetTickFR) < 25) &&
@@ -761,7 +773,6 @@ public class Bot {
                         (Math.abs(tickBR - targetTickBR) < 25)
                 ) {
             scale = 0;
-            //stopped, can be changed
         } else if (
                 (Math.abs(tickFL) < 200) &&
                         (Math.abs(tickFR) < 200) &&
@@ -791,22 +802,29 @@ public class Bot {
                 ) {
             scale = .3;
         } else if (
-                (Math.abs(tickFL - targetTickFL) < 2400) &&
-                        (Math.abs(tickFR - targetTickFR) < 2400) &&
-                        (Math.abs(tickBL - targetTickBL) < 2400) &&
-                        (Math.abs(tickBR - targetTickBR) < 2400)
+                (Math.abs(tickFL - targetTickFL) < 2500) &&
+                        (Math.abs(tickFR - targetTickFR) < 2500) &&
+                        (Math.abs(tickBL - targetTickBL) < 2500) &&
+                        (Math.abs(tickBR - targetTickBR) < 2500)
                 ) {
             scale = .5;
-        } else {
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 3500) &&
+                        (Math.abs(tickFR - targetTickFR) < 3500) &&
+                        (Math.abs(tickBL - targetTickBL) < 3500) &&
+                        (Math.abs(tickBR - targetTickBR) < 3500)
+                ) {
             scale = .7;
+        } else {
+            scale = 1;
         }
         return scale;
     }
 
-    /*public double getDistance(Position sensorSide) {
+    public double getDistance(Position sensorSide) {
         double distance = 0;
         switch (sensorSide) {
-            case BACK:
+            case MIDDLE:
                 distance = this.rangeBack.getDistance(DistanceUnit.CM);
                 break;
 
@@ -817,150 +835,12 @@ public class Bot {
             case RIGHT:
                 distance = this.rangeRight.getDistance(DistanceUnit.CM);
                 break;
+
+            default:
+                distance = Double.NaN;
+                break;
         }
         return distance;
-    }*/
-
-    /*public void setupAuton(Position sensorSide) {
-        switch (sensorSide) {
-            case LEFT:
-                this.rangeSide = rangeLeft;
-                break;
-
-            case RIGHT:
-                this.rangeSide = rangeRight;
-                break;
-        }
-        this.sensorSide = sensorSide;
-
-    }*/
-
-    /*public boolean moveToDistance(Position sensorSide, int targetDistance) {
-        double curDistance = getDistance(sensorSide);
-        if (Math.abs(curDistance - targetDistance) > 2) {
-            switch (sensorSide){
-                case RIGHT:
-                    jewelUp();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.LEFTSTRAFE, .3);
-                    } else {
-                        drive(MovementEnum.RIGHTSTRAFE, .1);
-                    } break;
-
-                case LEFT:
-                    jewelUp();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.RIGHTSTRAFE, .1);
-                    } else {
-                        drive(MovementEnum.LEFTSTRAFE, .3);
-                    } break;
-
-                case BACK:
-                    jewelOut();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.FORWARD, .1);
-                    } else {
-                        drive(MovementEnum.BACKWARD, .3);
-                    } break;
-            }
-            return false;
-        } else {
-            drive(MovementEnum.STOP);
-            jewelUp();
-            return true;
-        }
-    }*/
-
-    /*public boolean moveToDistance(Position sensorSide, int targetDistance, int targetHeading) {
-        double curDistance = getDistance(sensorSide);
-        if (Math.abs(curDistance - targetDistance) > 2) {
-            switch (sensorSide){
-                case RIGHT:
-                    jewelUp();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.LEFTSTRAFE, .1);
-                    } else {
-                        drive(MovementEnum.RIGHTSTRAFE, .3);
-                    } break;
-
-                case LEFT:
-                    jewelUp();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.RIGHTSTRAFE, .1);
-                    } else {
-                        drive(MovementEnum.LEFTSTRAFE, .3);
-                    } break;
-
-                case BACK:
-                    jewelOut();
-                    if (curDistance < targetDistance) {
-                        drive(MovementEnum.FORWARD, .1);
-                    } else {
-                        drive(MovementEnum.BACKWARD, .3);
-                    } break;
-            }
-            return false;
-        } else {
-            drive(MovementEnum.STOP);
-            jewelUp();
-            return true;
-        }
-    }*/
-
-    /*private final int farleftDistance = 100;
-    private final int farrightDistance = 137;
-    private final int farmidDistance = 119;
-    private final int cryptoDistance = 37;
-    private int targetDistance;*/
-
-    /* crypto when looking from the field...
-     *  |L|M|R|
-     *  |E|I|I|
-     *  |F|D|G|
-     *  |T|D|H|
-     */
-
-    //SETUP AUTON MUST BE CALLED FIRST
-    /*public boolean lineup(RelicRecoveryVuMark column, Telemetry telemetry) {
-        if (Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 5) {
-            adjustHeading(0, false, telemetry);
-            return false;
-        } else {
-            switch (column) {
-                case LEFT:
-                    this.targetDistance = farleftDistance;
-                    break;
-
-                case RIGHT:
-                    this.targetDistance = farrightDistance;
-                    break;
-
-                case CENTER:
-                    this.targetDistance = farmidDistance;
-                    break;
-            }
-
-            //TODO: Add power speed up/down
-            if (Math.abs(this.rangeSide.getDistance(DistanceUnit.CM) - this.targetDistance) < 2) {
-                moveToDistance(Position.BACK, cryptoDistance);
-                return false;
-            } else {
-                moveToDistance(this.sensorSide, targetDistance);
-                return false;
-            }
-
-        }
-    }*/
-
-    public void adjustPower(int targetHeading) {
-        double headingError = targetHeading - imu.getAngularOrientation().firstAngle;
-        double driveScale = headingError * .01;
-
-        FL.setPower(Range.clip(FL.getPower() + driveScale, -1, 1));
-        BL.setPower(Range.clip(BL.getPower() + driveScale, -1, 1));
-        FR.setPower(Range.clip(FR.getPower() - driveScale, -1, 1));
-        BR.setPower(Range.clip(BR.getPower() - driveScale, -1, 1));
-
     }
 
     public void strafeAdjusts(int targetHeading, MovementEnum direction) {

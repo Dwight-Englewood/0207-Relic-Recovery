@@ -7,6 +7,5 @@ package org.firstinspires.ftc.teamcode.Utility;
 public enum Position {
     LEFT,
     RIGHT,
-    MIDDLE,
-    BACK
+    MIDDLE
 }

@@ -13,13 +13,13 @@ import org.firstinspires.ftc.teamcode.Utility.Bot;
 //@Disabled
 public class EncoderTest extends OpMode {
     Bot robot = new Bot();
-    int target = robot.distanceToRevs(30);
-    double power;
 
     @Override
     public void init() {
         robot.init(hardwareMap);
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.intakeDrop.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         telemetry.addLine("GO");
         telemetry.update();
     }
@@ -31,6 +31,8 @@ public class EncoderTest extends OpMode {
     @Override
     public void start() {
        robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+       robot.intakeDrop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override
@@ -41,6 +43,7 @@ public class EncoderTest extends OpMode {
         telemetry.addData("FR Ticks", robot.FR.getCurrentPosition());
         telemetry.addData("BR Ticks", robot.BR.getCurrentPosition());
         telemetry.addData("Lift Ticks", robot.lift.getCurrentPosition());
+        telemetry.addData("Intake Lift Ticks", robot.intakeDrop.getCurrentPosition());
         telemetry.update();
     }
 

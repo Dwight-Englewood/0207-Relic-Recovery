@@ -95,7 +95,7 @@ public class BlueAutonClose extends OpMode {
                     robot.drive(MovementEnum.STOP);
                     robot.jewelUp();
                     timer.reset();
-                    generalTarget = robot.distanceToRevs(50);
+                    generalTarget = robot.distanceToRevsNR40(50);
                     robot.runToPosition(generalTarget);
                     command++;
                 } else if (timer.milliseconds() > 2000) {
@@ -106,7 +106,7 @@ public class BlueAutonClose extends OpMode {
                     try {Thread.sleep(300);}catch(Exception e){}
                     robot.jewelUp();
                     timer.reset();
-                    generalTarget = robot.distanceToRevs(50);
+                    generalTarget = robot.distanceToRevsNR40(50);
                     robot.runToPosition(generalTarget);
                     command++;
                 } /*else if (robot.colorSensor.blue() >= 1) {
@@ -137,7 +137,7 @@ public class BlueAutonClose extends OpMode {
 
             case 4:
                 timer.reset();
-                generalTarget = robot.distanceToRevs(27);
+                generalTarget = robot.distanceToRevsNR40(27);
                 robot.runToPosition(generalTarget);
                 command++;
                 break;
@@ -207,7 +207,7 @@ public class BlueAutonClose extends OpMode {
             case 10:
                 robot.flipDown();
                 timer.reset();
-                generalTarget = -1*robot.distanceToRevs(18);
+                generalTarget = -1*robot.distanceToRevsNR40(18);
                 robot.runToPosition(generalTarget);
                 command++;
                 break;
@@ -243,7 +243,7 @@ public class BlueAutonClose extends OpMode {
             case 14:
                 if (timer.milliseconds() > 750) {
                     timer.reset();
-                    generalTarget = robot.distanceToRevs(15);
+                    generalTarget = robot.distanceToRevsNR40(15);
                     robot.runToPosition(generalTarget);
                     command++;
                 }
@@ -265,7 +265,7 @@ public class BlueAutonClose extends OpMode {
 
             case 16:
                 if (timer.milliseconds() > 750) {
-                    generalTarget = -1 * robot.distanceToRevs(15);
+                    generalTarget = -1 * robot.distanceToRevsNR40(15);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -285,7 +285,7 @@ public class BlueAutonClose extends OpMode {
 
             case 18:
                 if (timer.milliseconds() > 750) {
-                    generalTarget = robot.distanceToRevs(8);
+                    generalTarget = robot.distanceToRevsNR40(8);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;

@@ -756,7 +756,7 @@ public class Bot {
     }
 
     public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
-        double scale = 1;
+        double scale;
         if (
                 (Math.abs(tickFL - targetTickFL) < 25) &&
                         (Math.abs(tickFR - targetTickFR) < 25) &&
@@ -764,7 +764,6 @@ public class Bot {
                         (Math.abs(tickBR - targetTickBR) < 25)
                 ) {
             scale = 0;
-            //stopped, can be changed
         } else if (
                 (Math.abs(tickFL) < 200) &&
                         (Math.abs(tickFR) < 200) &&
@@ -794,14 +793,21 @@ public class Bot {
                 ) {
             scale = .3;
         } else if (
-                (Math.abs(tickFL - targetTickFL) < 2400) &&
-                        (Math.abs(tickFR - targetTickFR) < 2400) &&
-                        (Math.abs(tickBL - targetTickBL) < 2400) &&
-                        (Math.abs(tickBR - targetTickBR) < 2400)
+                (Math.abs(tickFL - targetTickFL) < 2500) &&
+                        (Math.abs(tickFR - targetTickFR) < 2500) &&
+                        (Math.abs(tickBL - targetTickBL) < 2500) &&
+                        (Math.abs(tickBR - targetTickBR) < 2500)
                 ) {
             scale = .5;
-        } else {
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 3500) &&
+                        (Math.abs(tickFR - targetTickFR) < 3500) &&
+                        (Math.abs(tickBL - targetTickBL) < 3500) &&
+                        (Math.abs(tickBR - targetTickBR) < 3500)
+                ) {
             scale = .7;
+        } else {
+            scale = 1;
         }
         return scale;
     }

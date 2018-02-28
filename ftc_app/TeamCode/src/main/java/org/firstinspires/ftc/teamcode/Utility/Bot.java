@@ -818,7 +818,7 @@ public class Bot {
     public double getDistance(Position sensorSide) {
         double distance = 0;
         switch (sensorSide) {
-            case BACK:
+            case MIDDLE:
                 distance = this.rangeBack.getDistance(DistanceUnit.CM);
                 break;
 
@@ -828,6 +828,10 @@ public class Bot {
 
             case RIGHT:
                 distance = this.rangeRight.getDistance(DistanceUnit.CM);
+                break;
+
+            default:
+                distance = Double.NaN;
                 break;
         }
         return distance;

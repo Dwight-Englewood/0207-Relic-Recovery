@@ -699,7 +699,7 @@ public class Bot {
         BR.setTargetPosition(-target);
     }
 
-    public int distanceToRevs(double distance) {
+    public int distanceToRevsNR40(double distance) {
         final double wheelCirc = 31.9185813;
 
         final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120,

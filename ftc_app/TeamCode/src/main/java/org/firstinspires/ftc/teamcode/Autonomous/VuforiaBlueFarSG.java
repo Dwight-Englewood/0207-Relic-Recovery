@@ -125,7 +125,7 @@ public class VuforiaBlueFarSG extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = -1 * robot.distanceToRevs(72);
+                generalTarget = -1 * robot.distanceToRevsNR40(72);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -160,19 +160,19 @@ public class VuforiaBlueFarSG extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = robot.distanceToRevs(43);
+                        generalTarget = robot.distanceToRevsNR40(43);
                         break;
 
                     case CENTER:
-                        generalTarget = robot.distanceToRevs(28);
+                        generalTarget = robot.distanceToRevsNR40(28);
                         break;
 
                     case RIGHT:
-                        generalTarget = robot.distanceToRevs(13);
+                        generalTarget = robot.distanceToRevsNR40(13);
                         break;
 
                     case UNKNOWN:
-                        generalTarget = robot.distanceToRevs(28);
+                        generalTarget = robot.distanceToRevsNR40(28);
                         break;
                 }
                 try {
@@ -267,7 +267,7 @@ public class VuforiaBlueFarSG extends OpMode {
             case 13:
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = robot.distanceToRevs(15);
+                    generalTarget = robot.distanceToRevsNR40(15);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -291,7 +291,7 @@ public class VuforiaBlueFarSG extends OpMode {
 
                 commandString = "Setup knock glyph back";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = -robot.distanceToRevs(20);
+                    generalTarget = -robot.distanceToRevsNR40(20);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -313,7 +313,7 @@ public class VuforiaBlueFarSG extends OpMode {
             case 17:
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = robot.distanceToRevs(15);
+                    generalTarget = robot.distanceToRevsNR40(15);
                     robot.intake(-.9);
                     robot.runToPosition(generalTarget);
                     timer.reset();

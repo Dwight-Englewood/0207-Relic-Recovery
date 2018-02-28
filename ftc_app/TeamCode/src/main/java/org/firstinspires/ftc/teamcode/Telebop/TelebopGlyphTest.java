@@ -154,7 +154,7 @@ public class TelebopGlyphTest extends OpMode {
         }
 
         //Main driving function. See Bot.java for documentation
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle); // Tank drive???
+        //robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle); // Tank drive???
 
         if (glyphMode) {
             //this is the actual flipping of the flipper
@@ -301,7 +301,7 @@ public class TelebopGlyphTest extends OpMode {
         //TODO do that stuff in comment above
         //WOULD BE DONE IN MAIN LOGIC OF TELEOP
         //DEPENDING ON HOW LARGE LIST MIGHT NOT BE WORTH
-        if (intaking) {
+        /* if (intaking) {
             Glyph merp = robot.findGlyphType();
             intakeReadings.add(merp);
         } else if (intakeReadings.size() != 0) {
@@ -383,7 +383,7 @@ public class TelebopGlyphTest extends OpMode {
 
             intakeReadings.clear();
         }
-
+        */
 
         double distanceCM = robot.intakeDistance.getDistance(DistanceUnit.CM);
 

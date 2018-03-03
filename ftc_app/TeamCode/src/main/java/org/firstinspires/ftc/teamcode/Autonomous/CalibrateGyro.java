@@ -30,6 +30,7 @@ public class CalibrateGyro extends OpMode {
         parameters = new BNO055IMU.Parameters();
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         calib = true;
 
         telemetry.addLine("Ready.");

@@ -821,6 +821,34 @@ public class Bot {
         return scale;
     }
 
+    //NOTE: if cur distance < target, power is positive --> cur distance > target = power negative
+    public double slowDownScale(int targetDistance, double startingDistance, ModernRoboticsI2cRangeSensor rangeSensor) {
+        double curDistance = rangeSensor.getDistance(DistanceUnit.CM);
+        int modifier = targetDistance < curDistance ? 1 : -1;
+        double scale;
+
+        if (Math.abs(targetDistance - curDistance) <= 2) {
+            scale = 0;
+        } else if (Math.abs(curDistance - startingDistance) <= 5) {
+            scale = .1;
+        } else if (Math.abs(curDistance - startingDistance) <= 10) {
+            scale = .3;
+        } else if (Math.abs(targetDistance - curDistance) <= 5) {
+            scale = .1;
+        } else if (Math.abs(targetDistance - curDistance) <= 10) {
+            scale = .3;
+        } else if (Math.abs(targetDistance - curDistance) <= 20) {
+            scale = .5;
+        } else if (Math.abs(targetDistance - curDistance) <= 35) {
+            scale = .7;
+        } else {
+            scale = 1;
+        }
+
+        return scale * modifier;
+
+    }
+
     public double getDistance(Position sensorSide) {
         double distance = 0;
         switch (sensorSide) {
@@ -855,15 +883,15 @@ public class Bot {
         double driveScale = Math.abs(headingError) * .0055;
         double powbl, powbr, minbr, minbl;
 
-        minbl = direction == MovementEnum.LEFTSTRAFE ? 0 : -.6;
-        minbr = direction == MovementEnum.LEFTSTRAFE ? -.6 : 0;
+        minbl = direction == MovementEnum.LEFTSTRAFE ? 0 : -1;
+        minbr = direction == MovementEnum.LEFTSTRAFE ? -1 : 0;
 
         if (headingError < 0) {
-            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + .6);
-            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + .6);
+            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + 1);
+            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + 1);
         } else {
-            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + .6);
-            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + .6);
+            powbl = Range.clip(BL.getPower() + driveScale, minbl, minbl + 1);
+            powbr = Range.clip(BR.getPower() - driveScale, minbr, minbr + 1);
         }
 
         BL.setPower(powbl);

@@ -180,8 +180,8 @@ public class TelebopGlyphTest extends OpMode {
                 if (gamepad2.right_trigger > .2 || gamepad2.left_trigger > .2) {
                     controller.addInstruction(ReleasePosition.DOWN, 1);
                     //robot.intake(-1);
-                    robot.intakeOne.setPower(-.9 * gamepad2.right_trigger);
-                    robot.intakeTwo.setPower(-.9 * gamepad2.left_trigger);
+                    robot.intakeOne.setPower(-.95);
+                    robot.intakeTwo.setPower(-.95);
                     intaking = true;
                 } else {
                     //This line is not needed, as this specific addition to the controller object will never change the output. However, it is included to keep clarity as to what will happen

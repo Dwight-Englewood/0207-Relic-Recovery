@@ -386,7 +386,7 @@ public class TelebopGlyphTest extends OpMode {
 
         double distanceCM = robot.intakeDistanceBottom.getDistance(DistanceUnit.CM);
 
-        double compAlphaVal = -10 * distanceCM + 150;
+        double compAlphaVal = 135;
         //Telemetry things, generally booleans that could be important for drivers to be able to tell are active, as well as cooldowns
         telemetry.addData("Braking", brakeToggle);
         telemetry.addData("Alt Mode?", !glyphMode);

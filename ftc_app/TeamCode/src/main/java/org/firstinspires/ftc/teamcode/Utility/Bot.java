@@ -20,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph;
 
+import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.BROWN;
 import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.EMPTY;
 import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.Glyph.GRAY;
 
@@ -214,7 +215,16 @@ public class Bot {
             return Glyph.EMPTY;
         }
         */
-
+        if (this.intakeDistanceSide.getDistance(DistanceUnit.CM) < 7) {
+            if (this.intakeColorSide.alpha() > 135) {
+                return GRAY;
+            } else {
+                return BROWN;
+            }
+        } else {
+            return EMPTY;
+        }
+        /*
         double distanceCM = this.intakeDistanceBottom.getDistance(DistanceUnit.CM);
         if (Double.isNaN(distanceCM)) {
             return Glyph.EMPTY;
@@ -235,8 +245,8 @@ public class Bot {
         if (this.intakeColorBottom.alpha() > compAlphaVal) {
             return GRAY;
         } else {
-            return Glyph.BROWN;
-        }
+            return BROWN;
+        }*/
 
         //needs some actualy testing on the robot
     }

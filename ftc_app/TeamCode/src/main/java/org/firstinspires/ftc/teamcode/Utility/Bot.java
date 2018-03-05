@@ -45,8 +45,8 @@ public class Bot {
 
     //--------------------------------------------------------------------------------------------------------------------------
 
-    public ColorSensor intakeColorBottom;
-    public DistanceSensor intakeDistance;
+    public ColorSensor intakeColorBottom, intakeColorSide;
+    public DistanceSensor intakeDistanceBottom, intakeDistanceSide;
     public ModernRoboticsI2cColorSensor jewelColorBack, jewelColorForward;
     public ModernRoboticsI2cRangeSensor rangeBack, rangeLeft, rangeRight;
     private Orientation angles;
@@ -79,9 +79,12 @@ public class Bot {
         jewelColorForward = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs2");
         jewelColorForward.enableLed(true);
 
-        intakeDistance = hardwareMap.get(DistanceSensor.class, "ics");
+        intakeDistanceBottom = hardwareMap.get(DistanceSensor.class, "icsb");
+        intakeDistanceSide = hardwareMap.get(DistanceSensor.class, "icss");
 
-        intakeColorBottom = hardwareMap.get(ColorSensor.class, "ics");
+        intakeColorBottom = hardwareMap.get(ColorSensor.class, "icsb");
+        intakeColorSide = hardwareMap.get(ColorSensor.class, "icss");
+
 
         rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
         rangeLeft = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangel");
@@ -212,13 +215,13 @@ public class Bot {
         }
         */
 
-        double distanceCM = this.intakeDistance.getDistance(DistanceUnit.CM);
+        double distanceCM = this.intakeDistanceBottom.getDistance(DistanceUnit.CM);
         if (Double.isNaN(distanceCM)) {
             return Glyph.EMPTY;
             //only happens with open air - and thus no glyph is present
         }
 
-        if (intakeDistance.getDistance(DistanceUnit.CM) < 6) {
+        if (intakeDistanceBottom.getDistance(DistanceUnit.CM) < 6) {
             //for this distance the distance censor is unreliable - however, the color comparisons are more limited so we can use that
         }
 

@@ -115,6 +115,7 @@ public class Bot {
         flipper.scaleRange(.2, .8);
 
         backIntakeWall = hardwareMap.servo.get("backiw");
+        backIntakeWall.scaleRange(.2, .8);
 
         //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

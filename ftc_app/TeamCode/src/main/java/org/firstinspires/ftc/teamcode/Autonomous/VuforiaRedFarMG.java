@@ -373,6 +373,7 @@ public class VuforiaRedFarMG extends OpMode {
                 if (timer.milliseconds() > 250) {
                     generalTarget = robot.distanceToRevsNRO20(120);
                     robot.intake(-1);
+                    robot.releaseMove(ReleasePosition.DOWN);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;

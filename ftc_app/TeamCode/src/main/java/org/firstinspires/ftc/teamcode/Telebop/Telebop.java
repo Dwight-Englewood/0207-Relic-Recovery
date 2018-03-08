@@ -28,6 +28,8 @@ public class Telebop extends OpMode {
     boolean movingInt = false;
     boolean placing = false;
     boolean holdPlace = false;
+    boolean wallDown = false;
+    boolean parking = false;
     //brakeCountdown is used for adding delays to the brake toggle
     int brakeCountdown = 0;
     int relicCountdown = 0;
@@ -38,8 +40,8 @@ public class Telebop extends OpMode {
     EnumController<ReleasePosition> controller;
     //These doubles determine the speed at which the lift will move
     //As they are used in multiple places, rather than using "magic numbers" we define them as an instance field
-    double liftScaledown = .7;
-    double liftScaleup = .4;
+    double liftScaledown = .8;
+    double liftScaleup = .55;
     double relicArmPos1 = 1;
     double relicArmPos2 = 1;
     int cooldownServo1 = 0;
@@ -128,7 +130,24 @@ public class Telebop extends OpMode {
         }
 
         //Main driving function. See Bot.java for documentation
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle);
+        robot.tankDrive(-gamepad1.left_stick_y, -gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle);
+
+        if (robot.intakeDrop.getCurrentPosition() >= 500) {
+            controller.addInstruction(ReleasePosition.DROP, 10);
+            robot.backIntakeWallDown();
+            wallDown = true;
+            parking = true;
+        } else {
+            wallDown = false;
+            parking = false;
+        }
+
+        if (Math.abs(robot.lift.getCurrentPosition()) > 200) {
+            robot.backIntakeWallDown();
+            wallDown = true;
+        } else if (!parking){
+            wallDown = false;
+        }
 
         if (glyphMode) {
             //this is the actual flipping of the flipper
@@ -136,10 +155,12 @@ public class Telebop extends OpMode {
             if (gamepad1.right_bumper && !placing && !holdPlace) {
                 placing = true;
                 robot.backIntakeWallDown();
-                wallCountdown = 10;
+                wallCountdown = 5;
             } else if (wallCountdown <= 0 && !placing) {
                 controller.addInstruction(ReleasePosition.MIDDLE, 0);
-                robot.backIntakeWallUp();
+                if (!wallDown) {
+                    robot.backIntakeWallUp();
+                }
                 holdPlace = false;
             }
 
@@ -149,7 +170,7 @@ public class Telebop extends OpMode {
                     //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
                     controller.addInstruction(ReleasePosition.UP, 5);
                     robot.flipUp();
-                    wallCountdown = 50;
+                    wallCountdown = 40;
                     holdPlace = true;
                 }
                 placing = false;

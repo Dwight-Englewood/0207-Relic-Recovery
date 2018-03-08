@@ -174,13 +174,13 @@ public class Bot {
         }
 
         if (leftTrigger > .1) {
-            MovementEnum d = !invert ? MovementEnum.LEFTSTRAFE : MovementEnum.RIGHTSTRAFE;
-            drive(d, leftTrigger);
+            MovementEnum d = !invert ? MovementEnum.RIGHTSTRAFE : MovementEnum.LEFTSTRAFE;
+            drive(d, leftTrigger * (brake ? .4 : 1));
             return;
         }
         if (rightTrigger > .1) {
-            MovementEnum d = !invert ? MovementEnum.RIGHTSTRAFE : MovementEnum.LEFTSTRAFE;
-            drive(d, rightTrigger);
+            MovementEnum d = !invert ? MovementEnum.LEFTSTRAFE : MovementEnum.RIGHTSTRAFE;
+            drive(d, rightTrigger * (brake ? .4 : 1));
             return;
         }
 
@@ -677,11 +677,11 @@ public class Bot {
     }
 
     public void backIntakeWallUp() {
-        backIntakeWall.setPosition(1);
+        backIntakeWall.setPosition(0);
     }
 
     public void backIntakeWallDown() {
-        backIntakeWall.setPosition(0);
+        backIntakeWall.setPosition(1);
     }
 
     //--------------------------------------------------------------------------------------------------------------------------

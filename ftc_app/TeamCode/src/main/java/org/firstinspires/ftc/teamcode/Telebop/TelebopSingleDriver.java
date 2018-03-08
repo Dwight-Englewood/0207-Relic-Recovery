@@ -35,6 +35,7 @@ public class TelebopSingleDriver extends OpMode {
     boolean brakeToggle = false;
     boolean glyphMode = true;
     boolean placing = false;
+    boolean wallDown = false;
     int countdown = 0;
     int relicCountdown = 0;
     int wallCountdown = 0;
@@ -46,6 +47,7 @@ public class TelebopSingleDriver extends OpMode {
         robot.init(hardwareMap);
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.intakeDrop.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.jewelColorBack.enableLed(false);
         telemetry.addLine("Ready.");
         telemetry.update();
@@ -60,6 +62,7 @@ public class TelebopSingleDriver extends OpMode {
         robot.jewelUp();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.intakeDrop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override
@@ -74,7 +77,18 @@ public class TelebopSingleDriver extends OpMode {
             countdown = 30;
         }
 
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false, brakeToggle);
+        robot.tankDrive(-gamepad1.left_stick_y, -gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false, brakeToggle);
+
+        if (robot.intakeDrop.getCurrentPosition() >= 500) {
+            controller.addInstruction(ReleasePosition.DROP, 10);
+        }
+
+        if (Math.abs(robot.lift.getCurrentPosition()) > 150) {
+            robot.backIntakeWallDown();
+            wallDown = true;
+        } else {
+            wallDown = false;
+        }
 
         if (glyphMode) {
 

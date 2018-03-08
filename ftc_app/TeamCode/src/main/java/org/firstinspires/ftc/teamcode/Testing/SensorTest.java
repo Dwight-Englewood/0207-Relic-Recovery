@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Testing;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Utility.Bot;
 
 /**
@@ -29,15 +30,17 @@ public class SensorTest extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("intakeColorAlpha: ", robot.intakeColorRight.alpha());
-        telemetry.addData("intakeColorRed", robot.intakeColorRight.red());
-        telemetry.addData("intakeColorBlue", robot.intakeColorRight.blue());
-        telemetry.addData("intakeColorGreen", robot.intakeColorRight.green());
+//        telemetry.addData("intakeColorAlpha: ", robot.intakeColorRight.alpha());
+//        telemetry.addData("intakeColorRed", robot.intakeColorRight.red());
+//        telemetry.addData("intakeColorBlue", robot.intakeColorRight.blue());
+//        telemetry.addData("intakeColorGreen", robot.intakeColorRight.green());
         telemetry.addData("forward red", robot.jewelColorForward.red());
         telemetry.addData("forward blue", robot.jewelColorForward.blue());
         telemetry.addData("back red", robot.jewelColorForward.red());
         telemetry.addData("back blue", robot.jewelColorForward.blue());
-
+        telemetry.addData("range right", robot.rangeRight.getDistance(DistanceUnit.CM));
+        telemetry.addData("range left", robot.rangeLeft.getDistance(DistanceUnit.CM));
+        telemetry.addData("range back", robot.rangeBack.getDistance(DistanceUnit.CM));
 
 
         telemetry.update();

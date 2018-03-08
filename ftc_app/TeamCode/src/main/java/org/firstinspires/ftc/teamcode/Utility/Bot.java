@@ -676,11 +676,11 @@ public class Bot {
     }
 
     public void backIntakeWallUp() {
-        backIntakeWall.setPosition(.78);
+        backIntakeWall.setPosition(1);
     }
 
     public void backIntakeWallDown() {
-        backIntakeWall.setPosition(.5);
+        backIntakeWall.setPosition(0);
     }
 
     //--------------------------------------------------------------------------------------------------------------------------

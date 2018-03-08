@@ -384,7 +384,7 @@ public class TelebopGlyphTest extends OpMode {
         }
         */
 
-        double distanceCM = robot.intakeDistanceBottom.getDistance(DistanceUnit.CM);
+        double distanceCM = robot.intakeDistanceRight.getDistance(DistanceUnit.CM);
 
         double compAlphaVal = 135;
         //Telemetry things, generally booleans that could be important for drivers to be able to tell are active, as well as cooldowns
@@ -394,15 +394,15 @@ public class TelebopGlyphTest extends OpMode {
         telemetry.addData("glypType", robot.findGlyphType());
         if (gamepad2.dpad_up) {
 
-            average = average + robot.intakeDistanceBottom.getDistance(DistanceUnit.CM);
+            average = average + robot.intakeDistanceRight.getDistance(DistanceUnit.CM);
             loops++;
 
 
-            telemetry.addData("csalpha", robot.intakeColorBottom.alpha());
-            telemetry.addData("csred", robot.intakeColorBottom.red());
-            telemetry.addData("csgreen", robot.intakeColorBottom.green());
-            telemetry.addData("csblue", robot.intakeColorBottom.blue());
-            telemetry.addData("ds", robot.intakeDistanceBottom.getDistance(DistanceUnit.CM));
+            telemetry.addData("csalpha", robot.intakeColorRight.alpha());
+            telemetry.addData("csred", robot.intakeColorRight.red());
+            telemetry.addData("csgreen", robot.intakeColorRight.green());
+            telemetry.addData("csblue", robot.intakeColorRight.blue());
+            telemetry.addData("ds", robot.intakeDistanceRight.getDistance(DistanceUnit.CM));
             telemetry.addData("average distance", average / loops);
             telemetry.addData("averageCompVal", compAlphaVal);
         } else {
@@ -412,21 +412,21 @@ public class TelebopGlyphTest extends OpMode {
 
         if (gamepad2.dpad_down) {
 
-            average2 = average2 + robot.intakeDistanceBottom.getDistance(DistanceUnit.CM);
+            average2 = average2 + robot.intakeDistanceRight.getDistance(DistanceUnit.CM);
             loops2++;
 
 
-            telemetry.addData("csalpha", robot.intakeColorSide.alpha());
-            telemetry.addData("csred", robot.intakeColorSide.red());
-            telemetry.addData("csgreen", robot.intakeColorSide.green());
-            telemetry.addData("csblue", robot.intakeColorSide.blue());
-            telemetry.addData("ds", robot.intakeDistanceSide.getDistance(DistanceUnit.CM));
+            telemetry.addData("csalpha", robot.intakeColorLeft.alpha());
+            telemetry.addData("csred", robot.intakeColorLeft.red());
+            telemetry.addData("csgreen", robot.intakeColorLeft.green());
+            telemetry.addData("csblue", robot.intakeColorLeft.blue());
+            telemetry.addData("ds", robot.intakeDistanceLeft.getDistance(DistanceUnit.CM));
             telemetry.addData("average distance", average2 / loops2);
             telemetry.addData("averageCompVal", compAlphaVal);
         }
 
 
-        //telemetry.addData("productAlphaDistance", robot.intakeColorBottom.alpha() * robot.intakeDistanceBottom.getDistance(DistanceUnit.CM));
+        //telemetry.addData("productAlphaDistance", robot.intakeColorRight.alpha() * robot.intakeDistanceRight.getDistance(DistanceUnit.CM));
         //for (int i = 0; i < shit.size(); i++) {
         //telemetry.addData("shit".concat(Integer.toString(shit.get(i).fst)), shit.get(i).snd);
         //}

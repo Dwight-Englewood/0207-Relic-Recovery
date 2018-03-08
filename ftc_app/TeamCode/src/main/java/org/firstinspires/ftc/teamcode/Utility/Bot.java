@@ -46,8 +46,8 @@ public class Bot {
 
     //--------------------------------------------------------------------------------------------------------------------------
 
-    public ColorSensor intakeColorBottom, intakeColorSide;
-    public DistanceSensor intakeDistanceBottom, intakeDistanceSide;
+    public ColorSensor intakeColorRight, intakeColorLeft;
+    public DistanceSensor intakeDistanceRight, intakeDistanceLeft;
     public ModernRoboticsI2cColorSensor jewelColorBack, jewelColorForward;
     public ModernRoboticsI2cRangeSensor rangeBack, rangeLeft, rangeRight;
     private Orientation angles;
@@ -80,11 +80,11 @@ public class Bot {
         jewelColorForward = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs2");
         jewelColorForward.enableLed(true);
 
-        intakeDistanceBottom = hardwareMap.get(DistanceSensor.class, "icsb");
-        intakeDistanceSide = hardwareMap.get(DistanceSensor.class, "icss");
+        intakeDistanceRight = hardwareMap.get(DistanceSensor.class, "icsr");
+        intakeDistanceLeft = hardwareMap.get(DistanceSensor.class, "icsl");
 
-        intakeColorBottom = hardwareMap.get(ColorSensor.class, "icsb");
-        intakeColorSide = hardwareMap.get(ColorSensor.class, "icss");
+        intakeColorRight = hardwareMap.get(ColorSensor.class, "icsr");
+        intakeColorLeft = hardwareMap.get(ColorSensor.class, "icsl");
 
 
         rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
@@ -200,10 +200,10 @@ public class Bot {
     public Glyph findGlyphType() {
         /*
         int red, blue, green, alpha;
-        red = this.intakeColorBottom.red();
-        blue = this.intakeColorBottom.blue();
-        green = this.intakeColorBottom.green();
-        alpha = this.intakeColorBottom.alpha();
+        red = this.intakeColorRight.red();
+        blue = this.intakeColorRight.blue();
+        green = this.intakeColorRight.green();
+        alpha = this.intakeColorRight.alpha();
 
         double average;
         average = (red + blue + green + alpha) / (double ) 4;
@@ -216,8 +216,8 @@ public class Bot {
             return Glyph.EMPTY;
         }
         */
-        if (this.intakeDistanceSide.getDistance(DistanceUnit.CM) < 7) {
-            if (this.intakeColorSide.alpha() > 135) {
+        if (this.intakeDistanceLeft.getDistance(DistanceUnit.CM) < 7) {
+            if (this.intakeColorLeft.alpha() > 135) {
                 return GRAY;
             } else {
                 return BROWN;
@@ -226,13 +226,13 @@ public class Bot {
             return EMPTY;
         }
         /*
-        double distanceCM = this.intakeDistanceBottom.getDistance(DistanceUnit.CM);
+        double distanceCM = this.intakeDistanceRight.getDistance(DistanceUnit.CM);
         if (Double.isNaN(distanceCM)) {
             return Glyph.EMPTY;
             //only happens with open air - and thus no glyph is present
         }
 
-        if (intakeDistanceBottom.getDistance(DistanceUnit.CM) < 6) {
+        if (intakeDistanceRight.getDistance(DistanceUnit.CM) < 6) {
             //for this distance the distance censor is unreliable - however, the color comparisons are more limited so we can use that
         }
 
@@ -243,7 +243,7 @@ public class Bot {
             return EMPTY;
         }
 
-        if (this.intakeColorBottom.alpha() > compAlphaVal) {
+        if (this.intakeColorRight.alpha() > compAlphaVal) {
             return GRAY;
         } else {
             return BROWN;

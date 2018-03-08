@@ -136,7 +136,7 @@ public class Telebop extends OpMode {
             if (gamepad1.right_bumper && !placing && !holdPlace) {
                 placing = true;
                 robot.backIntakeWallDown();
-                wallCountdown = 25;
+                wallCountdown = 10;
             } else if (wallCountdown <= 0 && !placing) {
                 controller.addInstruction(ReleasePosition.MIDDLE, 0);
                 robot.backIntakeWallUp();
@@ -149,7 +149,7 @@ public class Telebop extends OpMode {
                     //the intake wall is to ensure that glyphs dont fall out during normal driving. However, it must be moved down in order to place glyphs
                     controller.addInstruction(ReleasePosition.UP, 5);
                     robot.flipUp();
-                    wallCountdown = 55;
+                    wallCountdown = 50;
                     holdPlace = true;
                 }
                 placing = false;

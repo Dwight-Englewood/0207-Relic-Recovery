@@ -142,7 +142,7 @@ public class Telebop extends OpMode {
             parking = false;
         }
 
-        if (Math.abs(robot.lift.getCurrentPosition()) > 200) {
+        if (Math.abs(robot.lift.getCurrentPosition()) >= 350) {
             robot.backIntakeWallDown();
             wallDown = true;
         } else if (!parking){

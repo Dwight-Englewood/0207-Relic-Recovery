@@ -541,7 +541,7 @@ public class Bot {
 
     public void jewelUp() {
         jewelServoBottom.setPosition(.63);
-        jewelServoTop.setPosition(0);
+        jewelServoTop.setPosition(0.05);
     }
 
     //--------------------------------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Deprecated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -15,9 +15,16 @@ import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
 
-@Autonomous(name = "VuforiaRedFarSG", group = "Auton")
+
+/*
+
+
+
+
+ */
+@Autonomous(name = "VuforiaBlueFarSG", group = "Auton")
 //@Disabled
-public class VuforiaRedFarSG extends OpMode {
+public class VuforiaBlueFarSG extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();
 
@@ -59,8 +66,11 @@ public class VuforiaRedFarSG extends OpMode {
     @Override
     public void start() {
         timer.reset();
-        robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         relicTrackables.activate();
+        robot.jewelOut();
+        robot.relicArmServo1.setPosition(0);
+        robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -102,20 +112,20 @@ public class VuforiaRedFarSG extends OpMode {
                     robot.jewelUp();
                     timer.reset();
                     command++;
-                } else if ((robot.jewelColorForward.red() >= 2 || robot.jewelColorBack.blue() >=2 ) && !hitjewel) {
-                    hitjewel = true;
-                    robot.jewelKnockback();
-                    timer.reset();
-                } else if ((robot.jewelColorBack.red() >= 2 || robot.jewelColorForward.blue() >= 2) && !hitjewel) {
+                } else if ((robot.jewelColorForward.red() >=2 || robot.jewelColorBack.blue() >=2) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockforward();
+                    timer.reset();
+                } else if ((robot.jewelColorBack.red() >=2 || robot.jewelColorForward.blue() >=2) && !hitjewel) {
+                    hitjewel = true;
+                    robot.jewelKnockback();
                     timer.reset();
                 }
                 break;
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = robot.distanceToRevsNR40(72);
+                generalTarget = -1 * robot.distanceToRevsNR40(72);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -124,7 +134,7 @@ public class VuforiaRedFarSG extends OpMode {
             case 3:
                 commandString = "RUN_TO_POSITION";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.FORWARD, power);
+                robot.drive(MovementEnum.BACKWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -165,15 +175,17 @@ public class VuforiaRedFarSG extends OpMode {
                         generalTarget = robot.distanceToRevsNR40(28);
                         break;
                 }
-                try {Thread.sleep(300);} catch (Exception e) {}
+                try {
+                    Thread.sleep(300);
+                } catch (Exception e) {
+                }
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
                 break;
 
             case 6:
-                //move in front of box
-                commandString = "RUN_TO_POSITION";
+                commandString = "RUN to position";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
@@ -186,14 +198,14 @@ public class VuforiaRedFarSG extends OpMode {
                 break;
 
             case 7:
-                commandString = "Adjust heading to 90";
+                commandString = "Adjust heading to -90";
                 if (timer.milliseconds() > 2500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
@@ -225,14 +237,14 @@ public class VuforiaRedFarSG extends OpMode {
                 break;
 
             case 10:
-                commandString = "Adjust heading to 90";
+                commandString = "Adjust heading to -90";
                 if (timer.milliseconds() > 1250) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
@@ -302,6 +314,7 @@ public class VuforiaRedFarSG extends OpMode {
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
                     generalTarget = robot.distanceToRevsNR40(15);
+                    robot.intake(-.9);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -326,7 +339,6 @@ public class VuforiaRedFarSG extends OpMode {
                 command++;
                 break;
         }
-
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);
         telemetry.addLine(commandString);

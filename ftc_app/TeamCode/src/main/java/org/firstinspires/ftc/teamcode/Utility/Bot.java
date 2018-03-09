@@ -567,11 +567,11 @@ public class Bot {
     }
 
     public void jewelKnockback() {
-        jewelServoTop.setPosition(0.58);
+        jewelServoTop.setPosition(0.68);
     }
 
     public void jewelKnockforward() {
-        jewelServoTop.setPosition(.26);
+        jewelServoTop.setPosition(.16);
     }
 
     private void relLUp() {

@@ -30,10 +30,14 @@ public class SensorTest extends OpMode {
 
     @Override
     public void loop() {
-//        telemetry.addData("intakeColorAlpha: ", robot.intakeColorRight.alpha());
-//        telemetry.addData("intakeColorRed", robot.intakeColorRight.red());
-//        telemetry.addData("intakeColorBlue", robot.intakeColorRight.blue());
-//        telemetry.addData("intakeColorGreen", robot.intakeColorRight.green());
+        telemetry.addData("RintakeColorAlpha: ", robot.intakeColorRight.alpha());
+        telemetry.addData("RintakeColorRed", robot.intakeColorRight.red());
+        telemetry.addData("RintakeColorBlue", robot.intakeColorRight.blue());
+        telemetry.addData("RintakeColorGreen", robot.intakeColorRight.green());
+        telemetry.addData("LntakeColorAlpha: ", robot.intakeColorLeft.alpha());
+        telemetry.addData("LntakeColorRed", robot.intakeColorLeft.red());
+        telemetry.addData("LntakeColorBlue", robot.intakeColorLeft.blue());
+        telemetry.addData("LntakeColorGreen", robot.intakeColorLeft.green());
         telemetry.addData("forward red", robot.jewelColorForward.red());
         telemetry.addData("forward blue", robot.jewelColorForward.blue());
         telemetry.addData("back red", robot.jewelColorForward.red());
@@ -41,7 +45,6 @@ public class SensorTest extends OpMode {
         telemetry.addData("range right", robot.rangeRight.getDistance(DistanceUnit.CM));
         telemetry.addData("range left", robot.rangeLeft.getDistance(DistanceUnit.CM));
         telemetry.addData("range back", robot.rangeBack.getDistance(DistanceUnit.CM));
-
 
         telemetry.update();
     }

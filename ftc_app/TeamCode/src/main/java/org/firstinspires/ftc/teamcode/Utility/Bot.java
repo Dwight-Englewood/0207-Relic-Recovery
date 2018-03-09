@@ -128,10 +128,10 @@ public class Bot {
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //setting directions for drive
-        FL.setDirection(DcMotorSimple.Direction.FORWARD);
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BL.setDirection(DcMotorSimple.Direction.FORWARD);
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeDrop.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeOne.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeTwo.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -723,8 +723,7 @@ public class Bot {
     public int distanceToRevsNRO20(double distance) {
         final double wheelCirc = 31.9185813;
         final double gearMotorTickThing = .5 * 537.6; //neverrest orbital 20 = 537.6 counts per revolution
-
-        return (int) (gearMotorTickThing * (distance / wheelCirc));
+        return (int) (-1 * gearMotorTickThing * (distance / wheelCirc));
     }
 
     public void adjustHeading(int targetHeading, boolean slow) {

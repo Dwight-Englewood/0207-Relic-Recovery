@@ -56,7 +56,7 @@ public class Telebop extends OpMode {
     public void init() {
 
         controller = new EnumController<>(ReleasePosition.MIDDLE);
-        //Setup  the robot so it will function
+        //Setup the robot so it will function
         robot.init(hardwareMap);
 
         //Reset encoders for all the drive train motors. This is important for various processes which depend on encoder ticks
@@ -65,6 +65,7 @@ public class Telebop extends OpMode {
         //Turn off the LED on the color sensor
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.intakeDrop.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.jewelColorBack.enableLed(false);
         robot.jewelColorForward.enableLed(false);
         telemetry.addLine("Ready.");
@@ -91,6 +92,7 @@ public class Telebop extends OpMode {
         //We now tell the drive train motors to use encoders
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.intakeDrop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -130,9 +132,9 @@ public class Telebop extends OpMode {
         }
 
         //Main driving function. See Bot.java for documentation
-        robot.tankDrive(-gamepad1.left_stick_y, -gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle);
+        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle);
 
-        if (robot.intakeDrop.getCurrentPosition() >= 500) {
+        if (robot.intakeDrop.getCurrentPosition() >= 400) {
             controller.addInstruction(ReleasePosition.DROP, 10);
             robot.backIntakeWallDown();
             wallDown = true;

@@ -39,6 +39,36 @@ Additionally, light falloff is based on an inverse square law. Thus, instead of 
 
 However, as seen in the attached chart, this method does not work either. There are many instances where gray glyphs are closer to the brown glyph regression. This is explain through the poor R^2 values and the high variation in data. The speculated reason for this is an innacuracy in the data collection, as the distance was estimated based on the flucuating value. Averaging the distance sensor input over a period of time would help solve this error in data collection; however, the data is already so close that it does not seem to matter.
 
+#### Attempt 3
+Clearly, mounting the color sensor did not result in usable values. Therefore, we added another color sensor into the side of the intake. This hopefully would make the distance reading more constant, as the glyphs have less variance in side to side location, though they can have great differences in the distance in height from the bottom of the intake.
+
+Once this was mounted, improved results were immediate. Almost all readings of the glyphs were under the distance of 5.45, which meant we could directly compare the alpha channel to determine glyph type. 
+
+This worked for the most part, but failed in 2 scenarios. It failed when the glyph was intaken at a 45 degree angle, and as well when the glyph intake was perfect - if the glyph was intaked at an angle, the distance would no longer be less than 5.45, which throw off the comparison. Additionallly, if the intake was perfect, the reading would be over 500 for both colors of glyphs, making it impossible to determine which is which. This would work for most scenarios, we wanted to be able to make a solution that could work in all possible scenarios.
+
+#### Attmept 4
+We had a fancy PixyCam to use, so we decided to put it to work. But our initial attempt at training did not work very well. We had lots of false positives and overall poor readings. For more details on the results of this, see « vision attempts document » 
+
+A second attempt was somewhat more succesful, but required a very bright light
+
+A third attempt was succesful, and would have been trusted to work in the intake 90% of the time. However, we wanted to explore more options with color sensors.
+
+#### Attmept 5
+
+color sensor far mount stuff
+
+explainy words
+
+no worky too low
+
+we mount further and higher
+
+gooder
+
+yay
+
+still only kinda work though
+
 ### Application
 While we are currently unable to detect the color of the glyph, we can still write methods and algorithms that utilize said function, despite its flaws. 
 Attempting to poll data from the sensor while a glyph is passing overhead will result in multiple points of being collected from the same glyph as it slides over the sensor. Naively gathering data from the sensor will result in the robot believing multiple glyphs have passed over if one assumes that everytime a glyph is recieved by `findGlyphType`

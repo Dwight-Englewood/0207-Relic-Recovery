@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.Vision;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
@@ -30,7 +31,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 @Autonomous(name="Vuforia Test", group ="Vision")
-//@Disabled
+@Disabled
 public class VuforiaTest extends LinearOpMode {
 
     ClosableVuforiaLocalizer vuforia;

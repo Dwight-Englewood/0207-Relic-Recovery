@@ -174,12 +174,12 @@ public class Bot {
         }
 
         if (leftTrigger > .1) {
-            MovementEnum d = !invert ? MovementEnum.RIGHTSTRAFE : MovementEnum.LEFTSTRAFE;
+            MovementEnum d = !invert ? MovementEnum.LEFTSTRAFE : MovementEnum.RIGHTSTRAFE;
             drive(d, leftTrigger * (brake ? .4 : 1));
             return;
         }
         if (rightTrigger > .1) {
-            MovementEnum d = !invert ? MovementEnum.LEFTSTRAFE : MovementEnum.RIGHTSTRAFE;
+            MovementEnum d = !invert ? MovementEnum.RIGHTSTRAFE : MovementEnum.LEFTSTRAFE;
             drive(d, rightTrigger * (brake ? .4 : 1));
             return;
         }
@@ -722,8 +722,8 @@ public class Bot {
 
     public int distanceToRevsNRO20(double distance) {
         final double wheelCirc = 31.9185813;
-        final double gearMotorTickThing = .5 * 537.6; //neverrest orbital 20 = 537.6 counts per revolution
-        return (int) (-1 * gearMotorTickThing * (distance / wheelCirc));
+        final double gearMotorTickThing = 537.6; //neverrest orbital 20 = 537.6 counts per revolution
+        return (int) (gearMotorTickThing * (distance / wheelCirc));
     }
 
     public void adjustHeading(int targetHeading, boolean slow) {

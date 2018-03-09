@@ -132,9 +132,9 @@ public class Telebop extends OpMode {
         }
 
         //Main driving function. See Bot.java for documentation
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, invert, brakeToggle);
+        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger > .9 ? 1 : .8 * gamepad1.left_trigger, gamepad1.right_trigger > .9 ? 1:.8 * gamepad1.right_trigger, invert, brakeToggle);
 
-        if (robot.intakeDrop.getCurrentPosition() >= 400) {
+        if (robot.intakeDrop.getCurrentPosition() >= 300) {
             controller.addInstruction(ReleasePosition.DROP, 10);
             robot.backIntakeWallDown();
             wallDown = true;
@@ -144,7 +144,7 @@ public class Telebop extends OpMode {
             parking = false;
         }
 
-        if (Math.abs(robot.lift.getCurrentPosition()) >= 350) {
+        if (Math.abs(robot.lift.getCurrentPosition()) >= 320) {
             robot.backIntakeWallDown();
             wallDown = true;
         } else if (!parking){

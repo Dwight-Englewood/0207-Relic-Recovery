@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Deprecated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -23,7 +24,7 @@ import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
 
  */
 @Autonomous(name = "VuforiaBlueFarSG", group = "Auton")
-//@Disabled
+@Disabled
 public class VuforiaBlueFarSG extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();

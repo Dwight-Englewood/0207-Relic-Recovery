@@ -94,7 +94,7 @@ public class TelebopSingleDriver extends OpMode {
 
             if (gamepad1.y && placingCooldown <= 0) {
                 placing = !placing;
-               placingCooldown = 30;
+                placingCooldown = 50;
                 if (!placing) {
                     wallCountdown = 55;
                 }

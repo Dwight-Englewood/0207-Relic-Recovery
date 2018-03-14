@@ -76,13 +76,13 @@ public class TelebopRelic extends OpMode {
         if (gamepad2.a) {
             vexMotor2.setDirection(CRServo.Direction.FORWARD);
             vexMotor1.setDirection(CRServo.Direction.FORWARD);
-            vexMotor1.setPower(.5);
-            vexMotor2.setPower(.5);
+            vexMotor1.setPower(.8);
+            vexMotor2.setPower(.8);
         } else if (gamepad2.y) {
             vexMotor1.setDirection(CRServo.Direction.REVERSE);
             vexMotor1.setDirection(CRServo.Direction.REVERSE);
-            vexMotor1.setPower(.5);
-            vexMotor2.setPower(.5);
+            vexMotor1.setPower(.8);
+            vexMotor2.setPower(.8);
         } else {
             vexMotor1.setPower(0);
             vexMotor2.setPower(0);

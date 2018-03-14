@@ -118,7 +118,7 @@ public class VuforiaRedMG extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = robot.distanceToRevsNR40(50);
+                generalTarget = robot.distanceToRevsNRO20(50);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -139,7 +139,7 @@ public class VuforiaRedMG extends OpMode {
 
             case 4:
                 commandString = "Adjust heading to -90";
-                if (timer.milliseconds() > 1000) {
+                if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -153,19 +153,19 @@ public class VuforiaRedMG extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = robot.distanceToRevsNR40(52);
+                        generalTarget = robot.distanceToRevsNRO20(52);
                         break;
 
                     case CENTER:
-                        generalTarget = robot.distanceToRevsNR40(36);
+                        generalTarget = robot.distanceToRevsNRO20(36);
                         break;
 
                     case RIGHT:
-                        generalTarget = robot.distanceToRevsNR40(17);
+                        generalTarget = robot.distanceToRevsNRO20(17);
                         break;
 
                     case UNKNOWN:
-                        generalTarget = robot.distanceToRevsNR40(36);
+                        generalTarget = robot.distanceToRevsNRO20(36);
                         break;
                 }
                 try {Thread.sleep(300);} catch (Exception e) {}
@@ -239,7 +239,7 @@ public class VuforiaRedMG extends OpMode {
 
             case 11:
                 commandString = "Setup drive to box";
-                generalTarget = -1*robot.distanceToRevsNR40(17);
+                generalTarget = -1*robot.distanceToRevsNRO20(17);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -276,7 +276,7 @@ public class VuforiaRedMG extends OpMode {
             case 15:
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = robot.distanceToRevsNR40(15);
+                    generalTarget = robot.distanceToRevsNRO20(15);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -299,7 +299,7 @@ public class VuforiaRedMG extends OpMode {
             case 17:
                 commandString = "Setup knock glyph back";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = -robot.distanceToRevsNR40(20);
+                    generalTarget = -robot.distanceToRevsNRO20(20);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -321,7 +321,7 @@ public class VuforiaRedMG extends OpMode {
             case 19:
                 commandString = "Setup drive away from box";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = robot.distanceToRevsNR40(60);
+                    generalTarget = robot.distanceToRevsNRO20(60);
                     robot.intake(-.9);
                     robot.runToPosition(generalTarget);
                     timer.reset();
@@ -345,7 +345,7 @@ public class VuforiaRedMG extends OpMode {
             case 21:
                 commandString = "Setup drive to box";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = -1 * robot.distanceToRevsNR40(30);
+                    generalTarget = -1 * robot.distanceToRevsNRO20(30);
                     robot.intake(0);
                     robot.runToPosition(generalTarget);
                     timer.reset();

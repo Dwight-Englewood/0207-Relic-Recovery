@@ -5,5 +5,16 @@ This year, our bot utilizes a mecanum wheel drive train, allowing it to strafe f
 
 ## Implementation
 
+The implementation of a safe strafe is found under `Bot#safeStrafe`
+
+
+
+The function takes the heading the robot should be moving, a boolean for which direction the robot is strafing, a telemetry object for debugging, and the center for the power.
+
+It first gets the current heading of the robot by polling the IMU values, and calculates the distance from the `targetHeading` It then calculates a `driveScale`, which is proportional to the error, and adds to power accordingly.
 
 ## Result
+
+By using this, it ensures our strafes will remain true to the target angle. Thus, we can use strafes in autonomous without fear of the autonomous breaking down
+
+

@@ -760,10 +760,11 @@ public class Bot {
                 break;
 
             case 45:
-                turnLeft = !(curHeading <= -90 || curHeading >= 90);
+                turnLeft = !(curHeading <= -45 || curHeading >= 45);
                 break;
+
             case -45:
-                turnLeft = curHeading <= -90 || curHeading >= 90;
+                turnLeft = curHeading <= -45 || curHeading >= 45;
                 break;
 
         }

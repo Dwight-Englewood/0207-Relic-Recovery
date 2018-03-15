@@ -50,6 +50,8 @@ public class VuforiaBlueFarMG extends OpMode {
         relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
 
+        robot.relicArmServo1.setPosition(0);
+
         telemetry.addLine("Ready.");
         telemetry.update();
     }

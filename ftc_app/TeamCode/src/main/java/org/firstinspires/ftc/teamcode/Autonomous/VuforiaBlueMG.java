@@ -48,6 +48,8 @@ public class VuforiaBlueMG extends OpMode {
 
         relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
+        robot.relicArmServo1.setPosition(0);
+
 
         telemetry.addLine("Ready.");
         telemetry.update();
@@ -63,7 +65,6 @@ public class VuforiaBlueMG extends OpMode {
         relicTrackables.activate();
         robot.relicArmServo1.setPosition(0);
         robot.jewelOut();
-        robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
 
     }
 

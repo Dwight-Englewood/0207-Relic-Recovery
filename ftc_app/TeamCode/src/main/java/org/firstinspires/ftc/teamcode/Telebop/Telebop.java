@@ -196,28 +196,6 @@ public class Telebop extends OpMode {
                 }
             }
 
-            //Our intake is put on a motor which allows it to be raised or lowered. This section allows for the drivers to raise it during matches, to reach glyphs which are on top of other ones
-            if (gamepad2.right_stick_y > .3) {
-                robot.intakeDrop.setPower(-1);
-                robot.jewelOut();
-                //priority 6 since if this doesnt happen the robot goes boom
-                controller.addInstruction(ReleasePosition.DROP, 10);
-                movingInt = true;
-            } else if (gamepad2.right_stick_y < -.3) {
-                robot.intakeDrop.setPower(1);
-                //priority 6 since if this doesnt happen the robot goes boom
-                controller.addInstruction(ReleasePosition.DROP, 10);
-                robot.jewelOut();
-                movingInt = true;
-            } else if (!gamepad2.x) {
-                robot.intakeDrop.setPower(0);
-                robot.jewelUp();
-                movingInt = false;
-            } else {
-                movingInt = false;
-                robot.intakeDrop.setPower(0);
-            }
-
             //mini flipper mechanism control. this mini flipper mechanism is used to make sure glyphs are properly aligned into the main flipper mechanism
             if (gamepad2.b) {
                 robot.flipUp();
@@ -249,7 +227,7 @@ public class Telebop extends OpMode {
 
 
             if (gamepad2.left_trigger > 0.1) {
-                relicArmPos1 = .9;
+                relicArmPos1 = .5;
             } else if (gamepad2.left_bumper) {
                 relicArmPos1 = 0;
             }
@@ -271,6 +249,28 @@ public class Telebop extends OpMode {
             robot.jewelTeleop();
         } else if (!movingInt) {
             robot.jewelUp();
+        }
+
+        //Our intake is put on a motor which allows it to be raised or lowered. This section allows for the drivers to raise it during matches, to reach glyphs which are on top of other ones
+        if (gamepad2.right_stick_y > .3) {
+            robot.intakeDrop.setPower(-1);
+            robot.jewelOut();
+            //priority 6 since if this doesnt happen the robot goes boom
+            controller.addInstruction(ReleasePosition.DROP, 10);
+            movingInt = true;
+        } else if (gamepad2.right_stick_y < -.3) {
+            robot.intakeDrop.setPower(1);
+            //priority 6 since if this doesnt happen the robot goes boom
+            controller.addInstruction(ReleasePosition.DROP, 10);
+            robot.jewelOut();
+            movingInt = true;
+        } else if (!gamepad2.x) {
+            robot.intakeDrop.setPower(0);
+            robot.jewelUp();
+            movingInt = false;
+        } else {
+            movingInt = false;
+            robot.intakeDrop.setPower(0);
         }
 
         //Decrement the counters

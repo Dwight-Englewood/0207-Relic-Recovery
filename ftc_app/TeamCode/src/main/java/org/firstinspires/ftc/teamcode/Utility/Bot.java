@@ -405,11 +405,11 @@ public class Bot {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
-        if (leftTrigger > .3) {
+        if (leftTrigger > .2) {
             drive(MovementEnum.LEFTSTRAFE, leftTrigger);
             return;
         }
-        if (rightTrigger > .3) {
+        if (rightTrigger > .2) {
             drive(MovementEnum.RIGHTSTRAFE, rightTrigger);
             return;
         }
@@ -715,7 +715,7 @@ public class Bot {
 
     public int distanceToRevsNR40(double distance) {
         final double wheelCirc = 31.9185813;
-        final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120 counts per revolution
+        final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120 counts per revolution, 2 : 1 gear ratio
 
         return (int) (gearMotorTickThing * (distance / wheelCirc));
     }
@@ -760,10 +760,11 @@ public class Bot {
                 break;
 
             case 45:
-                turnLeft = !(curHeading <= -90 || curHeading >= 90);
+                turnLeft = !(curHeading <= -45 || curHeading >= 45);
                 break;
+
             case -45:
-                turnLeft = curHeading <= -90 || curHeading >= 90;
+                turnLeft = curHeading <= -45 || curHeading >= 45;
                 break;
 
         }

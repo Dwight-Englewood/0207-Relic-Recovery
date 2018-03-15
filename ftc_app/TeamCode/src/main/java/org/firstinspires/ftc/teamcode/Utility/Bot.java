@@ -405,11 +405,11 @@ public class Bot {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
-        if (leftTrigger > .3) {
+        if (leftTrigger > .2) {
             drive(MovementEnum.LEFTSTRAFE, leftTrigger);
             return;
         }
-        if (rightTrigger > .3) {
+        if (rightTrigger > .2) {
             drive(MovementEnum.RIGHTSTRAFE, rightTrigger);
             return;
         }

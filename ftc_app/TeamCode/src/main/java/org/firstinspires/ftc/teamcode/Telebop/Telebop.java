@@ -44,7 +44,6 @@ public class Telebop extends OpMode {
     double liftScaleup = .55;
     double relicArmPos1 = 1;
     double relicArmPos2 = 1;
-    int cooldownServo1 = 0;
     int cooldownServo2 = 0;
 
 
@@ -132,7 +131,7 @@ public class Telebop extends OpMode {
         }
 
         //Main driving function. See Bot.java for documentation
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger > .9 ? 1 : .8 * gamepad1.left_trigger, gamepad1.right_trigger > .9 ? 1:.8 * gamepad1.right_trigger, invert, brakeToggle);
+        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger > .9 ? 1 : .75 * gamepad1.left_trigger, gamepad1.right_trigger > .9 ? 1 : .75 * gamepad1.right_trigger, invert, brakeToggle);
 
         if (robot.intakeDrop.getCurrentPosition() >= 300) {
             controller.addInstruction(ReleasePosition.DROP, 10);
@@ -248,23 +247,21 @@ public class Telebop extends OpMode {
                 robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
             }
 
-            if (cooldownServo1 <= 0) {
-                if (gamepad2.left_trigger > 0.1) {
-                    relicArmPos1 += .02;
-                    cooldownServo1 = cooldown;
-                } else if (gamepad2.left_bumper) {
-                    relicArmPos1 -= .02;
-                    cooldownServo1 = cooldown;
-                }
+
+            if (gamepad2.left_trigger > 0.1) {
+                relicArmPos1 = .9;
+            } else if (gamepad2.left_bumper) {
+                relicArmPos1 = 0;
             }
+
 
             if (cooldownServo2 <= 0) {
                 if (gamepad2.right_trigger > .1) {
-                    relicArmPos2 += .05;
+                    relicArmPos2 += .1;
                     cooldownServo2 = cooldown;
 
                 } else if (gamepad2.right_bumper) {
-                    relicArmPos2 -= .05;
+                    relicArmPos2 -= .1;
                     cooldownServo2 = cooldown;
                 }
             }
@@ -280,7 +277,6 @@ public class Telebop extends OpMode {
         brakeCountdown--;
         relicCountdown--;
         wallCountdown--;
-        cooldownServo1--;
         cooldownServo2--;
 
         //process the values added to the controller - the controller doesnt help if we never get the values out of it

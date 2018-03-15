@@ -42,7 +42,7 @@ public class Telebop extends OpMode {
     //As they are used in multiple places, rather than using "magic numbers" we define them as an instance field
     double liftScaledown = .8;
     double liftScaleup = .55;
-    double relicArmPos1 = 1;
+    double relicArmPos1 = 0;
     double relicArmPos2 = 1;
     int cooldownServo2 = 0;
 
@@ -229,7 +229,7 @@ public class Telebop extends OpMode {
             if (gamepad2.left_trigger > 0.1) {
                 relicArmPos1 = .5;
             } else if (gamepad2.left_bumper) {
-                relicArmPos1 = 0;
+                relicArmPos1 = 1;
             }
 
 
@@ -254,6 +254,7 @@ public class Telebop extends OpMode {
         //Our intake is put on a motor which allows it to be raised or lowered. This section allows for the drivers to raise it during matches, to reach glyphs which are on top of other ones
         if (gamepad2.right_stick_y > .3) {
             robot.intakeDrop.setPower(-1);
+            robot.intake(.5);
             robot.jewelOut();
             //priority 6 since if this doesnt happen the robot goes boom
             controller.addInstruction(ReleasePosition.DROP, 10);
@@ -262,15 +263,19 @@ public class Telebop extends OpMode {
             robot.intakeDrop.setPower(1);
             //priority 6 since if this doesnt happen the robot goes boom
             controller.addInstruction(ReleasePosition.DROP, 10);
+            robot.intake(.5);
             robot.jewelOut();
             movingInt = true;
-        } else if (!gamepad2.x) {
+        } else if (!gamepad2.x && !(gamepad2.left_trigger > .1 || gamepad2.right_trigger > .1 || gamepad2.left_bumper)) {
             robot.intakeDrop.setPower(0);
+            robot.intake(0);
             robot.jewelUp();
             movingInt = false;
-        } else {
+        } else if (!(gamepad2.left_trigger > .1 || gamepad2.right_trigger > .1 || gamepad2.left_bumper)){
             movingInt = false;
             robot.intakeDrop.setPower(0);
+            robot.intake(0);
+
         }
 
         //Decrement the counters

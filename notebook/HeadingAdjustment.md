@@ -1,6 +1,6 @@
 # Heading Adjustment
 ## Rationale
-In autonomous modes, we often find that the robot needs to be positioned in a specific way in order to complete the task at hand. Essentially, we need the robot to be oriented to a specific heading value. The adjust heading accomplishes this for use in all of our autonomous programs.
+In autonomous modes, we often find that the robot needs to be positioned in a specific way in order to complete the task at hand. Essentially, we need the robot to be oriented to a specific heading value without it slipping or moving to a different location on the field. The adjust heading accomplishes this for use in all of our autonomous programs.
 
 ##Implementation
 The way we do our heading adjustments is by polling the REV hub IMU for its heading value, then comparing it to a given target and using a P-Loop to complete the turn without over-shooting.
@@ -63,4 +63,4 @@ public void adjustHeading(int targetHeading, boolean slow) {
 ```
 
 ##Results
-Overall, we are very happy with this implementation of heading adjustment. It is able to very accurately move the robot to a given heading and the proportional term helps to prevent slippagevery effectively by slowing the robot down as it approaches the target. 
+Overall, we are very happy with this implementation of heading adjustment. It is able to very accurately move the robot to a given heading and the proportional term helps to prevent slippagevery effectively by slowing the robot down as it approaches the target.

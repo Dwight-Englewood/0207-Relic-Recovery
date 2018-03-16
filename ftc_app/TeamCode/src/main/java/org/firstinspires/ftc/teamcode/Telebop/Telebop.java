@@ -275,7 +275,6 @@ public class Telebop extends OpMode {
             movingInt = false;
             robot.intakeDrop.setPower(0);
             robot.intake(0);
-
         }
 
         //Decrement the counters

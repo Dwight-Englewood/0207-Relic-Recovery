@@ -767,6 +767,15 @@ public class Bot {
                 turnLeft = curHeading <= -45 || curHeading >= 45;
                 break;
 
+            case 30:
+                turnLeft = !(curHeading <= -30 || curHeading >= 30);
+                break;
+
+            case -30:
+                turnLeft = curHeading <= -30 || curHeading >= 30;
+                break;
+
+
         }
 
         //Clip the powers to within an acceptable range for the motors and apply the proportional factor.
@@ -811,6 +820,8 @@ public class Bot {
                         (Math.abs(tickBR - targetTickBR) < 500)
                 ) {
             scale = .1;
+
+
         } else if (
                 (Math.abs(tickFL - targetTickFL) < 2000) &&
                         (Math.abs(tickFR - targetTickFR) < 2000) &&

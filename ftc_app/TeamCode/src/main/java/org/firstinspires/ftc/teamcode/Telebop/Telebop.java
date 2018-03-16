@@ -42,7 +42,7 @@ public class Telebop extends OpMode {
     //As they are used in multiple places, rather than using "magic numbers" we define them as an instance field
     double liftScaledown = .8;
     double liftScaleup = .55;
-    double relicArmPos1 = 0;
+    double relicArmPos1 = 1;
     double relicArmPos2 = 1;
     int cooldownServo2 = 0;
 
@@ -227,9 +227,9 @@ public class Telebop extends OpMode {
 
 
             if (gamepad2.left_trigger > 0.1) {
-                relicArmPos1 = .5;
+                relicArmPos1 = .35;
             } else if (gamepad2.left_bumper) {
-                relicArmPos1 = 1;
+                relicArmPos1 = 0;
             }
 
 

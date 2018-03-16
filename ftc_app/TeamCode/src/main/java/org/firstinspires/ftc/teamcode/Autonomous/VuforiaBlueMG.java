@@ -40,6 +40,8 @@ public class VuforiaBlueMG extends OpMode {
         robot.jewelUp();
         robot.backIntakeWallUp();
         robot.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.relicArmServo1.setPosition(1);
+        robot.relicArmServo2.setPosition(1);
 
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
         parameters.vuforiaLicenseKey = "AbZUuPf/////AAAAGUmS0Chan00iu7rnRhzu63+JgDtPo889M6dNtjvv+WKxiMJ8w2DgSJdM2/zEI+a759I7DlPj++D2Ryr5sEHAg4k1bGKdo3BKtkSeh8hCy78w0SIwoOACschF/ImuyP/V259ytjiFtEF6TX4teE8zYpQZiVkCQy0CmHI9Ymoa7NEvFEqfb3S4P6SicguAtQ2NSLJUX+Fdn49SEJKvpSyhwyjbrinJbak7GWqBHcp7fGh7TNFcfPFMacXg28XxlvVpQaVNgkvuqolN7wkTiR9ZMg6Fnm0zN4Xjr5lRtDHeE51Y0bZoBUbyLWSA+ts3SyDjDPPUU7GMI+Ed/ifb0csVpM12aOiNr8d+HsfF2Frnzrj2";
@@ -48,8 +50,6 @@ public class VuforiaBlueMG extends OpMode {
 
         relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
-        robot.relicArmServo1.setPosition(0);
-
 
         telemetry.addLine("Ready.");
         telemetry.update();

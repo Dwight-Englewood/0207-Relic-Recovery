@@ -9,13 +9,18 @@ The implementation of a safe strafe is found under `Bot#safeStrafe`
 
 ```java
 public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry, double powerCenter) {
+       //Get the heading value from the REV IMU
        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+       //Generate the error between the target and current headings.
        headingError = targetHeading - angles.firstAngle;
+       //Multiply the error by a stable powerModifier, .0055. This is our P-term.
        driveScale = headingError * powerModifier;
 
+       // Set the powers for the motors based on the proportional term.
        leftPower = powerCenter - driveScale;
        rightPower = powerCenter + driveScale;
 
+       //Clip the powers to within an acceptable range. Note that negatives are not acceptable as they would spin the robot in entirely the wrong direction during a strafe.
        if (leftPower > 1)
            leftPower = 1;
        else if (leftPower < 0)
@@ -26,7 +31,7 @@ public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry
        else if (rightPower < 0)
            rightPower = 0;
 
-
+       //Apply the powers for a right or left strafe, depending on the value of the isRight boolean.
        if (isRight) {
            FL.setPower(leftPower);
            FR.setPower(-rightPower);
@@ -43,7 +48,7 @@ public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry
    }
 ```
 
-The function takes the heading the robot should be moving, a boolean for which direction the robot is strafing, a telemetry object for debugging, and the center for the power.
+The function takes the heading the robot should be moving at, a boolean for which direction the robot is strafing, a telemetry object for debugging, and the center for the power.
 
 It first gets the current heading of the robot by polling the IMU values, and calculates the distance from the `targetHeading` It then calculates a `driveScale`, which is proportional to the error, and adds to power accordingly.
 

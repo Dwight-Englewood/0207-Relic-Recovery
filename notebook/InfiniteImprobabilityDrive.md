@@ -6,7 +6,7 @@ During autonomous, we wanted to be able to place more than the one preloaded gly
 
 <insert picture here>
 
-This pattern cannot be further filled in to complete one of the three cipher patterns. To avoid this, we first tried to handwrite rules for different scenarios.
+This pattern cannot be further filled in to complete one of the three cipher patterns; it is a "bad" pattern. To avoid this, we first tried to handwrite rules for different scenarios.
 
 For example, if the vuforia glyph was placed in column one, then the following pairs of glyphs were "acceptable" - placing these in a certain column would still allow the drivers to complete a cipher during Teleop.
 

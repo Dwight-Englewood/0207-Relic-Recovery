@@ -266,12 +266,12 @@ public class Telebop extends OpMode {
             robot.intake(.5);
             robot.jewelOut();
             movingInt = true;
-        } else if (!gamepad2.x && !(gamepad2.left_trigger > .1 || gamepad2.right_trigger > .1 || gamepad2.left_bumper)) {
+        } else if (!gamepad2.x && !(gamepad2.left_trigger > .1 || gamepad2.right_trigger > .1 || gamepad2.right_bumper)) {
             robot.intakeDrop.setPower(0);
             robot.intake(0);
             robot.jewelUp();
             movingInt = false;
-        } else if (!(gamepad2.left_trigger > .1 || gamepad2.right_trigger > .1 || gamepad2.left_bumper)){
+        } else if (!(gamepad2.left_trigger > .1 || gamepad2.right_trigger > .1 || gamepad2.right_bumper)){
             movingInt = false;
             robot.intakeDrop.setPower(0);
             robot.intake(0);

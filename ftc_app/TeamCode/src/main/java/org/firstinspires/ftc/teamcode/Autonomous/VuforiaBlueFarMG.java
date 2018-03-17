@@ -193,7 +193,7 @@ public class VuforiaBlueFarMG extends OpMode {
 
             case 7:
                 commandString = "Adjust heading to -90";
-                if (timer.milliseconds() > 1750) {
+                if (timer.milliseconds() > 1000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();

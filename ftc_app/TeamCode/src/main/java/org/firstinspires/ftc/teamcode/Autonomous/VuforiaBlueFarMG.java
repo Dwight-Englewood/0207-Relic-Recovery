@@ -136,7 +136,7 @@ public class VuforiaBlueFarMG extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = -1 * robot.distanceToRevsNRO20(72);
+                generalTarget = -1 * robot.distanceToRevsNRO20(77);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -426,7 +426,7 @@ public class VuforiaBlueFarMG extends OpMode {
             case 20:
                 commandString = "Setup drive to glyph pit";
                 if (timer.milliseconds() > 100) {
-                    generalTarget = robot.distanceToRevsNRO20(100);
+                    generalTarget = robot.distanceToRevsNRO20(105);
                     robot.intake(-1);
                     robot.releaseMove(ReleasePosition.DOWN);
                     robot.runToPosition(generalTarget);
@@ -450,8 +450,8 @@ public class VuforiaBlueFarMG extends OpMode {
 
             case 22:
                 commandString = "Setup drive away from glyph pit";
-                if (timer.milliseconds() > 250) {
-                    generalTarget = -1 * robot.distanceToRevsNRO20(90);
+                if (timer.milliseconds() > 200) {
+                    generalTarget = -1 * robot.distanceToRevsNRO20(95);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -483,7 +483,7 @@ public class VuforiaBlueFarMG extends OpMode {
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
-                    generalTarget = 86;
+                    generalTarget = 66;
                     command++;
                 } else {
                     robot.adjustHeading(-90, false);
@@ -491,7 +491,7 @@ public class VuforiaBlueFarMG extends OpMode {
                 break;
 
             case 25:
-                curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
+                curDistance = robot.rangeRight.getDistance(DistanceUnit.CM);
                 if (Math.abs(generalTarget - curDistance) <= 3) {
                     robot.drive(MovementEnum.STOP);
                     counter++;

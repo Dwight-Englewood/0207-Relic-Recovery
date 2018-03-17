@@ -525,8 +525,8 @@ public class VuforiaBlueFarSG extends OpMode {
 
             case 28:
                 commandString = "Drive back";
-                if (timer.milliseconds() < 500) {
-                    robot.drive(MovementEnum.BACKWARD, .5);
+                if (timer.milliseconds() < 250) {
+                    robot.drive(MovementEnum.BACKWARD, .9);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
@@ -536,8 +536,8 @@ public class VuforiaBlueFarSG extends OpMode {
 
             case 29:
                 commandString = "Drive forward";
-                if (timer.milliseconds() < 500) {
-                    robot.drive(MovementEnum.FORWARD, .6);
+                if (timer.milliseconds() < 250) {
+                    robot.drive(MovementEnum.FORWARD, .8);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     robot.releaseMove(ReleasePosition.MIDDLE);

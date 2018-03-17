@@ -255,7 +255,7 @@ public class TelebopGlyphTest extends OpMode {
     public void loop() {
 
         //Main driving function. See Bot.java for documentation
-        robot.tankDrive(gamepad2.left_stick_y, gamepad2.right_stick_y, gamepad1 .left_trigger, gamepad1.right_trigger, invert, brakeToggle); // Tank drive???
+        robot.tankDrive(gamepad2.left_stick_y, gamepad2.right_stick_y, gamepad1 .left_trigger, gamepad1.right_trigger, invert, brakeToggle, false); // Tank drive???
 
         if (glyphMode) {
             //this is the actual flipping of the flipper

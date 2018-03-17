@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -263,7 +262,7 @@ public class VuforiaBlueFarMG extends OpMode {
                     robot.safeStrafe(-90,false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.RIGHTSTRAFE, .2);
+                    robot.safeStrafe(-90, true, telemetry, .2);
                     counter = 0;
                 }
 
@@ -277,7 +276,7 @@ public class VuforiaBlueFarMG extends OpMode {
                 break;
 
             case 10:
-                commandString = "Adjust heading to -90";
+                /*commandString = "Adjust heading to -90";
                 if (timer.milliseconds() > 500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -285,7 +284,11 @@ public class VuforiaBlueFarMG extends OpMode {
                     command++;
                 } else {
                     robot.adjustHeading(-90, false);
-                }
+                }*/
+                command++;
+                timer.reset();
+                robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.drive(MovementEnum.STOP);
                 break;
 
             case 11:
@@ -297,7 +300,7 @@ public class VuforiaBlueFarMG extends OpMode {
 
             case 12:
                 commandString = "Release glyph";
-                if (timer.milliseconds() > 200) {
+                if (timer.milliseconds() > 100) {
                     robot.releaseMove(ReleasePosition.UP);
                     timer.reset();
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -335,14 +338,14 @@ public class VuforiaBlueFarMG extends OpMode {
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
-                    robot.adjustHeading(-90, true);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
             case 16:
                 try {Thread.sleep(300);}catch(Exception e){}
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = robot.distanceToRevsNRO20(10);
+                generalTarget = robot.distanceToRevsNRO20(9);
                 robot.releaseMove(ReleasePosition.MIDDLE);
                 robot.runToPosition(generalTarget);
                 timer.reset();
@@ -395,7 +398,7 @@ public class VuforiaBlueFarMG extends OpMode {
                     robot.safeStrafe(-90, false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.RIGHTSTRAFE, .2);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .1);
                     counter = 0;
                 }
 
@@ -410,7 +413,7 @@ public class VuforiaBlueFarMG extends OpMode {
 
             case 19:
                 commandString = "Reorient to -60";
-                if (timer.milliseconds() > 1000) {
+                if (timer.milliseconds() > 500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -476,20 +479,20 @@ public class VuforiaBlueFarMG extends OpMode {
                 break;
 
             case 24:
-                commandString = "Reorient to 90";
+                commandString = "Reorient to -90";
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
                     generalTarget = 86;
                     command++;
                 } else {
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
             case 25:
                 curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
-                if (Math.abs(generalTarget - curDistance) <= 2.5) {
+                if (Math.abs(generalTarget - curDistance) <= 3) {
                     robot.drive(MovementEnum.STOP);
                     counter++;
                 } else if (generalTarget > curDistance) {
@@ -511,7 +514,7 @@ public class VuforiaBlueFarMG extends OpMode {
 
             case 26:
                 robot.backIntakeWallDown();
-                if (timer.milliseconds() > 250) {
+                if (timer.milliseconds() > 100) {
                     timer.reset();
                     command++;
                 }

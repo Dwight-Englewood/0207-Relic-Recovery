@@ -448,7 +448,7 @@ public class VuforiaRedFarMG extends OpMode {
             case 22:
                 commandString = "Setup drive away from glyph pit";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = -1 * robot.distanceToRevsNRO20(100);
+                    generalTarget = -1 * robot.distanceToRevsNRO20(90);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;

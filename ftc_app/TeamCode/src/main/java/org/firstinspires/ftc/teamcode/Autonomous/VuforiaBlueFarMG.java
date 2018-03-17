@@ -343,7 +343,7 @@ public class VuforiaBlueFarMG extends OpMode {
                 break;
 
             case 16:
-                try {Thread.sleep(300);}catch(Exception e){}
+                try {Thread.sleep(100);}catch(Exception e){}
                 commandString = "Set up RUN_TO_POSITION";
                 generalTarget = robot.distanceToRevsNRO20(7);
                 robot.releaseMove(ReleasePosition.MIDDLE);

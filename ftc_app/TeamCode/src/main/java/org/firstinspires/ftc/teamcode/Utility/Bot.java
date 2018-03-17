@@ -857,6 +857,21 @@ public class Bot {
         return scale;
     }
 
+    public double slowDownScaleFast(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
+        double scale;
+        if (
+                (Math.abs(tickFL - targetTickFL) < 75) &&
+                        (Math.abs(tickFR - targetTickFR) < 75) &&
+                        (Math.abs(tickBL - targetTickBL) < 75) &&
+                        (Math.abs(tickBR - targetTickBR) < 75)
+                ) {
+            scale = 0;
+        } else {
+            scale = 1;
+        }
+        return scale;
+    }
+
     //NOTE: if cur distance < target, power is positive --> cur distance > target = power negative
     public double slowDownScale(int targetDistance, double startingDistance, ModernRoboticsI2cRangeSensor rangeSensor) {
         double curDistance = rangeSensor.getDistance(DistanceUnit.CM);

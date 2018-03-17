@@ -165,9 +165,9 @@ public class Bot {
         relicArmVex2.setPower(power);
     }
 
-    public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
+    public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, boolean pingyBrake) {
 
-        if (brake) {
+        if (brake || pingyBrake) {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         } else {
             setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);

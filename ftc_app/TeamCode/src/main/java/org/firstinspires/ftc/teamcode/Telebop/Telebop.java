@@ -22,6 +22,7 @@ public class Telebop extends OpMode {
     Bot robot = new Bot();
     //brakeToggle is a boolean which is toggled for whether the robot is in brake mode or not
     boolean brakeToggle = false;
+    boolean pingyBrakeToggle = false;
     //invert is used as a toggle for whether to invert controls or not
     boolean invert = false;
     boolean glyphMode = true;
@@ -125,13 +126,18 @@ public class Telebop extends OpMode {
             brakeCountdown = 50;
         }
 
+        if (gamepad1.a && brakeCountdown <= 0) {
+            pingyBrakeToggle = !pingyBrakeToggle;
+            brakeCountdown = 40;
+        }
+
         if (gamepad2.start && relicCountdown <= 0) {
             glyphMode = !glyphMode;
             relicCountdown = 80;
         }
 
         //Main driving function. See Bot.java for documentation
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger > .9 ? 1 : .75 * gamepad1.left_trigger, gamepad1.right_trigger > .9 ? 1 : .75 * gamepad1.right_trigger, invert, brakeToggle);
+        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger > .9 ? 1 : .75 * gamepad1.left_trigger, gamepad1.right_trigger > .9 ? 1 : .75 * gamepad1.right_trigger, invert, brakeToggle, pingyBrakeToggle);
 
         if (robot.intakeDrop.getCurrentPosition() >= 300) {
             controller.addInstruction(ReleasePosition.DROP, 10);
@@ -295,6 +301,7 @@ public class Telebop extends OpMode {
         //Telemetry things, generally booleans that could be important for drivers to be able to tell are active, as well as cooldowns
         telemetry.addData("Braking", brakeToggle);
         telemetry.addData("Alt Mode?", !glyphMode);
+        telemetry.addData("PingyBraking?", pingyBrakeToggle);
         telemetry.update();
 
     }

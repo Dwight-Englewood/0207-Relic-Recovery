@@ -155,7 +155,7 @@ public class VuforiaRedFarMG extends OpMode {
                 commandString = "Adjust heading to 90";
                 //maybe shorten? if we speed up adjustHeading a bit
                 //accuracy is more impranth though
-                if (timer.milliseconds() > 2000) {
+                if (timer.milliseconds() > 1000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -192,7 +192,7 @@ public class VuforiaRedFarMG extends OpMode {
 
             case 7:
                 commandString = "Adjust heading to 90";
-                if (timer.milliseconds() > 750) {
+                if (timer.milliseconds() > 1000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -322,7 +322,7 @@ public class VuforiaRedFarMG extends OpMode {
                 //maybe do a slight angle here?
                 //hitting at not straight might help but it would also reduce time which we need
                 commandString = "Drive back";
-                if (timer.milliseconds() < 250) {
+                if (timer.milliseconds() < 500) {
                     robot.drive(MovementEnum.BACKWARD, .9);
                 } else {
                     robot.drive(MovementEnum.STOP);

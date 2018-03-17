@@ -321,7 +321,7 @@ public class VuforiaBlueFarMG extends OpMode {
 
             case 14:
                 commandString = "Drive back";
-                if (timer.milliseconds() < 250) {
+                if (timer.milliseconds() < 500) {
                     robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
                     robot.drive(MovementEnum.STOP);

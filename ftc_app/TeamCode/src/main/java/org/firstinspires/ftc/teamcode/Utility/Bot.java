@@ -460,7 +460,7 @@ public class Bot {
     public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry, double powerCenter) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         headingError = targetHeading - angles.firstAngle;
-        driveScale = headingError * powerModifier;
+        driveScale = headingError * .0035;
 
         leftPower = powerCenter - driveScale;
         rightPower = powerCenter + driveScale;

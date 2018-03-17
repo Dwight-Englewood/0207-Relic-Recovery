@@ -207,7 +207,7 @@ public class VuforiaBlueFarMG extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = 86;
+                        generalTarget = 46;
                         break;
 
                     case CENTER:
@@ -215,7 +215,7 @@ public class VuforiaBlueFarMG extends OpMode {
                         break;
 
                     case RIGHT:
-                        generalTarget = 46;
+                        generalTarget = 86;
                         break;
 
                     case UNKNOWN:
@@ -322,7 +322,7 @@ public class VuforiaBlueFarMG extends OpMode {
             case 14:
                 commandString = "Drive back";
                 if (timer.milliseconds() < 250) {
-                    robot.drive(MovementEnum.BACKWARD, .9);
+                    robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
@@ -345,7 +345,7 @@ public class VuforiaBlueFarMG extends OpMode {
             case 16:
                 try {Thread.sleep(300);}catch(Exception e){}
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = robot.distanceToRevsNRO20(9);
+                generalTarget = robot.distanceToRevsNRO20(7);
                 robot.releaseMove(ReleasePosition.MIDDLE);
                 robot.runToPosition(generalTarget);
                 timer.reset();
@@ -390,7 +390,7 @@ public class VuforiaBlueFarMG extends OpMode {
                 //    robot.adjustHeading(90, false);
                 //} else {
                 curDistance = robot.rangeRight.getDistance(DistanceUnit.CM);
-                if (Math.abs(generalTarget - curDistance) <= 2.5) {
+                if (Math.abs(generalTarget - curDistance) <= 3) {
                     robot.drive(MovementEnum.STOP);
                     counter++;
                 } else if (generalTarget > curDistance) {
@@ -426,8 +426,9 @@ public class VuforiaBlueFarMG extends OpMode {
             case 20:
                 commandString = "Setup drive to glyph pit";
                 if (timer.milliseconds() > 100) {
-                    generalTarget = robot.distanceToRevsNRO20(105);
+                    generalTarget = robot.distanceToRevsNRO20(107);
                     robot.intake(-1);
+                    robot.backIntakeWallUp();
                     robot.releaseMove(ReleasePosition.DOWN);
                     robot.runToPosition(generalTarget);
                     timer.reset();
@@ -451,7 +452,7 @@ public class VuforiaBlueFarMG extends OpMode {
             case 22:
                 commandString = "Setup drive away from glyph pit";
                 if (timer.milliseconds() > 200) {
-                    generalTarget = -1 * robot.distanceToRevsNRO20(95);
+                    generalTarget = -1 * robot.distanceToRevsNRO20(97);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -483,7 +484,7 @@ public class VuforiaBlueFarMG extends OpMode {
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
-                    generalTarget = 66;
+                    generalTarget = 86;
                     command++;
                 } else {
                     robot.adjustHeading(-90, false);

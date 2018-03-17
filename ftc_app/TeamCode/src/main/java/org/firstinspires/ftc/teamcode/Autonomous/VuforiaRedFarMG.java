@@ -405,14 +405,14 @@ public class VuforiaRedFarMG extends OpMode {
                 break;
 
             case 19:
-                commandString = "Reorient to 30";
-                if (timer.milliseconds() > 1000) {
+                commandString = "Reorient to 60";
+                if (timer.milliseconds() > 500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(30, false);
+                    robot.adjustHeading(60, false);
                 }
                 break;
 

@@ -156,14 +156,14 @@ public class VuforiaBlueFarSG extends OpMode {
                 break;
 
             case 4:
-                commandString = "Adjust heading to 90";
+                commandString = "Adjust heading to -90";
                 if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
@@ -193,14 +193,14 @@ public class VuforiaBlueFarSG extends OpMode {
                 break;
 
             case 7:
-                commandString = "Adjust heading to 90";
+                commandString = "Adjust heading to -90";
                 if (timer.milliseconds() > 1000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
@@ -260,10 +260,10 @@ public class VuforiaBlueFarSG extends OpMode {
                     counter++;
                 } else if (generalTarget > curDistance) {
                     //robot.drive(MovementEnum.RIGHTSTRAFE, .5);
-                    robot.safeStrafe(90,true, telemetry, .5);
+                    robot.safeStrafe(-90,false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.LEFTSTRAFE, .1);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .1);
                     counter = 0;
                 }
 
@@ -277,14 +277,14 @@ public class VuforiaBlueFarSG extends OpMode {
                 break;
 
             case 10:
-                commandString = "Adjust heading to 90";
+                commandString = "Adjust heading to -90";
                 if (timer.milliseconds() > 500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
@@ -328,14 +328,14 @@ public class VuforiaBlueFarSG extends OpMode {
                 break;
 
             case 15:
-                commandString = "Reorient to 90";
+                commandString = "Reorient to -90";
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
-                    robot.adjustHeading(90, true);
+                    robot.adjustHeading(-90, true);
                 }
                 break;
 
@@ -392,10 +392,10 @@ public class VuforiaBlueFarSG extends OpMode {
                     counter++;
                 } else if (generalTarget > curDistance) {
                     //robot.drive(MovementEnum.RIGHTSTRAFE, .5);
-                    robot.safeStrafe(90, true, telemetry, .5);
+                    robot.safeStrafe(-90, false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.LEFTSTRAFE, .1);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .1);
                     counter = 0;
                 }
 
@@ -409,14 +409,14 @@ public class VuforiaBlueFarSG extends OpMode {
                 break;
 
             case 19:
-                commandString = "Reorient to 30";
+                commandString = "Reorient to -60";
                 if (timer.milliseconds() > 1000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(30, false);
+                    robot.adjustHeading(-60, false);
                 }
                 break;
 
@@ -494,10 +494,10 @@ public class VuforiaBlueFarSG extends OpMode {
                     counter++;
                 } else if (generalTarget > curDistance) {
                     //robot.drive(MovementEnum.RIGHTSTRAFE, .5);
-                    robot.safeStrafe(90,true, telemetry, .5);
+                    robot.safeStrafe(-90,false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.LEFTSTRAFE, .1);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .1);
                     counter = 0;
                 }
 

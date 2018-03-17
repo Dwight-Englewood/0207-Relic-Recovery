@@ -775,6 +775,14 @@ public class Bot {
                 turnLeft = curHeading <= -30 || curHeading >= 30;
                 break;
 
+            case 60:
+                turnLeft = !(curHeading <= -60 || curHeading >= 60);
+                break;
+
+            case -60:
+                turnLeft = curHeading <= -60 || curHeading >= 60;
+                break;
+
 
         }
 

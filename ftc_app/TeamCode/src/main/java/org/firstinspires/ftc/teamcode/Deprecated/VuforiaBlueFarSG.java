@@ -263,7 +263,7 @@ public class VuforiaBlueFarSG extends OpMode {
                     robot.safeStrafe(-90,false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.RIGHTSTRAFE, .1);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .2);
                     counter = 0;
                 }
 
@@ -395,7 +395,7 @@ public class VuforiaBlueFarSG extends OpMode {
                     robot.safeStrafe(-90, false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.RIGHTSTRAFE, .1);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .2);
                     counter = 0;
                 }
 
@@ -448,7 +448,7 @@ public class VuforiaBlueFarSG extends OpMode {
             case 22:
                 commandString = "Setup drive away from glyph pit";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = -1 * robot.distanceToRevsNRO20(110);
+                    generalTarget = -1 * robot.distanceToRevsNRO20(90);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -497,7 +497,7 @@ public class VuforiaBlueFarSG extends OpMode {
                     robot.safeStrafe(-90,false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.RIGHTSTRAFE, .1);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .2);
                     counter = 0;
                 }
 

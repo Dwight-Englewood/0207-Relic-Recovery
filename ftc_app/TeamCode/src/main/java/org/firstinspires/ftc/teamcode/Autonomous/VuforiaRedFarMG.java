@@ -80,7 +80,7 @@ public class VuforiaRedFarMG extends OpMode {
 
     @Override
     public void loop() {
-        if (relicTimer.milliseconds() > 1000) {
+        if (relicTimer.milliseconds() > 1750) {
             robot.relicArmVexControl(0, DcMotorSimple.Direction.FORWARD);
         }
 

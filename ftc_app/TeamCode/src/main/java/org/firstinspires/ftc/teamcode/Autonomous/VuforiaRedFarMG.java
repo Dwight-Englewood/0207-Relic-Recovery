@@ -153,6 +153,8 @@ public class VuforiaRedFarMG extends OpMode {
 
             case 4:
                 commandString = "Adjust heading to 90";
+                //maybe shorten? if we speed up adjustHeading a bit
+                //accuracy is more impranth though
                 if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -317,6 +319,8 @@ public class VuforiaRedFarMG extends OpMode {
                 break;
 
             case 14:
+                //maybe do a slight angle here?
+                //hitting at not straight might help but it would also reduce time which we need
                 commandString = "Drive back";
                 if (timer.milliseconds() < 250) {
                     robot.drive(MovementEnum.BACKWARD, .9);
@@ -340,6 +344,9 @@ public class VuforiaRedFarMG extends OpMode {
                 break;
 
             case 16:
+                //why do we do sleeping here?
+                //i assume we want to let the adjustheading stabilize, but we arent doing that anymore?
+
                 try {Thread.sleep(300);}catch(Exception e){}
                 commandString = "Set up RUN_TO_POSITION";
                 generalTarget = robot.distanceToRevsNRO20(9);
@@ -422,7 +429,8 @@ public class VuforiaRedFarMG extends OpMode {
 
             case 20:
                 commandString = "Setup drive to glyph pit";
-                if (timer.milliseconds() > 100) {
+                if (
+                        timer.milliseconds() > 100) {
                     generalTarget = robot.distanceToRevsNRO20(105);
                     robot.intake(-1);
                     robot.releaseMove(ReleasePosition.DOWN);
@@ -434,6 +442,9 @@ public class VuforiaRedFarMG extends OpMode {
 
             case 21:
                 commandString = "Drive to glyph pit";
+                //maybe have a much sharper slowDownScale for going into pit
+                //glyphs slowdown and it doesnt matter as mcuh?
+                //might throw off angle though
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {

@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
  */
 @Autonomous(name = "VuforiaBlueFarMG", group = "Auton")
-@Disabled
+//@Disabled
 public class VuforiaBlueFarMG extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();

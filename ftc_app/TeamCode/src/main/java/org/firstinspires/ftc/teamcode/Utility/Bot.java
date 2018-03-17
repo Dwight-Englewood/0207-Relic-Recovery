@@ -815,40 +815,40 @@ public class Bot {
                 ) {
             scale = .1;
         } else if (
-                (Math.abs(tickFL) < 1000) &&
-                        (Math.abs(tickFR) < 1000) &&
-                        (Math.abs(tickBL) < 1000) &&
-                        (Math.abs(tickBR) < 1000)
+                (Math.abs(tickFL) < 500) &&
+                        (Math.abs(tickFR) < 500) &&
+                        (Math.abs(tickBL) < 500) &&
+                        (Math.abs(tickBR) < 500)
                 ) {
             scale = .3;
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 200) &&
+                        (Math.abs(tickFR - targetTickFR) < 200) &&
+                        (Math.abs(tickBL - targetTickBL) < 200) &&
+                        (Math.abs(tickBR - targetTickBR) < 200)
+                ) {
+            scale = .1;
+
+
         } else if (
                 (Math.abs(tickFL - targetTickFL) < 500) &&
                         (Math.abs(tickFR - targetTickFR) < 500) &&
                         (Math.abs(tickBL - targetTickBL) < 500) &&
                         (Math.abs(tickBR - targetTickBR) < 500)
                 ) {
-            scale = .1;
-
-
-        } else if (
-                (Math.abs(tickFL - targetTickFL) < 2000) &&
-                        (Math.abs(tickFR - targetTickFR) < 2000) &&
-                        (Math.abs(tickBL - targetTickBL) < 2000) &&
-                        (Math.abs(tickBR - targetTickBR) < 2000)
-                ) {
             scale = .3;
         } else if (
-                (Math.abs(tickFL - targetTickFL) < 2500) &&
-                        (Math.abs(tickFR - targetTickFR) < 2500) &&
-                        (Math.abs(tickBL - targetTickBL) < 2500) &&
-                        (Math.abs(tickBR - targetTickBR) < 2500)
+                (Math.abs(tickFL - targetTickFL) < 750) &&
+                        (Math.abs(tickFR - targetTickFR) < 750) &&
+                        (Math.abs(tickBL - targetTickBL) < 750) &&
+                        (Math.abs(tickBR - targetTickBR) < 750)
                 ) {
             scale = .5;
         } else if (
-                (Math.abs(tickFL - targetTickFL) < 3500) &&
-                        (Math.abs(tickFR - targetTickFR) < 3500) &&
-                        (Math.abs(tickBL - targetTickBL) < 3500) &&
-                        (Math.abs(tickBR - targetTickBR) < 3500)
+                (Math.abs(tickFL - targetTickFL) < 1000) &&
+                        (Math.abs(tickFR - targetTickFR) < 1000) &&
+                        (Math.abs(tickBL - targetTickBL) < 1000) &&
+                        (Math.abs(tickBR - targetTickBR) < 1000)
                 ) {
             scale = .7;
         } else {

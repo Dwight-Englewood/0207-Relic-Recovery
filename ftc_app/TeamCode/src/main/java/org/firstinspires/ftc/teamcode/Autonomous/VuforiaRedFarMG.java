@@ -259,7 +259,7 @@ public class VuforiaRedFarMG extends OpMode {
                         robot.safeStrafe(90,true, telemetry, .5);
                         counter = 0;
                     } else {
-                        robot.drive(MovementEnum.LEFTSTRAFE, .1);
+                        robot.drive(MovementEnum.LEFTSTRAFE, .1 );
                         counter = 0;
                     }
 

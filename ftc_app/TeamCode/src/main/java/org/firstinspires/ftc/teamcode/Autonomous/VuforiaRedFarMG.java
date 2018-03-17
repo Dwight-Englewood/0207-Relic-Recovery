@@ -448,7 +448,7 @@ public class VuforiaRedFarMG extends OpMode {
             case 22:
                 commandString = "Setup drive away from glyph pit";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = -1 * robot.distanceToRevsNRO20(90);
+                    generalTarget = -1 * robot.distanceToRevsNRO20(92);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -526,7 +526,7 @@ public class VuforiaRedFarMG extends OpMode {
             case 28:
                 commandString = "Drive back";
                 if (timer.milliseconds() < 250) {
-                    robot.drive(MovementEnum.BACKWARD, .9);
+                    robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
@@ -537,7 +537,7 @@ public class VuforiaRedFarMG extends OpMode {
             case 29:
                 commandString = "Drive forward";
                 if (timer.milliseconds() < 250) {
-                    robot.drive(MovementEnum.FORWARD, .8);
+                    robot.drive(MovementEnum.FORWARD, 1);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     robot.releaseMove(ReleasePosition.MIDDLE);

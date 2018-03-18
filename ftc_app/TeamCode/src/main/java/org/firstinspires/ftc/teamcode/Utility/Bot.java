@@ -539,15 +539,20 @@ public class Bot {
         BR.setZeroPowerBehavior(behavior);
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------
+
     public void jewelUp() {
-        jewelServoBottom.setPosition(.63);
+        jewelServoBottom.setPosition(1);
         jewelServoTop.setPosition(0.05);
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------
+    public void jewelUpTeleop() {
+        jewelServoBottom.setPosition(.8);
+        jewelServoTop.setPosition(0.05);
+    }
 
     public void jewelOut() {
-        jewelServoBottom.setPosition(.36);
+        jewelServoBottom.setPosition(.5);
         jewelServoTop.setPosition(.4);
     }
 

@@ -87,7 +87,7 @@ public class Telebop extends OpMode {
 
         //During autonomous, we move the jewel arm down. We now move it back up to avoid having it run into things
         //By putting this in Telebop#start, the drivers are not required to manually do this each match
-        robot.jewelUp();
+        robot.jewelUpTeleop();
 
         //We now tell the drive train motors to use encoders
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -254,7 +254,7 @@ public class Telebop extends OpMode {
         if (gamepad2.x) {
             robot.jewelTeleop();
         } else if (!movingInt) {
-            robot.jewelUp();
+            robot.jewelUpTeleop();
         }
 
         //Our intake is put on a motor which allows it to be raised or lowered. This section allows for the drivers to raise it during matches, to reach glyphs which are on top of other ones
@@ -275,7 +275,7 @@ public class Telebop extends OpMode {
         } else if (!gamepad2.x && !(gamepad2.left_trigger > .1 || gamepad2.right_trigger > .1 || gamepad2.right_bumper)) {
             robot.intakeDrop.setPower(0);
             robot.intake(0);
-            robot.jewelUp();
+            robot.jewelUpTeleop();
             movingInt = false;
         } else if (!(gamepad2.left_trigger > .1 || gamepad2.right_trigger > .1 || gamepad2.right_bumper)){
             movingInt = false;
@@ -309,7 +309,6 @@ public class Telebop extends OpMode {
     @Override
     public void stop() {
         robot.drive(MovementEnum.STOP, 0);
-        robot.jewelUp();
     }
 
 }

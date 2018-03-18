@@ -111,7 +111,7 @@ public class VuforiaBlueFarMG extends OpMode {
             case 1:
                 commandString = "Hit Jewel";
                 if (hitjewel && timer.milliseconds() > 300) {
-                    robot.jewelUp();
+                    robot.jewelUpTeleop();
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 1500) {
@@ -531,6 +531,8 @@ public class VuforiaBlueFarMG extends OpMode {
             case 28:
                 commandString = "Drive back";
                 if (timer.milliseconds() < 250) {
+
+                } else if (timer.milliseconds() < 750) {
                     robot.drive(MovementEnum.BACKWARD, .9);
                 } else {
                     robot.drive(MovementEnum.STOP);

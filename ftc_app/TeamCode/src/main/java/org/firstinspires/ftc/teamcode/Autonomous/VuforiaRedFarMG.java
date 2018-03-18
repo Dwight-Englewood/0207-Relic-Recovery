@@ -47,7 +47,9 @@ public class VuforiaRedFarMG extends OpMode {
         robot.init(hardwareMap);
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.releaseMove(ReleasePosition.INIT);
-        robot.jewelUp();
+        //robot.jewelUp();
+
+
         robot.backIntakeWallUp();
         robot.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.relicArmServo1.setPosition(1);
@@ -458,7 +460,7 @@ public class VuforiaRedFarMG extends OpMode {
             case 22:
                 commandString = "Setup drive away from glyph pit";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = -1 * robot.distanceToRevsNRO20(97);
+                    generalTarget = -1 * robot.distanceToRevsNRO20(94);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;

@@ -576,7 +576,7 @@ public class VuforiaRedFarMG extends OpMode {
 
     @Override
     public void stop() {
-
+        robot.drive(MovementEnum.STOP);
     }
 }
 

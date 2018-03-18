@@ -101,17 +101,23 @@ public class VuforiaBlueMG extends OpMode {
                 } else if (timer.milliseconds() > 1500) {
                     robot.drive(MovementEnum.STOP);
                     robot.jewelKnockforward();
-                    try {Thread.sleep(300);}catch(Exception e){}
+                    try {
+                        Thread.sleep(300);
+                    } catch (Exception e) {
+                    }
                     robot.jewelKnockback();
-                    try {Thread.sleep(300);}catch(Exception e){}
+                    try {
+                        Thread.sleep(300);
+                    } catch (Exception e) {
+                    }
                     robot.jewelUp();
                     timer.reset();
                     command++;
-                } else if ((robot.jewelColorForward.red() >=2 || robot.jewelColorBack.blue() >=2) && !hitjewel) {
+                } else if ((robot.jewelColorForward.red() >= 2 || robot.jewelColorBack.blue() >= 2) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockforward();
                     timer.reset();
-                } else if ((robot.jewelColorBack.red() >=2 || robot.jewelColorForward.blue() >=2) && !hitjewel) {
+                } else if ((robot.jewelColorBack.red() >= 2 || robot.jewelColorForward.blue() >= 2) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockback();
                     timer.reset();
@@ -120,7 +126,7 @@ public class VuforiaBlueMG extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = -1 * robot.distanceToRevsNR40(50);
+                generalTarget = -1 * robot.distanceToRevsNRO20(50);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -155,22 +161,25 @@ public class VuforiaBlueMG extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = -1 * robot.distanceToRevsNR40(16);
+                        generalTarget = -1 * robot.distanceToRevsNRO20(16);
                         break;
 
                     case CENTER:
-                        generalTarget = -1 * robot.distanceToRevsNR40(35);
+                        generalTarget = -1 * robot.distanceToRevsNRO20(35);
                         break;
 
                     case RIGHT:
-                        generalTarget = -1 * robot.distanceToRevsNR40(51);
+                        generalTarget = -1 * robot.distanceToRevsNRO20(51);
                         break;
 
                     case UNKNOWN:
-                        generalTarget = -1 * robot.distanceToRevsNR40(35);
+                        generalTarget = -1 * robot.distanceToRevsNRO20(35);
                         break;
                 }
-                try {Thread.sleep(300);} catch (Exception e) {}
+                try {
+                    Thread.sleep(300);
+                } catch (Exception e) {
+                }
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -234,7 +243,7 @@ public class VuforiaBlueMG extends OpMode {
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
-                } else if (timer.milliseconds() > 250){
+                } else if (timer.milliseconds() > 250) {
                     robot.adjustHeading(0, true);
                 }
                 break;
@@ -242,7 +251,7 @@ public class VuforiaBlueMG extends OpMode {
             case 11:
                 if (timer.milliseconds() > 250) {
                     commandString = "Setup drive to box";
-                    generalTarget = -1*robot.distanceToRevsNR40(17);
+                    generalTarget = -1 * robot.distanceToRevsNRO20(17);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -272,50 +281,47 @@ public class VuforiaBlueMG extends OpMode {
                 commandString = "Release glyph";
                 if (timer.milliseconds() > 250) {
                     robot.releaseMove(ReleasePosition.UP);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
                     timer.milliseconds();
                     command++;
                 }
                 break;
 
             case 15:
-                commandString = "Setup drive away from box";
-                if (timer.milliseconds() > 250) {
-                    generalTarget = robot.distanceToRevsNR40(15);
-                    robot.runToPosition(generalTarget);
+                commandString = "Drive away";
+                if (timer.milliseconds() < 250) {
+                    robot.drive(MovementEnum.FORWARD, .8);
+                } else {
+                    robot.drive(MovementEnum.STOP);
                     timer.reset();
                     command++;
                 }
                 break;
 
             case 16:
-                commandString = "Drive away from box";
-                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.FORWARD, power);
-                if (power == 0) {
-                    robot.drive(MovementEnum.STOP, 0);
-                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.releaseMove(ReleasePosition.MIDDLE);
+                commandString = "Drive back";
+                if (timer.milliseconds() < 250) {
+                    robot.drive(MovementEnum.BACKWARD, 1);
+                } else {
+                    robot.drive(MovementEnum.STOP);
                     timer.reset();
                     command++;
                 }
                 break;
 
             case 17:
-
-                commandString = "Setup knock glyph back";
-                if (timer.milliseconds() > 250) {
-                    generalTarget = -robot.distanceToRevsNR40(20);
-                    robot.runToPosition(generalTarget);
-                    timer.reset();
-                    command++;
-                }
+                commandString = "Drive away final";
+                try {Thread.sleep(300);} catch(Exception e){}
+                generalTarget = robot.distanceToRevsNRO20(15);
+                command++;
+                timer.reset();
                 break;
 
             case 18:
-                commandString = "Knock glyph back";
+                commandString = "Drive away final";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.BACKWARD, power);
-                if (power == 0 || timer.milliseconds() > 2000) {
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
@@ -324,59 +330,12 @@ public class VuforiaBlueMG extends OpMode {
                 break;
 
             case 19:
-                commandString = "Setup drive away from box";
-                if (timer.milliseconds() > 250) {
-                    generalTarget = robot.distanceToRevsNR40(55);
-                    robot.intake(-.9);
-                    robot.runToPosition(generalTarget);
-                    timer.reset();
-                    command++;
-                }
-                break;
-
-            case 20:
-                commandString = "Drive away from box";
-                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.FORWARD, power);
-                if (power == 0) {
-                    robot.drive(MovementEnum.STOP, 0);
-                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.releaseMove(ReleasePosition.MIDDLE);
-                    timer.reset();
-                    command++;
-                }
-                break;
-
-            case 21:
-                commandString = "Setup drive to box";
-                if (timer.milliseconds() > 250) {
-                    generalTarget = -1 * robot.distanceToRevsNR40(30);
-                    robot.intake(0);
-                    robot.runToPosition(generalTarget);
-                    timer.reset();
-                    command++;
-                }
-                break;
-
-            case 22:
-                commandString = "Drive to box";
-                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.BACKWARD, power);
-                if (power == 0) {
-                    robot.drive(MovementEnum.STOP, 0);
-                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
-                    robot.releaseMove(ReleasePosition.MIDDLE);
-                    timer.reset();
-                    command++;
-                }
-                break;
-
-            case 23:
                 stop();
                 command++;
                 break;
-        }
 
+
+        }
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);
         telemetry.addLine(commandString);
@@ -387,6 +346,7 @@ public class VuforiaBlueMG extends OpMode {
 
     @Override
     public void stop() {
+        robot.drive(MovementEnum.STOP);
 
     }
 

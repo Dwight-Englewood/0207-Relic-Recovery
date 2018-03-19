@@ -197,6 +197,51 @@ public class Bot {
         BR.setPower(rightPower);
     }
 
+    public void tankDriveSafeStrafe(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {
+        int i = invert ? -1 : 1;
+
+        if (leftTrigger < .3 && rightTrigger < .3) {
+            isStrafing = false;
+        }
+
+        if (brake) {
+            drive(MovementEnum.STOP, 0);
+            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
+        } else {
+            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
+        }
+
+        if (leftTrigger > .3) {
+            if (isStrafing) {
+            } else {
+                heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+                isStrafing = true;
+            }
+            safeStrafe(heading, false, telemetry);
+            //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
+            return;
+        }
+
+        if (rightTrigger > .3) {
+            if (isStrafing) {
+            } else {
+                heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+                isStrafing = true;
+            }
+            safeStrafe(heading, true, telemetry);
+
+        }
+
+        leftStick *= i;
+        rightStick *= i;
+        if (!isStrafing) {
+            FL.setPower(-leftStick);
+            BL.setPower(-leftStick);
+            FR.setPower(-rightStick);
+            BR.setPower(-rightStick);
+        }
+    }
+
     public Glyph findGlyphType() {
         /*
         int red, blue, green, alpha;
@@ -250,51 +295,6 @@ public class Bot {
         }*/
 
         //needs some actualy testing on the robot
-    }
-
-    public void tankDriveSafeStrafe(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, Telemetry telemetry) {
-        int i = invert ? -1 : 1;
-
-        if (leftTrigger < .3 && rightTrigger < .3) {
-            isStrafing = false;
-        }
-
-        if (brake) {
-            drive(MovementEnum.STOP, 0);
-            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
-        } else {
-            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
-        }
-
-        if (leftTrigger > .3) {
-            if (isStrafing) {
-            } else {
-                heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-                isStrafing = true;
-            }
-            safeStrafe(heading, false, telemetry);
-            //safeStrafe(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle, MovementEnum.LEFTSTRAFE);
-            return;
-        }
-
-        if (rightTrigger > .3) {
-            if (isStrafing) {
-            } else {
-                heading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-                isStrafing = true;
-            }
-            safeStrafe(heading, true, telemetry);
-
-        }
-
-        leftStick *= i;
-        rightStick *= i;
-        if (!isStrafing) {
-            FL.setPower(-leftStick);
-            BL.setPower(-leftStick);
-            FR.setPower(-rightStick);
-            BR.setPower(-rightStick);
-        }
     }
 
     //--------------------------------------------------------------------------------------------------------------------------

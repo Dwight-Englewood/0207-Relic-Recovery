@@ -395,6 +395,35 @@ public class Bot {
         }
     }
 
+    public void drive(MovementEnum movement, double leftPower, double rightPower) {
+        switch (movement) {
+            case STOP:
+                FL.setPower(0);
+                FR.setPower(0);
+                BL.setPower(0);
+                BR.setPower(0);
+                break;
+
+            case LEFTSTRAFE:
+                FL.setPower(-leftPower);
+                FR.setPower(rightPower);
+                BL.setPower(leftPower);
+                BR.setPower(-rightPower);
+                break;
+
+            case RIGHTSTRAFE:
+                FL.setPower(leftPower);
+                FR.setPower(-rightPower);
+                BL.setPower(-leftPower);
+                BR.setPower(rightPower);
+                break;
+
+            default:
+                drive(movement, .5);
+                break;
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------------------------------
 
     public void fieldCentricDrive(double lStickX, double lStickY, double rStickX, double leftTrigger, double rightTrigger, boolean brake) {
@@ -523,6 +552,28 @@ public class Bot {
         }
         telemetry.addData("leftPower", leftPower);
         telemetry.addData("rightPower", rightPower);
+    }
+
+    public void safeStrafe(float targetHeading, MovementEnum strafeDirection) {
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        headingError = targetHeading - angles.firstAngle;
+        driveScale = headingError * powerModifier;
+
+        leftPower = .85 - driveScale;
+        rightPower = .85 + driveScale;
+
+        if (leftPower > 1)
+            leftPower = 1;
+        else if (leftPower < 0)
+            leftPower = 0;
+
+        if (rightPower > 1)
+            rightPower = 1;
+        else if (rightPower < 0)
+            rightPower = 0;
+
+
+        drive(strafeDirection, leftPower, rightPower);
     }
 
     public void setDriveMotorModes(DcMotor.RunMode mode) {

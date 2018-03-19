@@ -119,7 +119,7 @@ public class VuforiaRedFarMG extends OpMode {
                     try {Thread.sleep(300);}catch(Exception e){}
                     robot.jewelKnockback();
                     try {Thread.sleep(300);}catch(Exception e){}
-                    robot.jewelUp();
+                    robot.jewelUpTeleop();
                     timer.reset();
                     command++;
                 } else if ((robot.jewelColorForward.red() >= 2 || robot.jewelColorBack.blue() >=2 ) && !hitjewel) {
@@ -437,11 +437,13 @@ public class VuforiaRedFarMG extends OpMode {
                     robot.releaseMove(ReleasePosition.DOWN);
                     robot.runToPosition(generalTarget);
                     timer.reset();
+                    robot.backIntakeWallUp();
                     command++;
                 }
                 break;
 
             case 21:
+
                 commandString = "Drive to glyph pit";
                 //maybe have a much sharper slowDownScale for going into pit
                 //glyphs slowdown and it doesnt matter as mcuh?

@@ -5,12 +5,22 @@ package org.firstinspires.ftc.teamcode.Utility;
  */
 
 public enum ReleasePosition {
-    DOWNER,
-    DOWN,
-    MIDDLE,
-    MIDDLEUP,
-    UP,
-    INIT,
-    DROP
+
+    DOWN        (0),
+    MIDDLE      (.5),
+    MIDDLEUP    (.58),
+    UP          (1),
+    INIT        (.72),
+    DROP        (.77);
+
+    private double val;
+
+    ReleasePosition (double val) {
+        this.val = val;
+    }
+
+    public double getVal() {
+        return this.val;
+    }
 
 }

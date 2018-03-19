@@ -630,62 +630,6 @@ public class Bot {
         jewelServoTop.setPosition(.16);
     }
 
-    private void relLUp() {
-        releaseLeft.setPosition(relUp);
-    }
-
-    private void relLDown() {
-        releaseLeft.setPosition(relDown);
-    }
-
-    private void relLMid() {
-        releaseLeft.setPosition(relMid);
-    }
-
-    private void relLMidWhileUp() {
-        releaseLeft.setPosition(relMidWhileUp);
-    }
-
-    private void relLDowner() {
-        releaseLeft.setPosition(relDowner);
-    }
-
-    private void relRUp() {
-        releaseRight.setPosition(relUp);
-    }
-
-    private void relRDown() {
-        releaseRight.setPosition(relDown);
-    }
-
-    private void relRMid() {
-        releaseRight.setPosition(relMid);
-    }
-
-    private void relRMidWhileUp() {
-        releaseRight.setPosition(relMidWhileUp);
-    }
-
-    private void relRDowner() {
-        releaseRight.setPosition(relDowner);
-    }
-
-    private void relRInit() {
-        releaseRight.setPosition(.72);
-    }
-
-    private void relLInit() {
-        releaseLeft.setPosition(.72);
-    }
-
-    private void relLDrop() {
-        releaseLeft.setPosition(.77);
-    }
-
-    private void relRDrop() {
-        releaseRight.setPosition(.77);
-    }
-
     public void flipUp() {
         flipper.setPosition(1);
     }
@@ -695,36 +639,8 @@ public class Bot {
     }
 
     public void releaseMove(ReleasePosition position) {
-        switch (position) {
-            case DOWNER:
-                relRDowner();
-                relLDowner();
-                break;
-            case DOWN:
-                relRDown();
-                relLDown();
-                break;
-            case MIDDLE:
-                relRMid();
-                relLMid();
-                break;
-            case MIDDLEUP:
-                relRMidWhileUp();
-                relLMidWhileUp();
-                break;
-            case UP:
-                relRUp();
-                relLUp();
-                break;
-            case INIT:
-                relRInit();
-                relLInit();
-                break;
-            case DROP:
-                relRDrop();
-                relLDrop();
-                break;
-        }
+        releaseLeft.setPosition(position.getVal());
+        releaseRight.setPosition(position.getVal());
     }
 
     public void intake(double power) {

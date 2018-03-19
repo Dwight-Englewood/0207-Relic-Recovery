@@ -659,22 +659,38 @@ public class Bot {
         BR.setTargetPosition(target);
     }
 
-    public void runRightToPosition(int target) {
+    public void runToPosition(int target, MovementEnum direction) {
         this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
 
-        FL.setTargetPosition(target);
-        FR.setTargetPosition(-target);
-        BL.setTargetPosition(-target);
-        BR.setTargetPosition(target);
-    }
+        switch (direction) {
+            case FORWARD:
+                FL.setTargetPosition(target);
+                FR.setTargetPosition(target);
+                BL.setTargetPosition(target);
+                BR.setTargetPosition(target);
+                break;
 
-    public void runLeftToPosition(int target) {
-        this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
+            case BACKWARD:
+                FL.setTargetPosition(-target);
+                FR.setTargetPosition(-target);
+                BL.setTargetPosition(-target);
+                BR.setTargetPosition(-target);
+                break;
 
-        FL.setTargetPosition(-target);
-        FR.setTargetPosition(target);
-        BL.setTargetPosition(target);
-        BR.setTargetPosition(-target);
+            case LEFTSTRAFE:
+                FL.setTargetPosition(-target);
+                FR.setTargetPosition(target);
+                BL.setTargetPosition(target);
+                BR.setTargetPosition(-target);
+                break;
+
+            case RIGHTSTRAFE:
+                FL.setTargetPosition(target);
+                FR.setTargetPosition(-target);
+                BL.setTargetPosition(-target);
+                BR.setTargetPosition(target);
+                break;
+        }
     }
 
     public int distanceToRevsNR40(double distance) {

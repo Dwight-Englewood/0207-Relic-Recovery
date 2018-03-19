@@ -33,7 +33,7 @@ public class Bot {
     private final double relDowner = 0;
     private final double relDown = 0;
     private final double relMid = .50;
-    private final double relMidWhileUp = .52;
+    private final double relMidWhileUp = .58;
     private final double relUp = 1;
 
     //--------------------------------------------------------------------------------------------------------------------------

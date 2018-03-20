@@ -229,29 +229,6 @@ public class VuforiaRedFarMG extends OpMode {
 
             case 9:
                 commandString = "Move to column";
-                /*if (counter < 5) {
-                    powersList.add(robot.slowDownScale(generalTarget, initalDistance, robot.rangeLeft));
-                    counter++;
-                } else {
-                    power = 0;
-                    for (double thing: powersList) {
-                        power += thing;
-                    }
-                    power /= powersList.size();
-                    powersList.clear();
-                    robot.drive(MovementEnum.RIGHTSTRAFE, power);
-                    robot.strafeAdjusts(90, MovementEnum.RIGHTSTRAFE);
-                    if (power == 0) {
-                        robot.drive(MovementEnum.STOP, 0);
-                        timer.reset();
-                        command++;
-                    }
-                    counter = 0;
-                }*/
-                //if (Math.abs(robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - 90) >= 5) {
-                //    robot.adjustHeading(90, false);
-                //    command = 9;
-                //} else {
                     curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
                     if (Math.abs(generalTarget - curDistance) < 2) {
                         robot.drive(MovementEnum.STOP);
@@ -271,7 +248,6 @@ public class VuforiaRedFarMG extends OpMode {
                         counter = 0;
                         command++;
                     }
-                //}
                 break;
 
             case 10:
@@ -371,48 +347,25 @@ public class VuforiaRedFarMG extends OpMode {
 
             case 18:
                 commandString = "Move to middle column";
-                /*if (counter % 5 != 0) {
-                    powersList.add(robot.slowDownScale(generalTarget, initalDistance, robot.rangeLeft));
+                curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
+                if (Math.abs(generalTarget - curDistance) <= 2.5) {
+                    robot.drive(MovementEnum.STOP);
                     counter++;
-                } else {
-                    power = 0;
-                    for (double thing: powersList) {
-                        power += thing;
-                    }
-                    power /= powersList.size();
-                    powersList.clear();
-                    robot.drive(MovementEnum.RIGHTSTRAFE, power);
-                    robot.strafeAdjusts(90, MovementEnum.RIGHTSTRAFE);
-                    if (power == 0) {
-                        robot.drive(MovementEnum.STOP, 0);
-                        timer.reset();
-                        command++;
-                    }
+                } else if (generalTarget > curDistance) {
+                    //robot.drive(MovementEnum.RIGHTSTRAFE, .5);
+                    robot.safeStrafe(90, true, telemetry, .5);
                     counter = 0;
-                }*/
-                //if (Math.abs(robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - 90) >= 3) {
-                //    robot.adjustHeading(90, false);
-                //} else {
-                    curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
-                    if (Math.abs(generalTarget - curDistance) <= 2.5) {
-                        robot.drive(MovementEnum.STOP);
-                        counter++;
-                    } else if (generalTarget > curDistance) {
-                        //robot.drive(MovementEnum.RIGHTSTRAFE, .5);
-                        robot.safeStrafe(90, true, telemetry, .5);
-                        counter = 0;
-                    } else {
-                        robot.drive(MovementEnum.LEFTSTRAFE, .1);
-                        counter = 0;
-                    }
+                } else {
+                    robot.drive(MovementEnum.LEFTSTRAFE, .1);
+                    counter = 0;
+                }
 
-                    if (counter > 10) {
-                        robot.drive(MovementEnum.STOP);
-                        timer.reset();
-                        counter = 0;
-                        command++;
-                    }
-                //}
+                if (counter > 10) {
+                    robot.drive(MovementEnum.STOP);
+                    timer.reset();
+                    counter = 0;
+                    command++;
+                }
                 break;
 
             case 19:

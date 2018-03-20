@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Utility.Bot;
  * Created by aburur on 3/19/18.
  */
 
-@Autonomous(name="DogeCV Jewel Detector", group="DogeCV")
+@Autonomous(name="Jewel Detector Test", group="Testing")
 public class JewelDetectorTest extends OpMode
 {
     Bot robot = new Bot();

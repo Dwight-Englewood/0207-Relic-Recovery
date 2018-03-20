@@ -548,13 +548,13 @@ public class Bot {
         telemetry.addData("rightPower", rightPower);
     }
 
-    public void safeStrafe(float targetHeading, MovementEnum strafeDirection) {
+    public void safeStrafe(float targetHeading, MovementEnum strafeDirection, double powerCenter) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         headingError = targetHeading - angles.firstAngle;
         driveScale = headingError * powerModifier;
 
-        leftPower = .85 - driveScale;
-        rightPower = .85 + driveScale;
+        leftPower = powerCenter - driveScale;
+        rightPower = powerCenter + driveScale;
 
         if (leftPower > 1)
             leftPower = 1;
@@ -852,6 +852,48 @@ public class Bot {
             scale = 1;
         }
         return scale;
+    }
+
+    public boolean leftLineup(double targetDistance, int targetHeading, double tolerance) {
+        double curDistance = rangeLeft.getDistance(DistanceUnit.CM);
+        if (Math.abs(targetDistance - curDistance) <= tolerance) {
+            drive(MovementEnum.STOP);
+            return true;
+        } else if (targetDistance > curDistance) {
+            safeStrafe(targetHeading, MovementEnum.RIGHTSTRAFE, .5);
+        } else {
+            safeStrafe(targetHeading, MovementEnum.LEFTSTRAFE, .2);
+        }
+
+        return false;
+    }
+
+    public boolean rightLineup(double targetDistance, int targetHeading, double tolerance) {
+        double curDistance = rangeRight.getDistance(DistanceUnit.CM);
+        if (Math.abs(targetDistance - curDistance) <= tolerance) {
+            drive(MovementEnum.STOP);
+            return true;
+        } else if (targetDistance > curDistance) {
+            safeStrafe(targetHeading, MovementEnum.LEFTSTRAFE, .5);
+        } else {
+            safeStrafe(targetHeading, MovementEnum.RIGHTSTRAFE, .2);
+        }
+
+        return false;
+    }
+
+    public boolean backLineup(double targetDistance, double tolerance) {
+        double curDistance = rangeBack.getDistance(DistanceUnit.CM);
+        if (Math.abs(targetDistance - curDistance) <= tolerance) {
+            drive(MovementEnum.STOP);
+            return true;
+        } else if (targetDistance > curDistance) {
+            drive(MovementEnum.BACKWARD, .7);
+        } else {
+            drive(MovementEnum.FORWARD, .2);
+        }
+
+        return false;
     }
 
 }

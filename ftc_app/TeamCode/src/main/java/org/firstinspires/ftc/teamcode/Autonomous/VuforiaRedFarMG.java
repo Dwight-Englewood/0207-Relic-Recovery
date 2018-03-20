@@ -118,7 +118,7 @@ public class VuforiaRedFarMG extends OpMode {
                     robot.jewelUpTeleop();
                     timer.reset();
                     command++;
-                } else if ((robot.jewelColorForward.red() >= 2 || robot.jewelColorBack.blue() >=2 ) && !hitjewel) {
+                } else if ((robot.jewelColorForward.red() >= 2 || robot.jewelColorBack.blue() >= 2) && !hitjewel) {
                     hitjewel = true;
                     robot.jewelKnockback();
                     timer.reset();

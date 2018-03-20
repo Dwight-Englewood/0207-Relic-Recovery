@@ -114,7 +114,7 @@ public class Telebop extends OpMode {
         //For more documentation of the controller object which controls the position of the flipper, see Utilites/EnumController.java
 
         //Gamepad 1 Stuff
-        //Brake toggle. Th ebrake was implemented so the drivers could more easiyl get onto the balancing stone at the end of matches, as it will immediately halt movement of the bot
+        //Brake toggle. The brake was implemented so the drivers could more easiyl get onto the balancing stone at the end of matches, as it will immediately halt movement of the bot
         if (gamepad1.left_bumper && brakeCountdown <= 0) {
 
             //switches brakeToggle to which ever boolean it was not
@@ -126,7 +126,7 @@ public class Telebop extends OpMode {
             brakeCountdown = 50;
         }
 
-        if (gamepad1.a && brakeCountdown <= 0) {
+        if (gamepad1.b && brakeCountdown <= 0) {
             pingyBrakeToggle = !pingyBrakeToggle;
             brakeCountdown = 40;
         }
@@ -149,9 +149,12 @@ public class Telebop extends OpMode {
             parking = false;
         }
 
-        if (Math.abs(robot.lift.getCurrentPosition()) >= 320) {
+        if (Math.abs(robot.lift.getCurrentPosition()) >= 300) {
             robot.backIntakeWallDown();
             wallDown = true;
+            if (!placing) {
+                controller.addInstruction(ReleasePosition.MIDDLEUP, 10);
+            }
         } else if (!parking){
             wallDown = false;
         }

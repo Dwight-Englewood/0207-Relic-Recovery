@@ -77,7 +77,7 @@ public class TelebopSingleDriver extends OpMode {
             countdown = 30;
         }
 
-        robot.tankDrive(-gamepad1.left_stick_y, -gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false, brakeToggle, false);
+        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, false, brakeToggle, false);
 
         if (robot.intakeDrop.getCurrentPosition() >= 500) {
             controller.addInstruction(ReleasePosition.DROP, 10);
@@ -135,7 +135,7 @@ public class TelebopSingleDriver extends OpMode {
             if (gamepad1.x) {
                 robot.jewelTeleop();
             } else {
-                robot.jewelUp();
+                robot.jewelUpTeleop();
             }
 
             if (gamepad1.dpad_up) {

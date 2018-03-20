@@ -18,7 +18,8 @@ public class JewelDetectorTest extends OpMode
 {
     Bot robot = new Bot();
     private ElapsedTime runtime = new ElapsedTime();
-    private JewelDetector jewelDetector = null;
+    private JewelDetector jewelDetector;
+
     private int red_blue = 0, blue_red = 0, unknown = 0;
 
 

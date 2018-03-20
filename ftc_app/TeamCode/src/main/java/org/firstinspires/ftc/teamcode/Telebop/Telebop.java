@@ -302,8 +302,6 @@ public class Telebop extends OpMode {
         telemetry.addData("Braking", brakeToggle);
         telemetry.addData("Alt Mode?", !glyphMode);
         telemetry.addData("PingyBraking?", pingyBrakeToggle);
-        telemetry.update();
-
     }
 
     @Override

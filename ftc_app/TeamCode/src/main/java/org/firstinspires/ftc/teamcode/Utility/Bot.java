@@ -781,56 +781,56 @@ public class Bot {
     public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
         double scale;
         if (
-                (Math.abs(tickFL - targetTickFL) < 25) &&
-                        (Math.abs(tickFR - targetTickFR) < 25) &&
-                        (Math.abs(tickBL - targetTickBL) < 25) &&
-                        (Math.abs(tickBR - targetTickBR) < 25)
+                (Math.abs(tickFL - targetTickFL) < 20) &&
+                        (Math.abs(tickFR - targetTickFR) < 20) &&
+                        (Math.abs(tickBL - targetTickBL) < 20) &&
+                        (Math.abs(tickBR - targetTickBR) < 20)
                 ) {
             scale = 0;
         } else if (
-                (Math.abs(tickFL) < 200) &&
-                        (Math.abs(tickFR) < 200) &&
-                        (Math.abs(tickBL) < 200) &&
-                        (Math.abs(tickBR) < 200)
+                (Math.abs(tickFL) < 100) &&
+                        (Math.abs(tickFR) < 100) &&
+                        (Math.abs(tickBL) < 100) &&
+                        (Math.abs(tickBR) < 100)
                 ) {
             scale = .1;
         } else if (
-                (Math.abs(tickFL) < 500) &&
-                        (Math.abs(tickFR) < 500) &&
-                        (Math.abs(tickBL) < 500) &&
-                        (Math.abs(tickBR) < 500)
+                (Math.abs(tickFL) < 300) &&
+                        (Math.abs(tickFR) < 300) &&
+                        (Math.abs(tickBL) < 300) &&
+                        (Math.abs(tickBR) < 300)
                 ) {
             scale = .3;
         } else if (
-                (Math.abs(tickFL - targetTickFL) < 200) &&
-                        (Math.abs(tickFR - targetTickFR) < 200) &&
-                        (Math.abs(tickBL - targetTickBL) < 200) &&
-                        (Math.abs(tickBR - targetTickBR) < 200)
+                (Math.abs(tickFL - targetTickFL) < 100) &&
+                        (Math.abs(tickFR - targetTickFR) < 100) &&
+                        (Math.abs(tickBL - targetTickBL) < 100) &&
+                        (Math.abs(tickBR - targetTickBR) < 100)
                 ) {
             scale = .1;
 
 
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 300) &&
+                        (Math.abs(tickFR - targetTickFR) < 300) &&
+                        (Math.abs(tickBL - targetTickBL) < 300) &&
+                        (Math.abs(tickBR - targetTickBR) < 300)
+                ) {
+            scale = .3;
         } else if (
                 (Math.abs(tickFL - targetTickFL) < 500) &&
                         (Math.abs(tickFR - targetTickFR) < 500) &&
                         (Math.abs(tickBL - targetTickBL) < 500) &&
                         (Math.abs(tickBR - targetTickBR) < 500)
                 ) {
-            scale = .3;
+            scale = .5;
         } else if (
                 (Math.abs(tickFL - targetTickFL) < 750) &&
                         (Math.abs(tickFR - targetTickFR) < 750) &&
                         (Math.abs(tickBL - targetTickBL) < 750) &&
                         (Math.abs(tickBR - targetTickBR) < 750)
                 ) {
-            scale = .5;
-        } else if (
-                (Math.abs(tickFL - targetTickFL) < 1000) &&
-                        (Math.abs(tickFR - targetTickFR) < 1000) &&
-                        (Math.abs(tickBL - targetTickBL) < 1000) &&
-                        (Math.abs(tickBR - targetTickBR) < 1000)
-                ) {
-            scale = .7;
+            scale = .75;
         } else {
             scale = 1;
         }

@@ -47,8 +47,7 @@ public class VuforiaRedFarMG extends OpMode {
         robot.init(hardwareMap);
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.releaseMove(ReleasePosition.INIT);
-        //robot.jewelUp();
-
+        robot.jewelUp();
 
         robot.backIntakeWallUp();
         robot.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -567,11 +566,7 @@ public class VuforiaRedFarMG extends OpMode {
                 command++;
                 break;
 
-
-
         }
-
-
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);

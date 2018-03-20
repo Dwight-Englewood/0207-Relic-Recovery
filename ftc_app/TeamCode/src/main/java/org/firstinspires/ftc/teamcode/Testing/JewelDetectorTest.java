@@ -4,6 +4,7 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.detectors.JewelDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Utility.Bot;
@@ -22,6 +23,9 @@ public class JewelDetectorTest extends OpMode
     @Override
     public void init() {
         robot.init(hardwareMap);
+        robot.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.jewelOut();
+
         jewelDetector = new JewelDetector();
         jewelDetector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
 
@@ -36,7 +40,6 @@ public class JewelDetectorTest extends OpMode
 
         jewelDetector.enable();
         telemetry.addData("Status", "Initialized");
-
     }
 
     @Override
@@ -45,6 +48,7 @@ public class JewelDetectorTest extends OpMode
 
     @Override
     public void start() {
+        robot.jewelOuterBlue();
         runtime.reset();
     }
 

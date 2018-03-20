@@ -86,6 +86,8 @@ public class Bot {
         jewelServoBottom = hardwareMap.servo.get("jewelbot"); //servo which does servo things\
         jewelServoTop = hardwareMap.servo.get("jeweltop"); //another servo which does servo things
 
+        jewelServoBottom.scaleRange(.2, .8);
+
         FL = hardwareMap.dcMotor.get("fl");
         FR = hardwareMap.dcMotor.get("fr");
         BL = hardwareMap.dcMotor.get("bl");

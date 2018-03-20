@@ -19,8 +19,6 @@ import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
 
-import java.util.ArrayList;
-
 
 @Autonomous(name = "VuforiaRedFarMG", group = "Auton")
 public class VuforiaRedFarMG extends OpMode {
@@ -33,8 +31,7 @@ public class VuforiaRedFarMG extends OpMode {
     private VuforiaTrackable relicTemplate;
     private RelicRecoveryVuMark vuMark;
 
-    private double power = 0, initalDistance, curDistance;
-    private ArrayList<Double> powersList = new ArrayList<Double>();
+    private double power = 0, curDistance;
     private int generalTarget = 0, counter = 0;
     private boolean hitjewel = false;
     private int command = -1;

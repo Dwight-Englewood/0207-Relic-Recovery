@@ -30,25 +30,27 @@ import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.
 
 public class Bot {
 
+    //<editor-fold desc="Robot Hardware Instance Fields">
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
     public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, backIntakeWall, jewelServoTop;
     public Servo relicArmServo1, relicArmServo2;
     public CRServo relicArmVex2, relicArmVex1;
-    public BNO055IMU imu;
-
-    //--------------------------------------------------------------------------------------------------------------------------
-
     public ColorSensor intakeColorRight, intakeColorLeft;
     public DistanceSensor intakeDistanceRight, intakeDistanceLeft;
     public ModernRoboticsI2cColorSensor jewelColorBack, jewelColorForward;
     public ModernRoboticsI2cRangeSensor rangeBack, rangeLeft, rangeRight;
-    private Orientation angles;
+    public BNO055IMU imu;
+    //</editor-fold>
 
     //--------------------------------------------------------------------------------------------------------------------------
+
+    //<editor-fold desc="Other Instance Fields">
     private double temp, forward, right, clockwise, k, frontLeft, frontRight, rearLeft, rearRight, powerModifier, headingError, driveScale,
             leftPower, rightPower;
     private boolean isStrafing;
     private float heading;
+    private Orientation angles;
+    //</editor-fold>
 
     public Bot() {
     }
@@ -159,6 +161,7 @@ public class Bot {
         relicArmVex2.setPower(power);
     }
 
+    //<editor-fold desc="Teleop Driving Functions">
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, boolean pingyBrake) {
 
         if (brake || pingyBrake) {
@@ -236,63 +239,147 @@ public class Bot {
         }
     }
 
-    public Glyph findGlyphType() {
-        /*
-        int red, blue, green, alpha;
-        red = this.intakeColorRight.red();
-        blue = this.intakeColorRight.blue();
-        green = this.intakeColorRight.green();
-        alpha = this.intakeColorRight.alpha();
+    public void fieldCentricDrive(double lStickX, double lStickY, double rStickX, double leftTrigger, double rightTrigger, boolean brake) {
 
-        double average;
-        average = (red + blue + green + alpha) / (double ) 4;
-
-        if (average > 3) {
-            return Glyph.GRAY;
-        } else if (average < 2.5 && average > 1) {
-            return Glyph.BROWN;
+        if (brake) {
+            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         } else {
-            return Glyph.EMPTY;
-        }
-        */
-        if (this.intakeDistanceLeft.getDistance(DistanceUnit.CM) < 7) {
-            if (this.intakeColorLeft.alpha() > 135) {
-                return GRAY;
-            } else {
-                return BROWN;
-            }
-        } else {
-            return EMPTY;
-        }
-        /*
-        double distanceCM = this.intakeDistanceRight.getDistance(DistanceUnit.CM);
-        if (Double.isNaN(distanceCM)) {
-            return Glyph.EMPTY;
-            //only happens with open air - and thus no glyph is present
+            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
-        if (intakeDistanceRight.getDistance(DistanceUnit.CM) < 6) {
-            //for this distance the distance censor is unreliable - however, the color comparisons are more limited so we can use that
+        if (leftTrigger > .15) {
+            drive(MovementEnum.LEFTSTRAFE, leftTrigger > .9 ? 1 : leftTrigger * .75);
+            return;
+        }
+        if (rightTrigger > .15) {
+            drive(MovementEnum.RIGHTSTRAFE, rightTrigger > .9 ? 1 : rightTrigger * .75);
+            return;
         }
 
+        // Get the controller values
+        forward = (-1) * lStickY;
+        right = lStickX;
+        clockwise = rStickX;
 
-        double compAlphaVal = -10 * distanceCM + 150;
+        // Apply the turn modifier k
+        clockwise *= k;
 
-        if (compAlphaVal < 0) {
-            return EMPTY;
+        // Turn the output heading value to be based on counterclockwise turns
+        angles = imu.getAngularOrientation();
+        if (angles.firstAngle < 0) {
+            angles.firstAngle += 360;
         }
 
-        if (this.intakeColorRight.alpha() > compAlphaVal) {
-            return GRAY;
-        } else {
-            return BROWN;
-        }*/
+        // Convert to Radians for Math.sin/cos
+        double orient = Math.toRadians(angles.firstAngle);
+        double sin = Math.sin(orient);
+        double cos = Math.cos(orient);
 
-        //needs some actualy testing on the robot
+        // Apply the rotation matrix
+        temp = forward * cos - right * sin;
+        right = forward * sin + right * cos;
+        forward = temp;
+
+        // Set power values
+        frontLeft = forward + clockwise + right;
+        frontRight = forward - clockwise - right;
+        rearLeft = forward + clockwise - right;
+        rearRight = forward - clockwise + right;
+
+        // Clip power values to within acceptable ranges for the motors
+        frontLeft = Range.clip(frontLeft, -1.0, 1.0);
+        frontRight = Range.clip(frontRight, -1.0, 1.0);
+        rearLeft = Range.clip(rearLeft, -1.0, 1.0);
+        rearRight = Range.clip(rearRight, -1.0, 1.0);
+
+        // Send power values to motors
+        FL.setPower(frontLeft);
+        BL.setPower(rearLeft);
+        FR.setPower(frontRight);
+        BR.setPower(rearRight);
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------
+    //</editor-fold>
 
+    //<editor-fold desc="Driving Power Modifiers">
+    public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
+        double scale;
+        if (
+                (Math.abs(tickFL - targetTickFL) < 20) &&
+                        (Math.abs(tickFR - targetTickFR) < 20) &&
+                        (Math.abs(tickBL - targetTickBL) < 20) &&
+                        (Math.abs(tickBR - targetTickBR) < 20)
+                ) {
+            scale = 0;
+        } else if (
+                (Math.abs(tickFL) < 100) &&
+                        (Math.abs(tickFR) < 100) &&
+                        (Math.abs(tickBL) < 100) &&
+                        (Math.abs(tickBR) < 100)
+                ) {
+            scale = .1;
+        } else if (
+                (Math.abs(tickFL) < 300) &&
+                        (Math.abs(tickFR) < 300) &&
+                        (Math.abs(tickBL) < 300) &&
+                        (Math.abs(tickBR) < 300)
+                ) {
+            scale = .3;
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 100) &&
+                        (Math.abs(tickFR - targetTickFR) < 100) &&
+                        (Math.abs(tickBL - targetTickBL) < 100) &&
+                        (Math.abs(tickBR - targetTickBR) < 100)
+                ) {
+            scale = .1;
+
+
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 300) &&
+                        (Math.abs(tickFR - targetTickFR) < 300) &&
+                        (Math.abs(tickBL - targetTickBL) < 300) &&
+                        (Math.abs(tickBR - targetTickBR) < 300)
+                ) {
+            scale = .3;
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 500) &&
+                        (Math.abs(tickFR - targetTickFR) < 500) &&
+                        (Math.abs(tickBL - targetTickBL) < 500) &&
+                        (Math.abs(tickBR - targetTickBR) < 500)
+                ) {
+            scale = .5;
+        } else if (
+                (Math.abs(tickFL - targetTickFL) < 750) &&
+                        (Math.abs(tickFR - targetTickFR) < 750) &&
+                        (Math.abs(tickBL - targetTickBL) < 750) &&
+                        (Math.abs(tickBR - targetTickBR) < 750)
+                ) {
+            scale = .75;
+        } else {
+            scale = 1;
+        }
+        return scale;
+    }
+
+    public double slowDownScaleFast(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
+        double scale;
+        if (
+                (Math.abs(tickFL - targetTickFL) < 75) &&
+                        (Math.abs(tickFR - targetTickFR) < 75) &&
+                        (Math.abs(tickBL - targetTickBL) < 75) &&
+                        (Math.abs(tickBR - targetTickBR) < 75)
+                ) {
+            scale = 0;
+        } else {
+            scale = 1;
+        }
+        return scale;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Fancy Auton Driving">
+
+    //<editor-fold desc="Directional Drive">
     public void drive(MovementEnum movement, double power) {
         switch (movement) {
             case FORWARD:
@@ -417,69 +504,54 @@ public class Bot {
                 break;
         }
     }
+    //</editor-fold>
 
-    //--------------------------------------------------------------------------------------------------------------------------
+    //<editor-fold desc="Run to Position">
+    public void runToPosition(int target) {
+        this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
 
-    public void fieldCentricDrive(double lStickX, double lStickY, double rStickX, double leftTrigger, double rightTrigger, boolean brake) {
-
-        if (brake) {
-            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
-        } else {
-            setDriveZeroPowers(DcMotor.ZeroPowerBehavior.FLOAT);
-        }
-
-        if (leftTrigger > .15) {
-            drive(MovementEnum.LEFTSTRAFE, leftTrigger > .9 ? 1 : leftTrigger * .75);
-            return;
-        }
-        if (rightTrigger > .15) {
-            drive(MovementEnum.RIGHTSTRAFE, rightTrigger > .9 ? 1 : rightTrigger * .75);
-            return;
-        }
-
-        // Get the controller values
-        forward = (-1) * lStickY;
-        right = lStickX;
-        clockwise = rStickX;
-
-        // Apply the turn modifier k
-        clockwise *= k;
-
-        // Turn the output heading value to be based on counterclockwise turns
-        angles = imu.getAngularOrientation();
-        if (angles.firstAngle < 0) {
-            angles.firstAngle += 360;
-        }
-
-        // Convert to Radians for Math.sin/cos
-        double orient = Math.toRadians(angles.firstAngle);
-        double sin = Math.sin(orient);
-        double cos = Math.cos(orient);
-
-        // Apply the rotation matrix
-        temp = forward * cos - right * sin;
-        right = forward * sin + right * cos;
-        forward = temp;
-
-        // Set power values
-        frontLeft = forward + clockwise + right;
-        frontRight = forward - clockwise - right;
-        rearLeft = forward + clockwise - right;
-        rearRight = forward - clockwise + right;
-
-        // Clip power values to within acceptable ranges for the motors
-        frontLeft = Range.clip(frontLeft, -1.0, 1.0);
-        frontRight = Range.clip(frontRight, -1.0, 1.0);
-        rearLeft = Range.clip(rearLeft, -1.0, 1.0);
-        rearRight = Range.clip(rearRight, -1.0, 1.0);
-
-        // Send power values to motors
-        FL.setPower(frontLeft);
-        BL.setPower(rearLeft);
-        FR.setPower(frontRight);
-        BR.setPower(rearRight);
+        FL.setTargetPosition(target);
+        FR.setTargetPosition(target);
+        BL.setTargetPosition(target);
+        BR.setTargetPosition(target);
     }
 
+    public void runToPosition(int target, MovementEnum direction) {
+        this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
+
+        switch (direction) {
+            case FORWARD:
+                FL.setTargetPosition(target);
+                FR.setTargetPosition(target);
+                BL.setTargetPosition(target);
+                BR.setTargetPosition(target);
+                break;
+
+            case BACKWARD:
+                FL.setTargetPosition(-target);
+                FR.setTargetPosition(-target);
+                BL.setTargetPosition(-target);
+                BR.setTargetPosition(-target);
+                break;
+
+            case LEFTSTRAFE:
+                FL.setTargetPosition(-target);
+                FR.setTargetPosition(target);
+                BL.setTargetPosition(target);
+                BR.setTargetPosition(-target);
+                break;
+
+            case RIGHTSTRAFE:
+                FL.setTargetPosition(target);
+                FR.setTargetPosition(-target);
+                BL.setTargetPosition(-target);
+                BR.setTargetPosition(target);
+                break;
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Safe Strafe">
     public void safeStrafe(float targetHeading, boolean isRight, Telemetry telemetry, double powerCenter) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         headingError = targetHeading - angles.firstAngle;
@@ -569,145 +641,53 @@ public class Bot {
 
         drive(strafeDirection, leftPower, rightPower);
     }
+    //</editor-fold>
 
-    public void setDriveMotorModes(DcMotor.RunMode mode) {
-        FL.setMode(mode);
-        FR.setMode(mode);
-        BL.setMode(mode);
-        BR.setMode(mode);
-    }
-
-    public void setDriveZeroPowers(DcMotor.ZeroPowerBehavior behavior) {
-        FL.setZeroPowerBehavior(behavior);
-        FR.setZeroPowerBehavior(behavior);
-        BL.setZeroPowerBehavior(behavior);
-        BR.setZeroPowerBehavior(behavior);
-    }
-
-    //--------------------------------------------------------------------------------------------------------------------------
-
-    public void jewelUp() {
-        jewelServoBottom.setPosition(1);
-        jewelServoTop.setPosition(0.05);
-    }
-
-    public void jewelUpTeleop() {
-        jewelServoBottom.setPosition(.8);
-        jewelServoTop.setPosition(0.05);
-    }
-
-    public void jewelOut() {
-        jewelServoBottom.setPosition(.5);
-        jewelServoTop.setPosition(.4);
-    }
-
-    public void jewelOuterBlue() {
-        jewelServoBottom.setPosition(.1);
-        jewelServoTop.setPosition(.43);
-    }
-
-    public void jewelOuterRed() {
-        jewelServoBottom.setPosition(.1);
-        jewelServoTop.setPosition(.37);
-    }
-
-    public void jewelTeleop(){
-        jewelServoBottom.setPosition(.19);
-        jewelServoTop.setPosition(.4);
-    }
-
-    public void jewelKnockback() {
-        jewelServoTop.setPosition(0.68);
-    }
-
-    public void jewelKnockforward() {
-        jewelServoTop.setPosition(.16);
-    }
-
-    public void flipUp() {
-        flipper.setPosition(1);
-    }
-
-    public void flipDown() {
-        flipper.setPosition(0);
-    }
-
-    public void releaseMove(ReleasePosition position) {
-        releaseLeft.setPosition(position.getVal());
-        releaseRight.setPosition(position.getVal());
-    }
-
-    public void intake(double power) {
-        intakeOne.setPower(power);
-        intakeTwo.setPower(power);
-    }
-
-    public void backIntakeWallUp() {
-        backIntakeWall.setPosition(0);
-    }
-
-    public void backIntakeWallDown() {
-        backIntakeWall.setPosition(1);
-    }
-
-    //--------------------------------------------------------------------------------------------------------------------------
-
-    public void runToPosition(int target) {
-        this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
-
-        FL.setTargetPosition(target);
-        FR.setTargetPosition(target);
-        BL.setTargetPosition(target);
-        BR.setTargetPosition(target);
-    }
-
-    public void runToPosition(int target, MovementEnum direction) {
-        this.setDriveMotorModes(DcMotor.RunMode.RUN_TO_POSITION);
-
-        switch (direction) {
-            case FORWARD:
-                FL.setTargetPosition(target);
-                FR.setTargetPosition(target);
-                BL.setTargetPosition(target);
-                BR.setTargetPosition(target);
-                break;
-
-            case BACKWARD:
-                FL.setTargetPosition(-target);
-                FR.setTargetPosition(-target);
-                BL.setTargetPosition(-target);
-                BR.setTargetPosition(-target);
-                break;
-
-            case LEFTSTRAFE:
-                FL.setTargetPosition(-target);
-                FR.setTargetPosition(target);
-                BL.setTargetPosition(target);
-                BR.setTargetPosition(-target);
-                break;
-
-            case RIGHTSTRAFE:
-                FL.setTargetPosition(target);
-                FR.setTargetPosition(-target);
-                BL.setTargetPosition(-target);
-                BR.setTargetPosition(target);
-                break;
+    //<editor-fold desc="Lineup">
+    public boolean leftLineup(double targetDistance, int targetHeading, double tolerance) {
+        double curDistance = rangeLeft.getDistance(DistanceUnit.CM);
+        if (Math.abs(targetDistance - curDistance) <= tolerance) {
+            drive(MovementEnum.STOP);
+            return true;
+        } else if (targetDistance > curDistance) {
+            safeStrafe(targetHeading, MovementEnum.RIGHTSTRAFE, .5);
+        } else {
+            safeStrafe(targetHeading, MovementEnum.LEFTSTRAFE, .2);
         }
+
+        return false;
     }
 
-    public int distanceToRevsNR40(double distance) {
-        final double wheelCirc = 31.9185813;
-        final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120 counts per revolution, 2 : 1 gear ratio
+    public boolean rightLineup(double targetDistance, int targetHeading, double tolerance) {
+        double curDistance = rangeRight.getDistance(DistanceUnit.CM);
+        if (Math.abs(targetDistance - curDistance) <= tolerance) {
+            drive(MovementEnum.STOP);
+            return true;
+        } else if (targetDistance > curDistance) {
+            safeStrafe(targetHeading, MovementEnum.LEFTSTRAFE, .5);
+        } else {
+            safeStrafe(targetHeading, MovementEnum.RIGHTSTRAFE, .2);
+        }
 
-        return (int) (gearMotorTickThing * (distance / wheelCirc));
+        return false;
     }
 
-    public int distanceToRevsNRO20(double distance) {
-        final double wheelCirc = 31.9185813;
-        final double gearMotorTickThing = 537.6; //neverrest orbital 20 = 537.6 counts per revolution
-        return (int) (gearMotorTickThing * (distance / wheelCirc));
-    }
+    public boolean backLineup(double targetDistance, double tolerance) {
+        double curDistance = rangeBack.getDistance(DistanceUnit.CM);
+        if (Math.abs(targetDistance - curDistance) <= tolerance) {
+            drive(MovementEnum.STOP);
+            return true;
+        } else if (targetDistance > curDistance) {
+            drive(MovementEnum.BACKWARD, .7);
+        } else {
+            drive(MovementEnum.FORWARD, .2);
+        }
 
+        return false;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Heading Movement">
     public void adjustHeading(int targetHeading, boolean slow) {
         //Initialize the turnleft boolean.
         boolean turnLeft = false;
@@ -779,121 +759,159 @@ public class Bot {
         BR.setPower(rightPower);
 
     }
+    //</editor-fold>
 
-    public double slowDownScale(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
-        double scale;
-        if (
-                (Math.abs(tickFL - targetTickFL) < 20) &&
-                        (Math.abs(tickFR - targetTickFR) < 20) &&
-                        (Math.abs(tickBL - targetTickBL) < 20) &&
-                        (Math.abs(tickBR - targetTickBR) < 20)
-                ) {
-            scale = 0;
-        } else if (
-                (Math.abs(tickFL) < 100) &&
-                        (Math.abs(tickFR) < 100) &&
-                        (Math.abs(tickBL) < 100) &&
-                        (Math.abs(tickBR) < 100)
-                ) {
-            scale = .1;
-        } else if (
-                (Math.abs(tickFL) < 300) &&
-                        (Math.abs(tickFR) < 300) &&
-                        (Math.abs(tickBL) < 300) &&
-                        (Math.abs(tickBR) < 300)
-                ) {
-            scale = .3;
-        } else if (
-                (Math.abs(tickFL - targetTickFL) < 100) &&
-                        (Math.abs(tickFR - targetTickFR) < 100) &&
-                        (Math.abs(tickBL - targetTickBL) < 100) &&
-                        (Math.abs(tickBR - targetTickBR) < 100)
-                ) {
-            scale = .1;
+    //</editor-fold>
 
-
-        } else if (
-                (Math.abs(tickFL - targetTickFL) < 300) &&
-                        (Math.abs(tickFR - targetTickFR) < 300) &&
-                        (Math.abs(tickBL - targetTickBL) < 300) &&
-                        (Math.abs(tickBR - targetTickBR) < 300)
-                ) {
-            scale = .3;
-        } else if (
-                (Math.abs(tickFL - targetTickFL) < 500) &&
-                        (Math.abs(tickFR - targetTickFR) < 500) &&
-                        (Math.abs(tickBL - targetTickBL) < 500) &&
-                        (Math.abs(tickBR - targetTickBR) < 500)
-                ) {
-            scale = .5;
-        } else if (
-                (Math.abs(tickFL - targetTickFL) < 750) &&
-                        (Math.abs(tickFR - targetTickFR) < 750) &&
-                        (Math.abs(tickBL - targetTickBL) < 750) &&
-                        (Math.abs(tickBR - targetTickBR) < 750)
-                ) {
-            scale = .75;
-        } else {
-            scale = 1;
-        }
-        return scale;
+    public void setDriveMotorModes(DcMotor.RunMode mode) {
+        FL.setMode(mode);
+        FR.setMode(mode);
+        BL.setMode(mode);
+        BR.setMode(mode);
     }
 
-    public double slowDownScaleFast(int tickFL, int tickFR, int tickBL, int tickBR, int targetTickFL, int targetTickFR, int targetTickBL, int targetTickBR) {
-        double scale;
-        if (
-                (Math.abs(tickFL - targetTickFL) < 75) &&
-                        (Math.abs(tickFR - targetTickFR) < 75) &&
-                        (Math.abs(tickBL - targetTickBL) < 75) &&
-                        (Math.abs(tickBR - targetTickBR) < 75)
-                ) {
-            scale = 0;
-        } else {
-            scale = 1;
-        }
-        return scale;
+    public void setDriveZeroPowers(DcMotor.ZeroPowerBehavior behavior) {
+        FL.setZeroPowerBehavior(behavior);
+        FR.setZeroPowerBehavior(behavior);
+        BL.setZeroPowerBehavior(behavior);
+        BR.setZeroPowerBehavior(behavior);
     }
 
-    public boolean leftLineup(double targetDistance, int targetHeading, double tolerance) {
-        double curDistance = rangeLeft.getDistance(DistanceUnit.CM);
-        if (Math.abs(targetDistance - curDistance) <= tolerance) {
-            drive(MovementEnum.STOP);
-            return true;
-        } else if (targetDistance > curDistance) {
-            safeStrafe(targetHeading, MovementEnum.RIGHTSTRAFE, .5);
-        } else {
-            safeStrafe(targetHeading, MovementEnum.LEFTSTRAFE, .2);
-        }
-
-        return false;
+    //<editor-fold desc="Servo Position Setters">
+    public void jewelUp() {
+        jewelServoBottom.setPosition(1);
+        jewelServoTop.setPosition(0.05);
     }
 
-    public boolean rightLineup(double targetDistance, int targetHeading, double tolerance) {
-        double curDistance = rangeRight.getDistance(DistanceUnit.CM);
-        if (Math.abs(targetDistance - curDistance) <= tolerance) {
-            drive(MovementEnum.STOP);
-            return true;
-        } else if (targetDistance > curDistance) {
-            safeStrafe(targetHeading, MovementEnum.LEFTSTRAFE, .5);
-        } else {
-            safeStrafe(targetHeading, MovementEnum.RIGHTSTRAFE, .2);
-        }
-
-        return false;
+    public void jewelUpTeleop() {
+        jewelServoBottom.setPosition(.8);
+        jewelServoTop.setPosition(0.05);
     }
 
-    public boolean backLineup(double targetDistance, double tolerance) {
-        double curDistance = rangeBack.getDistance(DistanceUnit.CM);
-        if (Math.abs(targetDistance - curDistance) <= tolerance) {
-            drive(MovementEnum.STOP);
-            return true;
-        } else if (targetDistance > curDistance) {
-            drive(MovementEnum.BACKWARD, .7);
-        } else {
-            drive(MovementEnum.FORWARD, .2);
-        }
-
-        return false;
+    public void jewelOut() {
+        jewelServoBottom.setPosition(.5);
+        jewelServoTop.setPosition(.4);
     }
 
+    public void jewelOuterBlue() {
+        jewelServoBottom.setPosition(.1);
+        jewelServoTop.setPosition(.43);
+    }
+
+    public void jewelOuterRed() {
+        jewelServoBottom.setPosition(.1);
+        jewelServoTop.setPosition(.37);
+    }
+
+    public void jewelTeleop() {
+        jewelServoBottom.setPosition(.19);
+        jewelServoTop.setPosition(.4);
+    }
+
+    public void jewelKnockback() {
+        jewelServoTop.setPosition(0.68);
+    }
+
+    public void jewelKnockforward() {
+        jewelServoTop.setPosition(.16);
+    }
+
+    public void flipUp() {
+        flipper.setPosition(1);
+    }
+
+    public void flipDown() {
+        flipper.setPosition(0);
+    }
+
+    public void releaseMove(ReleasePosition position) {
+        releaseLeft.setPosition(position.getVal());
+        releaseRight.setPosition(position.getVal());
+    }
+
+    public void intake(double power) {
+        intakeOne.setPower(power);
+        intakeTwo.setPower(power);
+    }
+
+    public void backIntakeWallUp() {
+        backIntakeWall.setPosition(0);
+    }
+
+    public void backIntakeWallDown() {
+        backIntakeWall.setPosition(1);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Utility - Distance to Encoder Ticks">
+    public int distanceToRevsNR40(double distance) {
+        final double wheelCirc = 31.9185813;
+        final double gearMotorTickThing = .5 * 1120; //neverrest 40 = 1120 counts per revolution, 2 : 1 gear ratio
+
+        return (int) (gearMotorTickThing * (distance / wheelCirc));
+    }
+
+    public int distanceToRevsNRO20(double distance) {
+        final double wheelCirc = 31.9185813;
+        final double gearMotorTickThing = 537.6; //neverrest orbital 20 = 537.6 counts per revolution
+        return (int) (gearMotorTickThing * (distance / wheelCirc));
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Sensor Processing">
+    public Glyph findGlyphType() {
+        /*
+        int red, blue, green, alpha;
+        red = this.intakeColorRight.red();
+        blue = this.intakeColorRight.blue();
+        green = this.intakeColorRight.green();
+        alpha = this.intakeColorRight.alpha();
+
+        double average;
+        average = (red + blue + green + alpha) / (double ) 4;
+
+        if (average > 3) {
+            return Glyph.GRAY;
+        } else if (average < 2.5 && average > 1) {
+            return Glyph.BROWN;
+        } else {
+            return Glyph.EMPTY;
+        }
+        */
+        if (this.intakeDistanceLeft.getDistance(DistanceUnit.CM) < 7) {
+            if (this.intakeColorLeft.alpha() > 135) {
+                return GRAY;
+            } else {
+                return BROWN;
+            }
+        } else {
+            return EMPTY;
+        }
+        /*
+        double distanceCM = this.intakeDistanceRight.getDistance(DistanceUnit.CM);
+        if (Double.isNaN(distanceCM)) {
+            return Glyph.EMPTY;
+            //only happens with open air - and thus no glyph is present
+        }
+
+        if (intakeDistanceRight.getDistance(DistanceUnit.CM) < 6) {
+            //for this distance the distance censor is unreliable - however, the color comparisons are more limited so we can use that
+        }
+
+
+        double compAlphaVal = -10 * distanceCM + 150;
+
+        if (compAlphaVal < 0) {
+            return EMPTY;
+        }
+
+        if (this.intakeColorRight.alpha() > compAlphaVal) {
+            return GRAY;
+        } else {
+            return BROWN;
+        }*/
+
+        //needs some actualy testing on the robot
+    }
+    //</editor-fold>
 }

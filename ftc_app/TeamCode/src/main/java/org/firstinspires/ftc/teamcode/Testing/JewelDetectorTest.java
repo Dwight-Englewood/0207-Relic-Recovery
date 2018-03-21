@@ -18,7 +18,10 @@ public class JewelDetectorTest extends OpMode
 {
     Bot robot = new Bot();
     private ElapsedTime runtime = new ElapsedTime();
-    private JewelDetector jewelDetector = null;
+    private JewelDetector jewelDetector;
+
+    private int red_blue = 0, blue_red = 0, unknown = 0;
+
 
     @Override
     public void init() {
@@ -54,20 +57,41 @@ public class JewelDetectorTest extends OpMode
 
     @Override
     public void loop() {
+
+        switch (jewelDetector.getCurrentOrder()) {
+            case BLUE_RED:
+                blue_red++;
+                break;
+            case RED_BLUE:
+                red_blue++;
+                break;
+            case UNKNOWN:
+                unknown++;
+                break;
+        }
+
+        if (runtime.milliseconds() > 1000) {
+            if (blue_red > red_blue && blue_red > unknown) {
+                robot.jewelKnockforward();
+            } else if (red_blue > blue_red && red_blue > unknown) {
+                robot.jewelKnockback();
+            } else {
+                robot.jewelKnockforward();
+                try {Thread.sleep(300);} catch (InterruptedException e) {}
+                robot.jewelKnockback();
+            }
+        } else {
+            robot.jewelOuterBlue();
+        }
+
+        telemetry.addData("blue_red", blue_red);
+        telemetry.addData("red_blue", red_blue);
+        telemetry.addData("unknown", unknown);
+
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Current Order", "Jewel Order: " + jewelDetector.getCurrentOrder().toString()); // Current Result
         telemetry.addData("Last Order", "Jewel Order: " + jewelDetector.getLastOrder().toString()); // Last Known Result
-        switch (jewelDetector.getCurrentOrder()) {
-            case BLUE_RED:
-                robot.jewelKnockforward();
-                break;
-            case RED_BLUE:
-                robot.jewelKnockback();
-                break;
-            case UNKNOWN:
-                robot.jewelOuterBlue();
-                break;
-        }
+
     }
 
     @Override

@@ -86,7 +86,7 @@ public class Bot {
         jewelServoBottom = hardwareMap.servo.get("jewelbot"); //servo which does servo things\
         jewelServoTop = hardwareMap.servo.get("jeweltop"); //another servo which does servo things
 
-        jewelServoBottom.scaleRange(.2, .8);
+        jewelServoBottom.scaleRange(.1, .9  );
 
         FL = hardwareMap.dcMotor.get("fl");
         FR = hardwareMap.dcMotor.get("fr");
@@ -551,20 +551,14 @@ public class Bot {
     public void safeStrafe(float targetHeading, MovementEnum strafeDirection, double powerCenter) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         headingError = targetHeading - angles.firstAngle;
-        driveScale = headingError * powerModifier;
+        driveScale = headingError * .01;
 
         leftPower = powerCenter - driveScale;
         rightPower = powerCenter + driveScale;
 
-        if (leftPower > 1)
-            leftPower = 1;
-        else if (leftPower < 0)
-            leftPower = 0;
+        leftPower = Range.clip(leftPower, 0, 1);
 
-        if (rightPower > 1)
-            rightPower = 1;
-        else if (rightPower < 0)
-            rightPower = 0;
+        rightPower = Range.clip(rightPower, 0, 1);
 
 
         drive(strafeDirection, leftPower, rightPower);
@@ -860,9 +854,9 @@ public class Bot {
             drive(MovementEnum.STOP);
             return true;
         } else if (targetDistance > curDistance) {
-            safeStrafe(targetHeading, MovementEnum.RIGHTSTRAFE, .5);
+            safeStrafe(targetHeading, MovementEnum.RIGHTSTRAFE, .2);
         } else {
-            safeStrafe(targetHeading, MovementEnum.LEFTSTRAFE, .2);
+            safeStrafe(targetHeading, MovementEnum.LEFTSTRAFE, .6);
         }
 
         return false;
@@ -874,9 +868,9 @@ public class Bot {
             drive(MovementEnum.STOP);
             return true;
         } else if (targetDistance > curDistance) {
-            safeStrafe(targetHeading, MovementEnum.LEFTSTRAFE, .5);
+            safeStrafe(targetHeading, MovementEnum.LEFTSTRAFE, .2);
         } else {
-            safeStrafe(targetHeading, MovementEnum.RIGHTSTRAFE, .2);
+            safeStrafe(targetHeading, MovementEnum.RIGHTSTRAFE, .6);
         }
 
         return false;
@@ -888,9 +882,9 @@ public class Bot {
             drive(MovementEnum.STOP);
             return true;
         } else if (targetDistance > curDistance) {
-            drive(MovementEnum.BACKWARD, .7);
+            drive(MovementEnum.FORWARD, .15);
         } else {
-            drive(MovementEnum.FORWARD, .2);
+            drive(MovementEnum.BACKWARD, .6);
         }
 
         return false;

@@ -41,7 +41,7 @@ public class Telebop extends OpMode {
     EnumController<ReleasePosition> controller;
     //These doubles determine the speed at which the lift will move
     //As they are used in multiple places, rather than using "magic numbers" we define them as an instance field
-    double liftScaledown = .8;
+    double liftScaledown = .9;
     double liftScaleup = .55;
     double relicArmPos1 = 1;
     double relicArmPos2 = 1;
@@ -292,7 +292,7 @@ public class Telebop extends OpMode {
         wallCountdown--;
         cooldownServo2--;
 
-        //process the values added to the controller - the controller doesnt help if we never get the values out of it
+        //process the values added to the controller - the controller doesn't help if we never get the values out of it
 
         relicArmPos1 = Range.clip(relicArmPos1, 0, 1);
         relicArmPos2 = Range.clip(relicArmPos2, 0, 1);

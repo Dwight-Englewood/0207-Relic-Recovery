@@ -8,7 +8,7 @@ public enum ReleasePosition {
 
     DOWN        (0),
     MIDDLE      (.5),
-    MIDDLEUP    (.58),
+    MIDDLEUP    (.57),
     UP          (1),
     INIT        (.72),
     DROP        (.77);

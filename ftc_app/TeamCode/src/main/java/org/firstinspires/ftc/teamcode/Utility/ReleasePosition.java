@@ -7,7 +7,7 @@ package org.firstinspires.ftc.teamcode.Utility;
 public enum ReleasePosition {
 
     DOWN        (0),
-    MIDDLE      (.5),
+    MIDDLE      (.52),
     MIDDLEUP    (.57),
     UP          (1),
     INIT        (.72),

@@ -69,8 +69,6 @@ public class Telebop extends OpMode {
         robot.jewelColorBack.enableLed(false);
         robot.jewelColorForward.enableLed(false);
         telemetry.addLine("Ready.");
-        telemetry.update();
-
     }
 
     @Override

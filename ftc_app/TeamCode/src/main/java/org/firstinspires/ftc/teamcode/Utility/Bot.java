@@ -306,6 +306,8 @@ public class Bot {
     //<editor-fold desc="Auton Related Driving">
 
     //<editor-fold desc="Directional Drive">
+
+    //TODO: Implement diagonal drive
     public void drive(MovementEnum movement, double power) {
         switch (movement) {
             case FORWARD:

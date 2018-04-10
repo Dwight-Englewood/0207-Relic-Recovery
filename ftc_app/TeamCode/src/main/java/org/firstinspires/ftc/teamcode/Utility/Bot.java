@@ -33,7 +33,7 @@ public class Bot {
     //<editor-fold desc="Movement">
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
     public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, backIntakeWall, jewelServoTop;
-    public Servo relicArmServo1, relicArmServo2;
+    public Servo relicArmServo1, relicArmServo2, backClamp, frontClamp;
     public CRServo relicArmVex2, relicArmVex1;
     //</editor-fold>
     //<editor-fold desc="Sensors">

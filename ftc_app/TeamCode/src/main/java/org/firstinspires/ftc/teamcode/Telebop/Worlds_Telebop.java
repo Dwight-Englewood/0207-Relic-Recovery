@@ -154,6 +154,23 @@ public class Worlds_Telebop extends OpMode {
                 backClampController.addInstruction(Boolean.TRUE, 3);
             }
 
+            if (gamepad2.right_bumper) {
+                //Specific to the teleop, we have 3 levels of priority
+                //A regular change in the position is 1 - these are the standard change
+                glyphController.addInstruction(ReleasePosition.DOWN, 1);
+                robot.intake(.7);
+            } else {
+                if (gamepad2.right_trigger > .2 || gamepad2.left_trigger > .2) {
+                    glyphController.addInstruction(ReleasePosition.DOWN, 1);
+                    robot.intake(-.95);
+                } else {
+                    //This line is not needed, as this specific addition to the controller object will never change the output. However, it is included to keep clarity as to what will happen
+                    //The zero priority will not change the result of process, as priority is seeded at 0 - and is strictly increasing. This is equivalent to a blank statement, which we use to keep code clarity
+                    glyphController.addInstruction(ReleasePosition.MIDDLE, 0);
+                    robot.intake(0);
+                }
+            }
+
             if (gamepad2.left_stick_y < -.15) {
                 glyphController.addInstruction(ReleasePosition.MIDDLEUP, 1);
                 robot.lift.setPower(gamepad2.left_stick_y * liftScaleup);

@@ -6,10 +6,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class GlyphClamps {
 
     private Servo front, back;
+    private HardwareMap hwMap;
 
-    public void init(HardwareMap hwMap){
-        back = hwMap.servo.get("clampb");
-        front = hwMap.servo.get("clampf");
+    public GlyphClamps(HardwareMap hwMap) {
+        this.hwMap = hwMap;
+        this.init();
+    }
+
+    private void init(){
+        back = this.hwMap.servo.get("clampb");
+        front = this.hwMap.servo.get("clampf");
         back.scaleRange(.1,.9);
         front.scaleRange(.1,.9);
     }

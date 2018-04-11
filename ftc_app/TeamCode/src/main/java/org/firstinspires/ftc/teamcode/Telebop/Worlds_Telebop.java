@@ -20,7 +20,7 @@ public class Worlds_Telebop extends OpMode {
     final double liftScaleup = .75;
 
     boolean brakeToggle, pingyBrakeToggle, invert, isRelicMode, movingIntake, placing;
-    int brakeCooldown, invertCooldown, modeSwapCooldown, clawCooldown;
+    int brakeCooldown, invertCooldown, modeSwapCooldown, clawCooldown, placingCooldown;
     double relicArmPos1, relicArmPos2;
 
     @Override
@@ -37,8 +37,8 @@ public class Worlds_Telebop extends OpMode {
         robot.jewelColorBack.enableLed(false);
         robot.jewelColorForward.enableLed(false);
 
-        brakeToggle = pingyBrakeToggle = invert = isRelicMode = movingIntake = false;
-        brakeCooldown = invertCooldown = modeSwapCooldown = clawCooldown = 0;
+        brakeToggle = pingyBrakeToggle = invert = isRelicMode = movingIntake = placing = false;
+        brakeCooldown = invertCooldown = modeSwapCooldown = clawCooldown = placingCooldown = 0;
         relicArmPos1 = relicArmPos2 = 1;
 
         telemetry.addLine("Ready.");
@@ -84,9 +84,27 @@ public class Worlds_Telebop extends OpMode {
         }
 
         if (!isRelicMode) /*Glyph mode*/ {
+            if (gamepad2.y && placingCooldown <= 0) {
+                placing = !placing;
+                placingCooldown = 20;
+            }
+
+            if (gamepad1.right_bumper && placing) {
+                frontClampController.addInstruction(Boolean.FALSE, 10);
+                backClampController.addInstruction(Boolean.FALSE, 10);
+            }
 
         } else /*Relic mode*/ {
 
+        }
+
+        if (placing) {
+            glyphController.addInstruction(ReleasePosition.UP, 10);
+            frontClampController.addInstruction(Boolean.TRUE, 5);
+            backClampController.addInstruction(Boolean.TRUE, 5);
+            robot.backIntakeWallUp();
+        } else {
+            robot.backIntakeWallDown();
         }
 
         //Decrement cooldown counters
@@ -94,6 +112,7 @@ public class Worlds_Telebop extends OpMode {
         brakeCooldown--;
         modeSwapCooldown--;
         clawCooldown--;
+        placingCooldown--;
 
         //Move the glyph plate
         robot.releaseMove(glyphController.process());

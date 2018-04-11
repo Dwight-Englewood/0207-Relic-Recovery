@@ -19,7 +19,7 @@ public class Worlds_Telebop extends OpMode {
     final double liftScaledown = .9;
     final double liftScaleup = .75;
 
-    boolean brakeToggle, pingyBrakeToggle, invert, isRelicMode, movingIntake, placing;
+    boolean brakeToggle, pingyBrakeToggle, invert, isRelicMode, movingIntake, placing, backClamped, frontClamped;
     int brakeCooldown, invertCooldown, modeSwapCooldown, clawCooldown, placingCooldown;
     double relicArmPos1, relicArmPos2;
 
@@ -92,19 +92,23 @@ public class Worlds_Telebop extends OpMode {
             if (gamepad1.right_bumper && placing) {
                 frontClampController.addInstruction(Boolean.FALSE, 10);
                 backClampController.addInstruction(Boolean.FALSE, 10);
+            } else {
+                frontClampController.addInstruction(Boolean.FALSE, 1);
+                backClampController.addInstruction(Boolean.FALSE, 1);
             }
+
+            if (placing) {
+                glyphController.addInstruction(ReleasePosition.UP, 10);
+                frontClampController.addInstruction(Boolean.TRUE, 5);
+                backClampController.addInstruction(Boolean.TRUE, 5);
+                robot.backIntakeWallUp();
+            } else {
+                robot.backIntakeWallDown();
+            }
+
 
         } else /*Relic mode*/ {
 
-        }
-
-        if (placing) {
-            glyphController.addInstruction(ReleasePosition.UP, 10);
-            frontClampController.addInstruction(Boolean.TRUE, 5);
-            backClampController.addInstruction(Boolean.TRUE, 5);
-            robot.backIntakeWallUp();
-        } else {
-            robot.backIntakeWallDown();
         }
 
         //Decrement cooldown counters

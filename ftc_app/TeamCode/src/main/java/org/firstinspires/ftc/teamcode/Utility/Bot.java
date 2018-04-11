@@ -155,15 +155,6 @@ public class Bot {
         k = .5;
     }
 
-    public void relicArmVexControl(double power, DcMotorSimple.Direction d) {
-        power = Range.clip(power, 0, 1);
-
-        relicArmVex2.setDirection(d);
-        relicArmVex1.setDirection(d);
-        relicArmVex1.setPower(power);
-        relicArmVex2.setPower(power);
-    }
-
     //<editor-fold desc="Teleop Drive Methods">
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake, boolean pingyBrake) {
 
@@ -854,6 +845,15 @@ public class Bot {
 
     public void backIntakeWallDown() {
         backIntakeWall.setPosition(1);
+    }
+
+    public void relicArmVexControl(double power, DcMotorSimple.Direction d) {
+        power = Range.clip(power, 0, 1);
+
+        relicArmVex2.setDirection(d);
+        relicArmVex1.setDirection(d);
+        relicArmVex1.setPower(power);
+        relicArmVex2.setPower(power);
     }
     //</editor-fold>
 

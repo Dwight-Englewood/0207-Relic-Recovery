@@ -89,6 +89,7 @@ public class Worlds_Telebop extends OpMode {
                 placingCooldown = 20;
             }
 
+            //TODO: Add one more layer to this -- manual clamping whiel intaking glyphs
             if (gamepad1.right_bumper && placing) {
                 frontClampController.addInstruction(Boolean.FALSE, 10);
                 backClampController.addInstruction(Boolean.FALSE, 10);

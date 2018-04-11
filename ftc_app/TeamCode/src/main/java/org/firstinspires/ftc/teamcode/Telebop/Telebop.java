@@ -41,8 +41,8 @@ public class Telebop extends OpMode {
     EnumController<ReleasePosition> controller;
     //These doubles determine the speed at which the lift will move
     //As they are used in multiple places, rather than using "magic numbers" we define them as an instance field
-    double liftScaledown = .9;
-    double liftScaleup = .55;
+    final double liftScaledown = .9;
+    final double liftScaleup = .55;
     double relicArmPos1 = 1;
     double relicArmPos2 = 1;
     int cooldownServo2 = 0;

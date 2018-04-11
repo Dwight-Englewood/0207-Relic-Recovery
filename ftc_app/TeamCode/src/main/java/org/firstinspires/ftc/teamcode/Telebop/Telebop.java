@@ -263,12 +263,10 @@ public class Telebop extends OpMode {
             robot.intakeDrop.setPower(-1);
             robot.intake(.5);
             robot.jewelOut();
-            //priority 6 since if this doesnt happen the robot goes boom
             controller.addInstruction(ReleasePosition.DROP, 10);
             movingInt = true;
         } else if (gamepad2.right_stick_y < -.3) {
             robot.intakeDrop.setPower(1);
-            //priority 6 since if this doesnt happen the robot goes boom
             controller.addInstruction(ReleasePosition.DROP, 10);
             robot.intake(.5);
             robot.jewelOut();

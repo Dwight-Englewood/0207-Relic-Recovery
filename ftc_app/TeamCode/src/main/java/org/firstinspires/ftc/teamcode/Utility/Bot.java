@@ -79,8 +79,8 @@ public class Bot {
         intakeDistanceRight = hardwareMap.get(DistanceSensor.class, "icsr");
         intakeDistanceLeft = hardwareMap.get(DistanceSensor.class, "icsl");
 
-        intakeColorRight = hardwareMap.get(ColorSensor.class, "icsr");
-        intakeColorLeft = hardwareMap.get(ColorSensor.class, "icsl");
+        //intakeColorRight = hardwareMap.get(ColorSensor.class, "icsr");
+        //intakeColorLeft = hardwareMap.get(ColorSensor.class, "icsl");
 
         rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
         rangeLeft = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangel");

@@ -58,6 +58,7 @@ public class VuforiaRedFarMG extends OpMode {
 
         relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
+        relicTrackables.activate();
 
         telemetry.addLine("Ready.");
         telemetry.update();
@@ -65,13 +66,14 @@ public class VuforiaRedFarMG extends OpMode {
 
     @Override
     public void init_loop() {
+        vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        telemetry.addData("VuMark: ", vuMark);
     }
 
     @Override
     public void start() {
         timer.reset();
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        relicTrackables.activate();
         relicTimer.reset();
         robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
     }

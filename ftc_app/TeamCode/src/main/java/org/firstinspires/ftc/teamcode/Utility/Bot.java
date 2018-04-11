@@ -33,8 +33,9 @@ public class Bot {
     //<editor-fold desc="Movement">
     public DcMotor FR, FL, BR, BL, intakeOne, intakeTwo, intakeDrop, lift;
     public Servo jewelServoBottom, flipper, releaseLeft, releaseRight, backIntakeWall, jewelServoTop;
-    public Servo relicArmServo1, relicArmServo2, backClamp, frontClamp;
+    public Servo relicArmServo1, relicArmServo2;
     public CRServo relicArmVex2, relicArmVex1;
+    public GlyphClamps glyphClamps;
     //</editor-fold>
     //<editor-fold desc="Sensors">
     public BNO055IMU imu;
@@ -81,7 +82,6 @@ public class Bot {
         intakeColorRight = hardwareMap.get(ColorSensor.class, "icsr");
         intakeColorLeft = hardwareMap.get(ColorSensor.class, "icsl");
 
-
         rangeBack = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeb");
         rangeLeft = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangel");
         rangeRight = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "ranger");
@@ -113,6 +113,8 @@ public class Bot {
 
         backIntakeWall = hardwareMap.servo.get("backiw");
         backIntakeWall.scaleRange(.2, .8);
+
+        glyphClamps = new GlyphClamps(hardwareMap);
 
         //setting runmode
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

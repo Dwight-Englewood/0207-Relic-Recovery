@@ -113,7 +113,7 @@ public class Worlds_Telebop extends OpMode {
         if (!isRelicMode) /*Glyph mode*/ {
             if (gamepad2.y && placingCooldown <= 0) {
                 placing = !placing;
-                placingCooldown = 20;
+                placingCooldown = 15;
             }
 
             if (gamepad1.right_bumper && placing) {
@@ -134,9 +134,9 @@ public class Worlds_Telebop extends OpMode {
             }
 
             if (placing) {
-                if (placingCooldown <= 0) {
-                    glyphController.addInstruction(ReleasePosition.UP, 10);
-                }
+                //if (placingCooldown <= 0) {
+                glyphController.addInstruction(ReleasePosition.UP, 10);
+                //}
                 frontClampController.addInstruction(Boolean.TRUE, 5);
                 backClampController.addInstruction(Boolean.TRUE, 5);
                 manualClampBack = false;

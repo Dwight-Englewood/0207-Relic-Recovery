@@ -99,7 +99,9 @@ public class Worlds_Telebop extends OpMode {
             }
 
             if (placing) {
-                glyphController.addInstruction(ReleasePosition.UP, 10);
+                if (placingCooldown <= 0) {
+                    glyphController.addInstruction(ReleasePosition.UP, 10);
+                }
                 frontClampController.addInstruction(Boolean.TRUE, 5);
                 backClampController.addInstruction(Boolean.TRUE, 5);
                 robot.backIntakeWallUp();

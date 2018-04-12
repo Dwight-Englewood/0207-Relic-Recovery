@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Testing;
  * Created by aburur on 3/19/18.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Utility.Bot;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 
-
+@Disabled
 @TeleOp(name = "LineupTest", group = "Teleop")
 public class LineupTest extends OpMode {
     Bot robot = new Bot();

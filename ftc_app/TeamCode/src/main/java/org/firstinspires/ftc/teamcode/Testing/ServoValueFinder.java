@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Testing;
  * Created by weznon on 11/15/17.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -32,7 +33,7 @@ import org.firstinspires.ftc.teamcode.Utility.Bot;
  */
 
 @TeleOp(name = "ServoValueFinder", group = "Teleop")
-//@Disabled
+@Disabled
 public class ServoValueFinder extends OpMode {
     Bot robot = new Bot();
 
@@ -54,6 +55,9 @@ public class ServoValueFinder extends OpMode {
     double bottomVal = .5;
     double topVal = .5;
 
+    double frontVal = .5;
+    double backVal = .5;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -71,7 +75,7 @@ public class ServoValueFinder extends OpMode {
     @Override
     public void loop() {
 
-        if (cooldown < 0) {
+        /*if (cooldown < 0) {
             if (gamepad1.a) {
                 topVal += .01;
                 cooldown = cooldownTime;
@@ -96,16 +100,37 @@ public class ServoValueFinder extends OpMode {
         bottomVal = Range.clip(bottomVal, 0, 1);
 
         robot.jewelServoBottom.setPosition(bottomVal);
-        robot.jewelServoTop.setPosition(topVal);
+        robot.jewelServoTop.setPosition(topVal);*/
 
-        telemetry.addData("topval", topVal);
-        telemetry.addData("botval", bottomVal);
-        telemetry.addData("cooldown", cooldown);
+        if (cooldown < 0) {
+            if (gamepad1.a) {
+                frontVal += .01;
+                cooldown = cooldownTime;
+            }
+            if (gamepad1.y) {
+                frontVal -= .01;
+                cooldown = cooldownTime;
+            }
+            if (gamepad1.b) {
+                backVal += .01;
+                cooldown = cooldownTime;
+            }
+            if (gamepad1.x) {
+                backVal -= .01;
+                cooldown = cooldownTime;
+            }
+        } else {
+            cooldown--;
+        }
 
-        telemetry.update();
+        frontVal = Range.clip(frontVal ,0, 1);
+        backVal = Range.clip(backVal, 0, 1);
 
+        robot.glyphClamps.front.setPosition(frontVal);
+        robot.glyphClamps.back.setPosition(backVal);
 
-
+        telemetry.addData("Front", frontVal);
+        telemetry.addData("back", backVal);
     }
 
     @Override

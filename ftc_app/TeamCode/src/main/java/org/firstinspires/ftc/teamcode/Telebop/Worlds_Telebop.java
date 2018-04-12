@@ -169,8 +169,8 @@ public class Worlds_Telebop extends OpMode {
             }
 
             if (farOut) {
-                frontClampController.addInstruction(GlyphClamps.ClampPos.OUT, 7);
-                backClampController.addInstruction(GlyphClamps.ClampPos.OUT, 7);
+                frontClampController.addInstruction(GlyphClamps.ClampPos.OUT, 4);
+                backClampController.addInstruction(GlyphClamps.ClampPos.OUT, 4);
             }
 
             if (gamepad2.right_bumper) {
@@ -242,10 +242,6 @@ public class Worlds_Telebop extends OpMode {
         glyphController.reset();
 
         //Process the clamps
-        //robot.glyphClamps.frontClamped = frontClampController.process().booleanValue();
-        //robot.glyphClamps.backClamped = backClampController.process().booleanValue();
-        //robot.glyphClamps.process();
-
         robot.glyphClamps.clampFront(frontClampController.process());
         robot.glyphClamps.clampBack(backClampController.process());
         telemetry.addData("front clamp", frontClampController.process());

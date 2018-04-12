@@ -5,9 +5,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class GlyphClamps {
 
-    private Servo front, back;
+    public enum ClampPos {
+        CLAMPED, STANDARD, OUT;
+    }
+
+    public Servo front, back;
     private HardwareMap hwMap;
-    public boolean frontClamped, backClamped;
 
     public GlyphClamps(HardwareMap hwMap) {
         this.hwMap = hwMap;
@@ -17,24 +20,40 @@ public class GlyphClamps {
     private void init(){
         back = this.hwMap.servo.get("clampb");
         front = this.hwMap.servo.get("clampf");
-        back.scaleRange(.1,.9);
-        front.scaleRange(.1,.9);
-
-        frontClamped = false;
-        backClamped = false;
+        back.scaleRange(.1 , .9);
+        front.scaleRange(.1 , .9);
     }
 
-    public void clampBack(boolean clamp) {
-        this.back.setPosition(clamp ? 1 : 0);
-    }
+    public void clampBack(ClampPos pos) {
+       switch (pos) {
+           case CLAMPED:
+               back.setPosition(1);
+               break;
 
-    public void clampFront(boolean clamp) {
-        this.front.setPosition(clamp ? 1 : 0);
-    }
+           case STANDARD:
+               back.setPosition(.5);
+               break;
 
-    public void process() {
-        this.back.setPosition(this.backClamped ? 1 : 0);
-        this.front.setPosition(this.frontClamped ? 1 : 0);
-    }
+           case OUT:
+               back.setPosition(0);
+               break;
+       }
+    } //Clamped is 1
+
+    public void clampFront(ClampPos pos) {
+        switch (pos) {
+            case CLAMPED:
+                back.setPosition(0);
+                break;
+
+            case STANDARD:
+                back.setPosition(.5);
+                break;
+
+            case OUT:
+                back.setPosition(1);
+                break;
+        }
+    } //Clamped is 0
 
 }

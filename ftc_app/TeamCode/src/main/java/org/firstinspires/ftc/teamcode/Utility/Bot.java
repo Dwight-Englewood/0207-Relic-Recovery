@@ -76,8 +76,8 @@ public class Bot {
         jewelColorForward = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "cs2");
         jewelColorForward.enableLed(true);
 
-        intakeDistanceRight = hardwareMap.get(DistanceSensor.class, "icsr");
-        intakeDistanceLeft = hardwareMap.get(DistanceSensor.class, "icsl");
+        //intakeDistanceRight = hardwareMap.get(DistanceSensor.class, "icsr");
+        //intakeDistanceLeft = hardwareMap.get(DistanceSensor.class, "icsl");
 
         //intakeColorRight = hardwareMap.get(ColorSensor.class, "icsr");
         //intakeColorLeft = hardwareMap.get(ColorSensor.class, "icsl");

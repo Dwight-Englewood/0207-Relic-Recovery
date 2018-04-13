@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Utility;
 import java.util.ArrayList;
 
 /**
- * The EnumController is an object which allows for easier handling of state machines(?)
+ * The EnumController is an object which allows for easier handling of state machines
  * Created by weznon on 11/27/17.
  */
 
@@ -43,7 +43,7 @@ public class EnumController<T> {
         if (this.instruction.size() == 0) {
             return this.defaultVal;
         }
-        Integer merp = 0;
+        Integer max = 0;
 
         for (int i = 0; i < this.instruction.size(); i++) {
             T tempV = this.instruction.get(i);
@@ -51,8 +51,8 @@ public class EnumController<T> {
             if (tempI < 0) {
                 return tempV;
             }
-            if (tempI > merp) {
-                merp = tempI;
+            if (tempI > max) {
+                max = tempI;
                 currentVal = tempV;
             }
         }

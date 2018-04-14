@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Telebop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 /**
  * Created by aburur on 9/10/17.
  */
+@Disabled
 @TeleOp(name = "Telebop", group = "Teleop")
 public class Telebop extends OpMode {
 

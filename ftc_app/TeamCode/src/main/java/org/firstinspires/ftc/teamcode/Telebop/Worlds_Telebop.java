@@ -22,16 +22,16 @@ public class Worlds_Telebop extends OpMode {
     EnumController<ReleasePosition> glyphController;
     EnumController<GlyphClamps.ClampPos> frontClampController, backClampController;
     final double liftScaledown = .9;
-    final double liftScaleup = .75;
+    final double liftScaleup = .9; //Previously .75
 
     boolean brakeToggle, pingyBrakeToggle, invert, isRelicMode, movingIntake, placing, manualClampBack, manualClampFront, farOut;
-    int brakeCooldown, invertCooldown, modeSwapCooldown, clawCooldown, placingCooldown, clampFrontCooldown, clampBackCooldown;
+    int brakeCooldown, invertCooldown, modeSwapCooldown, clawCooldown, placingCooldown, clampFrontCooldown, clampBackCooldown, placerDownCooldown;
     double relicArmPos1, relicArmPos2, leftTrigger, rightTrigger;
 
     @Override
     public void init() {
         robot.init(hardwareMap);
-        glyphController = new EnumController<>(ReleasePosition.MIDDLEUP); //might need to be MIDDLE
+        glyphController = new EnumController<>(ReleasePosition.MIDDLE);
         frontClampController = new EnumController<>(GlyphClamps.ClampPos.STANDARD);
         backClampController = new EnumController<>(GlyphClamps.ClampPos.STANDARD);
 
@@ -44,7 +44,7 @@ public class Worlds_Telebop extends OpMode {
         robot.jewelColorForward.enableLed(false);
 
         brakeToggle = pingyBrakeToggle = invert = isRelicMode = movingIntake = placing = manualClampBack = manualClampFront = farOut = false;
-        brakeCooldown = invertCooldown = modeSwapCooldown = clawCooldown = placingCooldown = clampBackCooldown = clampFrontCooldown = 0;
+        brakeCooldown = invertCooldown = modeSwapCooldown = clawCooldown = placingCooldown = clampBackCooldown = clampFrontCooldown = placerDownCooldown = 0;
         relicArmPos1 = relicArmPos2 = 1;
 
         telemetry.addLine("Ready.");
@@ -89,6 +89,12 @@ public class Worlds_Telebop extends OpMode {
         if (robot.intakeDrop.getCurrentPosition() >= 300) {
             glyphController.addInstruction(ReleasePosition.DROP, 10);
             robot.backIntakeWallDown();
+            backClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 12);
+            frontClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 12);
+        }
+
+        if (Math.abs(robot.lift.getCurrentPosition()) >= 300) {
+            robot.backIntakeWallDown();
         }
 
         if (gamepad2.right_stick_y > .3) {
@@ -96,14 +102,14 @@ public class Worlds_Telebop extends OpMode {
             robot.intake(.5);
             robot.jewelOut();
             glyphController.addInstruction(ReleasePosition.DROP, 10);
-            frontClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 10);
-            backClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 10);
+            frontClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 12);
+            backClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 12);
             movingIntake = true;
         } else if (gamepad2.right_stick_y < -.3) {
             robot.intakeDrop.setPower(1);
             glyphController.addInstruction(ReleasePosition.DROP, 10);
-            frontClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 10);
-            backClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 10);
+            frontClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 12);
+            backClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 12);
             robot.intake(.5);
             robot.jewelOut();
             movingIntake = true;
@@ -127,7 +133,7 @@ public class Worlds_Telebop extends OpMode {
         if (!isRelicMode) /*Glyph mode*/ {
             if (gamepad2.y && placingCooldown <= 0) {
                 placing = !placing;
-                placingCooldown = 70;
+                placingCooldown = 35;
             }
 
             if (gamepad1.right_bumper && placing) {
@@ -159,8 +165,15 @@ public class Worlds_Telebop extends OpMode {
                 manualClampBack = false;
                 manualClampFront = false;
                 robot.backIntakeWallDown();
-            } else if (placingCooldown <= 10) {
+            } else if (placingCooldown <= 10 && !(robot.intakeDrop.getCurrentPosition() > 300)) {
+
                 robot.backIntakeWallUp();
+            }
+
+            if (!placing && placingCooldown >= 0) {
+                frontClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 10);
+                backClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 10);
+                brakeToggle = false;
             }
 
             if (manualClampFront) {
@@ -247,8 +260,8 @@ public class Worlds_Telebop extends OpMode {
         //Process the clamps
         robot.glyphClamps.clampFront(frontClampController.process());
         robot.glyphClamps.clampBack(backClampController.process());
-        telemetry.addData("front clamp", frontClampController.process());
-        telemetry.addData("back clamp", backClampController.process());
+        //telemetry.addData("front clamp", frontClampController.process());
+        //telemetry.addData("back clamp", backClampController.process());
         frontClampController.reset();
         backClampController.reset();
 

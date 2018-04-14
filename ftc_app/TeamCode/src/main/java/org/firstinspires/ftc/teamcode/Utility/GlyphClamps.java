@@ -43,15 +43,15 @@ public class GlyphClamps {
     public void clampFront(ClampPos pos) {
         switch (pos) {
             case CLAMPED:
-                back.setPosition(0);
+                front.setPosition(0);
                 break;
 
             case STANDARD:
-                back.setPosition(.5);
+                front.setPosition(.5);
                 break;
 
             case OUT:
-                back.setPosition(1);
+                front.setPosition(1);
                 break;
         }
     } //Clamped is 0

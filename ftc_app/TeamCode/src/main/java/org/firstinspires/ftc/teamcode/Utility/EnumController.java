@@ -12,6 +12,7 @@ public class EnumController<T> {
     private final T defaultVal;
     private ArrayList<T> instruction;
     private ArrayList<Integer> priorities;
+    public T lastState;
 
     /**
      * Constructor
@@ -21,6 +22,7 @@ public class EnumController<T> {
         this.defaultVal = defaultVal;
         this.instruction = new ArrayList<T>();
         this.priorities = new ArrayList<Integer>();
+        this.lastState = defaultVal;
     }
 
     /**
@@ -56,7 +58,7 @@ public class EnumController<T> {
                 currentVal = tempV;
             }
         }
-
+        this.lastState = currentVal;
         return (currentVal);
     }
     

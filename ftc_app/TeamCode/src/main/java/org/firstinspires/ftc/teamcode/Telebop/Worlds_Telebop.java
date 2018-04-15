@@ -157,7 +157,7 @@ public class Worlds_Telebop extends OpMode {
             }
 
             if (placing) {
-                if (placingCooldown <= 0) {
+                if (placingCooldown <= 0 || (frontClampController.lastState == GlyphClamps.ClampPos.CLAMPED && backClampController.lastState == GlyphClamps.ClampPos.CLAMPED)) {
                     glyphController.addInstruction(ReleasePosition.UP, 10);
                 }
                 frontClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 5);

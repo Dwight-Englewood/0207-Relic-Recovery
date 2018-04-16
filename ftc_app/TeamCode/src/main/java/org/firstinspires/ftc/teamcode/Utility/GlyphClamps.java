@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class GlyphClamps {
 
     public enum ClampPos {
-        CLAMPED, STANDARD, OUT;
+        CLAMPED, STANDARD, OUT, RELEASE;
     }
 
     public Servo front, back;
@@ -37,6 +37,10 @@ public class GlyphClamps {
            case OUT:
                back.setPosition(0);
                break;
+
+           case RELEASE:
+               back.setPosition(.65);
+               break;
        }
     } //Clamped is 1
 
@@ -52,6 +56,10 @@ public class GlyphClamps {
 
             case OUT:
                 front.setPosition(1);
+                break;
+
+            case RELEASE:
+                front.setPosition(.35);
                 break;
         }
     } //Clamped is 0

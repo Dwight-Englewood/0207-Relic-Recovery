@@ -137,8 +137,8 @@ public class Worlds_Telebop extends OpMode {
             }
 
             if (gamepad1.right_bumper && placing) {
-                frontClampController.addInstruction(GlyphClamps.ClampPos.STANDARD, 10);
-                backClampController.addInstruction(GlyphClamps.ClampPos.STANDARD, 10);
+                frontClampController.addInstruction(GlyphClamps.ClampPos.RELEASE, 10);
+                backClampController.addInstruction(GlyphClamps.ClampPos.RELEASE, 10);
             }
 
             if (gamepad2.a && clampBackCooldown <= 0) {

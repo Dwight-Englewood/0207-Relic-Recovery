@@ -124,13 +124,14 @@ public class Worlds_Telebop extends OpMode {
             robot.intake(0);
         }
 
-        if (gamepad2.left_bumper) {
-            robot.jewelTeleop();
-        } else if (!movingIntake){
-            robot.jewelUpTeleop();
-        }
-
         if (!isRelicMode) /*Glyph mode*/ {
+
+            if (gamepad2.left_bumper) {
+                robot.jewelTeleop();
+            } else if (!movingIntake){
+                robot.jewelUpTeleop();
+            }
+
             if (gamepad2.y && placingCooldown <= 0) {
                 placing = !placing;
                 placingCooldown = 35;
@@ -165,8 +166,7 @@ public class Worlds_Telebop extends OpMode {
                 manualClampBack = false;
                 manualClampFront = false;
                 robot.backIntakeWallDown();
-            } else if (placingCooldown <= 10 && !(robot.intakeDrop.getCurrentPosition() > 300)) {
-
+            } else if (placingCooldown <= 10 && !(robot .intakeDrop.getCurrentPosition() > 300) && !(Math.abs(robot.lift.getCurrentPosition()) >= 300)) {
                 robot.backIntakeWallUp();
             }
 
@@ -218,6 +218,9 @@ public class Worlds_Telebop extends OpMode {
             }
 
         } else /*Relic mode*/ {
+            frontClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 4);
+            backClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 4);
+
             if (gamepad2.a) {
                 robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
             } else if (gamepad2.y) {

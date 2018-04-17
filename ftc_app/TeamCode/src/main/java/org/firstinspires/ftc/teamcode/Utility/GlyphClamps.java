@@ -39,7 +39,7 @@ public class GlyphClamps {
                break;
 
            case RELEASE:
-               back.setPosition(.65);
+               back.setPosition(.75);
                break;
        }
     } //Clamped is 1
@@ -59,7 +59,7 @@ public class GlyphClamps {
                 break;
 
             case RELEASE:
-                front.setPosition(.35);
+                front.setPosition(.25);
                 break;
         }
     } //Clamped is 0

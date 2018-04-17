@@ -113,7 +113,7 @@ public class Worlds_Telebop extends OpMode {
             robot.intake(.5);
             robot.jewelOut();
             movingIntake = true;
-        } else if (!gamepad2.x && !(gamepad2.left_trigger > .1 || gamepad2.right_trigger > .1 || gamepad2.right_bumper)) {
+        } else if (!gamepad2.left_bumper && !(gamepad2.left_trigger > .1 || gamepad2.right_trigger > .1 || gamepad2.right_bumper)) {
             robot.intakeDrop.setPower(0);
             robot.intake(0);
             robot.jewelUpTeleop();
@@ -158,7 +158,7 @@ public class Worlds_Telebop extends OpMode {
             }
 
             if (placing) {
-                if (placingCooldown <= 0 || (frontClampController.lastState == GlyphClamps.ClampPos.CLAMPED && backClampController.lastState == GlyphClamps.ClampPos.CLAMPED)) {
+                if (placingCooldown <= 0) {
                     glyphController.addInstruction(ReleasePosition.UP, 10);
                 }
                 frontClampController.addInstruction(GlyphClamps.ClampPos.CLAMPED, 5);

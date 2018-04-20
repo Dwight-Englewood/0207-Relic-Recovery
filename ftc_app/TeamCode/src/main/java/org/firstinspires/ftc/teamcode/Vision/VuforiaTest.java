@@ -31,7 +31,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 @Autonomous(name="Vuforia Test", group ="Vision")
-@Disabled
+//@Disabled
 public class VuforiaTest extends LinearOpMode {
 
     ClosableVuforiaLocalizer vuforia;

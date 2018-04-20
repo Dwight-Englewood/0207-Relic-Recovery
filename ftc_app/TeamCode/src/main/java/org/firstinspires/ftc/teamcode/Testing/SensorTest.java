@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Utility.Bot;
  */
 
 @TeleOp(name = "Sensor Test", group = "Testing")
-@Disabled
+//@Disabled
 public class SensorTest extends OpMode {
     Bot robot = new Bot();
 
@@ -25,20 +25,10 @@ public class SensorTest extends OpMode {
     }
 
     @Override
-    public void start() {
-        robot.jewelTeleop();
-    }
+    public void start() {}
 
     @Override
     public void loop() {
-        telemetry.addData("RintakeColorAlpha: ", robot.intakeColorRight.alpha());
-        telemetry.addData("RintakeColorRed", robot.intakeColorRight.red());
-        telemetry.addData("RintakeColorBlue", robot.intakeColorRight.blue());
-        telemetry.addData("RintakeColorGreen", robot.intakeColorRight.green());
-        telemetry.addData("LntakeColorAlpha: ", robot.intakeColorLeft.alpha());
-        telemetry.addData("LntakeColorRed", robot.intakeColorLeft.red());
-        telemetry.addData("LntakeColorBlue", robot.intakeColorLeft.blue());
-        telemetry.addData("LntakeColorGreen", robot.intakeColorLeft.green());
         telemetry.addData("forward red", robot.jewelColorForward.red());
         telemetry.addData("forward blue", robot.jewelColorForward.blue());
         telemetry.addData("back red", robot.jewelColorBack.red());

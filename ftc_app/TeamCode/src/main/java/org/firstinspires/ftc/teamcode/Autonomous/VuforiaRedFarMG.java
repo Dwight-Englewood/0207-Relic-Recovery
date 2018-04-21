@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Utility.Bot;
+import org.firstinspires.ftc.teamcode.Utility.GlyphClamps;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
@@ -76,6 +77,8 @@ public class VuforiaRedFarMG extends OpMode {
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         relicTimer.reset();
         robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
+        robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+        robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
     }
 
     @Override
@@ -285,6 +288,8 @@ public class VuforiaRedFarMG extends OpMode {
             case 13:
                 commandString = "Drive away";
                 if (timer.milliseconds() < 250) {
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
                     robot.drive(MovementEnum.FORWARD, .8);
                 } else {
                     robot.drive(MovementEnum.STOP);
@@ -301,6 +306,8 @@ public class VuforiaRedFarMG extends OpMode {
                     robot.drive(MovementEnum.BACKWARD, .9);
                 } else {
                     robot.drive(MovementEnum.STOP);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     timer.reset();
                     command++;
                 }
@@ -360,6 +367,8 @@ public class VuforiaRedFarMG extends OpMode {
                 }
 
                 if (counter > 10) {
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.STANDARD);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.STANDARD);
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
                     counter = 0;
@@ -384,7 +393,7 @@ public class VuforiaRedFarMG extends OpMode {
                 if (
                         timer.milliseconds() > 100) {
                     generalTarget = robot.distanceToRevsNRO20(105);
-                    robot.intake(-1);
+                    robot.intake(-.6);
                     robot.releaseMove(ReleasePosition.DOWN);
                     robot.runToPosition(generalTarget);
                     timer.reset();
@@ -435,6 +444,8 @@ public class VuforiaRedFarMG extends OpMode {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.releaseMove(ReleasePosition.MIDDLE);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     timer.reset();
                     command++;
                 }
@@ -493,6 +504,8 @@ public class VuforiaRedFarMG extends OpMode {
                 if (timer.milliseconds() < 200) {
 
                 } else if (timer.milliseconds() < 750) {
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
                     robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
                     robot.drive(MovementEnum.STOP);
@@ -507,15 +520,18 @@ public class VuforiaRedFarMG extends OpMode {
                     robot.drive(MovementEnum.FORWARD, 1);
                 } else {
                     robot.drive(MovementEnum.STOP);
-                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
                     timer.reset();
                     command++;
                 }
                 break;
 
             case 30:
-                stop();
-                command++;
+                if (timer.milliseconds() > 250) {
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    command++;
+                }
                 break;
 
         }

@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Utility.Bot;
+import org.firstinspires.ftc.teamcode.Utility.GlyphClamps;
 import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
@@ -82,6 +83,8 @@ public class VuforiaBlueFarMG extends OpMode {
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         relicTimer.reset();
         robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
+        robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+        robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
     }
 
     @Override
@@ -314,7 +317,9 @@ public class VuforiaBlueFarMG extends OpMode {
             case 13:
                 commandString = "Drive away";
                 if (timer.milliseconds() < 250) {
-                    robot.drive(MovementEnum.FORWARD, .8);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
+                    robot.drive(MovementEnum.FORWARD, .2);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
@@ -327,6 +332,8 @@ public class VuforiaBlueFarMG extends OpMode {
                 if (timer.milliseconds() < 250) {
                     robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
                     command++;
@@ -407,6 +414,8 @@ public class VuforiaBlueFarMG extends OpMode {
 
                 if (counter > 10) {
                     robot.drive(MovementEnum.STOP);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.STANDARD);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.STANDARD);
                     timer.reset();
                     counter = 0;
                     command++;
@@ -430,7 +439,7 @@ public class VuforiaBlueFarMG extends OpMode {
                 commandString = "Setup drive to glyph pit";
                 if (timer.milliseconds() > 100) {
                     generalTarget = robot.distanceToRevsNRO20(107);
-                    robot.intake(-1);
+                    robot.intake(-.7);
                     robot.backIntakeWallUp();
                     robot.releaseMove(ReleasePosition.DOWN);
                     robot.runToPosition(generalTarget);
@@ -478,6 +487,8 @@ public class VuforiaBlueFarMG extends OpMode {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.releaseMove(ReleasePosition.MIDDLE);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     timer.reset();
                     command++;
                 }
@@ -533,10 +544,12 @@ public class VuforiaBlueFarMG extends OpMode {
 
             case 28:
                 commandString = "Drive back";
-                if (timer.milliseconds() < 250) {
+                if (timer.milliseconds() < 200) {
 
                 } else if (timer.milliseconds() < 750) {
-                    robot.drive(MovementEnum.BACKWARD, .9);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
+                    robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
@@ -546,19 +559,22 @@ public class VuforiaBlueFarMG extends OpMode {
 
             case 29:
                 commandString = "Drive forward";
-                if (timer.milliseconds() < 250) {
+                if (timer.milliseconds() < 300) {
                     robot.drive(MovementEnum.FORWARD, .8);
                 } else {
                     robot.drive(MovementEnum.STOP);
-                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     timer.reset();
                     command++;
                 }
                 break;
 
             case 30:
-                stop();
-                command++;
+                if (timer.milliseconds() > 250) {
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    command++;
+                }
                 break;
 
 

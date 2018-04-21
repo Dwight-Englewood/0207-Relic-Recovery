@@ -483,6 +483,9 @@ public class Bot {
                 turnLeft = curHeading <= -60 || curHeading >= 60;
                 break;
 
+            default:
+                turnLeft = targetHeading < 0 ? (curHeading <= targetHeading || curHeading >= -1*targetHeading) : !(curHeading <= -1*targetHeading || curHeading >= targetHeading);
+
 
         }
 

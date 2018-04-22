@@ -441,7 +441,7 @@ public class Bot {
         //Generate our proportional term
         float powFactor = Math.abs(targetHeading - curHeading) * (float) (slow ? .0055 : .02);
 
-        //Choose how to turn based on given target
+        //Choose the direction of the turn based on given target and current heading
         switch (targetHeading) {
             case 0:
                 turnLeft = curHeading <= 0;

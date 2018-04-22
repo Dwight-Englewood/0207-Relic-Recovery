@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.Utility.Bot;
 public class HeadingTest extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();
+    int target = 0, countdown;
 
     @Override
     public void init() {
@@ -34,8 +35,21 @@ public class HeadingTest extends OpMode {
 
     @Override
     public void loop() {
-       robot.adjustHeading(0, false);
+       if (gamepad1.a && countdown <= 0) {
+           target += 1;
+           countdown = 5;
+       } else if (gamepad1.b && countdown <= 0) {
+           target -= 1;
+           countdown = 5;
+       }
+
+       if (gamepad1.right_trigger > .15) {
+           robot.adjustHeading(target, gamepad1.left_trigger > .15);
+       }
+
+       countdown--;
        telemetry.addData("heading", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+       telemetry.addData("target", target);
        telemetry.update();
     }
 

@@ -1,7 +1,4 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
-/**
- * Created by aburur on 2/27/18.
- */
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -20,9 +17,18 @@ import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
 
+import java.util.ArrayList;
 
-@Autonomous(name = "VuforiaRedFarMG", group = "Auton")
-public class VuforiaRedFarMG extends OpMode {
+
+/*
+
+
+
+
+ */
+@Autonomous(name = "BlueFarWorlds", group = "Auton")
+//@Disabled
+public class BlueFarWorlds extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();
     ElapsedTime relicTimer = new ElapsedTime();
@@ -32,7 +38,8 @@ public class VuforiaRedFarMG extends OpMode {
     private VuforiaTrackable relicTemplate;
     private RelicRecoveryVuMark vuMark;
 
-    private double power = 0, curDistance;
+    private double power = 0, initalDistance, curDistance;
+    private ArrayList<Double> powersList = new ArrayList<Double>();
     private int generalTarget = 0, counter = 0;
     private boolean hitjewel = false;
     private int command = -1;
@@ -46,7 +53,6 @@ public class VuforiaRedFarMG extends OpMode {
         robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.releaseMove(ReleasePosition.INIT);
         robot.jewelUp();
-
         robot.backIntakeWallUp();
         robot.setDriveZeroPowers(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.relicArmServo1.setPosition(1);
@@ -92,7 +98,7 @@ public class VuforiaRedFarMG extends OpMode {
                 commandString = "Find VuMark";
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (timer.milliseconds() > 250) {
-                    robot.jewelOuterRed();
+                    robot.jewelOuterBlue();
                     if (vuMark != RelicRecoveryVuMark.UNKNOWN || timer.milliseconds() > 1500) {
                         timer.reset();
                         command++;
@@ -120,23 +126,23 @@ public class VuforiaRedFarMG extends OpMode {
                     try {Thread.sleep(300);}catch(Exception e){}
                     robot.jewelKnockback();
                     try {Thread.sleep(300);}catch(Exception e){}
-                    robot.jewelUpTeleop();
+                    robot.jewelUp();
                     timer.reset();
                     command++;
-                } else if ((robot.jewelColorForward.red() >= 2 || robot.jewelColorBack.blue() >= 2) && !hitjewel) {
+                } else if ((robot.jewelColorForward.red() >= 2 || robot.jewelColorBack.blue() >=2 ) && !hitjewel) {
                     hitjewel = true;
-                    robot.jewelKnockback();
+                    robot.jewelKnockforward();
                     timer.reset();
                 } else if ((robot.jewelColorBack.red() >= 2 || robot.jewelColorForward.blue() >= 2) && !hitjewel) {
                     hitjewel = true;
-                    robot.jewelKnockforward();
+                    robot.jewelKnockback();
                     timer.reset();
                 }
                 break;
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = robot.distanceToRevsNRO20(72);
+                generalTarget = -1 * robot.distanceToRevsNRO20(77);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -145,7 +151,7 @@ public class VuforiaRedFarMG extends OpMode {
             case 3:
                 commandString = "RUN_TO_POSITION";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.FORWARD, power);
+                robot.drive(MovementEnum.BACKWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -155,15 +161,14 @@ public class VuforiaRedFarMG extends OpMode {
                 break;
 
             case 4:
-                commandString = "Adjust heading to 90";
-
+                commandString = "Adjust heading to -90";
                 if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
@@ -193,14 +198,14 @@ public class VuforiaRedFarMG extends OpMode {
                 break;
 
             case 7:
-                commandString = "Adjust heading to 90";
-                if (timer.milliseconds() > 750) {
+                commandString = "Adjust heading to -90";
+                if (timer.milliseconds() > 1000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
@@ -208,7 +213,7 @@ public class VuforiaRedFarMG extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = 86;
+                        generalTarget = 46;
                         break;
 
                     case CENTER:
@@ -216,7 +221,7 @@ public class VuforiaRedFarMG extends OpMode {
                         break;
 
                     case RIGHT:
-                        generalTarget = 46;
+                        generalTarget = 86;
                         break;
 
                     case UNKNOWN:
@@ -231,36 +236,60 @@ public class VuforiaRedFarMG extends OpMode {
 
             case 9:
                 commandString = "Move to column";
-                    curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
-                    if (Math.abs(generalTarget - curDistance) < 2) {
-                        robot.drive(MovementEnum.STOP);
-                        counter++;
-                    } else if (generalTarget > curDistance) {
-                        //robot.drive(MovementEnum.RIGHTSTRAFE, .5);
-                        robot.safeStrafe(90,true, telemetry, .5);
-                        counter = 0;
-                    } else {
-                        robot.safeStrafe(90, false, telemetry, .2);
-                        counter = 0;
+                /*if (counter < 5) {
+                    powersList.add(robot.slowDownScale(generalTarget, initalDistance, robot.rangeLeft));
+                    counter++;
+                } else {
+                    power = 0;
+                    for (double thing: powersList) {
+                        power += thing;
                     }
-
-                    if (counter > 10) {
-                        robot.drive(MovementEnum.STOP);
+                    power /= powersList.size();
+                    powersList.clear();
+                    robot.drive(MovementEnum.RIGHTSTRAFE, power);
+                    robot.strafeAdjusts(90, MovementEnum.RIGHTSTRAFE);
+                    if (power == 0) {
+                        robot.drive(MovementEnum.STOP, 0);
                         timer.reset();
-                        counter = 0;
                         command++;
                     }
+                    counter = 0;
+                }*/
+                //if (Math.abs(robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - 90) >= 5) {
+                //    robot.adjustHeading(90, false);
+                //    command = 9;
+                //} else {
+                curDistance = robot.rangeRight.getDistance(DistanceUnit.CM);
+                if (Math.abs(generalTarget - curDistance) < 2) {
+                    robot.drive(MovementEnum.STOP);
+                    counter++;
+                } else if (generalTarget > curDistance) {
+                    //robot.drive(MovementEnum.RIGHTSTRAFE, .5);
+                    robot.safeStrafe(-90,false, telemetry, .5);
+                    counter = 0;
+                } else {
+                    robot.safeStrafe(-90, true, telemetry, .2);
+                    counter = 0;
+                }
+
+                if (counter > 10) {
+                    robot.drive(MovementEnum.STOP);
+                    timer.reset();
+                    counter = 0;
+                    command++;
+                }
+                //}
                 break;
 
             case 10:
-                /*commandString = "Adjust heading to 90";
+                /*commandString = "Adjust heading to -90";
                 if (timer.milliseconds() > 500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }*/
                 command++;
                 timer.reset();
@@ -288,9 +317,9 @@ public class VuforiaRedFarMG extends OpMode {
             case 13:
                 commandString = "Drive away";
                 if (timer.milliseconds() < 250) {
-                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
                     robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
-                    robot.drive(MovementEnum.FORWARD, .8);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
+                    robot.drive(MovementEnum.FORWARD, .2);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
@@ -299,39 +328,34 @@ public class VuforiaRedFarMG extends OpMode {
                 break;
 
             case 14:
-                //maybe do a slight angle here?
-                //hitting at not straight might help but it would also reduce time which we need
                 commandString = "Drive back";
                 if (timer.milliseconds() < 250) {
-                    robot.drive(MovementEnum.BACKWARD, .9);
+                    robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
-                    robot.drive(MovementEnum.STOP);
                     robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
                     robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
+                    robot.drive(MovementEnum.STOP);
                     timer.reset();
                     command++;
                 }
                 break;
 
             case 15:
-                commandString = "Reorient to 90";
+                commandString = "Reorient to -90";
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 250){
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
             case 16:
-                //why do we do sleeping here?
-                //i assume we want to let the adjustheading stabilize, but we arent doing that anymore?
-
                 try {Thread.sleep(100);}catch(Exception e){}
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = robot.distanceToRevsNRO20(9);
+                generalTarget = robot.distanceToRevsNRO20(7);
                 robot.releaseMove(ReleasePosition.MIDDLE);
                 robot.runToPosition(generalTarget);
                 timer.reset();
@@ -340,7 +364,7 @@ public class VuforiaRedFarMG extends OpMode {
 
             case 17:
                 commandString = "RUN_TO_POSITION";
-                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
@@ -353,62 +377,80 @@ public class VuforiaRedFarMG extends OpMode {
 
             case 18:
                 commandString = "Move to middle column";
-                curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
-                if (Math.abs(generalTarget - curDistance) <= 2.5) {
+                /*if (counter % 5 != 0) {
+                    powersList.add(robot.slowDownScale(generalTarget, initalDistance, robot.rangeLeft));
+                    counter++;
+                } else {
+                    power = 0;
+                    for (double thing: powersList) {
+                        power += thing;
+                    }
+                    power /= powersList.size();
+                    powersList.clear();
+                    robot.drive(MovementEnum.RIGHTSTRAFE, power);
+                    robot.strafeAdjusts(90, MovementEnum.RIGHTSTRAFE);
+                    if (power == 0) {
+                        robot.drive(MovementEnum.STOP, 0);
+                        timer.reset();
+                        command++;
+                    }
+                    counter = 0;
+                }*/
+                //if (Math.abs(robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - 90) >= 3) {
+                //    robot.adjustHeading(90, false);
+                //} else {
+                curDistance = robot.rangeRight.getDistance(DistanceUnit.CM);
+                if (Math.abs(generalTarget - curDistance) <= 3) {
                     robot.drive(MovementEnum.STOP);
                     counter++;
                 } else if (generalTarget > curDistance) {
                     //robot.drive(MovementEnum.RIGHTSTRAFE, .5);
-                    robot.safeStrafe(90, true, telemetry, .5);
+                    robot.safeStrafe(-90, false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.LEFTSTRAFE, .1);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .1);
                     counter = 0;
                 }
 
                 if (counter > 10) {
+                    robot.drive(MovementEnum.STOP);
                     robot.glyphClamps.clampFront(GlyphClamps.ClampPos.STANDARD);
                     robot.glyphClamps.clampBack(GlyphClamps.ClampPos.STANDARD);
-                    robot.drive(MovementEnum.STOP);
                     timer.reset();
                     counter = 0;
                     command++;
                 }
+                //}
                 break;
 
             case 19:
-                commandString = "Reorient to 60";
+                commandString = "Reorient to -60";
                 if (timer.milliseconds() > 500) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(60, false);
+                    robot.adjustHeading(-60, false);
                 }
                 break;
 
             case 20:
                 commandString = "Setup drive to glyph pit";
-                if (
-                        timer.milliseconds() > 100) {
-                    generalTarget = robot.distanceToRevsNRO20(105);
-                    robot.intake(-.6);
+                if (timer.milliseconds() > 100) {
+                    generalTarget = robot.distanceToRevsNRO20(107);
+                    robot.intake(-.7);
+                    robot.backIntakeWallUp();
                     robot.releaseMove(ReleasePosition.DOWN);
                     robot.runToPosition(generalTarget);
                     timer.reset();
-                    robot.backIntakeWallUp();
                     command++;
                 }
                 break;
 
             case 21:
-
                 commandString = "Drive to glyph pit";
-                //maybe have a much sharper slowDownScale for going into pit
-                //glyphs slowdown and it doesnt matter as mcuh?
-                //might throw off angle though
-                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
@@ -421,8 +463,8 @@ public class VuforiaRedFarMG extends OpMode {
 
             case 22:
                 commandString = "Setup drive away from glyph pit";
-                if (timer.milliseconds() > 250) {
-                    generalTarget = -1 * robot.distanceToRevsNRO20(94);
+                if (timer.milliseconds() > 200) {
+                    generalTarget = -1 * robot.distanceToRevsNRO20(97);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -436,7 +478,8 @@ public class VuforiaRedFarMG extends OpMode {
                     lastPosition = (lastPosition == ReleasePosition.MIDDLE ? ReleasePosition.DOWN:ReleasePosition.MIDDLE);
                     robot.releaseMove(lastPosition);
                 }
-                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                power = robot.slowDownScaleFast
+                        (robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.BACKWARD, power);
                 if (power == 0) {
                     robot.releaseMove(ReleasePosition.MIDDLE);
@@ -452,28 +495,28 @@ public class VuforiaRedFarMG extends OpMode {
                 break;
 
             case 24:
-                commandString = "Reorient to 90";
+                commandString = "Reorient to -90";
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
-                    generalTarget = 66;
+                    generalTarget = 86;
                     command++;
                 } else {
-                    robot.adjustHeading(90, false);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
             case 25:
-                curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
+                curDistance = robot.rangeRight.getDistance(DistanceUnit.CM);
                 if (Math.abs(generalTarget - curDistance) <= 3) {
                     robot.drive(MovementEnum.STOP);
                     counter++;
                 } else if (generalTarget > curDistance) {
                     //robot.drive(MovementEnum.RIGHTSTRAFE, .5);
-                    robot.safeStrafe(90,true, telemetry, .5);
+                    robot.safeStrafe(-90,false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.LEFTSTRAFE, .2);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .2);
                     counter = 0;
                 }
 
@@ -517,11 +560,11 @@ public class VuforiaRedFarMG extends OpMode {
             case 29:
                 commandString = "Drive forward";
                 if (timer.milliseconds() < 300) {
-                    robot.drive(MovementEnum.FORWARD, 1);
+                    robot.drive(MovementEnum.FORWARD, .8);
                 } else {
                     robot.drive(MovementEnum.STOP);
-                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     timer.reset();
                     command++;
                 }
@@ -534,18 +577,23 @@ public class VuforiaRedFarMG extends OpMode {
                 }
                 break;
 
+
+
         }
+
+
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);
         telemetry.addLine(commandString);
 
         telemetry.update();
+
     }
 
     @Override
     public void stop() {
-        robot.drive(MovementEnum.STOP);
-    }
-}
 
+    }
+
+}

@@ -16,11 +16,9 @@ import org.firstinspires.ftc.teamcode.Utility.MovementEnum;
 import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
 import org.firstinspires.ftc.teamcode.Vision.ClosableVuforiaLocalizer;
 
-import java.util.ArrayList;
-
-@Autonomous(name = "WorldsVuforiaBlueMG", group = "Auton")
+@Autonomous(name = "RedCloseWorlds", group = "Auton")
 //@Disabled
-public class WorldsVuforiaBlueMG extends OpMode {
+public class RedCloseWorlds extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();
     ElapsedTime relicTimer = new ElapsedTime();
@@ -119,23 +117,23 @@ public class WorldsVuforiaBlueMG extends OpMode {
                     try {Thread.sleep(300);}catch(Exception e){}
                     robot.jewelKnockback();
                     try {Thread.sleep(300);}catch(Exception e){}
-                    robot.jewelUp();
+                    robot.jewelUpTeleop();
                     timer.reset();
                     command++;
-                } else if ((robot.jewelColorForward.red() >= 2 || robot.jewelColorBack.blue() >=2 ) && !hitjewel) {
+                } else if ((robot.jewelColorForward.red() >= 2 || robot.jewelColorBack.blue() >= 2) && !hitjewel) {
                     hitjewel = true;
-                    robot.jewelKnockforward();
+                    robot.jewelKnockback();
                     timer.reset();
                 } else if ((robot.jewelColorBack.red() >= 2 || robot.jewelColorForward.blue() >= 2) && !hitjewel) {
                     hitjewel = true;
-                    robot.jewelKnockback();
+                    robot.jewelKnockforward();
                     timer.reset();
                 }
                 break;
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = -1 * robot.distanceToRevsNRO20(65);
+                generalTarget = robot.distanceToRevsNRO20(65);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -144,7 +142,7 @@ public class WorldsVuforiaBlueMG extends OpMode {
             case 3:
                 commandString = "RUN_TO_POSITION";
                 power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.BACKWARD, power);
+                robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -157,23 +155,23 @@ public class WorldsVuforiaBlueMG extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = -1 * robot.distanceToRevsNRO20(16);
-                        targetHeading = -12;
+                        generalTarget = robot.distanceToRevsNRO20(16);
+                        targetHeading = 12;
                         break;
 
                     case CENTER:
-                        generalTarget = -1 * robot.distanceToRevsNRO20(23);
-                        targetHeading = -30;
+                        generalTarget = robot.distanceToRevsNRO20(23);
+                        targetHeading = 30;
                         break;
 
                     case RIGHT:
-                        generalTarget = -1 * robot.distanceToRevsNRO20(30);
-                        targetHeading = -45;
+                        generalTarget = robot.distanceToRevsNRO20(30);
+                        targetHeading = 45;
                         break;
 
                     case UNKNOWN:
-                        generalTarget = -1 * robot.distanceToRevsNRO20(16);
-                        targetHeading = -12;
+                        generalTarget = robot.distanceToRevsNRO20(16);
+                        targetHeading = 12;
                         break;
                 }
                 try { Thread.sleep(300); } catch (Exception e) { }
@@ -255,9 +253,9 @@ public class WorldsVuforiaBlueMG extends OpMode {
                 break;
 
             case 10:
+                commandString = "Begin unfold";
                 relicTimer.reset();
                 robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
-                commandString = "Begin unfold";
                 robot.releaseMove(ReleasePosition.DROP);
                 robot.jewelOut();
                 robot.intakeDrop.setPower(-1);

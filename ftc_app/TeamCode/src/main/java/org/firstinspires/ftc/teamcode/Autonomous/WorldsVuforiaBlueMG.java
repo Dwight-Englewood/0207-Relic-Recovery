@@ -268,18 +268,120 @@ public class WorldsVuforiaBlueMG extends OpMode {
             case 11:
                 commandString = "Unfold";
                 if (timer.milliseconds() > 800) {
-                    robot.flipDown();
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 550) {
                     robot.intakeDrop.setPower(0);
                     robot.releaseMove(ReleasePosition.MIDDLE);
-                    robot.flipUp();
                     robot.jewelUp();
                 }
                 break;
 
+            case 12:
+                commandString = "Setup drive to glyph pit";
+                generalTarget = robot.distanceToRevsNRO20(80);
+                robot.intake(-.7);
+                robot.backIntakeWallUp();
+                robot.releaseMove(ReleasePosition.DOWN);
+                robot.runToPosition(generalTarget);
+                timer.reset();
+                command++;
+                break;
 
+            case 13:
+                commandString = "Drive to glyph pit";
+                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.FORWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 14:
+                commandString = "Setup drive away from glyph pit";
+                if (timer.milliseconds() > 200) {
+                    generalTarget = -1 * robot.distanceToRevsNRO20(75);
+                    robot.runToPosition(generalTarget);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 15:
+                commandString = "Drive away from glyph pit";
+                if (timer.milliseconds() > 250) {
+                    timer.reset();
+                    lastPosition = (lastPosition == ReleasePosition.MIDDLE ? ReleasePosition.DOWN:ReleasePosition.MIDDLE);
+                    robot.releaseMove(lastPosition);
+                }
+                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.BACKWARD, power);
+                if (power == 0) {
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    robot.intake(0);
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 16:
+                commandString = "Adjust heading to target";
+                if (timer.milliseconds() > 2000) {
+                    robot.drive(MovementEnum.STOP);
+                    robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    try{Thread.sleep(300);} catch(Exception e) {}
+                    robot.runToPosition(generalTarget);
+                    timer.reset();
+                    robot.releaseMove(ReleasePosition.UP);
+                    command++;
+                } else {
+                    robot.adjustHeading(targetHeading, false);
+                }
+                break;
+
+            case 17:
+                commandString = "Drive to column";
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                robot.drive(MovementEnum.BACKWARD, power);
+                if (power == 0) {
+                    robot.drive(MovementEnum.STOP, 0);
+                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                    timer.reset();
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
+                    command++;
+                }
+                break;
+
+            case 18:
+                if (timer.milliseconds() < 1000) {
+                    robot.drive(MovementEnum.FORWARD, .4);
+                } else {
+                    robot.drive(MovementEnum.STOP);
+                    timer.reset();
+                    command++;
+                }
+                break;
+
+            case 19:
+                if (timer.milliseconds() > 500) {
+                    robot.releaseMove(ReleasePosition.MIDDLE);
+                    timer.reset();
+                    command++;
+                } else {
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                }
+                break;
 
         }
         telemetry.addData("Command", command);

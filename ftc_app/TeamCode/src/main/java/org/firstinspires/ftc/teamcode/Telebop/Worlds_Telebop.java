@@ -21,8 +21,8 @@ public class Worlds_Telebop extends OpMode {
     Bot robot = new Bot();
     EnumController<ReleasePosition> glyphController;
     EnumController<GlyphClamps.ClampPos> frontClampController, backClampController;
-    final double liftScaledown = .9;
-    final double liftScaleup = .9; //Previously .75
+    final double liftScaledown = 1;
+    final double liftScaleup = 1; //Previously .75
 
     boolean brakeToggle, pingyBrakeToggle, invert, isRelicMode, movingIntake, placing, manualClampBack, manualClampFront, farOut;
     int brakeCooldown, invertCooldown, modeSwapCooldown, clawCooldown, placingCooldown, clampFrontCooldown, clampBackCooldown, placerDownCooldown;

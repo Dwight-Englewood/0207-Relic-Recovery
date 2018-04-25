@@ -52,12 +52,15 @@ public class Bot {
     private float heading;
     //</editor-fold>
 
+    BloodType bloodType = BloodType.O_Negative;
+
     //--------------------------------------------------------------------------------------------------------------------------
 
     public Bot() {
     }
 
     public void init(HardwareMap hardwareMap) {
+
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         //Relic Arm Initialization

@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -158,22 +161,22 @@ public class RedCloseWorlds extends OpMode {
                 commandString = "Choose column";
                 switch (vuMark) {
                     case LEFT:
-                        generalTarget = -1 * robot.distanceToRevsNRO20(16);
+                        generalTarget = -1 * robot.distanceToRevsNRO20(18);
                         targetHeading = 12;
                         break;
 
                     case CENTER:
-                        generalTarget = -1 * robot.distanceToRevsNRO20(23);
-                        targetHeading = 30;
+                        generalTarget = -1 * robot.distanceToRevsNRO20(25);
+                        targetHeading = 35;
                         break;
 
                     case RIGHT:
-                        generalTarget = -1 * robot.distanceToRevsNRO20(30);
-                        targetHeading = 45;
+                        generalTarget = -1 * robot.distanceToRevsNRO20(32);
+                        targetHeading = 48;
                         break;
 
                     case UNKNOWN:
-                        generalTarget = -1 *    robot.distanceToRevsNRO20(16);
+                        generalTarget = -1  * robot.distanceToRevsNRO20(18);
                         targetHeading = 12;
                         break;
                 }
@@ -184,7 +187,7 @@ public class RedCloseWorlds extends OpMode {
 
             case 5:
                 commandString = "Adjust heading to target";
-                if (timer.milliseconds() > 2000) {
+                if (Math.abs(robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - targetHeading) <= 2) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     try{Thread.sleep(300);} catch(Exception e) {}
@@ -278,12 +281,14 @@ public class RedCloseWorlds extends OpMode {
                 }
                 break;
 
-            case 12:
+            /*case 12:
                 commandString = "Setup drive to glyph pit";
                 generalTarget = robot.distanceToRevsNRO20(80);
                 robot.intake(-.7);
                 robot.backIntakeWallUp();
                 robot.releaseMove(ReleasePosition.DOWN);
+                robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
+                robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -323,7 +328,7 @@ public class RedCloseWorlds extends OpMode {
                 robot.drive(MovementEnum.BACKWARD, power);
                 if (power == 0) {
                     robot.releaseMove(ReleasePosition.MIDDLE);
-                    robot.intake(0);
+                    robot.intake(.5);
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.releaseMove(ReleasePosition.MIDDLE);
@@ -336,12 +341,15 @@ public class RedCloseWorlds extends OpMode {
 
             case 16:
                 commandString = "Adjust heading to target";
+                robot.intake(0);
+
                 if (timer.milliseconds() > 2000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     try{Thread.sleep(300);} catch(Exception e) {}
                     robot.runToPosition(generalTarget);
                     timer.reset();
+                    robot.backIntakeWallDown();
                     robot.releaseMove(ReleasePosition.UP);
                     command++;
                 } else {
@@ -383,7 +391,7 @@ public class RedCloseWorlds extends OpMode {
                     robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
                 }
                 break;
-
+*/
         }
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);

@@ -341,6 +341,7 @@ public class BlueCloseWorlds extends OpMode {
                     try{Thread.sleep(300);} catch(Exception e) {}
                     robot.runToPosition(generalTarget);
                     timer.reset();
+                    robot.backIntakeWallDown();
                     robot.releaseMove(ReleasePosition.UP);
                     command++;
                 } else {

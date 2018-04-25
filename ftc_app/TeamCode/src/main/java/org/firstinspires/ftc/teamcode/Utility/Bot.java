@@ -463,7 +463,7 @@ public class Bot {
                 break;
 
             case 45:
-                turnLeft = !(curHeading <= -45 || curHeading >= 45);
+                turnLeft = !(curHeading <= -135 || curHeading >= 45);
                 break;
 
             case -45:
@@ -479,7 +479,7 @@ public class Bot {
                 break;
 
             case 60:
-                turnLeft = !(curHeading <= -60 || curHeading >= 60);
+                turnLeft = !(curHeading <= -120 || curHeading >= 60);
                 break;
 
             case -60:
@@ -488,8 +488,6 @@ public class Bot {
 
             default:
                 turnLeft = targetHeading < 0 ? (curHeading <= targetHeading || curHeading >= -1*targetHeading) : !(curHeading <= -1*targetHeading || curHeading >= targetHeading);
-
-
         }
 
         //Clip the powers to within an acceptable range for the motors and apply the proportional factor.
@@ -845,10 +843,12 @@ public class Bot {
         intakeTwo.setPower(power);
     }
 
+    //blocking intake
     public void backIntakeWallUp() {
         backIntakeWall.setPosition(0);
     }
 
+    //not blocking intake
     public void backIntakeWallDown() {
         backIntakeWall.setPosition(1);
     }

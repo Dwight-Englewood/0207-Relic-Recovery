@@ -160,7 +160,7 @@ public class RedCloseWorlds extends OpMode {
             case 4:
                 commandString = "Choose column";
                 switch (vuMark) {
-                    case LEFT:
+                    case RIGHT:
                         generalTarget = -1 * robot.distanceToRevsNRO20(18);
                         targetHeading = 12;
                         break;
@@ -170,7 +170,7 @@ public class RedCloseWorlds extends OpMode {
                         targetHeading = 35;
                         break;
 
-                    case RIGHT:
+                    case LEFT:
                         generalTarget = -1 * robot.distanceToRevsNRO20(32);
                         targetHeading = 48;
                         break;
@@ -281,7 +281,7 @@ public class RedCloseWorlds extends OpMode {
                 }
                 break;
 
-            /*case 12:
+            case 12:
                 commandString = "Setup drive to glyph pit";
                 generalTarget = robot.distanceToRevsNRO20(80);
                 robot.intake(-.7);
@@ -391,7 +391,7 @@ public class RedCloseWorlds extends OpMode {
                     robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
                 }
                 break;
-*/
+
         }
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);

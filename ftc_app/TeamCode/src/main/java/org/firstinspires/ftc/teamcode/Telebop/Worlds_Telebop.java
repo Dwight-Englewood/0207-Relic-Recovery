@@ -63,6 +63,7 @@ public class Worlds_Telebop extends OpMode {
 
     @Override
     public void loop() {
+
         leftTrigger = gamepad1.left_trigger > .9 ? 1 : (float).5 * gamepad1.left_trigger;
         rightTrigger = gamepad1.right_trigger > .9 ? 1 : (float).5 * gamepad1.right_trigger;
 
@@ -269,8 +270,10 @@ public class Worlds_Telebop extends OpMode {
         backClampController.reset();
 
         //Move the relic arm servos
-        robot.relicArmServo1.setPosition(Range.clip(relicArmPos1, 0, 1));
-        robot.relicArmServo2.setPosition(Range.clip(relicArmPos2, 0, 1));
+
+        relicArmPos2 = Range.clip(relicArmPos2, 0, 1);
+        robot.relicArmServo1.setPosition(relicArmPos1);
+        robot.relicArmServo2.setPosition(relicArmPos2);
 
         telemetry.addData("Inverted?", invert);
         telemetry.addData("Braking?", brakeToggle);

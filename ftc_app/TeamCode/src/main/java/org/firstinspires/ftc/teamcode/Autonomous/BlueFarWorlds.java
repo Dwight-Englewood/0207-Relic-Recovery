@@ -58,6 +58,8 @@ public class BlueFarWorlds extends OpMode {
         robot.relicArmServo1.setPosition(1);
         robot.relicArmServo2.setPosition(1);
 
+        robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+        robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
         parameters.vuforiaLicenseKey = "AbZUuPf/////AAAAGUmS0Chan00iu7rnRhzu63+JgDtPo889M6dNtjvv+WKxiMJ8w2DgSJdM2/zEI+a759I7DlPj++D2Ryr5sEHAg4k1bGKdo3BKtkSeh8hCy78w0SIwoOACschF/ImuyP/V259ytjiFtEF6TX4teE8zYpQZiVkCQy0CmHI9Ymoa7NEvFEqfb3S4P6SicguAtQ2NSLJUX+Fdn49SEJKvpSyhwyjbrinJbak7GWqBHcp7fGh7TNFcfPFMacXg28XxlvVpQaVNgkvuqolN7wkTiR9ZMg6Fnm0zN4Xjr5lRtDHeE51Y0bZoBUbyLWSA+ts3SyDjDPPUU7GMI+Ed/ifb0csVpM12aOiNr8d+HsfF2Frnzrj2";
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;

@@ -54,6 +54,7 @@ public class RedFarWorlds extends OpMode {
 
         robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
         robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
+
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
         parameters.vuforiaLicenseKey = "AbZUuPf/////AAAAGUmS0Chan00iu7rnRhzu63+JgDtPo889M6dNtjvv+WKxiMJ8w2DgSJdM2/zEI+a759I7DlPj++D2Ryr5sEHAg4k1bGKdo3BKtkSeh8hCy78w0SIwoOACschF/ImuyP/V259ytjiFtEF6TX4teE8zYpQZiVkCQy0CmHI9Ymoa7NEvFEqfb3S4P6SicguAtQ2NSLJUX+Fdn49SEJKvpSyhwyjbrinJbak7GWqBHcp7fGh7TNFcfPFMacXg28XxlvVpQaVNgkvuqolN7wkTiR9ZMg6Fnm0zN4Xjr5lRtDHeE51Y0bZoBUbyLWSA+ts3SyDjDPPUU7GMI+Ed/ifb0csVpM12aOiNr8d+HsfF2Frnzrj2";
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
@@ -279,10 +280,14 @@ public class RedFarWorlds extends OpMode {
 
             case 12:
                 commandString = "Release glyph";
-                if (timer.milliseconds() > 100) {
+                if (timer.milliseconds() > 100 && timer.milliseconds() < 300) {
                     robot.releaseMove(ReleasePosition.UP);
-                    timer.reset();
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                } else if (timer.milliseconds() > 300) {
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
+                    try {Thread.sleep(250);} catch(Exception e) {};
+                    timer.reset();
                     command++;
                 }
                 break;
@@ -290,9 +295,7 @@ public class RedFarWorlds extends OpMode {
             case 13:
                 commandString = "Drive away";
                 if (timer.milliseconds() < 250) {
-                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
-                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
-                    robot.drive(MovementEnum.FORWARD, .8);
+                    robot.drive(MovementEnum.FORWARD, .3);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();

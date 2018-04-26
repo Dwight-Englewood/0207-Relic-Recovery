@@ -274,7 +274,7 @@ public class BlueFarWorlds extends OpMode {
                     counter = 0;
                 }
 
-                if (counter > 10) {
+                if (counter >= 10) {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
                     counter = 0;
@@ -308,10 +308,14 @@ public class BlueFarWorlds extends OpMode {
 
             case 12:
                 commandString = "Release glyph";
-                if (timer.milliseconds() > 100) {
+                if (timer.milliseconds() > 100 && timer.milliseconds() < 300) {
                     robot.releaseMove(ReleasePosition.UP);
-                    timer.reset();
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
+                } else if (timer.milliseconds() > 300) {
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
+                    try {Thread.sleep(250);} catch(Exception e) {};
+                    timer.reset();
                     command++;
                 }
                 break;
@@ -319,9 +323,7 @@ public class BlueFarWorlds extends OpMode {
             case 13:
                 commandString = "Drive away";
                 if (timer.milliseconds() < 250) {
-                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
-                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
-                    robot.drive(MovementEnum.FORWARD, .2);
+                    robot.drive(MovementEnum.FORWARD, .3);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();

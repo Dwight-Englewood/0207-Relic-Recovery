@@ -183,7 +183,7 @@ public class BlueCloseWorlds extends OpMode {
 
             case 5:
                 commandString = "Adjust heading to target";
-                if (timer.milliseconds() > 2000) {
+                if (timer.milliseconds() > 3000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     try{Thread.sleep(300);} catch(Exception e) {}
@@ -192,7 +192,7 @@ public class BlueCloseWorlds extends OpMode {
                     robot.releaseMove(ReleasePosition.UP);
                     command++;
                 } else {
-                    robot.adjustHeading(targetHeading, false);
+                    robot.adjustHeading(targetHeading, true);
                 }
                 break;
 
@@ -313,7 +313,7 @@ public class BlueCloseWorlds extends OpMode {
 
             case 15:
                 commandString = "Drive away from glyph pit";
-                if (timer.milliseconds() > 250) {
+                if (timer.milliseconds() > 500) {
                     timer.reset();
                     lastPosition = (lastPosition == ReleasePosition.MIDDLE ? ReleasePosition.DOWN:ReleasePosition.MIDDLE);
                     robot.releaseMove(lastPosition);

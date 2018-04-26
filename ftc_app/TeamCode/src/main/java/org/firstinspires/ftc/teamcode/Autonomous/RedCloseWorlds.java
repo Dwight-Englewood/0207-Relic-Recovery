@@ -187,7 +187,7 @@ public class RedCloseWorlds extends OpMode {
 
             case 5:
                 commandString = "Adjust heading to target";
-                if (Math.abs(robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - targetHeading) <= 2) {
+                if (timer.milliseconds() >= 4000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     try{Thread.sleep(300);} catch(Exception e) {}
@@ -196,7 +196,7 @@ public class RedCloseWorlds extends OpMode {
                     robot.releaseMove(ReleasePosition.UP);
                     command++;
                 } else {
-                    robot.adjustHeading(targetHeading, false);
+                    robot.adjustHeading(targetHeading, true);
                 }
                 break;
 

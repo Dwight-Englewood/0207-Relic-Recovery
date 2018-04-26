@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Telebop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -25,6 +26,7 @@ import static org.firstinspires.ftc.teamcode.Utility.InfiniteImprobabilityDrive.
  * Created by aburur on 9/10/17.
  */
 @TeleOp(name = "TelebopGlyphTest", group = "Teleop")
+@Disabled
 public class TelebopGlyphTest extends OpMode {
 
     static final int doubleGlyphReading = 20;

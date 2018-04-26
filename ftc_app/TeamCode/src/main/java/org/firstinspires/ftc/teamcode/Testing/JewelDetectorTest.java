@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Testing;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.detectors.JewelDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Utility.Bot;
  */
 
 @Autonomous(name="Jewel Detector Test", group="Testing")
+@Disabled
 public class JewelDetectorTest extends OpMode
 {
     Bot robot = new Bot();

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Telebop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
  */
 
 @TeleOp(name = "single user mode", group = "Teleop")
-//@Disabled
+@Disabled
 public class TelebopSingleDriver extends OpMode {
     Bot robot = new Bot();
 

@@ -803,12 +803,12 @@ public class Bot {
     }
 
     public void jewelOuterBlue() {
-        jewelServoBottom.setPosition(.1);
+        jewelServoBottom.setPosition(0);
         jewelServoTop.setPosition(.43);
     }
 
     public void jewelOuterRed() {
-        jewelServoBottom.setPosition(.1);
+        jewelServoBottom.setPosition(0);
         jewelServoTop.setPosition(.37);
     }
 

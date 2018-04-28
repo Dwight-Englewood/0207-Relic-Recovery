@@ -171,8 +171,6 @@ public class RedFarWorlds extends OpMode {
                 break;
 
             case 5:
-                relicTimer.reset();
-                robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
                 commandString = "Begin unfold";
                 robot.releaseMove(ReleasePosition.DROP);
                 robot.jewelOut();
@@ -184,6 +182,8 @@ public class RedFarWorlds extends OpMode {
             case 6:
                 commandString = "Unfold";
                 if (timer.milliseconds() > 800) {
+                    relicTimer.reset();
+                    robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
                     robot.flipDown();
                     timer.reset();
                     command++;
@@ -294,10 +294,12 @@ public class RedFarWorlds extends OpMode {
 
             case 13:
                 commandString = "Drive away";
-                if (timer.milliseconds() < 250) {
+                if (timer.milliseconds() < 1000) {
                     robot.drive(MovementEnum.FORWARD, .3);
                 } else {
                     robot.drive(MovementEnum.STOP);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     timer.reset();
                     command++;
                 }
@@ -307,12 +309,10 @@ public class RedFarWorlds extends OpMode {
                 //maybe do a slight angle here?
                 //hitting at not straight might help but it would also reduce time which we need
                 commandString = "Drive back";
-                if (timer.milliseconds() < 250) {
-                    robot.drive(MovementEnum.BACKWARD, .9);
+                if (timer.milliseconds() < 600) {
+                    robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
                     robot.drive(MovementEnum.STOP);
-                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
-                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     timer.reset();
                     command++;
                 }
@@ -337,7 +337,6 @@ public class RedFarWorlds extends OpMode {
                 try {Thread.sleep(100);}catch(Exception e){}
                 commandString = "Set up RUN_TO_POSITION";
                 generalTarget = robot.distanceToRevsNRO20(9);
-                robot.releaseMove(ReleasePosition.MIDDLE);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -352,6 +351,8 @@ public class RedFarWorlds extends OpMode {
                     robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
                     generalTarget = 66;
                     timer.reset();
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     command++;
                 }
                 break;
@@ -361,6 +362,7 @@ public class RedFarWorlds extends OpMode {
                 curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
                 if (Math.abs(generalTarget - curDistance) <= 2.5) {
                     robot.drive(MovementEnum.STOP);
+                    robot.releaseMove(ReleasePosition.MIDDLE);
                     counter++;
                 } else if (generalTarget > curDistance) {
                     //robot.drive(MovementEnum.RIGHTSTRAFE, .5);
@@ -395,10 +397,9 @@ public class RedFarWorlds extends OpMode {
 
             case 20:
                 commandString = "Setup drive to glyph pit";
-                if (
-                        timer.milliseconds() > 100) {
-                    generalTarget = robot.distanceToRevsNRO20(105);
-                    robot.intake(-.6);
+                if (timer.milliseconds() > 100) {
+                    generalTarget = robot.distanceToRevsNRO20(115); //105 -> 115
+                    robot.intake(-.8);
                     robot.releaseMove(ReleasePosition.DOWN);
                     robot.runToPosition(generalTarget);
                     timer.reset();
@@ -408,7 +409,6 @@ public class RedFarWorlds extends OpMode {
                 break;
 
             case 21:
-
                 commandString = "Drive to glyph pit";
                 //maybe have a much sharper slowDownScale for going into pit
                 //glyphs slowdown and it doesnt matter as mcuh?
@@ -427,7 +427,7 @@ public class RedFarWorlds extends OpMode {
             case 22:
                 commandString = "Setup drive away from glyph pit";
                 if (timer.milliseconds() > 250) {
-                    generalTarget = -1 * robot.distanceToRevsNRO20(94);
+                    generalTarget = -1 * robot.distanceToRevsNRO20(107);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -499,18 +499,22 @@ public class RedFarWorlds extends OpMode {
                 break;
 
             case 27:
-                robot.releaseMove(ReleasePosition.UP);
-                timer.reset();
-                command++;
+                if (timer.milliseconds() < 200) {
+                    robot.releaseMove(ReleasePosition.UP);
+                } else if (timer.milliseconds() < 500) {
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
+                } else if (timer.milliseconds() > 500) {
+                     timer.reset();
+                    command++;
+                }
                 break;
 
             case 28:
                 commandString = "Drive back";
-                if (timer.milliseconds() < 200) {
+                if (timer.milliseconds() < 1000) {
 
-                } else if (timer.milliseconds() < 750) {
-                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
-                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
+                } else if (timer.milliseconds() < 1750) {
                     robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
                     robot.drive(MovementEnum.STOP);
@@ -521,8 +525,8 @@ public class RedFarWorlds extends OpMode {
 
             case 29:
                 commandString = "Drive forward";
-                if (timer.milliseconds() < 300) {
-                    robot.drive(MovementEnum.FORWARD, 1);
+                if (timer.milliseconds() < 1000) {
+                    robot.drive(MovementEnum.FORWARD, .2);
                 } else {
                     robot.drive(MovementEnum.STOP);
                     robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);

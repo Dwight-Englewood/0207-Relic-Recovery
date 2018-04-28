@@ -144,7 +144,7 @@ public class BlueFarWorlds extends OpMode {
 
             case 2:
                 commandString = "Set up RUN_TO_POSITION";
-                generalTarget = -1 * robot.distanceToRevsNRO20(77);
+                generalTarget = -1 * robot.distanceToRevsNRO20(72);
                 robot.runToPosition(generalTarget);
                 timer.reset();
                 command++;
@@ -175,8 +175,6 @@ public class BlueFarWorlds extends OpMode {
                 break;
 
             case 5:
-                relicTimer.reset();
-                robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
                 commandString = "Begin unfold";
                 robot.releaseMove(ReleasePosition.DROP);
                 robot.jewelOut();
@@ -188,6 +186,8 @@ public class BlueFarWorlds extends OpMode {
             case 6:
                 commandString = "Unfold";
                 if (timer.milliseconds() > 800) {
+                    relicTimer.reset();
+                    robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
                     robot.flipDown();
                     timer.reset();
                     command++;
@@ -322,10 +322,12 @@ public class BlueFarWorlds extends OpMode {
 
             case 13:
                 commandString = "Drive away";
-                if (timer.milliseconds() < 250) {
-                    robot.drive(MovementEnum.FORWARD, .3);
+                if (timer.milliseconds() < 500) {
+                    robot.drive(MovementEnum.FORWARD, .3 );
                 } else {
                     robot.drive(MovementEnum.STOP);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     timer.reset();
                     command++;
                 }
@@ -333,11 +335,9 @@ public class BlueFarWorlds extends OpMode {
 
             case 14:
                 commandString = "Drive back";
-                if (timer.milliseconds() < 250) {
+                if (timer.milliseconds() < 600) {
                     robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
-                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
-                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
                     command++;
@@ -442,8 +442,8 @@ public class BlueFarWorlds extends OpMode {
             case 20:
                 commandString = "Setup drive to glyph pit";
                 if (timer.milliseconds() > 100) {
-                    generalTarget = robot.distanceToRevsNRO20(107);
-                    robot.intake(-.7);
+                    generalTarget = robot.distanceToRevsNRO20(117);
+                    robot.intake(-.8);
                     robot.backIntakeWallUp();
                     robot.releaseMove(ReleasePosition.DOWN);
                     robot.runToPosition(generalTarget);
@@ -454,7 +454,7 @@ public class BlueFarWorlds extends OpMode {
 
             case 21:
                 commandString = "Drive to glyph pit";
-                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
@@ -482,8 +482,7 @@ public class BlueFarWorlds extends OpMode {
                     lastPosition = (lastPosition == ReleasePosition.MIDDLE ? ReleasePosition.DOWN:ReleasePosition.MIDDLE);
                     robot.releaseMove(lastPosition);
                 }
-                power = robot.slowDownScaleFast
-                        (robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.BACKWARD, power);
                 if (power == 0) {
                     robot.releaseMove(ReleasePosition.MIDDLE);
@@ -503,7 +502,7 @@ public class BlueFarWorlds extends OpMode {
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
-                    generalTarget = 86;
+                    generalTarget = 66;
                     command++;
                 } else {
                     robot.adjustHeading(-90, false);
@@ -512,7 +511,7 @@ public class BlueFarWorlds extends OpMode {
 
             case 25:
                 curDistance = robot.rangeRight.getDistance(DistanceUnit.CM);
-                if (Math.abs(generalTarget - curDistance) <= 3) {
+                if (Math.abs(generalTarget - curDistance) <= 2) {
                     robot.drive(MovementEnum.STOP);
                     counter++;
                 } else if (generalTarget > curDistance) {

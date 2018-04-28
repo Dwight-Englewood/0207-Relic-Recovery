@@ -255,8 +255,6 @@ public class BlueCloseWorlds extends OpMode {
                 break;
 
             case 10:
-                relicTimer.reset();
-                robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
                 commandString = "Begin unfold";
                 robot.releaseMove(ReleasePosition.DROP);
                 robot.jewelOut();
@@ -268,6 +266,8 @@ public class BlueCloseWorlds extends OpMode {
             case 11:
                 commandString = "Unfold";
                 if (timer.milliseconds() > 800) {
+                    relicTimer.reset();
+                    robot.relicArmVexControl(.8, DcMotorSimple.Direction.FORWARD);
                     timer.reset();
                     command++;
                 } else if (timer.milliseconds() > 550) {
@@ -279,23 +279,26 @@ public class BlueCloseWorlds extends OpMode {
 
             case 12:
                 commandString = "Setup drive to glyph pit";
-                generalTarget = robot.distanceToRevsNRO20(80);
-                robot.intake(-.7);
+                generalTarget = robot.distanceToRevsNRO20(90);
+                robot.intake(-.8);
                 robot.backIntakeWallUp();
                 robot.releaseMove(ReleasePosition.DOWN);
                 robot.runToPosition(generalTarget);
+                robot.jewelUpTeleop();
                 timer.reset();
                 command++;
                 break;
 
             case 13:
                 commandString = "Drive to glyph pit";
-                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.releaseMove(ReleasePosition.MIDDLE);
+                    robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
+                    robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
                     timer.reset();
                     command++;
                 }
@@ -304,7 +307,7 @@ public class BlueCloseWorlds extends OpMode {
             case 14:
                 commandString = "Setup drive away from glyph pit";
                 if (timer.milliseconds() > 200) {
-                    generalTarget = -1 * robot.distanceToRevsNRO20(75);
+                    generalTarget = -1 * robot.distanceToRevsNRO20(85);
                     robot.runToPosition(generalTarget);
                     timer.reset();
                     command++;
@@ -318,7 +321,7 @@ public class BlueCloseWorlds extends OpMode {
                     lastPosition = (lastPosition == ReleasePosition.MIDDLE ? ReleasePosition.DOWN:ReleasePosition.MIDDLE);
                     robot.releaseMove(lastPosition);
                 }
-                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.BACKWARD, power);
                 if (power == 0) {
                     robot.releaseMove(ReleasePosition.MIDDLE);
@@ -335,39 +338,33 @@ public class BlueCloseWorlds extends OpMode {
 
             case 16:
                 commandString = "Adjust heading to target";
-                if (timer.milliseconds() > 2000) {
+                if (timer.milliseconds() > 1000) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     try{Thread.sleep(300);} catch(Exception e) {}
-                    robot.runToPosition(generalTarget);
                     timer.reset();
                     robot.backIntakeWallDown();
                     robot.releaseMove(ReleasePosition.UP);
                     command++;
                 } else {
-                    robot.adjustHeading(targetHeading, false);
+                    robot.adjustHeading(0, true);
                 }
                 break;
 
             case 17:
-                commandString = "Drive to column";
-                power = robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
-                robot.drive(MovementEnum.BACKWARD, power);
-                if (power == 0) {
-                    robot.drive(MovementEnum.STOP, 0);
-                    robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
-                    timer.reset();
+                if (timer.milliseconds() > 300) {
                     robot.glyphClamps.clampBack(GlyphClamps.ClampPos.RELEASE);
                     robot.glyphClamps.clampFront(GlyphClamps.ClampPos.RELEASE);
                     command++;
+                    timer.reset();
                 }
                 break;
 
             case 18:
-                if (timer.milliseconds() < 1000) {
-                    robot.drive(MovementEnum.FORWARD, .4);
-                } else {
-                    robot.drive(MovementEnum.STOP);
+                if (timer.milliseconds() < 1500) {
+                    robot.drive(MovementEnum.BACKWARD, .4);
+                } else if (timer.milliseconds() < 2500){
+                    robot.drive(MovementEnum.FORWARD, .3);
                     timer.reset();
                     command++;
                 }

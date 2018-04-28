@@ -454,7 +454,7 @@ public class BlueFarWorlds extends OpMode {
 
             case 21:
                 commandString = "Drive to glyph pit";
-                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                power = .7 * robot.slowDownScale(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.FORWARD, power);
                 if (power == 0) {
                     robot.drive(MovementEnum.STOP, 0);
@@ -482,7 +482,8 @@ public class BlueFarWorlds extends OpMode {
                     lastPosition = (lastPosition == ReleasePosition.MIDDLE ? ReleasePosition.DOWN:ReleasePosition.MIDDLE);
                     robot.releaseMove(lastPosition);
                 }
-                power = robot.slowDownScaleFast(robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
+                power = robot.slowDownScaleFast
+                        (robot.FL.getCurrentPosition(), robot.FR.getCurrentPosition(), robot.BL.getCurrentPosition(), robot.BR.getCurrentPosition(), generalTarget, generalTarget, generalTarget, generalTarget);
                 robot.drive(MovementEnum.BACKWARD, power);
                 if (power == 0) {
                     robot.releaseMove(ReleasePosition.MIDDLE);
@@ -579,7 +580,12 @@ public class BlueFarWorlds extends OpMode {
                     command++;
                 }
                 break;
+
+
+
         }
+
+
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);

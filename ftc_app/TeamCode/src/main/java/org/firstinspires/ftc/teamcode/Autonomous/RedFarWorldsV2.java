@@ -35,7 +35,7 @@ public class RedFarWorldsV2 extends OpMode {
 
     private double power = 0, curDistance;
     private int generalTarget = 0, counter = 0, targetHeading;
-    private boolean hitjewel = false;
+    private boolean hitjewel = false, firstRun = true;
     private int command = -1;
     private String commandString = "";
 
@@ -374,11 +374,11 @@ public class RedFarWorldsV2 extends OpMode {
             case 17:
                 commandString = "Move to middle column";
                 curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
-                if (Math.abs(66 - curDistance) <= 2.5) {
+                if (Math.abs((firstRun ? 66 : 86) - curDistance) <= 2.5) {
                     robot.drive(MovementEnum.STOP);
                     robot.releaseMove(ReleasePosition.MIDDLE);
                     counter++;
-                } else if (66 > curDistance) {
+                } else if ((firstRun ? 66 : 86) > curDistance) {
                     robot.safeStrafe(90, true, telemetry, .5);
                     counter = 0;
                 } else {

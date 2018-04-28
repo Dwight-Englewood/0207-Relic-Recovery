@@ -35,7 +35,7 @@ public class BlueFarWorldsV2 extends OpMode {
 
     private double power = 0, curDistance;
     private int generalTarget = 0, counter = 0, targetHeading;
-    private boolean hitjewel = false;
+    private boolean hitjewel = false, firstRun = true;
     private int command = -1;
     private String commandString = "";
 
@@ -268,7 +268,7 @@ public class BlueFarWorldsV2 extends OpMode {
 
             case 10:
                 commandString = "Move to middle column";
-                curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
+                curDistance = robot.rangeRight.getDistance(DistanceUnit.CM);
                 if (Math.abs(66 - curDistance) <= 2.5) {
                     robot.drive(MovementEnum.STOP);
                     robot.releaseMove(ReleasePosition.MIDDLE);
@@ -372,13 +372,13 @@ public class BlueFarWorldsV2 extends OpMode {
                 break;
 
             case 17:
-                commandString = "Move to middle column";
-                curDistance = robot.rangeLeft.getDistance(DistanceUnit.CM);
-                if (Math.abs(66 - curDistance) <= 2.5) {
+                commandString = "Move to placing column";
+                curDistance = robot.rangeRight.getDistance(DistanceUnit.CM);
+                if (Math.abs((firstRun ? 66 : 86) - curDistance) <= 2.5) {
                     robot.drive(MovementEnum.STOP);
                     robot.releaseMove(ReleasePosition.MIDDLE);
                     counter++;
-                } else if (66 > curDistance) {
+                } else if ((firstRun ? 66 : 86) > curDistance) {
                     robot.safeStrafe(-90, true, telemetry, .5);
                     counter = 0;
                 } else {
@@ -459,6 +459,7 @@ public class BlueFarWorldsV2 extends OpMode {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
                     if (globalTime.seconds() <= 20) {
+                        firstRun = false;
                         command = 10;
                     } else {
                         command++;

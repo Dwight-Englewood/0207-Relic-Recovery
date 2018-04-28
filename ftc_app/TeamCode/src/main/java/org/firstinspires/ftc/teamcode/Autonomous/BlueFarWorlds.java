@@ -579,12 +579,7 @@ public class BlueFarWorlds extends OpMode {
                     command++;
                 }
                 break;
-
-
-
         }
-
-
 
         telemetry.addData("Command", command);
         telemetry.addData("Column", vuMark);

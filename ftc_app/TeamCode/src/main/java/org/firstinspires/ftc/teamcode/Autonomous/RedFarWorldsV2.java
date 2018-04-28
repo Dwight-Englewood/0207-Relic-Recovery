@@ -26,6 +26,7 @@ public class RedFarWorldsV2 extends OpMode {
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime();
     ElapsedTime relicTimer = new ElapsedTime();
+    ElapsedTime globalTime = new ElapsedTime();
 
     private ClosableVuforiaLocalizer vuforia;
     private VuforiaTrackables relicTrackables;
@@ -82,6 +83,7 @@ public class RedFarWorldsV2 extends OpMode {
         robot.relicArmVexControl(.8, DcMotorSimple.Direction.REVERSE);
         robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
         robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
+        globalTime.reset();
     }
 
     @Override
@@ -453,10 +455,14 @@ public class RedFarWorldsV2 extends OpMode {
 
             case 23:
                 commandString = "Reorient to 90";
-                if (timer.milliseconds() > 1000) {
+                if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
-                    command++;
+                    if (globalTime.seconds() <= 20) {
+                        command = 10;
+                    } else {
+                        command++;
+                    }
                 } else {
                     robot.adjustHeading(90, false);
                 }

@@ -162,25 +162,27 @@ public class BlueFarWorldsV2 extends OpMode {
             case 4:
                 switch (vuMark) {
                     case LEFT:
-                        targetHeading = -1 * 96;
-                        generalTarget = -1 * robot.distanceToRevsNRO20(46);
+                        targetHeading = -1 * 105;
+                        generalTarget = -1 * robot.distanceToRevsNRO20(36);
                         break;
 
                     case CENTER:
-                        targetHeading = -1 * 109;
-                        generalTarget = -1 * robot.distanceToRevsNRO20(50);
+                        targetHeading = -1 * 120;
+                        generalTarget = -1 * robot.distanceToRevsNRO20(40);
                         break;
 
                     case RIGHT:
-                        targetHeading = -1 * 119;
-                        generalTarget = -1 * robot.distanceToRevsNRO20(58);
+                        targetHeading = -1 * 140;
+                        generalTarget = -1 * robot.distanceToRevsNRO20(48);
                         break;
 
                     case UNKNOWN:
-                        targetHeading = -1 * 96;
-                        generalTarget = -1 * robot.distanceToRevsNRO20(50);
+                        targetHeading = -1 * 105;
+                        generalTarget = -1 * robot.distanceToRevsNRO20(40);
                         break;
                 }
+                timer.reset();
+                command++;
                 break;
 
             case 5:
@@ -194,6 +196,7 @@ public class BlueFarWorldsV2 extends OpMode {
                     robot.releaseMove(ReleasePosition.UP);
                     command++;
                 } else {
+                    robot.backIntakeWallDown();
                     robot.adjustHeading(targetHeading, true);
                 }
                 break;
@@ -222,7 +225,7 @@ public class BlueFarWorldsV2 extends OpMode {
                     robot.drive(MovementEnum.BACKWARD, 1);
                 } else {
                     robot.drive(MovementEnum.STOP);
-                    generalTarget = robot.distanceToRevsNRO20(10);
+                    generalTarget = robot.distanceToRevsNRO20(15);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     try {Thread.sleep(300);} catch (Exception e) {}
                     robot.runToPosition(generalTarget);
@@ -256,13 +259,13 @@ public class BlueFarWorldsV2 extends OpMode {
                 break;
 
             case 9:
-                commandString = "Adjust heading to -90";
-                if (timer.milliseconds() > 1500) {
+                commandString = "Adjust heading to 90";
+                if (timer.milliseconds() > 2500) {
                     robot.drive(MovementEnum.STOP);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(-90, true);
+                    robot.adjustHeading(-90, false);
                 }
                 break;
 
@@ -274,10 +277,10 @@ public class BlueFarWorldsV2 extends OpMode {
                     robot.releaseMove(ReleasePosition.MIDDLE);
                     counter++;
                 } else if (66 > curDistance) {
-                    robot.safeStrafe(-90, true, telemetry, .5);
+                    robot.safeStrafe(-90, false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.LEFTSTRAFE, .1);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .1);
                     counter = 0;
                 }
 
@@ -292,14 +295,14 @@ public class BlueFarWorldsV2 extends OpMode {
                 break;
 
             case 11:
-                commandString = "Reorient to 60";
+                commandString = "Reorient to -60";
                 if (timer.milliseconds() > 750) {
                     robot.drive(MovementEnum.STOP);
                     robot.setDriveMotorModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     timer.reset();
                     command++;
                 } else {
-                    robot.adjustHeading(60, false);
+                    robot.adjustHeading(-60, false);
                 }
                 break;
 
@@ -379,10 +382,10 @@ public class BlueFarWorldsV2 extends OpMode {
                     robot.releaseMove(ReleasePosition.MIDDLE);
                     counter++;
                 } else if ((firstRun ? 66 : 86) > curDistance) {
-                    robot.safeStrafe(-90, true, telemetry, .5);
+                    robot.safeStrafe(-90, false, telemetry, .5);
                     counter = 0;
                 } else {
-                    robot.drive(MovementEnum.LEFTSTRAFE, .1);
+                    robot.drive(MovementEnum.RIGHTSTRAFE, .1);
                     counter = 0;
                 }
 
@@ -400,6 +403,7 @@ public class BlueFarWorldsV2 extends OpMode {
                 if (timer.milliseconds() > 500) {
                     robot.glyphClamps.clampFront(GlyphClamps.ClampPos.CLAMPED);
                     robot.glyphClamps.clampBack(GlyphClamps.ClampPos.CLAMPED);
+                    robot.backIntakeWallDown();
                     timer.reset();
                     command++;
                 }

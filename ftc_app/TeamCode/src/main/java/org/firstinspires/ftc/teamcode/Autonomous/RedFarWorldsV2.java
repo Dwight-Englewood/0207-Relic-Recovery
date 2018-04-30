@@ -181,6 +181,8 @@ public class RedFarWorldsV2 extends OpMode {
                         generalTarget = -1 * robot.distanceToRevsNRO20(50);
                         break;
                 }
+                timer.reset();
+                command++;
                 break;
 
             case 5:

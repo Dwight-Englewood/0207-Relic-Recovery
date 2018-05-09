@@ -21,6 +21,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(path: ':openCVLibrary341')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':openCVLibrary341')
 }

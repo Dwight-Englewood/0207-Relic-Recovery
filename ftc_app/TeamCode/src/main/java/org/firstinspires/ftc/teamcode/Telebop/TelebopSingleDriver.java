@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Utility.ReleasePosition;
  */
 
 @TeleOp(name = "single user mode", group = "Teleop")
-@Disabled
+@ Disabled
 public class TelebopSingleDriver extends OpMode {
     Bot robot = new Bot();
 
@@ -60,7 +60,7 @@ public class TelebopSingleDriver extends OpMode {
 
     @Override
     public void start() {
-        robot.jewelUp();
+        robot.jewelUpTeleop();
         robot.setDriveMotorModes(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.intakeDrop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
